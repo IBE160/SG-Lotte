@@ -64,30 +64,59 @@ The objective of this project is to develop a comprehensive, AI-assisted web app
 
 ## User Flows
 
+### Flow 0: New User Onboarding
+1.  User signs up and logs in for the first time.
+2.  A welcome screen appears, briefly explaining the app's benefits.
+3.  The user is guided through a multi-step process to set up their profile:
+    *   **Step 1: Personal Details** (name, age, body metrics).
+    *   **Step 2: Fitness Goals** (e.g., weight loss, muscle gain, endurance).
+    *   **Step 3: Dietary Preferences** (e.g., vegetarian, allergies).
+4.  Once the profile is complete, the user is directed to the dashboard, which displays a prompt to generate their first workout and meal plan.
+
 ### Flow 1: Plan Workouts
-1. User logs in and opens the dashboard.  
-2. Selects “Plan Workouts.”  
-3. Chooses goal focus (e.g., “stronger legs,” “better endurance”).  
-4. AI generates a weekly plan with exercises, sets, and intensity levels.  
-5. User reviews and accepts or replans.  
-6. Dashboard updates with the active plan.  
+1.  User logs in and opens the dashboard.
+2.  Selects “Plan Workouts.”
+3.  Chooses goal focus.
+    *   Users can select a primary and a secondary goal.
+4.  AI generates a weekly plan.
+    *   **Scenario: Slow or Failed Generation:**
+        *   A loading animation with engaging content (e.g., fitness tips) is displayed.
+        *   If generation fails, a clear error message is shown with a "Retry" button.
+        *   If generation repeatedly fails, a pre-made "starter" plan is suggested.
+5.  User reviews the plan.
+    *   Users can "lock" specific days or exercises they like, so they remain consistent during replanning.
+6.  User accepts the plan.
+7.  Dashboard updates with the active plan.
 
 ### Flow 2: Plan Meals
-1. User navigates to Meal Planner.  
-2. Updates dietary preferences and calorie targets.  
-3. AI generates a structured weekly meal plan (breakfast, lunch, dinner, snacks).  
-4. User reviews, locks certain meals, or regenerates others.  
-5. System saves finalized plan and updates dashboard.  
+1.  User navigates to Meal Planner.
+2.  Updates dietary preferences and calorie targets.
+    *   An in-app calculator or recommendations are available to help users determine their calorie targets.
+3.  AI generates a weekly meal plan.
+    *   **Scenario: Slow or Failed Generation:**
+        *   A loading animation with engaging content (e.g., nutrition facts) is displayed.
+        *   If generation fails, a clear error message is shown with a "Retry" button.
+        *   If generation repeatedly fails, a pre-made "starter" meal plan is suggested.
+4.  User reviews the plan.
+    *   Users can swap single ingredients in a meal (e.g., "replace chicken with tofu").
+5.  System saves the finalized plan and updates the dashboard.
 
-### Flow 3: Log Workouts 
-1. User logs completed workouts.  
-2. Dashboard updates workout progress.  
-3. AI refines the next week’s plan accordingly.  
+### Flow 3: Log Workouts
+1.  User logs a completed workout.
+    *   **Partial Completion:** Users can log a percentage of completion (e.g., "75% complete").
+    *   **Skipped Workouts:** If a workout is skipped, the AI can suggest rescheduling it or adjust the next week's plan.
+    *   **Unplanned Workouts:** Users can log unplanned activities using natural language (e.g., "I went for a 30-minute run"), and the AI will interpret and log it.
+2.  User rates the difficulty of the workout on a scale of 1-5.
+3.  Dashboard updates workout progress.
+4.  AI refines the next week’s plan accordingly.
 
 ### Flow 4: Log Meals
-1. User logs completed meals.  
-2. Dashboard updates progress and calorie balance.  
-3. AI refines the next week’s plan accordingly.  
+1.  User logs a completed meal.
+    *   **Partial Completion:** Users can adjust the logged portion (e.g., "ate half").
+    *   **Skipped Meals:** If a meal is skipped, the AI can adjust calorie targets for the remaining days.
+    *   **Unplanned Meals:** Users can log unplanned meals using natural language, and the AI will interpret and log it.
+2.  Dashboard updates progress and calorie balance.
+3.  AI refines the next week’s plan accordingly.  
 
 ---
 
