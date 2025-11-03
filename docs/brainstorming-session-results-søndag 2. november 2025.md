@@ -1,14 +1,14 @@
 # Brainstorming Session Results
 
-**Session Date:** søndag 2. november 2025
-**Facilitator:** Business Analyst Mary
-**Participant:** BIP
+**Session Date:** {{date}}
+**Facilitator:** {{agent_role}} {{agent_name}}
+**Participant:** {{user_name}}
 
 ## Executive Summary
 
-**Topic:** AI Planner Deep Dive
+**Topic:** {{session_topic}}
 
-**Session Goals:** Explore the user's interaction with the AI workout and meal planners in more detail. For example, how does the user provide feedback on the generated plans, and how does the AI learn from it?
+**Session Goals:** {{stated_goals}}
 
 **Techniques Used:** {{techniques_list}}
 
