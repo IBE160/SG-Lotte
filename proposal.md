@@ -64,30 +64,94 @@ The objective of this project is to develop a comprehensive, AI-assisted web app
 
 ## User Flows
 
+### Flow 0: New User Onboarding
+1.  User signs up and logs in for the first time.
+2.  A welcome screen appears, briefly explaining the app's benefits.
+3.  The user is guided through a multi-step process to set up their profile:
+    *   **Step 1: Personal Details** (name, age, body metrics).
+    *   **Step 2: Fitness Goals** (e.g., weight loss, muscle gain, endurance).
+    *   **Step 3: Dietary Preferences** (e.g., vegetarian, allergies).
+4.  Once the profile is complete, the user is directed to the dashboard, which displays a prompt to generate their first workout and meal plan.
+
 ### Flow 1: Plan Workouts
-1. User logs in and opens the dashboard.  
-2. Selects “Plan Workouts.”  
-3. Chooses goal focus (e.g., “stronger legs,” “better endurance”).  
-4. AI generates a weekly plan with exercises, sets, and intensity levels.  
-5. User reviews and accepts or replans.  
-6. Dashboard updates with the active plan.  
+1.  User logs in and opens the dashboard.
+2.  Selects “Plan Workouts.”
+3.  Chooses goal focus.
+    *   Users can select a primary and a secondary goal.
+4.  AI generates a weekly plan.
+    *   **Scenario: Slow or Failed Generation:**
+        *   A loading animation with engaging content (e.g., fitness tips) is displayed.
+        *   If generation fails, a clear error message is shown with a "Retry" button.
+        *   If generation repeatedly fails, a pre-made "starter" plan is suggested.
+5.  User reviews the plan.
+    *   Users can "lock" specific days or exercises they like, so they remain consistent during replanning.
+    *   **Scenario: Plan Rejection:** If the user dislikes the generated plan, they can select a "Regenerate" option, which prompts the AI to provide a new set of workouts.
+6.  User accepts the plan.
+7.  Dashboard updates with the active plan.
 
 ### Flow 2: Plan Meals
-1. User navigates to Meal Planner.  
-2. Updates dietary preferences and calorie targets.  
-3. AI generates a structured weekly meal plan (breakfast, lunch, dinner, snacks).  
-4. User reviews, locks certain meals, or regenerates others.  
-5. System saves finalized plan and updates dashboard.  
+1.  User navigates to Meal Planner.
+2.  Updates dietary preferences and calorie targets.
+    *   An in-app calculator or recommendations are available to help users determine their calorie targets.
+3.  AI generates a weekly meal plan.
+    *   **Scenario: Slow or Failed Generation:**
+        *   A loading animation with engaging content (e.g., nutrition facts) is displayed.
+        *   If generation fails, a clear error message is shown with a "Retry" button.
+        *   If generation repeatedly fails, a pre-made "starter" meal plan is suggested.
+4.  User reviews the plan.
+    *   Users can swap single ingredients in a meal (e.g., "replace chicken with tofu").
+    *   **Scenario: Plan Rejection:** If the user dislikes the generated plan, they can select a "Regenerate" option, which prompts the AI to provide a new set of meals.
+5.  System saves the finalized plan and updates the dashboard.
 
-### Flow 3: Log Workouts 
-1. User logs completed workouts.  
-2. Dashboard updates workout progress.  
-3. AI refines the next week’s plan accordingly.  
+### Flow 3: Log Workouts
+1.  User logs a completed workout.
+    *   **Partial Completion:** Users can log a percentage of completion (e.g., "75% complete").
+    *   **Skipped Workouts:** If a workout is skipped, the AI can suggest rescheduling it or adjust the next week's plan.
+    *   **Unplanned Workouts:** Users can log unplanned activities using natural language (e.g., "I went for a 30-minute run"), and the AI will interpret and log it.
+    *   **Workout Substitution:** Users can replace a suggested exercise with another (e.g., "I did squats instead of lunges"). The AI will use this to refine future plans.
+    *   **Injury or Illness:** Users can mark certain exercises or body parts as unavailable due to injury. The AI will dynamically adjust the current and future plans to avoid strain.
+    *   **Editing and Deleting Logs:** Users can correct or remove a workout entry after it has been logged.
+2.  User rates the difficulty of the workout on a scale of 1-5.
+3.  Dashboard updates workout progress.
+4.  AI refines the next week’s plan accordingly.
 
 ### Flow 4: Log Meals
-1. User logs completed meals.  
-2. Dashboard updates progress and calorie balance.  
-3. AI refines the next week’s plan accordingly.  
+1.  User logs a completed meal.
+    *   **Partial Completion:** Users can adjust the logged portion (e.g., "ate half").
+    *   **Skipped Meals:** If a meal is skipped, the AI can adjust calorie targets for the remaining days.
+    *   **Unplanned Meals:** Users can log unplanned meals using natural language, and the AI will interpret and log it.
+    *   **Editing and Deleting Logs:** Users can correct or remove a meal entry after it has been logged.
+2.  Dashboard updates progress and calorie balance.
+3.  AI refines the next week’s plan accordingly.  
+
+### Flow 5: Manage Plan Interruptions
+1.  User navigates to their profile or settings page.
+2.  Selects an option to pause or modify their plan.
+    *   **Scenario: Vacation/Break:** The user can set a "Vacation Mode" for a specified date range. During this period, all notifications and planning are paused. The system resumes normal functionality on the specified return date.
+    *   **Scenario: Illness:** The user can activate "Sick Mode," which temporarily reduces the intensity and frequency of planned activities and adjusts meal plans for recovery.
+
+### Flow 6: Edit User Profile
+1.  User navigates to the settings or profile page.
+2.  Selects the information they wish to update (e.g., Fitness Goals, Allergies, Body Metrics).
+3.  The user modifies the data and saves the changes.
+4.  A confirmation message is displayed. The AI uses this new information for all future plan generation.
+
+### Flow 7: Account Management
+1.  User navigates to the account settings page.
+2.  **Scenario: Password Reset:**
+    *   User clicks "Forgot Password" on the login page.
+    *   They enter their email and receive a password reset link.
+3.  **Scenario: Change Email:**
+    *   User enters their new email address and confirms the change via a verification link sent to the new address.
+4.  **Scenario: Account Deletion:**
+    *   User selects "Delete Account."
+    *   A confirmation modal appears, warning that the action is irreversible.
+    *   Upon confirmation, all user data is permanently deleted in accordance with GDPR.
+
+### Flow 8: View History
+1.  User navigates to the dashboard or a dedicated "History" page.
+2.  They can view past workout plans, meal plans, and progress logs.
+3.  Users can select a previous workout or meal and choose to "reuse" it in their current or future weekly plan.
 
 ---
 
