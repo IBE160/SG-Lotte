@@ -33,6 +33,9 @@ The objective of this project is to develop a comprehensive, AI-assisted web app
 - Record completed workouts, calories consumed, and weekly statistics; visualize improvements with interactive graphs.  
 **AI Output Format:** 
 - Structured JSON-like responses defining exercise and meal data for each week.  
+**Basic Offline Support:**
+- The app caches the current week's plan for offline viewing.
+- Users can log completed activities offline, which syncs upon reconnection.
 
 ### Nice to Have (Optional Extensions)
 - Chat Assistant for workout, nutrition, and injury guidance.  
@@ -71,7 +74,11 @@ The objective of this project is to develop a comprehensive, AI-assisted web app
     *   **Step 1: Personal Details** (name, age, body metrics).
     *   **Step 2: Fitness Goals** (e.g., weight loss, muscle gain, endurance).
     *   **Step 3: Dietary Preferences** (e.g., vegetarian, allergies).
-4.  Once the profile is complete, the user is directed to the dashboard, which displays a prompt to generate their first workout and meal plan.
+4.  **Refined Onboarding & First Plan Generation:**
+    *   After initial profile setup, the user selects a "Fitness Persona" (e.g., "Just starting my journey," "Getting back in shape," "Ready for a challenge").
+    *   Based on this persona, the AI generates a "diagnostic" first-week plan, explicitly communicating that this week is for "calibrating the AI to your unique fitness level."
+    *   The first week's plan will include enhanced feedback prompts (e.g., detailed difficulty ratings) to gather richer data.
+5.  Once the profile is complete, the user is directed to the dashboard, which displays a prompt to generate their first workout and meal plan.
 
 ### Flow 1: Plan Workouts
 1.  User logs in and opens the dashboard.
@@ -163,6 +170,7 @@ The objective of this project is to develop a comprehensive, AI-assisted web app
 - AI integration for workout and meal generation via API.  
 - Response time <500ms for non-AI queries.  
 - Dynamic replanning and persistent data logic.  
+- **Basic Offline Support:** Current week's plan cached for offline viewing and simple activity logging.
 
 ---
 
