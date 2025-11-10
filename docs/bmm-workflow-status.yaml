@@ -2,7 +2,7 @@
 # This tracks progress through BMM methodology phases
 # Phase 3/4 (Implementation) is tracked separately in sprint-status.yaml
 
-# generated: søndag 9. november 2025
+# generated: 2025-11-10
 # project: ibe160
 # project_type: software
 # selected_track: method
@@ -21,7 +21,7 @@
 #   - {file-path}: File created/found (e.g., "docs/product-brief.md")
 #   - skipped: Optional/conditional workflow that was skipped
 
-generated: "søndag 9. november 2025"
+generated: "2025-11-10"
 project: "ibe160"
 project_type: "software"
 selected_track: "method"
@@ -30,9 +30,9 @@ workflow_path: "method-greenfield.yaml"
 
 workflow_status:
   # Phase 0: Discovery (Optional)
-  brainstorm-project: "C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/brainstorming-session-results-søndag 9. november 2025.md"
-  research: "C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/research.md"
-  product-brief: "C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/Fase-1-analysis/product-brief-AI Fitness & Meal Planner-søndag 9. november 2025.md"
+  brainstorm-project: optional
+  research: optional
+  product-brief: optional
 
   # Phase 1: Planning
   prd: required
