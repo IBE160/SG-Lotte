@@ -30,12 +30,12 @@ workflow_path: "method-greenfield.yaml"
 
 workflow_status:
   # Phase 0: Discovery (Optional)
-  brainstorm-project: optional
-  research: optional
-  product-brief: optional
+  brainstorm-project: docs/Fase-1-analysis/brainstorming-session-results-søndag 9. november 2025.md
+  research: docs/Fase-1-analysis/research.md
+  product-brief: docs/Fase-1-analysis/product-brief-AI Fitness & Meal Planner-søndag 9. november 2025.md
 
   # Phase 1: Planning
-  prd: required
+  prd: docs/PRD.md
   validate-prd: optional
   create-design: conditional
 
