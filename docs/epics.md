@@ -2,8 +2,8 @@
 
 **Author:** BIP
 **Date:** søndag 16. november 2025
-**Project Level:** 
-**Target Scale:** 
+**Project Level:** Medium
+**Target Scale:** Growth
 
 ---
 
@@ -41,9 +41,11 @@ This document provides the complete epic and story breakdown for ibe160, decompo
 
 ---
 
-## Epic 1: First Plan & Foundation
+### Epic 1: First Plan & Foundation
 
 As a new user, I can sign up, set my core goals, and get my first personalized workout and meal plan within minutes, so I can start my health journey immediately.
+
+**Note on Foundational Stories (1.1, 1.2, 1.5):** While the general principle is to create vertically sliced stories, these initial stories are intentionally horizontal to establish the core technical infrastructure and basic UI scaffolding. This foundational work is critical for enabling subsequent vertical slices and is aligned with Epic 1's objective of setting up the project's foundation.
 
 ### Story 1.1: Backend & Database Setup
 
@@ -87,6 +89,8 @@ As a new user,
 I want to sign up with my email and password and verify my email,
 So that I can create a secure account and access the application.
 
+**FR Coverage:** FR-001
+
 **Acceptance Criteria:**
 
 **Given** I am on the sign-up page
@@ -104,6 +108,8 @@ So that I can create a secure account and access the application.
 As a new user who has verified my email,
 I want to provide my primary fitness goal and core dietary preference during onboarding,
 So that the AI can generate my first personalized plan.
+
+**FR Coverage:** FR-001
 
 **Acceptance Criteria:**
 
@@ -123,6 +129,8 @@ As a developer,
 I want a basic dashboard UI with placeholders for workout and meal plans,
 So that I have a place to display the AI-generated plans.
 
+**FR Coverage:** FR-006
+
 **Acceptance Criteria:**
 
 **Given** the frontend is set up
@@ -139,6 +147,8 @@ So that I have a place to display the AI-generated plans.
 As a new user who has completed core profile setup,
 I want to immediately see my first AI-generated "diagnostic" workout and meal plan,
 So that I can start my health journey without delay.
+
+**FR Coverage:** FR-002, FR-003, FR-006
 
 **Acceptance Criteria:**
 
@@ -164,6 +174,8 @@ As an active user,
 I want to easily mark my planned workouts as completed or skipped and rate their difficulty,
 So that the AI can learn from my performance and adapt future plans.
 
+**FR Coverage:** FR-004
+
 **Acceptance Criteria:**
 
 **Given** I am viewing my current week's workout plan on the dashboard
@@ -182,6 +194,8 @@ As an active user,
 I want to easily mark my planned meals as eaten or skipped,
 So that the AI can learn from my adherence and adapt future meal plans.
 
+**FR Coverage:** FR-005
+
 **Acceptance Criteria:**
 
 **Given** I am viewing my current week's meal plan on the dashboard
@@ -198,6 +212,8 @@ So that the AI can learn from my adherence and adapt future meal plans.
 As an active user,
 I want my workout and meal plans to automatically adjust each week based on my logged progress,
 So that my plans continuously evolve to meet my changing needs and performance.
+
+**FR Coverage:** FR-002, FR-003
 
 **Acceptance Criteria:**
 
@@ -216,6 +232,8 @@ So that my plans continuously evolve to meet my changing needs and performance.
 As an active user,
 I want to be notified when my new weekly plans are ready,
 So that I always know when to check for my updated guidance.
+
+**FR Coverage:** FR-007
 
 **Acceptance Criteria:**
 
@@ -239,6 +257,8 @@ As an engaged user,
 I want to request simple adjustments to my current workout plan,
 So that I can fine-tune it to my immediate needs (e.g., "make it easier/harder").
 
+**FR Coverage:** FR-002
+
 **Acceptance Criteria:**
 
 **Given** I am viewing my current workout plan
@@ -257,6 +277,8 @@ As an engaged user,
 I want to request simple adjustments to my current meal plan,
 So that I can fine-tune it to my immediate needs (e.g., "more variety").
 
+**FR Coverage:** FR-003
+
 **Acceptance Criteria:**
 
 **Given** I am viewing my current meal plan
@@ -274,6 +296,8 @@ So that I can fine-tune it to my immediate needs (e.g., "more variety").
 As an engaged user,
 I want to edit my primary fitness goal and core dietary preference,
 So that the AI always has the most up-to-date information to generate my plans.
+
+**FR Coverage:** FR-001
 
 **Acceptance Criteria:**
 

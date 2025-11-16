@@ -97,7 +97,6 @@ This is a greenfield project, building a new web application in the general fitn
     *   AI generates a "diagnostic" first-week plan during onboarding.
     *   AI automatically generates new weekly plans based on previous week's logged activities and difficulty ratings.
     *   Users can request simple adjustments to their current plan (e.g., "make it easier/harder").
-    *   Plans are provided in a structured JSON output.
 *   **Magic Thread:** Dynamic adaptation, making workout plans truly personal and responsive to progress.
 
 ### FR-003: AI-Driven Meal Plan Generation & Adaptation
@@ -107,7 +106,6 @@ This is a greenfield project, building a new web application in the general fitn
     *   AI generates a "diagnostic" first-week plan during onboarding.
     *   AI automatically generates new weekly plans based on previous week's logged meals and fitness goal progress.
     *   Users can request simple adjustments to their current plan (e.g., "more variety").
-    *   Plans are provided in a structured JSON output.
 *   **Magic Thread:** Effortless, personalized nutrition that adapts to user habits and goals.
 
 ### FR-004: Workout Logging
