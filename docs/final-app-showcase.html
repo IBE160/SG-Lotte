@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Fitness & Meal Planner - Key Screens Showcase</title>
+    <style>
+        /* Calm & Focused Theme Colors */
+        :root {
+            --primary-color: #607D8B; /* Blue Grey */
+            --primary-text: #FFFFFF;
+            --primary-hover: #546E7A;
+            --secondary-color: #B0BEC5; /* Light Blue Grey */
+            --secondary-text: #333333;
+            --secondary-hover: #90A4AE;
+            --accent-color: #9CCC65; /* Light Green */
+            --accent-text: #FFFFFF;
+            --success-color: #8BC34A;
+            --success-light: #e6f7df;
+            --success-dark: #3a7d02;
+            --warning-color: #FFC107;
+            --warning-light: #fff8e6;
+            --warning-dark: #b58000;
+            --error-color: #E57373;
+            --error-light: #fbe6e6;
+            --error-dark: #a82424;
+            --neutral-lightest: #ECEFF1;
+            --neutral-light: #CFD8DC;
+            --neutral-mid: #78909C;
+            --neutral-dark: #37474F;
+
+            --global-bg: var(--neutral-lightest);
+            --global-text: var(--neutral-dark);
+            --global-text-secondary: var(--neutral-mid);
+            --global-heading: var(--neutral-dark);
+            --card-bg: #FFFFFF;
+            --border-color: var(--neutral-light);
+            --input-bg: #FFFFFF;
+            --input-text: var(--global-text);
+            --input-border: var(--neutral-light);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --button-shadow: rgba(0, 0, 0, 0.15);
+            --focus-ring: rgba(96, 125, 139, 0.5); /* Primary color with transparency */
+        }
+
+        /* Base Styles & Typography */
+        body {
+            font-family: 'Inter', sans-serif; /* Mimicking shadcn/ui default */
+            margin: 0;
+            padding: 20px;
+            background-color: var(--global-bg);
+            color: var(--global-text);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.5;
+            font-size: 16px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--global-heading);
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            font-weight: 600; /* Semi-bold for headings */
+        }
+        h1 { font-size: 2.2em; }
+        h2 { font-size: 1.8em; }
+        h3 { font-size: 1.4em; }
+        p { margin-bottom: 1em; }
+
+        /* Layout */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            justify-content: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .screen-mockup {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px var(--shadow-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+        .screen-mockup:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px var(--shadow-color);
+        }
+        .screen-header {
+            background-color: var(--primary-color);
+            color: var(--primary-text);
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            border-bottom: 1px solid var(--primary-hover);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .screen-content {
+            padding: 20px;
+            flex-grow: 1;
+        }
+        .screen-footer {
+            background-color: var(--neutral-lightest);
+            border-top: 1px solid var(--border-color);
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--global-text-secondary);
+        }
+
+        /* Components */
+        .button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 2px 4px var(--button-shadow);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .button:focus-visible {
+            outline: 2px solid var(--focus-ring);
+            outline-offset: 2px;
+        }
+        .button-primary {
+            background-color: var(--primary-color);
+            color: var(--primary-text);
+        }
+        .button-primary:hover {
+            background-color: var(--primary-hover);
+            box-shadow: 0 4px 8px var(--shadow-color);
+            transform: translateY(-1px);
+        }
+        .button-secondary {
+            background-color: var(--secondary-color);
+            color: var(--secondary-text);
+            border: 1px solid var(--neutral-mid);
+        }
+        .button-secondary:hover {
+            background-color: var(--secondary-hover);
+        }
+        .button-accent {
+            background-color: var(--accent-color);
+            color: var(--accent-text);
+        }
+        .button-accent:hover {
+            background-color: #81b35b; /* Slightly darker accent */
+        }
+        .input-field {
+            width: calc(100% - 24px);
+            padding: 10px 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            font-size: 1em;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--focus-ring);
+        }
+        .label {
+            display: block;
+            font-size: 0.9em;
+            color: var(--global-text-secondary);
+            margin-bottom: 5px;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+        .card-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--global-heading);
+            margin-bottom: 10px;
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: var(--neutral-light);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 75%; /* Example width */
+            border-radius: 5px;
+            transition: width 0.5s ease-out;
+        }
+        .flex-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .icon-small {
+            font-size: 1.2em; /* Placeholder for actual icons */
+        }
+        .status-badge {
+            background-color: var(--success-light);
+            color: var(--success-dark);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .list-group .list-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .list-group .list-item:last-child {
+            border-bottom: none;
+        }
+        .list-group .list-item input[type="checkbox"] {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color); /* Style checkbox */
+        }
+        .list-group .list-item-content {
+            flex-grow: 1;
+        }
+        .list-group .list-item-title {
+            font-weight: 500;
+            color: var(--global-heading);
+        }
+        .list-group .list-item-subtitle {
+            font-size: 0.85em;
+            color: var(--global-text-secondary);
+        }
+
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            z-index: 100;
+        }
+        .bottom-nav-item {
+            text-align: center;
+            color: var(--global-text-secondary);
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .bottom-nav-item.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        .bottom-nav-item:hover {
+            color: var(--primary-color);
+        }
+        .bottom-nav-item .icon {
+            display: block;
+            font-size: 1.5em;
+            margin-bottom: 4px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .screen-mockup {
+                max-width: 375px; /* Simulate mobile width */
+            }
+            .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Utility classes for specific screens */
+        .onboarding-wizard {
+            text-align: center;
+        }
+        .onboarding-wizard .progress-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .onboarding-wizard .progress-step {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--neutral-light);
+            margin: 0 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 600;
+            color: var(--global-text-secondary);
+            border: 2px solid var(--neutral-mid);
+        }
+        .onboarding-wizard .progress-step.active {
+            background-color: var(--primary-color);
+            color: var(--primary-text);
+            border-color: var(--primary-color);
+        }
+        .onboarding-wizard .progress-step.completed {
+            background-color: var(--accent-color);
+            color: var(--accent-text);
+            border-color: var(--accent-color);
+        }
+        .onboarding-wizard h2 {
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AI Fitness & Meal Planner - Key Screens Showcase</h1>
+        <p>A visual representation of key user screens applying the chosen design decisions (Calm & Focused theme, Hybrid design direction).</p>
+    </div>
+
+    <div class="showcase-grid">
+
+        <!-- Dashboard Screen -->
+        <div class="screen-mockup">
+            <div class="screen-header">
+                Dashboard <span class="icon">🏠</span>
+            </div>
+            <div class="screen-content">
+                <h2>Hello BIP!</h2>
+                <div class="card">
+                    <div class="card-title">Weekly Progress at a Glance</div>
+                    <p>Workouts: <span style="color: var(--accent-color); font-weight: bold;">5/7</span> completed</p>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 71%;"></div></div>
+                    <p style="margin-top: 10px;">Meals: <span style="color: var(--accent-color); font-weight: bold;">18/21</span> logged</p>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Your Next Goal</div>
+                    <p>Lose 5kg in 2 months</p>
+                    <div class="flex-row" style="justify-content: space-between; margin-top: 10px;">
+                        <span style="font-size: 0.9em; color: var(--global-text-secondary);">Current: 75kg</span>
+                        <span style="font-size: 0.9em; color: var(--accent-color); font-weight: bold;">Target: 70kg</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Today's Focus: Upper Body Strength</div>
+                    <div class="flex-row">
+                        <span class="status-badge">Planned</span>
+                        <span style="font-size: 0.9em; color: var(--global-text-secondary);">3 workouts left this week</span>
+                    </div>
+                    <button class="button button-primary" style="width: 100%; margin-top: 20px;">View Today's Plan</button>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <div class="bottom-nav-item active"><span class="icon">📊</span>Dashboard</div>
+                <div class="bottom-nav-item"><span class="icon">🏋️</span>Plans</div>
+                <div class="bottom-nav-item"><span class="icon">👤</span>Profile</div>
+            </div>
+            <div class="screen-footer">
+                Hybrid Design: Engaging & Visual + Clean & Structured
+            </div>
+        </div>
+
+        <!-- Plan View Screen -->
+        <div class="screen-mockup">
+            <div class="screen-header">
+                Workout Plan <span class="icon">🏋️</span>
+            </div>
+            <div class="screen-content">
+                <h2>Upper Body Strength - Today</h2>
+                <div class="card">
+                    <div class="card-title">Exercises</div>
+                    <div class="list-group">
+                        <div class="list-item">
+                            <input type="checkbox" id="exercise1">
+                            <div class="list-item-content">
+                                <div class="list-item-title">Dumbbell Bench Press</div>
+                                <div class="list-item-subtitle">3 sets of 8-10 reps</div>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <input type="checkbox" id="exercise2">
+                            <div class="list-item-content">
+                                <div class="list-item-title">Incline Dumbbell Press</div>
+                                <div class="list-item-subtitle">3 sets of 10-12 reps</div>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <input type="checkbox" id="exercise3">
+                            <div class="list-item-content">
+                                <div class="list-item-title">Cable Rows</div>
+                                <div class="list-item-subtitle">4 sets of 10 reps</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="background-color: var(--neutral-lightest);">
+                    <div class="card-title">AI Coach Insight</div>
+                    <p style="font-size: 0.9em; color: var(--global-text-secondary);">"Remember to focus on controlled movements and full range of motion. You got this!"</p>
+                    <button class="button button-secondary" style="width: 100%;">Ask Coach for Tips</button>
+                </div>
+
+                <button class="button button-accent" style="width: 100%; margin-top: 20px;">Log Workout Completed</button>
+                <button class="button button-secondary" style="width: 100%; margin-top: 10px;">Adjust Plan for Today</button>
+            </div>
+            <div class="bottom-nav">
+                <div class="bottom-nav-item"><span class="icon">📊</span>Dashboard</div>
+                <div class="bottom-nav-item active"><span class="icon">🏋️</span>Plans</div>
+                <div class="bottom-nav-item"><span class="icon">👤</span>Profile</div>
+            </div>
+            <div class="screen-footer">
+                Hybrid Design: Engaging & Visual + Clean & Structured
+            </div>
+        </div>
+
+        <!-- Onboarding (Step 1: Account Setup) -->
+        <div class="screen-mockup">
+            <div class="screen-header">
+                Welcome! <span class="icon">👋</span>
+            </div>
+            <div class="screen-content onboarding-wizard">
+                <div class="progress-indicator">
+                    <div class="progress-step active">1</div>
+                    <div class="progress-step">2</div>
+                    <div class="progress-step">3</div>
+                </div>
+                <h2>Create Your Account</h2>
+                <p style="color: var(--global-text-secondary); margin-bottom: 25px;">Start your personalized wellness journey.</p>
+                
+                <div style="text-align: left;">
+                    <label for="email" class="label">Email</label>
+                    <input type="email" id="email" class="input-field" placeholder="you@example.com">
+                    <label for="password" class="label">Password</label>
+                    <input type="password" id="password" class="input-field" placeholder="••••••••">
+                </div>
+
+                <button class="button button-primary" style="width: 100%; margin-top: 30px;">Continue</button>
+                <p style="margin-top: 20px; font-size: 0.9em;">Already have an account? <a href="#" style="color: var(--primary-color); text-decoration: none;">Sign In</a></p>
+            </div>
+            <div class="screen-footer">
+                Wizard/Stepper Onboarding
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

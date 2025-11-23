@@ -4,242 +4,561 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Design Direction Showcase - AI Fitness & Meal Planner</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #FEFCE8; color: #3F3F46; }
-        .container { max-width: 1400px; margin: auto; padding: 2rem; }
-        h1, h2 { text-align: center; margin-bottom: 2rem; color: #3F3F46; }
-        .direction-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 2.5rem; }
-        .direction-card { border: 1px solid #D1D5DB; border-radius: 0.75rem; overflow: hidden; background-color: #FFFFFF; box-shadow: 0 10px 15px rgba(0,0,0,0.1); transition: transform 0.2s ease-in-out; }
-        .direction-card:hover { transform: translateY(-5px); }
-        .mockup-container { width: 100%; height: 300px; background-color: #F3F4F6; display: flex; align-items: flex-start; justify-content: center; padding: 1rem; position: relative; overflow: hidden; border-bottom: 1px solid #E5E7EB;}
-        .mockup-content { width: 90%; height: 100%; border-radius: 0.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.2); overflow-y: auto; background-color: white; border: 1px solid #E5E7EB; }
-        .direction-info { padding: 1.5rem; }
-        .direction-info h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; color: #3F3F46; }
-        .direction-info p { font-size: 0.95rem; color: #6B7280; margin-bottom: 1rem; line-height: 1.5; }
-        .characteristics li { margin-bottom: 0.5rem; font-size: 0.9rem; color: #4B5563; }
-        .characteristics strong { color: #3F3F46; }
-
-        /* Earthy Theme Colors (from previous step) */
         :root {
-            --primary: #84CC16;
-            --secondary: #A1A1AA;
-            --background: #FEFCE8;
-            --text: #3F3F46;
-            --success: #22C55E;
-            --error: #EF4444;
+            /* Calm & Focused Theme Colors */
+            --primary-color: #607D8B; /* Blue Grey */
+            --primary-text: #FFFFFF;
+            --primary-hover: #546E7A;
+            --secondary-color: #B0BEC5; /* Light Blue Grey */
+            --secondary-text: #333333;
+            --secondary-hover: #90A4AE;
+            --accent-color: #9CCC65; /* Light Green */
+            --accent-text: #FFFFFF;
+            --success-color: #8BC34A;
+            --warning-color: #FFC107;
+            --error-color: #E57373;
+            --neutral-lightest: #ECEFF1;
+            --neutral-light: #CFD8DC;
+            --neutral-mid: #78909C;
+            --neutral-dark: #37474F;
+
+            --global-bg: var(--neutral-lightest);
+            --global-text: var(--neutral-dark);
+            --global-text-secondary: var(--neutral-mid);
+            --global-heading: var(--neutral-dark);
+            --card-bg: #FFFFFF;
+            --border-color: var(--neutral-light);
+            --input-bg: #FFFFFF;
+            --input-text: var(--global-text);
+            --input-border: var(--neutral-light);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --button-shadow: rgba(0, 0, 0, 0.15);
         }
 
-        /* Common Styles for Mockup Elements */
-        .mockup-nav { background-color: var(--primary); padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; color: white; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; }
-        .mockup-nav-item { margin-left: 1rem; font-size: 0.9rem; }
-        .mockup-header { padding: 1rem; border-bottom: 1px solid #E5E7EB; display: flex; justify-content: space-between; align-items: center; }
-        .mockup-card { background-color: #F9FAFB; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .mockup-btn { padding: 0.5rem 1rem; border-radius: 0.375rem; font-size: 0.875rem; cursor: pointer; border: none; }
-        .mockup-btn-primary { background-color: var(--primary); color: white; }
-        .mockup-btn-secondary { background-color: var(--secondary); color: white; }
-        .mockup-text-primary { color: var(--primary); }
-        .mockup-text-secondary { color: var(--secondary); }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            margin: 0;
+            padding: 20px;
+            background-color: var(--global-bg);
+            color: var(--global-text);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.5;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--global-heading);
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        h1 { font-size: 2.2em; }
+        h2 { font-size: 1.8em; }
+        h3 { font-size: 1.4em; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .controls button {
+            background-color: var(--secondary-color);
+            color: var(--secondary-text);
+            border: 1px solid var(--neutral-mid);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .controls button:hover {
+            background-color: var(--secondary-hover);
+            transform: translateY(-1px);
+        }
+        .controls button.active {
+            background-color: var(--primary-color);
+            color: var(--primary-text);
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 4px var(--button-shadow);
+        }
+        .controls button.active:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .mockup-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px 0;
+        }
+        .mockup-wrapper {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px var(--shadow-color);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .mockup-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px var(--shadow-color);
+        }
+
+        .mockup-header {
+            padding: 15px 20px;
+            background-color: var(--primary-color);
+            color: var(--primary-text);
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mockup-header span {
+            font-size: 0.8em;
+            opacity: 0.8;
+        }
+        .mockup-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .mockup-content h4 {
+            color: var(--global-heading);
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        /* --- Components for Mockups --- */
+        .nav-bar {
+            background-color: var(--primary-color);
+            color: var(--primary-text);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .nav-bar .logo { font-weight: bold; font-size: 1.2em; }
+        .nav-bar .icon { font-size: 1.5em; }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+        }
+        .card h5 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--global-heading);
+        }
+        .progress-bar {
+            height: 8px;
+            background-color: var(--neutral-light);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 70%; /* Example width */
+            border-radius: 4px;
+        }
+
+        .button {
+            background-color: var(--primary-color);
+            color: var(--primary-text);
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background-color 0.2s;
+        }
+        .button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        .list-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+        .list-item-content {
+            flex-grow: 1;
+        }
+        .list-item-title {
+            font-weight: bold;
+            color: var(--global-heading);
+        }
+        .list-item-subtitle {
+            font-size: 0.9em;
+            color: var(--global-text-secondary);
+        }
+
+        .chat-bubble {
+            background-color: var(--neutral-light);
+            border-radius: 15px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            max-width: 80%;
+        }
+        .chat-bubble.ai {
+            background-color: var(--secondary-color);
+            color: var(--secondary-text);
+            align-self: flex-start;
+        }
+        .chat-bubble.user {
+            background-color: var(--primary-color);
+            color: var(--primary-text);
+            align-self: flex-end;
+        }
+        .chat-input {
+            display: flex;
+            margin-top: 20px;
+        }
+        .chat-input input {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .chat-input button {
+            width: auto;
+            padding: 8px 12px;
+            margin-top: 0;
+        }
+
+        .device-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .device-selector button {
+            background-color: var(--secondary-color);
+            color: var(--secondary-text);
+            border: 1px solid var(--neutral-mid);
+        }
+        .device-selector button.active {
+            background-color: var(--primary-color);
+            color: var(--primary-text);
+            border-color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .mockup-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .mockup-description {
+            padding: 20px 0;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--global-text-secondary);
+            border-top: 1px dashed var(--border-color);
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <h1>🎨 Design Direction Showcase</h1>
-        <p class="text-center max-w-2xl mx-auto text-gray-600 mb-8">
-            Explore four distinct design approaches for the AI Fitness & Meal Planner's Dashboard. Each direction showcases a different visual philosophy and interaction style, applying the chosen "Earthy" color theme.
-        </p>
-
-        <div class="direction-grid">
-
-            <!-- Design Direction 1: Minimalist Dashboard & Quick Log -->
-            <div class="direction-card">
-                <div class="mockup-container">
-                    <div class="mockup-content p-4">
-                        <div class="mockup-header">
-                            <span class="text-lg font-semibold">Dashboard</span>
-                            <div class="flex items-center">
-                                <span class="mockup-nav-item text-sm">Profile</span>
-                                <span class="mockup-nav-item text-sm">Settings</span>
-                            </div>
-                        </div>
-                        <h2 class="text-2xl font-bold mt-4 mb-2">Today's Focus</h2>
-                        <div class="mockup-card">
-                            <h4 class="text-lg font-semibold mb-2">Morning Workout: Full Body Strength</h4>
-                            <p class="text-sm text-gray-600 mb-3">45 min · 150 kcal</p>
-                            <div class="flex justify-between items-center">
-                                <span class="mockup-text-primary font-medium">3/5 Exercises Completed</span>
-                                <button class="mockup-btn mockup-btn-primary">Log Workout</button>
-                            </div>
-                        </div>
-                        <div class="mockup-card">
-                            <h4 class="text-lg font-semibold mb-2">Lunch: Chicken Salad</h4>
-                            <p class="text-sm text-gray-600 mb-3">550 kcal · 40g Protein</p>
-                            <div class="flex justify-between items-center">
-                                <span class="mockup-text-primary font-medium">Logged</span>
-                                <button class="mockup-btn mockup-btn-secondary">View Details</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="direction-info">
-                    <h3>1. Minimalist Dashboard & Quick Log</h3>
-                    <p>
-                        **Philosophy:** Efficiency & Clarity. A clean, spacious interface prioritizing the current day's most important tasks.
-                        Emphasizes quick actions and clear visual separation.
-                    </p>
-                    <ul class="characteristics list-disc pl-5">
-                        <li><strong>Layout:</strong> Simple top navigation, focused "Today's Plan" card.</li>
-                        <li><strong>Visual Hierarchy:</strong> Very spacious, large text for current activity, clear separation.</li>
-                        <li><strong>Interaction:</strong> Inline quick-log buttons directly on cards. Customization is a dedicated action.</li>
-                        <li><strong>Visual Weight:</strong> Minimalist, lots of white space.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Design Direction 2: Card-Centric Progress -->
-            <div class="direction-card">
-                <div class="mockup-container">
-                    <div class="mockup-content p-4">
-                        <div class="mockup-nav">
-                            <span class="font-bold text-lg">AI Planner</span>
-                            <div>
-                                <span class="mockup-nav-item">Dashboard</span>
-                                <span class="mockup-nav-item">Plans</span>
-                                <span class="mockup-nav-item">Log</span>
-                            </div>
-                        </div>
-                        <h2 class="text-xl font-bold mt-4 mb-3">Your Week at a Glance</h2>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="mockup-card">
-                                <h4 class="font-semibold text-base mb-1">Mon Workout</h4>
-                                <p class="text-xs text-gray-500 mb-2">Full Body</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="mockup-text-primary text-sm">Completed</span>
-                                    <button class="mockup-btn mockup-btn-primary py-1 px-2">Log</button>
-                                </div>
-                            </div>
-                            <div class="mockup-card">
-                                <h4 class="font-semibold text-base mb-1">Mon Meals</h4>
-                                <p class="text-xs text-gray-500 mb-2">3/3 Logged</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="mockup-text-primary text-sm">Completed</span>
-                                    <button class="mockup-btn mockup-btn-primary py-1 px-2">Log</button>
-                                </div>
-                            </div>
-                            <!-- ... more days -->
-                        </div>
-                        <div class="mockup-card mt-4">
-                            <h4 class="text-base font-semibold mb-2">Weekly Goal Progress</h4>
-                            <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                <div class="h-2.5 rounded-full" style="width: 75%; background-color: var(--primary);"></div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">75% towards Weight Loss</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="direction-info">
-                    <h3>2. Card-Centric Progress</h3>
-                    <p>
-                        **Philosophy:** Motivation & Visual Progress. Presents information in digestible cards,
-                        visually emphasizing progress and making it easy to scan the week.
-                    </p>
-                    <ul class="characteristics list-disc pl-5">
-                        <li><strong>Layout:</strong> Grid of cards for daily plans and progress. Sidebar-like nav (illustrated by top nav).</li>
-                        <li><strong>Visual Hierarchy:</strong> Balanced, each card is a clear unit of info. Progress indicators prominent.</li>
-                        <li><strong>Interaction:</strong> Card tap expands for details/logging.</li>
-                        <li><strong>Visual Weight:</strong> Balanced, clear structure with moderate visual weight.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Design Direction 3: Guided Planner -->
-            <div class="direction-card">
-                <div class="mockup-container">
-                    <div class="mockup-content p-4">
-                        <div class="mockup-nav">
-                            <span class="text-lg font-semibold">AI Planner</span>
-                            <span class="mockup-nav-item">Settings</span>
-                        </div>
-                        <h2 class="text-2xl font-bold mt-4 mb-2">Your New Weekly Plan is Ready!</h2>
-                        <p class="text-sm text-gray-600 mb-4">Based on your amazing progress last week, here's what's next.</p>
-                        <div class="mockup-card bg-gray-50">
-                            <h4 class="text-lg font-semibold mb-2">Step 1: Review Your Workout Plan</h4>
-                            <p class="text-sm text-gray-600 mb-3">AI adjusted intensity for optimal gains.</p>
-                            <button class="mockup-btn mockup-btn-primary w-full">Review Workouts</button>
-                        </div>
-                        <div class="mockup-card bg-gray-50">
-                            <h4 class="text-lg font-semibold mb-2">Step 2: Review Your Meal Plan</h4>
-                            <p class="text-sm text-gray-600 mb-3">New recipes included for variety!</p>
-                            <button class="mockup-btn mockup-btn-secondary w-full">Review Meals</button>
-                        </div>
-                        <div class="flex justify-center mt-4">
-                            <button class="mockup-btn bg-white border border-gray-300 text-gray-700">Customize Full Plan</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="direction-info">
-                    <h3>3. Guided Planner</h3>
-                    <p>
-                        **Philosophy:** Guidance & Ease of Use. Leads users through key steps,
-                        especially for new plan generation and adaptation, making complex processes feel simple.
-                    </p>
-                    <ul class="characteristics list-disc pl-5">
-                        <li><strong>Layout:</strong> Wizard-like flow for plan review and customization. Clear top nav.</li>
-                        <li><strong>Visual Hierarchy:</strong> Prominent current task, clear calls to action.</li>
-                        <li><strong>Interaction:</strong> Explicit "next step" buttons. AI suggestions are interactive options.</li>
-                        <li><strong>Visual Weight:</strong> Balanced, clear pathways and focus.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Design Direction 4: Data-Driven Customizer -->
-            <div class="direction-card">
-                <div class="mockup-container">
-                    <div class="mockup-content p-4">
-                        <div class="mockup-nav">
-                            <span class="text-lg font-semibold">AI Planner</span>
-                            <div class="flex items-center">
-                                <span class="mockup-nav-item">Dashboard</span>
-                                <span class="mockup-nav-item">Analytics</span>
-                            </div>
-                        </div>
-                        <h2 class="text-2xl font-bold mt-4 mb-2">Weekly Performance & Plans</h2>
-                        <div class="mockup-card">
-                            <h4 class="text-lg font-semibold mb-2">Workout Progress</h4>
-                            <div class="h-24 bg-gray-200 flex items-center justify-center text-sm text-gray-500">[Chart Placeholder]</div>
-                            <p class="text-sm text-gray-600 mt-2">Overall strength increased by 7%!</p>
-                        </div>
-                        <div class="mockup-card">
-                            <h4 class="text-lg font-semibold mb-2">Meal Plan (Current)</h4>
-                            <ul class="list-disc pl-5 text-sm text-gray-700">
-                                <li>Monday: Balanced Meal A (550 kcal)</li>
-                                <li>Tuesday: High Protein Meal B (600 kcal)</li>
-                                <li>...</li>
-                            </ul>
-                            <div class="flex justify-end mt-3">
-                                <button class="mockup-btn mockup-btn-primary">Customize Plan</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="direction-info">
-                    <h3>4. Data-Driven Customizer</h3>
-                    <p>
-                        **Philosophy:** Flexibility & Control. Focuses on data and detailed plan views,
-                        offering users powerful tools for granular customization and analysis.
-                    </p>
-                    <ul class="characteristics list-disc pl-5">
-                        <li><strong>Layout:</strong> Dashboard centered on metrics and data. Detailed lists for plans.</li>
-                        <li><strong>Visual Hierarchy:</strong> Denser with more data points visible, organized clearly.</li>
-                        <li><strong>Interaction:</strong> Direct manipulation of plan elements (e.g., inline editing, drag-and-drop concepts).</li>
-                        <li><strong>Visual Weight:</strong> Balanced to rich, allowing for more information density.</li>
-                    </ul>
-                </div>
-            </div>
-
+    <div class="header">
+        <h1>AI Fitness & Meal Planner - Design Direction Showcase</h1>
+        <p>Explore different design directions for key screens. Select a direction below.</p>
+        <div class="device-selector">
+            <button id="desktop-view" class="active">Desktop View</button>
+            <button id="mobile-view">Mobile View</button>
         </div>
     </div>
 
+    <div class="controls">
+        <button data-direction="direction1" class="active">1. Clean & Structured</button>
+        <button data-direction="direction2">2. Engaging & Visual</button>
+        <button data-direction="direction3">3. AI-Centric & Conversational</button>
+    </div>
+
+    <div id="mockups" class="mockup-container">
+        <!-- Mockups will be injected here by JavaScript -->
+    </div>
+
+    <script>
+        const directions = {
+            direction1: {
+                name: "Clean & Structured",
+                personality: "Functional, Data-Focused",
+                description: "Emphasis on clear data presentation and statistics using a minimalistic layout. Subdued colors and ample whitespace provide a professional and efficient feel.",
+                screens: {
+                    dashboard: `
+                        <div class="nav-bar">
+                            <span class="logo">AI Fitness</span>
+                            <span class="icon">☰</span>
+                        </div>
+                        <div class="mockup-content">
+                            <h4>Dashboard - This Week's Progress</h4>
+                            <div class="card">
+                                <h5>Workout Progress</h5>
+                                <p>5/7 workouts completed</p>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 71%;"></div></div>
+                            </div>
+                            <div class="card">
+                                <h5>Meal Adherence</h5>
+                                <p>18/21 meals logged</p>
+                                <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
+                            </div>
+                            <div class="card">
+                                <h5>Upcoming: Leg Day (Tue)</h5>
+                                <p>View full plan for details.</p>
+                            </div>
+                            <button class="button">View Full Weekly Plan</button>
+                        </div>
+                    `,
+                    planInteraction: `
+                        <div class="nav-bar">
+                            <span class="icon">←</span>
+                            <span class="logo">Daily Plan</span>
+                            <span class="icon">⋮</span>
+                        </div>
+                        <div class="mockup-content">
+                            <h4>Workout: Leg Day (Tuesday)</h4>
+                            <div class="card">
+                                <div class="list-item">
+                                    <input type="checkbox" id="squats">
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Barbell Squats</div>
+                                        <div class="list-item-subtitle">3 sets of 8-10 reps</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <input type="checkbox" id="lunges">
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Dumbbell Lunges</div>
+                                        <div class="list-item-subtitle">3 sets of 10 reps each leg</div>
+                                    </div>
+                                </div>
+                                <div class="list-item">
+                                    <input type="checkbox" id="calf">
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Calf Raises</div>
+                                        <div class="list-item-subtitle">4 sets of 15 reps</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="button">Mark Workout Complete</button>
+                            <div style="text-align: center; margin-top: 10px; font-size: 0.9em; color: var(--global-text-secondary);">Rate difficulty after completion</div>
+                        </div>
+                    `
+                }
+            },
+            direction2: {
+                name: "Engaging & Visual",
+                personality: "Motivating, Progress-Oriented",
+                description: "Card-based layout with prominent visual progress indicators. Uses accent colors and engaging imagery (or icons) to highlight achievements and motivate users.",
+                screens: {
+                    dashboard: `
+                        <div class="nav-bar" style="border-radius: 0;">
+                            <span class="icon">✨</span>
+                            <span class="logo">My Journey</span>
+                            <span class="icon">👤</span>
+                        </div>
+                        <div class="mockup-content" style="background-color: var(--neutral-lightest);">
+                            <div class="card" style="background-color: var(--primary-color); color: var(--primary-text); text-align: center;">
+                                <h5>Your Weekly Goal: 🏋️‍♀️ 5 Workouts</h5>
+                                <h2>3/5 Completed!</h2>
+                                <div class="progress-bar" style="background-color: var(--neutral-light);"><div class="progress-fill" style="width: 60%; background-color: var(--accent-color);"></div></div>
+                                <p style="font-size: 0.8em; margin-top: 10px; color: rgba(255,255,255,0.8);">Keep up the great work!</p>
+                            </div>
+                            <div class="card" style="text-align: center;">
+                                <h5>Today's Focus</h5>
+                                <h3 style="color: var(--primary-color);">Upper Body Blast</h3>
+                                <p>View details to start.</p>
+                                <button class="button" style="background-color: var(--accent-color); color: var(--accent-text);">Start Workout</button>
+                            </div>
+                            <div class="card" style="text-align: center;">
+                                <h5>Meal Plan Snapshot</h5>
+                                <p>Balanced & Delicious</p>
+                                <button class="button" style="background-color: var(--secondary-color); color: var(--secondary-text);">See Meals</button>
+                            </div>
+                        </div>
+                    `,
+                    planInteraction: `
+                        <div class="nav-bar" style="border-radius: 0;">
+                            <span class="icon">←</span>
+                            <span class="logo">Upper Body Blast</span>
+                            <span class="icon">✔️</span>
+                        </div>
+                        <div class="mockup-content" style="background-color: var(--neutral-lightest);">
+                            <div class="card" style="padding: 20px; text-align: center;">
+                                <h4 style="color: var(--primary-color);">Dumbbell Bench Press</h4>
+                                <p style="font-size: 1.1em; color: var(--global-text);">3 sets of 8-12 reps</p>
+                                <img src="https://via.placeholder.com/150x80/CFD8DC/607D8B?text=Animation" alt="Workout Animation" style="width: 100%; height: auto; border-radius: 8px; margin: 15px 0;">
+                                <button class="button" style="background-color: var(--accent-color); color: var(--accent-text);">Log Set</button>
+                            </div>
+                            <div class="card">
+                                <h5>Next Up: Incline Press</h5>
+                                <p>3 sets of 10-12 reps.</p>
+                            </div>
+                            <button class="button" style="background-color: var(--primary-color);">Finish Workout</button>
+                        </div>
+                    `
+                }
+            },
+            direction3: {
+                name: "AI-Centric & Conversational",
+                personality: "Guidance-Focused, Intelligent",
+                description: "Integrates AI guidance directly into the user experience, using chat-like elements and prompts to create a sense of ongoing conversation and support.",
+                screens: {
+                    dashboard: `
+                        <div class="nav-bar">
+                            <span class="logo">AI Coach</span>
+                            <span class="icon">⚙️</span>
+                        </div>
+                        <div class="mockup-content" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%;">
+                            <div class="chat-bubble ai">
+                                Hi BIP! Your new weekly plan is ready. You crushed last week's workouts!
+                            </div>
+                            <div class="chat-bubble user">
+                                Awesome! What's new this week?
+                            </div>
+                            <div class="chat-bubble ai">
+                                I've adjusted your Leg Day to include more plyometrics, based on your progress. Your meal plan has more protein too.
+                            </div>
+                            <div class="card" style="text-align: center;">
+                                <h5>Current Focus: Strength & Endurance</h5>
+                                <p style="font-size: 0.9em; color: var(--global-text-secondary);">Your AI coach is actively adapting your journey.</p>
+                                <button class="button">View My Adapting Plan</button>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" placeholder="Ask your coach anything...">
+                                <button class="button" style="width: auto;">Send</button>
+                            </div>
+                        </div>
+                    `,
+                    planInteraction: `
+                        <div class="nav-bar">
+                            <span class="icon">←</span>
+                            <span class="logo">Your AI Plan</span>
+                            <span class="icon">💬</span>
+                        </div>
+                        <div class="mockup-content" style="display: flex; flex-direction: column; justify-content: flex-start; height: 100%;">
+                            <h4>Meal: Dinner (Wednesday)</h4>
+                            <div class="card">
+                                <p style="font-weight: bold;">AI Coach Suggestion:</p>
+                                <div class="chat-bubble ai" style="max-width: 100%; margin-bottom: 0;">
+                                    "Consider adding a handful of spinach to your Chicken Stir-fry tonight for extra vitamins and fiber! Remember your goal for increased vegetable intake."
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="list-item">
+                                    <input type="checkbox" id="stirfry">
+                                    <div class="list-item-content">
+                                        <div class="list-item-title">Chicken Stir-fry</div>
+                                        <div class="list-item-subtitle">Protein, Veggies, Healthy Fats</div>
+                                    </div>
+                                </div>
+                                <button class="button" style="margin-top: 10px;">Log Meal Eaten</button>
+                                <button class="button" style="background-color: var(--secondary-color); color: var(--secondary-text); margin-top: 10px;">Ask for Substitution</button>
+                            </div>
+                        </div>
+                    `
+                }
+            }
+        };
+
+        const mockupDiv = document.getElementById('mockups');
+        const controls = document.querySelector('.controls');
+        const desktopViewBtn = document.getElementById('desktop-view');
+        const mobileViewBtn = document.getElementById('mobile-view');
+        let currentDirection = 'direction1';
+        let currentView = 'desktop'; // 'desktop' or 'mobile'
+
+        function renderMockups() {
+            mockupDiv.innerHTML = '';
+            const direction = directions[currentDirection];
+
+            if (currentView === 'desktop') {
+                // Desktop view: two side-by-side mockups
+                mockupDiv.innerHTML = `
+                    <div class="mockup-wrapper">
+                        <div class="mockup-header">${direction.name} - Dashboard<span>(${direction.personality})</span></div>
+                        ${direction.screens.dashboard}
+                        <div class="mockup-description">Layout: ${direction.description.split('.')[0]}</div>
+                    </div>
+                    <div class="mockup-wrapper">
+                        <div class="mockup-header">${direction.name} - Plan Interaction<span>(${direction.personality})</span></div>
+                        ${direction.screens.planInteraction}
+                        <div class="mockup-description">Layout: ${direction.description.split('.')[0]}</div>
+                    </div>
+                `;
+                mockupDiv.style.flexDirection = 'row';
+            } else {
+                // Mobile view: single column, narrower mockups
+                mockupDiv.innerHTML = `
+                    <div class="mockup-wrapper" style="max-width: 375px;">
+                        <div class="mockup-header">${direction.name} - Dashboard<span>(Mobile)</span></div>
+                        ${direction.screens.dashboard}
+                        <div class="mockup-description">Layout: ${direction.description.split('.')[0]}</div>
+                    </div>
+                    <div class="mockup-wrapper" style="max-width: 375px;">
+                        <div class="mockup-header">${direction.name} - Plan Interaction<span>(Mobile)</span></div>
+                        ${direction.screens.planInteraction}
+                        <div class="mockup-description">Layout: ${direction.description.split('.')[0]}</div>
+                    </div>
+                `;
+                mockupDiv.style.flexDirection = 'column'; /* Arrange vertically for mobile simulation */
+            }
+        }
+
+        controls.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                controls.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                currentDirection = e.target.dataset.direction;
+                renderMockups();
+            }
+        });
+
+        desktopViewBtn.addEventListener('click', () => {
+            desktopViewBtn.classList.add('active');
+            mobileViewBtn.classList.remove('active');
+            currentView = 'desktop';
+            renderMockups();
+        });
+
+        mobileViewBtn.addEventListener('click', () => {
+            mobileViewBtn.classList.add('active');
+            desktopViewBtn.classList.remove('active');
+            currentView = 'mobile';
+            renderMockups();
+        });
+
+
+        // Initial render
+        renderMockups();
+    </script>
 </body>
 </html>
