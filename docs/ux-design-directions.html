@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Fitness Planner - Design Direction Showcase</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            transition: background-color 0.3s ease;
+        }
+        .showcase-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .showcase-nav {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            background-color: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .showcase-nav button {
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #edf2f7;
+            color: #4a5568;
+        }
+        .showcase-nav button.active,
+        .showcase-nav button:hover {
+            background-color: #4299e1;
+            color: #fff;
+            border-color: #2b6cb0;
+        }
+        .showcase-content {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .direction {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .direction.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .direction-header {
+            padding: 2rem;
+            text-align: center;
+            background-color: #f7fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .direction-header h2 {
+            margin: 0 0 0.5rem;
+            font-size: 2rem;
+            color: #2d3748;
+        }
+        .direction-header p {
+            margin: 0;
+            color: #718096;
+            max-width: 600px;
+            margin: auto;
+        }
+        .mockup-frame {
+            padding: 2rem;
+            background-color: #edf2f7;
+        }
+        .mockup-screen {
+            max-width: 1200px;
+            margin: auto;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        /* Common Component Styles */
+        .btn {
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            color: white;
+            background-color: #4299e1;
+        }
+        .btn:hover { background-color: #2b6cb0; }
+        .card {
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            background-color: #fff;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* --- Direction 1: The Dashboard --- */
+        #dir1 .mockup-screen { display: flex; height: 700px; }
+        #dir1 .sidebar {
+            width: 240px;
+            flex-shrink: 0;
+            background-color: #f7fafc;
+            border-right: 1px solid #e2e8f0;
+            padding: 1.5rem;
+        }
+        #dir1 .sidebar h3 { font-size: 1.2rem; margin: 0 0 2rem 0; color: #2d3748;}
+        #dir1 .sidebar a {
+            display: block;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        #dir1 .sidebar a.active, #dir1 .sidebar a:hover { background-color: #e2e8f0; color: #2d3748; }
+        #dir1 .main-content { flex-grow: 1; padding: 2rem; overflow-y: auto; }
+        #dir1 .main-content h1 { text-align: left; font-size: 1.8rem; margin: 0 0 2rem 0; }
+        #dir1 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        #dir1 .card h4 { margin: 0 0 1rem 0; font-size: 1.1rem; color: #4299e1; }
+        #dir1 .card ul { margin: 0; padding: 0; list-style: none; }
+        #dir1 .card li { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid #e2e8f0; }
+        #dir1 .card li:last-child { border: none; }
+
+        /* --- Direction 2: The Focused Task --- */
+        #dir2 .mockup-screen { background-color: #f7fafc; }
+        #dir2 .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: #fff; border-bottom: 1px solid #e2e8f0; }
+        #dir2 .top-nav h3 { margin: 0; font-size: 1.2rem; }
+        #dir2 .top-nav a { text-decoration: none; font-weight: 500; color: #718096; margin-left: 1.5rem; }
+        #dir2 .top-nav a.active { color: #4299e1; }
+        #dir2 .main-content { padding: 3rem 2rem; max-width: 800px; margin: auto; }
+        #dir2 h1 { text-align: left; font-size: 2rem; margin: 0 0 0.5rem 0; }
+        #dir2 p.subtitle { color: #718096; margin: 0 0 2.5rem 0; font-size: 1.1rem;}
+        #dir2 .task-card { background: #fff; margin-bottom: 1.5rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1.5rem; }
+        #dir2 .task-card h4 { margin: 0 0 1rem 0; font-size: 1.2rem; }
+        #dir2 .task-card .btn-group { display: flex; gap: 1rem; margin-top: 1rem; }
+
+        /* --- Direction 3: The Coach's Feed --- */
+        #dir3 .mockup-screen { background-color: #f7fafc; }
+        #dir3 .main-content { padding: 2rem; max-width: 700px; margin: auto; }
+        #dir3 .feed-item { display: flex; gap: 1rem; margin-bottom: 2rem; }
+        #dir3 .feed-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+        #dir3 .feed-content { border: 1px solid #e2e8f0; border-radius: 0.5rem; background: #fff; padding: 1.5rem; width: 100%; }
+        #dir3 .feed-content h4 { margin: 0 0 0.5rem 0; font-size: 1.1rem; }
+        #dir3 .feed-content p { margin: 0; color: #4a5568; }
+        #dir3 .feed-item.coach .feed-icon { background-color: #bee3f8; color: #2b6cb0; }
+        #dir3 .feed-item.user .feed-icon { background-color: #c6f6d5; color: #2f855a; }
+        #dir3 .feed-item.system .feed-icon { background-color: #e2e8f0; color: #718096; }
+
+    </style>
+</head>
+<body>
+
+    <div class="showcase-container">
+        <div class="showcase-nav">
+            <button onclick="showDirection('dir1')" class="active">1. The Dashboard</button>
+            <button onclick="showDirection('dir2')">2. The Focused Task</button>
+            <button onclick="showDirection('dir3')">3. The Coach's Feed</button>
+        </div>
+        <div class="showcase-content">
+
+            <!-- Direction 1: The Dashboard -->
+            <div id="dir1" class="direction active">
+                <div class="direction-header">
+                    <h2>Direction 1: The Dashboard</h2>
+                    <p>A classic, information-dense layout. This approach uses a sidebar for navigation and a main area filled with cards, giving the user a complete overview at a glance. Best for power users who want to see everything at once.</p>
+                </div>
+                <div class="mockup-frame">
+                    <div class="mockup-screen">
+                        <div class="sidebar">
+                            <h3>AI Fitness</h3>
+                            <nav>
+                                <a href="#" class="active">Dashboard</a>
+                                <a href="#">Meal Plan</a>
+                                <a href="#">Workout Plan</a>
+                                <a href="#">Progress</a>
+                                <a href="#">Profile</a>
+                            </nav>
+                        </div>
+                        <div class="main-content">
+                            <h1>Dashboard</h1>
+                            <div class="grid">
+                                <div class="card">
+                                    <h4>Today's Workout</h4>
+                                    <ul>
+                                        <li>Push-ups <button class="btn" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;">Log</button></li>
+                                        <li>Squats</li>
+                                        <li>Plank (60s)</li>
+                                    </ul>
+                                </div>
+                                <div class="card">
+                                    <h4>Today's Meals</h4>
+                                    <ul>
+                                        <li>Oatmeal & Berries</li>
+                                        <li>Chicken Salad</li>
+                                        <li>Salmon & Veggies</li>
+                                    </ul>
+                                </div>
+                                <div class="card" style="grid-column: 1 / -1;">
+                                    <h4>Weekly Progress</h4>
+                                    <p>Workouts Completed: 2 / 5</p>
+                                    <p>Calories Logged: 1200 / 2000 avg.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Direction 2: The Focused Task -->
+            <div id="dir2" class="direction">
+                <div class="direction-header">
+                    <h2>Direction 2: The Focused Task</h2>
+                    <p>A minimalist, single-column layout that prioritizes today's most important tasks. It reduces cognitive load and guides the user on what to do next. Best for users who prefer simplicity and a step-by-step approach.</p>
+                </div>
+                <div class="mockup-frame">
+                    <div class="mockup-screen">
+                        <nav class="top-nav">
+                            <h3>AI Fitness</h3>
+                            <div>
+                                <a href="#" class="active">Today</a>
+                                <a href="#">Plan</a>
+                                <a href="#">Progress</a>
+                                <a href="#">Profile</a>
+                            </div>
+                        </nav>
+                        <div class="main-content">
+                            <h1>Good Morning, BIP!</h1>
+                            <p class="subtitle">Here’s your focus for today, Sunday.</p>
+                            <div class="task-card">
+                                <h4>Your Next Workout</h4>
+                                <p>Full Body Strength</p>
+                                <div class="btn-group">
+                                    <button class="btn">Start Workout</button>
+                                </div>
+                            </div>
+                            <div class="task-card">
+                                <h4>Your Next Meal</h4>
+                                <p>Lunch: Chicken Salad</p>
+                                <div class="btn-group">
+                                    <button class="btn">Log Meal</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Direction 3: The Coach's Feed -->
+            <div id="dir3" class="direction">
+                 <div class="direction-header">
+                    <h2>Direction 3: The Coach's Feed</h2>
+                    <p>This approach presents the plan as a chronological timeline, like a conversation with your coach. It interleaves plan items with coaching tips and progress updates, creating a more narrative and guided experience.</p>
+                </div>
+                 <div class="mockup-frame">
+                    <div class="mockup-screen">
+                        <div class="main-content">
+                            <div class="feed-item coach">
+                                <div class="feed-icon">🤖</div>
+                                <div class="feed-content">
+                                    <h4>Your Plan for the Week is Ready!</h4>
+                                    <p>I've created a new plan focusing on building endurance. Let me know how the first workout feels!</p>
+                                </div>
+                            </div>
+                             <div class="feed-item user">
+                                <div class="feed-icon">👍</div>
+                                <div class="feed-content">
+                                    <h4>Workout Logged: Morning Run</h4>
+                                    <p>You rated the difficulty 3 out of 5. Great job!</p>
+                                </div>
+                            </div>
+                             <div class="feed-item system">
+                                <div class="feed-icon">💡</div>
+                                <div class="feed-content">
+                                    <h4>Coaching Tip</h4>
+                                    <p>Remember to stay hydrated! Drinking enough water is key for recovery and performance.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function showDirection(id) {
+            document.querySelectorAll('.direction').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            
+            document.querySelectorAll('.showcase-nav button').forEach(el => el.classList.remove('active'));
+            document.querySelector(`.showcase-nav button[onclick="showDirection('${id}')"]`).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>

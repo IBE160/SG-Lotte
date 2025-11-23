@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Fitness Planner - Color Theme Explorer</title>
+    <style>
+        :root {
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        }
+        body {
+            font-family: var(--font-sans);
+            background-color: #F7F9FC;
+            color: #1a202c;
+            margin: 0;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #2D3748;
+        }
+        p.intro {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #4A5568;
+            margin-bottom: 3rem;
+        }
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        .theme-card {
+            border: 1px solid #E2E8F0;
+            border-radius: 0.75rem;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+        .theme-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .theme-header h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+        }
+        .theme-header p {
+            margin: 0;
+            color: #718096;
+        }
+        .theme-body {
+            padding: 1.5rem;
+        }
+        .palette {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .swatch {
+            border-radius: 0.5rem;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0.5rem;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .swatch .label {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+        .components h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #A0AEC0;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #E2E8F0;
+            padding-bottom: 0.5rem;
+        }
+        .button-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .btn {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .btn.btn-primary { color: white; }
+        .btn.btn-secondary { background-color: transparent; }
+        .btn.btn-disabled {
+            cursor: not-allowed;
+            color: #A0AEC0 !important;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            border-width: 1px;
+            border-style: solid;
+        }
+        .card-example {
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        .card-example h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+        }
+        .card-example p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Theme 1: Calm & Focused */
+        .theme-1 .palette .swatch:nth-child(1) { background-color: #2F855A; } /* primary-500 */
+        .theme-1 .palette .swatch:nth-child(2) { background-color: #38A169; } /* primary-400 */
+        .theme-1 .palette .swatch:nth-child(3) { background-color: #4A5568; } /* neutral-600 */
+        .theme-1 .palette .swatch:nth-child(4) { background-color: #E2E8F0; } /* neutral-200 */
+        .theme-1 .palette .swatch:nth-child(5) { background-color: #F7FAFC; } /* neutral-50 */
+        .theme-1 .btn-primary { background-color: #2F855A; }
+        .theme-1 .btn-primary:hover { background-color: #276749; }
+        .theme-1 .btn-secondary { color: #2F855A; border: 1px solid #2F855A; }
+        .theme-1 .btn-secondary:hover { background-color: #C6F6D5; }
+        .theme-1 .btn-disabled { background-color: #E2E8F0; }
+        .theme-1 .alert.success { background-color: #C6F6D5; color: #22543D; border-color: #9AE6B4; }
+        .theme-1 .alert.error { background-color: #FED7D7; color: #822727; border-color: #FEB2B2; }
+        .theme-1 .card-example { background-color: #EDF2F7; border: 1px solid #E2E8F0; color: #2D3748 }
+        .theme-1 .card-example h4 { color: #2F855A; }
+
+        /* Theme 2: Energetic & Motivating */
+        .theme-2 .palette .swatch:nth-child(1) { background-color: #4299E1; } /* primary-500 */
+        .theme-2 .palette .swatch:nth-child(2) { background-color: #63B3ED; } /* primary-400 */
+        .theme-2 .palette .swatch:nth-child(3) { background-color: #1A202C; } /* neutral-900 */
+        .theme-2 .palette .swatch:nth-child(4) { background-color: #4A5568; } /* neutral-600 */
+        .theme-2 .palette .swatch:nth-child(5) { background-color: #F7FAFC; } /* neutral-50 */
+        .theme-2 .btn-primary { background-color: #4299E1; }
+        .theme-2 .btn-primary:hover { background-color: #2B6CB0; }
+        .theme-2 .btn-secondary { color: #4299E1; border: 1px solid #4299E1; }
+        .theme-2 .btn-secondary:hover { background-color: #EBF8FF; }
+        .theme-2 .btn-disabled { background-color: #EDF2F7; }
+        .theme-2 .alert.success { background-color: #C6F6D5; color: #22543D; border-color: #9AE6B4; }
+        .theme-2 .alert.error { background-color: #FED7D7; color: #822727; border-color: #FEB2B2; }
+        .theme-2 .card-example { background-color: #FFFFFF; border: 1px solid #E2E8F0; color: #2D3748 }
+        .theme-2 .card-example h4 { color: #4299E1; }
+
+        /* Theme 3: Sleek & Professional */
+        .theme-3 .palette .swatch:nth-child(1) { background-color: #5A67D8; } /* primary-500 */
+        .theme-3 .palette .swatch:nth-child(2) { background-color: #7F9CF5; } /* primary-400 */
+        .theme-3 .palette .swatch:nth-child(3) { background-color: #1A202C; } /* neutral-900 */
+        .theme-3 .palette .swatch:nth-child(4) { background-color: #718096; } /* neutral-500 */
+        .theme-3 .palette .swatch:nth-child(5) { background-color: #F7FAFC; } /* neutral-50 */
+        .theme-3 .btn-primary { background-color: #5A67D8; }
+        .theme-3 .btn-primary:hover { background-color: #434190; }
+        .theme-3 .btn-secondary { color: #5A67D8; border: 1px solid #5A67D8; }
+        .theme-3 .btn-secondary:hover { background-color: #EBF4FF; }
+        .theme-3 .btn-disabled { background-color: #E2E8F0; }
+        .theme-3 .alert.success { background-color: #E6FFFA; color: #234E52; border-color: #B2F5EA; }
+        .theme-3 .alert.error { background-color: #FFF5F5; color: #742A2A; border-color: #FEB2B2; }
+        .theme-3 .card-example { background-color: #1A202C; border: 1px solid #4A5568; color: #F7FAFC }
+        .theme-3 .card-example h4 { color: #7F9CF5; }
+        .theme-3 .card-example p { opacity: 0.7; }
+        .theme-3 { background-color: #171923; } /* Dark theme background */
+        .theme-3 h2, .theme-3 p, .theme-3 .components h3 { color: #E2E8F0; }
+
+        /* Theme 4: Vibrant & Approachable */
+        .theme-4 .palette .swatch:nth-child(1) { background-color: #DD6B20; } /* primary-500 */
+        .theme-4 .palette .swatch:nth-child(2) { background-color: #ED8936; } /* primary-400 */
+        .theme-4 .palette .swatch:nth-child(3) { background-color: #2D3748; } /* neutral-700 */
+        .theme-4 .palette .swatch:nth-child(4) { background-color: #A0AEC0; } /* neutral-400 */
+        .theme-4 .palette .swatch:nth-child(5) { background-color: #FFFFFF; } /* neutral-0 */
+        .theme-4 .btn-primary { background-color: #DD6B20; }
+        .theme-4 .btn-primary:hover { background-color: #C05621; }
+        .theme-4 .btn-secondary { color: #DD6B20; border: 1px solid #DD6B20; }
+        .theme-4 .btn-secondary:hover { background-color: #FEEBC8; }
+        .theme-4 .btn-disabled { background-color: #EDF2F7; }
+        .theme-4 .alert.success { background-color: #C6F6D5; color: #22543D; border-color: #9AE6B4; }
+        .theme-4 .alert.error { background-color: #FED7D7; color: #822727; border-color: #FEB2B2; }
+        .theme-4 .card-example { background-color: #FFFAF0; border: 1px solid #FEEBC8; color: #4A5568; }
+        .theme-4 .card-example h4 { color: #DD6B20; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Color Theme Explorer</h1>
+        <p class="intro">
+            Below are four distinct, clean, and modern color themes for the AI Fitness Planner.
+            <br>
+            Review each one and see which personality feels right for your vision.
+        </p>
+
+        <div class="theme-grid">
+            
+            <!-- Theme 1: Calm & Focused -->
+            <div class="theme-card theme-1">
+                <div class="theme-header">
+                    <h2>1. Calm & Focused</h2>
+                    <p>Trustworthy, serene, and health-oriented. This theme uses greens to create a feeling of well-being and progress.</p>
+                </div>
+                <div class="theme-body">
+                    <div class="palette">
+                        <div class="swatch"><div class="label">Primary</div>#2F855A</div>
+                        <div class="swatch"><div class="label">Accent</div>#38A169</div>
+                        <div class="swatch"><div class="label">Text</div>#4A5568</div>
+                        <div class="swatch" style="color:#4A5568;text-shadow:none;"><div class="label">Border</div>#E2E8F0</div>
+                        <div class="swatch" style="color:#4A5568;text-shadow:none;"><div class="label">BG</div>#F7FAFC</div>
+                    </div>
+                    <div class="components">
+                        <h3>Components</h3>
+                        <div class="button-row">
+                            <button class="btn btn-primary">Get Plan</button>
+                            <button class="btn btn-secondary">Log Workout</button>
+                            <button class="btn btn-disabled" disabled>Disabled</button>
+                        </div>
+                        <div class="alert success">Your new weekly plan is ready!</div>
+                        <div class="alert error">Failed to generate meal plan. Please try again.</div>
+                        <div class="card-example">
+                            <h4>Weekly Goal</h4>
+                            <p>Complete 4 workouts this week.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theme 2: Energetic & Motivating -->
+            <div class="theme-card theme-2">
+                <div class="theme-header">
+                    <h2>2. Energetic & Motivating</h2>
+                    <p>Crisp, modern, and optimistic. A bright, tech-inspired blue paired with dark text for high contrast and clarity.</p>
+                </div>
+                <div class="theme-body">
+                    <div class="palette">
+                        <div class="swatch"><div class="label">Primary</div>#4299E1</div>
+                        <div class="swatch"><div class="label">Accent</div>#63B3ED</div>
+                        <div class="swatch"><div class="label">Text</div>#1A202C</div>
+                        <div class="swatch"><div class="label">Subtle</div>#4A5568</div>
+                        <div class="swatch" style="color:#4A5568;text-shadow:none;"><div class="label">BG</div>#F7FAFC</div>
+                    </div>
+                     <div class="components">
+                        <h3>Components</h3>
+                        <div class="button-row">
+                            <button class="btn btn-primary">Get Plan</button>
+                            <button class="btn btn-secondary">Log Workout</button>
+                            <button class="btn btn-disabled" disabled>Disabled</button>
+                        </div>
+                        <div class="alert success">Your new weekly plan is ready!</div>
+                        <div class="alert error">Failed to generate meal plan. Please try again.</div>
+                        <div class="card-example">
+                            <h4>Weekly Goal</h4>
+                            <p>Complete 4 workouts this week.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theme 3: Sleek & Professional -->
+            <div class="theme-card theme-3">
+                <div class="theme-header">
+                    <h2>3. Sleek & Professional</h2>
+                    <p>A sophisticated dark mode theme. It feels focused, premium, and easy on the eyes, with a strong accent for actions.</p>
+                </div>
+                <div class="theme-body">
+                    <div class="palette">
+                        <div class="swatch"><div class="label">Primary</div>#5A67D8</div>
+                        <div class="swatch"><div class="label">Accent</div>#7F9CF5</div>
+                        <div class="swatch" style="color:#A0AEC0;text-shadow:none;"><div class="label">Text</div>#F7FAFC</div>
+                        <div class="swatch"><div class="label">Subtle</div>#718096</div>
+                        <div class="swatch"><div class="label">BG</div>#1A202C</div>
+                    </div>
+                     <div class="components">
+                        <h3>Components</h3>
+                        <div class="button-row">
+                            <button class="btn btn-primary">Get Plan</button>
+                            <button class="btn btn-secondary">Log Workout</button>
+                            <button class="btn btn-disabled" disabled>Disabled</button>
+                        </div>
+                        <div class="alert success">Your new weekly plan is ready!</div>
+                        <div class="alert error">Failed to generate meal plan. Please try again.</div>
+                        <div class="card-example">
+                            <h4>Weekly Goal</h4>
+                            <p>Complete 4 workouts this week.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Theme 4: Vibrant & Approachable -->
+            <div class="theme-card theme-4">
+                <div class="theme-header">
+                    <h2>4. Vibrant & Approachable</h2>
+                    <p>Warm, friendly, and encouraging. This theme feels less like a strict app and more like a helpful, positive guide.</p>
+                </div>
+                <div class="theme-body">
+                    <div class="palette">
+                        <div class="swatch"><div class="label">Primary</div>#DD6B20</div>
+                        <div class="swatch"><div class="label">Accent</div>#ED8936</div>
+                        <div class="swatch"><div class="label">Text</div>#2D3748</div>
+                        <div class="swatch"><div class="label">Subtle</div>#A0AEC0</div>
+                        <div class="swatch" style="color:#4A5568;text-shadow:none;"><div class="label">BG</div>#FFFAF0</div>
+                    </div>
+                     <div class="components">
+                        <h3>Components</h3>
+                        <div class="button-row">
+                            <button class="btn btn-primary">Get Plan</button>
+                            <button class="btn btn-secondary">Log Workout</button>
+                            <button class="btn btn-disabled" disabled>Disabled</button>
+                        </div>
+                        <div class="alert success">Your new weekly plan is ready!</div>
+                        <div class="alert error">Failed to generate meal plan. Please try again.</div>
+                        <div class="card-example">
+                            <h4>Weekly Goal</h4>
+                            <p>Complete 4 workouts this week.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
