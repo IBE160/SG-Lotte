@@ -83,10 +83,72 @@ These principles will guide every UX decision for the AI Fitness & Meal Planner:
 
 ### 3.1 Color System
 
+The chosen color theme is **"Earthy"**, designed to evoke a natural, balanced, and approachable feel, aligning with the project's goals of promoting long-term health and consistency.
+
+**Palette:**
+-   **Primary:** `#84CC16` (Vibrant Green) - Used for primary actions, key interactive elements, and accents to convey vitality and progress.
+-   **Secondary:** `#A1A1AA` (Medium Gray) - Used for supporting actions, subtle distinctions, and secondary information.
+-   **Background:** `#FEFCE8` (Light Cream/Yellow) - Provides a soft, warm, and inviting backdrop for content.
+-   **Text:** `#3F3F46` (Dark Gray) - Ensures high readability against the light background.
+-   **Success:** `#22C55E` (Green) - Used for positive feedback and successful operations.
+-   **Error:** `#EF4444` (Red) - Used for critical errors and warnings.
+-   **Warning/Info:** (To be defined, likely a yellow/orange tone based on the palette).
+-   **Neutral Scale:** Grays for borders, inactive states, and subtle UI elements (based on Tailwind's default gray scale).
+
+### 3.2 Typography System
+
+Leveraging `shadcn/ui` and Tailwind CSS, the typography will be clean, modern, and highly readable, reflecting the minimalist design approach.
+
+-   **Font Families:** System default sans-serif fonts will be prioritized for optimal performance and native feel across devices (e.g., `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`). A monospace font will be used sparingly for specific data or code displays.
+-   **Type Scale:** A modular type scale will be established using Tailwind CSS utilities (e.g., `text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl`, `text-2xl`, `text-3xl`, `text-4xl` for headings).
+-   **Font Weights:** `Normal`, `Medium`, `Semibold`, and `Bold` weights will be used to create clear visual hierarchy, with `normal` for body text and `semibold`/`bold` for headings and emphasized text.
+-   **Line Heights:** Optimized for readability using Tailwind's default line-height utilities.
+
+### 3.3 Spacing and Layout Foundation
+
+A consistent spacing and layout system, based on a grid, will ensure visual harmony and responsive behavior.
+
+-   **Base Unit:** A 4px base unit will be used for all spacing and sizing, adhering to Tailwind CSS conventions (e.g., `4px`, `8px`, `12px`, `16px`, `24px`, etc.).
+-   **Spacing Scale:** Tailwind's comprehensive spacing scale will be utilized for margins, padding, and gaps (`p-x`, `m-x`, `gap-x`).
+-   **Layout Grid:** A flexible 12-column grid system will be implemented to provide robust structure for responsive layouts, easily achievable with Tailwind CSS's flexbox and grid utilities.
+-   **Container Widths:** Content will be constrained within responsive max-width containers (`max-w-screen-sm` to `max-w-screen-2xl`) to ensure optimal line length and readability on various screen sizes.
+
+**Interactive Visualizations:**
+
+- Color Theme Explorer: [ux-color-themes.html](./ux-color-themes.html)
+
+---
+
+## 4. Design Direction
 
 ### 4.1 Chosen Design Approach
 
-{{design_direction_decision}}
+The chosen design approach is **"Card-Centric Progress"**. This direction emphasizes clear visual feedback and digestible information, aligning strongly with the project's goals of motivating users and making progress easy to track.
+
+**Key Design Decisions based on "Card-Centric Progress":**
+
+-   **Layout Decisions:**
+    -   **Navigation Pattern:** A clear, perhaps sidebar-like, navigation will provide structured access to different sections of the app, while key daily content is presented centrally.
+    -   **Content Structure:** Information will be organized into a grid of cards, making daily plans and progress overview easily scannable.
+    -   **Content Organization:** Each card will represent a distinct unit of information (e.g., a day's workout, a day's meals, a weekly progress summary), providing digestible chunks of content.
+
+-   **Hierarchy Decisions:**
+    -   **Visual Density:** The design will maintain a balanced visual density, ensuring each card is a clear and distinct unit of information without feeling overwhelming.
+    -   **Header Emphasis:** Clear, concise headings within each card will guide user attention, and the card structure itself will provide inherent emphasis for important content.
+    -   **Content Focus:** Progress indicators (e.g., checkmarks, progress bars, simple charts) will be prominent, visually emphasizing user achievements and adherence.
+
+-   **Interaction Decisions:**
+    -   **Primary Action Pattern:** Tapping or clicking on a card will expand it to reveal more details and provide logging options (e.g., "Log Workout," "View Meal Details"). This promotes progressive disclosure.
+    -   **Information Disclosure:** Details will be revealed progressively, keeping the main dashboard clean and focused while allowing users to delve deeper when needed.
+    -   **User Control:** Clear logging actions and options for customization will be integrated directly into the cards or detail views, empowering users to manage their plans efficiently.
+
+-   **Visual Style Decisions:**
+    -   **Weight:** The design will feature a balanced visual weight, providing clear structure and definition to cards and other UI elements without appearing heavy.
+    -   **Depth Cues:** Subtle shadows or borders on cards will suggest depth and interactivity, making elements feel tangible and clickable.
+    -   **Border Style:** Subtle borders will be used to define card boundaries and other content areas, maintaining a clean aesthetic.
+
+**Rationale for Selection:**
+The "Card-Centric Progress" approach was chosen because it directly supports the desired user experience of feeling "motivated and effective" and finding it "easy to get progress." The visual emphasis on digestible cards and clear progress indicators makes the application intuitive and rewarding to use, aligning with insights from successful tracking apps.
 
 **Interactive Mockups:**
 
@@ -98,19 +160,65 @@ These principles will guide every UX decision for the AI Fitness & Meal Planner:
 
 ### 5.1 Critical User Paths
 
-{{user_journey_flows}}
+#### User Journey: Onboarding & First Plan Generation
+
+-   **User Goal:** To successfully sign up, provide initial preferences, and receive their first AI-generated weekly workout and meal plan.
+-   **Approach:** Guided, progressive onboarding with clear feedback and a focus on minimizing initial friction.
+
+**Flow Steps:**
+
+1.  **Entry (Landing Page)**
+    -   **User sees:** A clean, simple landing page with the core value proposition and a prominent Call-to-Action (CTA): "Get Your AI-Powered Plan".
+    -   **User does:** Clicks "Get Your AI-Powered Plan".
+    -   **System responds:** Navigates to the first step of the onboarding process.
+
+2.  **Account Creation (Onboarding Step 1)**
+    -   **User sees:** Simple form for Email and Password, or options for Social Login (e.g., Google). Clear progress indicator (e.g., "Step 1 of 4").
+    -   **User does:** Enters credentials or selects social login.
+    -   **System responds:** Creates account, moves to the next onboarding step.
+
+3.  **Core Goal Selection (Onboarding Step 2)**
+    -   **User sees:** A question: "What is your primary goal?" with large, visually distinct clickable cards for options (e.g., "Lose Weight," "Build Muscle," "Improve Fitness").
+    -   **User does:** Selects their primary goal.
+    -   **System responds:** Records goal, moves to the next onboarding step.
+
+4.  **Dietary Preference (Onboarding Step 3)**
+    -   **User sees:** A question: "Do you have any dietary preferences?" with options (e.g., "Anything," "Vegetarian," "Vegan," "Gluten-Free").
+    -   **User does:** Selects their dietary preference.
+    -   **System responds:** Records preference, moves to the next onboarding step.
+
+5.  **Basic Profile (Onboarding Step 4)**
+    -   **User sees:** Minimal form for Age, Gender, and Activity Level.
+    -   **User does:** Inputs requested information.
+    -   **System responds:** Records information, initiates plan generation process, displays a loading screen.
+
+6.  **Plan Generation (Loading Screen)**
+    -   **User sees:** An engaging loading screen with messages like "Analyzing your goals...", "Crafting your workouts...", "Personalizing your meals...".
+    -   **User does:** Waits.
+    -   **System responds:** Completes plan generation, moves to the success screen.
+    -   **Emotional Goal:** User feels anticipation and excitement; reinforced belief in AI magic.
+
+7.  **Success & First Value (Plan Ready Screen)**
+    -   **User sees:** A clear message: "Your First Plan is Ready!" with a prominent CTA: "View My Plan".
+    -   **User does:** Clicks "View My Plan".
+    -   **System responds:** Navigates to the Dashboard, showing the plan for "Today."
+
+**Mermaid Diagram:**
+```mermaid
+graph TD
+    A[Landing Page] --> B{Click "Get Your AI-Powered Plan"}
+    B --> C[Onboarding: Account Creation]
+    C --> D[Onboarding: Core Goal Selection]
+    D --> E[Onboarding: Dietary Preference]
+    E --> F[Onboarding: Basic Profile]
+    F --> G[Loading Screen: Generating Plan]
+    G --> H[Success Screen: "Your First Plan is Ready!"]
+    H --> I[Dashboard: View Today's Plan]
+```
 
 ---
 
 ## 6. Component Library
-
-### 6.1 Component Strategy
-
-{{component_library_strategy}}
-
----
-
-## 7. UX Pattern Decisions
 
 ### 7.1 Consistency Rules
 

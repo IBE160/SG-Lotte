@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Direction Showcase - AI Fitness & Meal Planner</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #FEFCE8; color: #3F3F46; }
+        .container { max-width: 1400px; margin: auto; padding: 2rem; }
+        h1, h2 { text-align: center; margin-bottom: 2rem; color: #3F3F46; }
+        .direction-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 2.5rem; }
+        .direction-card { border: 1px solid #D1D5DB; border-radius: 0.75rem; overflow: hidden; background-color: #FFFFFF; box-shadow: 0 10px 15px rgba(0,0,0,0.1); transition: transform 0.2s ease-in-out; }
+        .direction-card:hover { transform: translateY(-5px); }
+        .mockup-container { width: 100%; height: 300px; background-color: #F3F4F6; display: flex; align-items: flex-start; justify-content: center; padding: 1rem; position: relative; overflow: hidden; border-bottom: 1px solid #E5E7EB;}
+        .mockup-content { width: 90%; height: 100%; border-radius: 0.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.2); overflow-y: auto; background-color: white; border: 1px solid #E5E7EB; }
+        .direction-info { padding: 1.5rem; }
+        .direction-info h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; color: #3F3F46; }
+        .direction-info p { font-size: 0.95rem; color: #6B7280; margin-bottom: 1rem; line-height: 1.5; }
+        .characteristics li { margin-bottom: 0.5rem; font-size: 0.9rem; color: #4B5563; }
+        .characteristics strong { color: #3F3F46; }
+
+        /* Earthy Theme Colors (from previous step) */
+        :root {
+            --primary: #84CC16;
+            --secondary: #A1A1AA;
+            --background: #FEFCE8;
+            --text: #3F3F46;
+            --success: #22C55E;
+            --error: #EF4444;
+        }
+
+        /* Common Styles for Mockup Elements */
+        .mockup-nav { background-color: var(--primary); padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; color: white; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; }
+        .mockup-nav-item { margin-left: 1rem; font-size: 0.9rem; }
+        .mockup-header { padding: 1rem; border-bottom: 1px solid #E5E7EB; display: flex; justify-content: space-between; align-items: center; }
+        .mockup-card { background-color: #F9FAFB; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .mockup-btn { padding: 0.5rem 1rem; border-radius: 0.375rem; font-size: 0.875rem; cursor: pointer; border: none; }
+        .mockup-btn-primary { background-color: var(--primary); color: white; }
+        .mockup-btn-secondary { background-color: var(--secondary); color: white; }
+        .mockup-text-primary { color: var(--primary); }
+        .mockup-text-secondary { color: var(--secondary); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎨 Design Direction Showcase</h1>
+        <p class="text-center max-w-2xl mx-auto text-gray-600 mb-8">
+            Explore four distinct design approaches for the AI Fitness & Meal Planner's Dashboard. Each direction showcases a different visual philosophy and interaction style, applying the chosen "Earthy" color theme.
+        </p>
+
+        <div class="direction-grid">
+
+            <!-- Design Direction 1: Minimalist Dashboard & Quick Log -->
+            <div class="direction-card">
+                <div class="mockup-container">
+                    <div class="mockup-content p-4">
+                        <div class="mockup-header">
+                            <span class="text-lg font-semibold">Dashboard</span>
+                            <div class="flex items-center">
+                                <span class="mockup-nav-item text-sm">Profile</span>
+                                <span class="mockup-nav-item text-sm">Settings</span>
+                            </div>
+                        </div>
+                        <h2 class="text-2xl font-bold mt-4 mb-2">Today's Focus</h2>
+                        <div class="mockup-card">
+                            <h4 class="text-lg font-semibold mb-2">Morning Workout: Full Body Strength</h4>
+                            <p class="text-sm text-gray-600 mb-3">45 min · 150 kcal</p>
+                            <div class="flex justify-between items-center">
+                                <span class="mockup-text-primary font-medium">3/5 Exercises Completed</span>
+                                <button class="mockup-btn mockup-btn-primary">Log Workout</button>
+                            </div>
+                        </div>
+                        <div class="mockup-card">
+                            <h4 class="text-lg font-semibold mb-2">Lunch: Chicken Salad</h4>
+                            <p class="text-sm text-gray-600 mb-3">550 kcal · 40g Protein</p>
+                            <div class="flex justify-between items-center">
+                                <span class="mockup-text-primary font-medium">Logged</span>
+                                <button class="mockup-btn mockup-btn-secondary">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="direction-info">
+                    <h3>1. Minimalist Dashboard & Quick Log</h3>
+                    <p>
+                        **Philosophy:** Efficiency & Clarity. A clean, spacious interface prioritizing the current day's most important tasks.
+                        Emphasizes quick actions and clear visual separation.
+                    </p>
+                    <ul class="characteristics list-disc pl-5">
+                        <li><strong>Layout:</strong> Simple top navigation, focused "Today's Plan" card.</li>
+                        <li><strong>Visual Hierarchy:</strong> Very spacious, large text for current activity, clear separation.</li>
+                        <li><strong>Interaction:</strong> Inline quick-log buttons directly on cards. Customization is a dedicated action.</li>
+                        <li><strong>Visual Weight:</strong> Minimalist, lots of white space.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Design Direction 2: Card-Centric Progress -->
+            <div class="direction-card">
+                <div class="mockup-container">
+                    <div class="mockup-content p-4">
+                        <div class="mockup-nav">
+                            <span class="font-bold text-lg">AI Planner</span>
+                            <div>
+                                <span class="mockup-nav-item">Dashboard</span>
+                                <span class="mockup-nav-item">Plans</span>
+                                <span class="mockup-nav-item">Log</span>
+                            </div>
+                        </div>
+                        <h2 class="text-xl font-bold mt-4 mb-3">Your Week at a Glance</h2>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="mockup-card">
+                                <h4 class="font-semibold text-base mb-1">Mon Workout</h4>
+                                <p class="text-xs text-gray-500 mb-2">Full Body</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="mockup-text-primary text-sm">Completed</span>
+                                    <button class="mockup-btn mockup-btn-primary py-1 px-2">Log</button>
+                                </div>
+                            </div>
+                            <div class="mockup-card">
+                                <h4 class="font-semibold text-base mb-1">Mon Meals</h4>
+                                <p class="text-xs text-gray-500 mb-2">3/3 Logged</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="mockup-text-primary text-sm">Completed</span>
+                                    <button class="mockup-btn mockup-btn-primary py-1 px-2">Log</button>
+                                </div>
+                            </div>
+                            <!-- ... more days -->
+                        </div>
+                        <div class="mockup-card mt-4">
+                            <h4 class="text-base font-semibold mb-2">Weekly Goal Progress</h4>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="h-2.5 rounded-full" style="width: 75%; background-color: var(--primary);"></div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">75% towards Weight Loss</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="direction-info">
+                    <h3>2. Card-Centric Progress</h3>
+                    <p>
+                        **Philosophy:** Motivation & Visual Progress. Presents information in digestible cards,
+                        visually emphasizing progress and making it easy to scan the week.
+                    </p>
+                    <ul class="characteristics list-disc pl-5">
+                        <li><strong>Layout:</strong> Grid of cards for daily plans and progress. Sidebar-like nav (illustrated by top nav).</li>
+                        <li><strong>Visual Hierarchy:</strong> Balanced, each card is a clear unit of info. Progress indicators prominent.</li>
+                        <li><strong>Interaction:</strong> Card tap expands for details/logging.</li>
+                        <li><strong>Visual Weight:</strong> Balanced, clear structure with moderate visual weight.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Design Direction 3: Guided Planner -->
+            <div class="direction-card">
+                <div class="mockup-container">
+                    <div class="mockup-content p-4">
+                        <div class="mockup-nav">
+                            <span class="text-lg font-semibold">AI Planner</span>
+                            <span class="mockup-nav-item">Settings</span>
+                        </div>
+                        <h2 class="text-2xl font-bold mt-4 mb-2">Your New Weekly Plan is Ready!</h2>
+                        <p class="text-sm text-gray-600 mb-4">Based on your amazing progress last week, here's what's next.</p>
+                        <div class="mockup-card bg-gray-50">
+                            <h4 class="text-lg font-semibold mb-2">Step 1: Review Your Workout Plan</h4>
+                            <p class="text-sm text-gray-600 mb-3">AI adjusted intensity for optimal gains.</p>
+                            <button class="mockup-btn mockup-btn-primary w-full">Review Workouts</button>
+                        </div>
+                        <div class="mockup-card bg-gray-50">
+                            <h4 class="text-lg font-semibold mb-2">Step 2: Review Your Meal Plan</h4>
+                            <p class="text-sm text-gray-600 mb-3">New recipes included for variety!</p>
+                            <button class="mockup-btn mockup-btn-secondary w-full">Review Meals</button>
+                        </div>
+                        <div class="flex justify-center mt-4">
+                            <button class="mockup-btn bg-white border border-gray-300 text-gray-700">Customize Full Plan</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="direction-info">
+                    <h3>3. Guided Planner</h3>
+                    <p>
+                        **Philosophy:** Guidance & Ease of Use. Leads users through key steps,
+                        especially for new plan generation and adaptation, making complex processes feel simple.
+                    </p>
+                    <ul class="characteristics list-disc pl-5">
+                        <li><strong>Layout:</strong> Wizard-like flow for plan review and customization. Clear top nav.</li>
+                        <li><strong>Visual Hierarchy:</strong> Prominent current task, clear calls to action.</li>
+                        <li><strong>Interaction:</strong> Explicit "next step" buttons. AI suggestions are interactive options.</li>
+                        <li><strong>Visual Weight:</strong> Balanced, clear pathways and focus.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Design Direction 4: Data-Driven Customizer -->
+            <div class="direction-card">
+                <div class="mockup-container">
+                    <div class="mockup-content p-4">
+                        <div class="mockup-nav">
+                            <span class="text-lg font-semibold">AI Planner</span>
+                            <div class="flex items-center">
+                                <span class="mockup-nav-item">Dashboard</span>
+                                <span class="mockup-nav-item">Analytics</span>
+                            </div>
+                        </div>
+                        <h2 class="text-2xl font-bold mt-4 mb-2">Weekly Performance & Plans</h2>
+                        <div class="mockup-card">
+                            <h4 class="text-lg font-semibold mb-2">Workout Progress</h4>
+                            <div class="h-24 bg-gray-200 flex items-center justify-center text-sm text-gray-500">[Chart Placeholder]</div>
+                            <p class="text-sm text-gray-600 mt-2">Overall strength increased by 7%!</p>
+                        </div>
+                        <div class="mockup-card">
+                            <h4 class="text-lg font-semibold mb-2">Meal Plan (Current)</h4>
+                            <ul class="list-disc pl-5 text-sm text-gray-700">
+                                <li>Monday: Balanced Meal A (550 kcal)</li>
+                                <li>Tuesday: High Protein Meal B (600 kcal)</li>
+                                <li>...</li>
+                            </ul>
+                            <div class="flex justify-end mt-3">
+                                <button class="mockup-btn mockup-btn-primary">Customize Plan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="direction-info">
+                    <h3>4. Data-Driven Customizer</h3>
+                    <p>
+                        **Philosophy:** Flexibility & Control. Focuses on data and detailed plan views,
+                        offering users powerful tools for granular customization and analysis.
+                    </p>
+                    <ul class="characteristics list-disc pl-5">
+                        <li><strong>Layout:</strong> Dashboard centered on metrics and data. Detailed lists for plans.</li>
+                        <li><strong>Visual Hierarchy:</strong> Denser with more data points visible, organized clearly.</li>
+                        <li><strong>Interaction:</strong> Direct manipulation of plan elements (e.g., inline editing, drag-and-drop concepts).</li>
+                        <li><strong>Visual Weight:</strong> Balanced to rich, allowing for more information density.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
