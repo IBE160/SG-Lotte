@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Coach - Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#3f9ae4",
+              "background-light": "#f6f7f8",
+              "background-dark": "#111a21",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="flex min-h-screen">
+<div class="w-64 bg-white dark:bg-zinc-900/50 p-4 flex flex-col justify-between border-r border-gray-200 dark:border-zinc-800">
+<div class="flex flex-col gap-4">
+<div class="flex gap-3 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="AI Coach logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDz9aixAgUoVVu_l9E1x13aqFAH921R-DJV3uWBtd3_UQnsuuLVTLi5Xkcx8HBD0e6H3zEhxgFEKFSg7AFVaMVBcKvnNoPqtAfHMYwnJEwuyc4suT_VUwEZVNf08LGpRDpwA33LEUkytFvrLDLoyo8IZ3B72qgy1uw7rFdTWV3RuOOEUKL5Sn-ISAO70VAYUk0Fy3Itdg3pRzJhxas6_ba_Oc8imbj2ucNqTCmVGvuM3GYLov4uIa7GmNd995IIM_KwAIN92s0TwDX7");'></div>
+<div class="flex flex-col">
+<h1 class="text-zinc-900 dark:text-zinc-100 text-base font-medium leading-normal">AI Coach</h1>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm font-normal leading-normal">Fitness &amp; Meal Plan</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 pt-4">
+<a class="flex items-center gap-3 px-3 py-2 text-zinc-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-zinc-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<p class="text-sm font-medium leading-normal">Workout</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-zinc-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">restaurant</span>
+<p class="text-sm font-medium leading-normal">Meal Plan</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-zinc-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+<p class="text-sm font-medium leading-normal">Progress</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-zinc-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<p class="text-sm font-medium leading-normal">Help</p>
+</a>
+</div>
+</div>
+<main class="flex-1 p-8">
+<div class="max-w-4xl mx-auto flex flex-col gap-8">
+<div class="flex flex-wrap justify-between gap-3">
+<div class="flex min-w-72 flex-col gap-2">
+<p class="text-zinc-900 dark:text-zinc-100 text-4xl font-black leading-tight tracking-[-0.033em]">Settings</p>
+<p class="text-zinc-500 dark:text-zinc-400 text-base font-normal leading-normal">Manage your app preferences and account details.</p>
+</div>
+</div>
+<div class="bg-white dark:bg-zinc-900/50 rounded-xl p-6">
+<h2 class="text-zinc-900 dark:text-zinc-100 text-[22px] font-bold leading-tight tracking-[-0.015em] pb-5">App Settings</h2>
+<div class="border-t border-gray-200 dark:border-zinc-800 pt-5">
+<div class="flex items-center gap-4 min-h-14 justify-between">
+<div class="flex items-center gap-4">
+<div class="text-zinc-900 dark:text-zinc-100 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-zinc-800 shrink-0 size-10">
+<span class="material-symbols-outlined">dark_mode</span>
+</div>
+<div class="flex flex-col">
+<p class="text-zinc-900 dark:text-zinc-100 text-base font-medium leading-normal flex-1 truncate">Dark Mode</p>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm">Switch between light and dark themes.</p>
+</div>
+</div>
+<div class="shrink-0">
+<label class="relative flex h-8 w-14 cursor-pointer items-center rounded-full bg-gray-200 dark:bg-zinc-800 p-1 has-[:checked]:bg-primary">
+<div class="h-6 w-6 rounded-full bg-white transition-transform transform translate-x-0 has-[:checked]:+translate-x-6" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px, rgba(0, 0, 0, 0.06) 0px 1px 2px;"></div>
+<input class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-zinc-900/50 rounded-xl p-6">
+<h2 class="text-zinc-900 dark:text-zinc-100 text-[22px] font-bold leading-tight tracking-[-0.015em] pb-5">Notification Preferences</h2>
+<div class="divide-y divide-gray-200 dark:divide-zinc-800 border-t border-gray-200 dark:border-zinc-800">
+<div class="flex items-center gap-4 min-h-14 justify-between py-4">
+<div class="flex flex-col">
+<p class="text-zinc-900 dark:text-zinc-100 text-base font-medium leading-normal">Push Notifications</p>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm">Receive alerts directly on your device.</p>
+</div>
+<div class="shrink-0">
+<label class="relative flex h-8 w-14 cursor-pointer items-center rounded-full bg-gray-200 dark:bg-zinc-800 p-1 has-[:checked]:bg-primary">
+<div class="h-6 w-6 rounded-full bg-white transition-transform transform translate-x-0 has-[:checked]:+translate-x-6" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px, rgba(0, 0, 0, 0.06) 0px 1px 2px;"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<div class="flex items-center gap-4 min-h-14 justify-between py-4">
+<div class="flex flex-col">
+<p class="text-zinc-900 dark:text-zinc-100 text-base font-medium leading-normal">Email Alerts</p>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm">Get summaries and updates via email.</p>
+</div>
+<div class="shrink-0">
+<label class="relative flex h-8 w-14 cursor-pointer items-center rounded-full bg-gray-200 dark:bg-zinc-800 p-1 has-[:checked]:bg-primary">
+<div class="h-6 w-6 rounded-full bg-white transition-transform transform translate-x-0 has-[:checked]:+translate-x-6" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px, rgba(0, 0, 0, 0.06) 0px 1px 2px;"></div>
+<input class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<div class="flex items-center gap-4 min-h-14 justify-between py-4">
+<div class="flex flex-col">
+<p class="text-zinc-900 dark:text-zinc-100 text-base font-medium leading-normal">Sound Settings</p>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm">Enable or disable notification sounds.</p>
+</div>
+<div class="shrink-0">
+<label class="relative flex h-8 w-14 cursor-pointer items-center rounded-full bg-gray-200 dark:bg-zinc-800 p-1 has-[:checked]:bg-primary">
+<div class="h-6 w-6 rounded-full bg-white transition-transform transform translate-x-0 has-[:checked]:+translate-x-6" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px, rgba(0, 0, 0, 0.06) 0px 1px 2px;"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-zinc-900/50 rounded-xl p-6">
+<h2 class="text-zinc-900 dark:text-zinc-100 text-[22px] font-bold leading-tight tracking-[-0.015em] pb-5">Account Management</h2>
+<div class="divide-y divide-gray-200 dark:divide-zinc-800 border-t border-gray-200 dark:border-zinc-800">
+<div class="flex items-center gap-4 min-h-14 justify-between py-4">
+<div class="flex flex-col">
+<p class="text-zinc-900 dark:text-zinc-100 text-base font-medium leading-normal">Change Password</p>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm">Update your account password.</p>
+</div>
+<div class="shrink-0">
+<button class="px-4 py-2 text-sm font-medium text-primary bg-primary/10 hover:bg-primary/20 rounded-lg">Change</button>
+</div>
+</div>
+<div class="flex items-center gap-4 min-h-14 justify-between py-4">
+<div class="flex flex-col">
+<p class="text-zinc-900 dark:text-zinc-100 text-base font-medium leading-normal">Update Profile</p>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm">Edit your personal information.</p>
+</div>
+<div class="shrink-0">
+<button class="px-4 py-2 text-sm font-medium text-primary bg-primary/10 hover:bg-primary/20 rounded-lg">Update</button>
+</div>
+</div>
+<div class="flex items-center gap-4 min-h-14 justify-between py-4">
+<div class="flex flex-col">
+<p class="text-zinc-900 dark:text-zinc-100 text-base font-medium leading-normal">Delete Account</p>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm">Permanently delete your account and data.</p>
+</div>
+<div class="shrink-0">
+<button class="px-4 py-2 text-sm font-medium text-red-500 bg-red-500/10 hover:bg-red-500/20 rounded-lg">Delete</button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end gap-3 pt-4">
+<button class="px-5 py-2.5 text-sm font-medium text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-700">Cancel</button>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:opacity-90">Save Changes</button>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

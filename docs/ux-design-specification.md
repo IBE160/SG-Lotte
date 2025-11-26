@@ -93,55 +93,46 @@ These four principles will guide every design decision to ensure the final produ
 
 ## 3. Visual Foundation
 
-### 3.1 Color System
+The application's visual foundation is based on the provided wireframes, emphasizing a clean, modern aesthetic that is both professional and motivating. It supports both light and dark modes, allowing users to choose their preferred appearance.
 
 ### 3.1 Color System
 
-The application will feature both a **Light Mode** and a **Dark Mode**, allowing users to choose the experience that's most comfortable for them. The brand's primary accent color will be a vibrant, energetic blue, ensuring consistency across both themes.
+The color system is designed for clarity, readability, and visual appeal, with a consistent primary accent for branding.
 
-- **Primary Accent:** `#4299E1` (Energetic Blue)
-- **Secondary Accent:** `#63B3ED` (Lighter Blue)
+-   **Primary Accent:** `#4199e1` (Energetic Blue)
 
-#### Light Mode (Default)
-Inspired by the "Energetic & Motivating" theme, the light mode is designed to feel crisp, clean, and optimistic.
+#### Light Mode Palette
+-   **Background:** `#F4F4F5` (Subtle Zinc)
+-   **Content/Card Background:** `#FFFFFF` (White)
+-   **Primary Text:** `#1A202C` (Near Black)
+-   **Secondary Text:** `#64748B` (Muted Slate)
+-   **Borders:** `#E2E8F0` (Light Slate)
 
-- **Background:** `#FFFFFF` (White) / `#F7FAFC` (Subtle Gray)
-- **Text:** `#1A202C` (Near Black)
-- **Borders & Dividers:** `#E2E8F0`
-
-#### Dark Mode
-Inspired by the "Sleek & Professional" theme, the dark mode is focused, easy on the eyes, and feels premium. It uses the same primary blue accent to maintain brand identity.
-
-- **Background:** `#1A202C` (Near Black) / `#2D3748` (Dark Gray)
-- **Text:** `#F7FAFC` (Off White)
-- **Borders & Dividers:** `#4A5568`
+#### Dark Mode Palette
+-   **Background:** `#1A202C` (Primary Dark Background)
+-   **Content/Card Background:** `#2D3748` (Dark Surface)
+-   **Primary Text:** `#F7FAFC` (Off White)
+-   **Secondary Text:** `#A0AEC0` (Light Slate)
+-   **Borders:** `#4A5568` (Muted Slate)
 
 #### Semantic Colors
-- **Success:** A clear, accessible green (e.g., `#38A169`)
-- **Warning:** An amber/yellow (e.g., `#D69E2E`)
-- **Error:** A strong, clear red (e.g., `#E53E3E`)
+-   **Success:** A clear, accessible green.
+-   **Warning:** An amber/yellow.
+-   **Error:** A strong, clear red.
 
 ### 3.2 Typography
 
-The typography is designed for clarity, readability, and a modern feel, using system fonts to ensure performance and consistency across platforms.
+The application will use the **Inter** font family, sourced from Google Fonts, for all text to ensure a modern, highly readable, and consistent appearance across all platforms.
 
-- **Font Family (Headings & UI):** A system sans-serif font stack (e.g., -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto).
-- **Font Family (Body):** The same system sans-serif font stack for consistency.
-- **Font Family (Monospace):** A system monospace font stack for any code or data display.
-
-- **Type Scale:** A responsive and harmonious type scale will be used (e.g., 12px, 14px, 16px, 18px, 20px, 24px, 30px, 36px, 48px).
+-   **Font Family:** "Inter", sans-serif
+-   **Hierarchy:** A clear and consistent typographic scale will be used to differentiate headings, subheadings, and body text, creating a scannable and organized visual structure.
 
 ### 3.3 Spacing & Layout
 
-A consistent spacing and layout system will be used to create a balanced and rhythmic design.
+A consistent spacing and layout system based on a standard 8px grid will be used to create a balanced and rhythmic design.
 
-- **Base Unit:** **8px**. All margins, paddings, and layout dimensions will be multiples of 8.
-- **Spacing Scale:** A defined scale (e.g., `xs: 4px`, `sm: 8px`, `md: 16px`, `lg: 24px`, `xl: 32px`, `2xl: 48px`) will be used for consistency.
-- **Layout Grid:** A standard 12-column grid will be used for all page layouts, ensuring responsive behavior and alignment.
-
-**Interactive Visualizations:**
-
-- Color Theme Explorer: [ux-color-themes.html](./ux-color-themes.html)
+-   **Base Unit:** **8px**.
+-   **Radii:** A consistent border-radius scale will be used for components (e.g., 4px, 8px, 12px) to align with the modern aesthetic.
 
 ---
 
@@ -149,20 +140,16 @@ A consistent spacing and layout system will be used to create a balanced and rhy
 
 ### 4.1 Chosen Design Approach
 
-The chosen design direction is **Direction 3: The Coach's Feed**. This approach aligns perfectly with our "Proactive AI Coaching" novel pattern, presenting the user's journey as an evolving, guided conversation.
+The chosen design direction, based on the provided wireframes, is a **Structured Grid Dashboard**. This approach provides a clear, organized, and information-rich overview for the user upon login.
 
 **Key Characteristics:**
-- **Layout:** Chronological timeline/feed-based interface.
-- **Density:** Balanced, with clear separation between items, feeling like distinct "messages" or "events."
-- **Navigation:** Implicitly driven by scrolling through the feed, but will also incorporate a subtle top or side navigation for overall sections (e.g., "Plan," "Progress," "Profile").
-- **Primary action prominence:** Actions (like "Log Workout") will be integrated contextually within the feed items, appearing when relevant.
-- **Content Approach:** Narrative and guidance-driven, interleaving plan items, logged activities, coaching tips, and progress updates.
-
-This direction fosters a continuous, engaging dialogue between the user and their AI Coach, making the journey feel personalized and supportive.
+- **Layout:** A responsive grid of specialized cards that provide a comprehensive summary of the user's day and week.
+- **Navigation:** A persistent top-level navigation bar for primary app sections (Dashboard, Workouts, Meals, Profile).
+- **Content:** Each card is dedicated to a specific domain (e.g., Today's Workout, Meal Plan, Progress Tracking), making the dashboard highly scannable and functional.
+- **Coaching Integration:** The "AI Coach" is integrated via a dedicated `AICoachTipCard` within the grid, providing timely advice without dominating the layout. This maintains the "coach" feeling within a more structured environment.
 
 **Interactive Mockups:**
-
-- Design Direction Showcase: [ux-design-directions.html](./ux-design-directions.html)
+- The provided wireframes in `docs/wireframes/` now serve as the primary visual reference, superseding earlier mockups.
 
 ---
 
@@ -265,44 +252,28 @@ graph TD
 
 ### 6.1 Component Strategy
 
-## 6. Component Library
+The component library strategy is to leverage `shadcn/ui` for base components and define a set of custom, specialized cards for the dashboard grid, as detailed in the wireframes.
 
-### 6.1 Component Strategy
+### 6.2 Custom Dashboard Cards
 
-The component library strategy is to leverage our chosen design system for standard components and create a single, highly-specialized custom component for our unique "Coach's Feed" interface.
+The dashboard is composed of several distinct card components, each with a specific purpose:
 
-- **Base Components:** All standard UI elements (Buttons, Forms, Inputs, Modals, Menus, etc.) will be implemented using **`shadcn/ui`**. This ensures consistency, accessibility, and adherence to our visual foundation.
+- **WorkoutCard:**
+    - **Purpose:** To display the user's workout for the day.
+    - **Content:** Contains an image, workout title (e.g., "HIIT Cardio Session"), description, duration, and estimated calorie burn.
+    - **Actions:** "View Workout Details" button.
 
-- **Custom Component:** The primary custom component for the application is the **`HybridFeedCard`**.
+- **MealPlanCard:**
+    - **Purpose:** To provide an overview of the day's meals.
+    - **Content:** A grid of the day's meals (e.g., Breakfast, Lunch, Dinner), each with an image, name, and calorie count.
 
-### 6.2 Custom Component: HybridFeedCard
+- **ProgressCard:**
+    - **Purpose:** To visualize user progress over time.
+    - **Content:** Displays charts (e.g., a line chart for weight trend) and key stats like "Workout Streak".
 
-This component is the core of the user experience, designed to be versatile enough to handle all events within the user's feed. It combines the clear, information-rich layout of a structured card with the personal, conversational feel of an avatar-based bubble.
-
-**Anatomy:**
-
-1.  **Header:** Contains an **Avatar** icon to signify the "author" of the event (Coach, User, or System) and a clear **Title**.
-2.  **Body:** A flexible content area for text, lists, or data related to the event.
-3.  **Actions (Optional):** A footer area containing contextual buttons (e.g., "Log Workout," "See Details," "Share Achievement").
-
-**Variants:**
-
-The appearance of the card, particularly the avatar and accent colors, will change based on the event type to make the feed instantly scannable.
-
-- **Coach Variant (🤖):**
-    - **Purpose:** For new plans, coaching tips, questions, and messages from the AI.
-    - **Styling:** Uses the primary blue accent color. The avatar shows a robot icon.
-    - **Example Title:** "Your New Weekly Plan is Ready!"
-
-- **User Log Variant (👍):**
-    - **Purpose:** To represent actions taken by the user, such as a logged workout or meal.
-    - **Styling:** Uses the semantic "success" green accent color. The avatar shows a thumbs-up or checkmark.
-    - **Example Title:** "Workout Logged: Full Body Strength"
-
-- **Reward Variant (🏆):**
-    - **Purpose:** To celebrate milestones, completed goals, and streaks.
-    - **Styling:** Uses a distinct gold or yellow accent color to feel special. The avatar shows a trophy or star icon.
-    - **Example Title:** "Achievement Unlocked: 5-Day Streak!"
+- **AICoachTipCard:**
+    - **Purpose:** To deliver contextual tips and encouragement from the AI Coach.
+    - **Content:** A heading and a short, motivational message, maintaining the "coach" persona within the structured dashboard.
 
 ---
 
