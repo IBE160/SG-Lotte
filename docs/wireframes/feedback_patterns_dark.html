@@ -45,6 +45,22 @@
   </style>
 </head>
 <body class="font-display">
+
+<div class="fixed top-4 right-4 z-50 flex items-center gap-2 p-4 rounded-lg bg-green-500 text-white shadow-lg">
+    <span class="material-symbols-outlined">check_circle</span>
+    <p class="text-sm font-medium">Your plan has been updated successfully.</p>
+</div>
+
+<div class="fixed top-20 right-4 z-50 flex items-center gap-2 p-4 rounded-lg bg-red-500 text-white shadow-lg">
+    <span class="material-symbols-outlined">error</span>
+    <p class="text-sm font-medium">Failed to update your plan. Please try again.</p>
+</div>
+
+<div class="fixed top-36 right-4 z-50 flex items-center gap-2 p-4 rounded-lg bg-yellow-500 text-white shadow-lg">
+    <span class="material-symbols-outlined">warning</span>
+    <p class="text-sm font-medium">You have unsaved changes. Are you sure you want to leave?</p>
+</div>
+
 <div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
 <div class="layout-container flex h-full grow flex-col">
 <div class="flex flex-1 justify-center py-5">
@@ -73,19 +89,6 @@
 </div>
 </header>
 <main class="flex-1 py-8">
-<!-- Calibration Week Banner -->
-<div class="relative bg-primary/20 border border-primary/30 rounded-xl px-4 py-3 mx-4 mb-6 text-sky-100">
-    <div class="flex items-center gap-3">
-        <span class="material-symbols-outlined">auto_awesome</span>
-        <div class="flex-grow">
-            <h4 class="font-bold">Welcome to your Calibration Week!</h4>
-            <p class="text-sm text-sky-200">Your feedback on workouts this week will help the AI perfectly tailor your future plans.</p>
-        </div>
-        <button class="absolute top-2 right-2 p-1 rounded-full hover:bg-white/20">
-            <span class="material-symbols-outlined !text-lg">close</span>
-        </button>
-    </div>
-</div>
 <!-- PageHeading & ButtonGroup Section -->
 <div class="flex flex-wrap justify-between items-center gap-4 px-4 pb-8">
 <div class="flex min-w-72 flex-col gap-2">
@@ -144,7 +147,7 @@
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div class="flex items-start gap-4 rounded-lg bg-background-dark p-4">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16" data-alt="A healthy breakfast bowl with oats and berries" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDocGNj72RF1Jux6lMMZ25OxLph2iz_4SiHA9HOQ6ZfBvMDONbJnSrQpSHYolitiSjBDyW9BCM_ZGaLZYe1F33gQtHcrvKSggFACJiGBQxgQm0i4MFI4G_BZjN_v0OKSMMf9OCThx2eEpxEvzY_rhZTX87MyW1dIVh4bsRuvjsrPOf7TRgqOs5PL6BzkowcJCtF48p039ZqN-NBTIEm5aQlUalx5ChYW-zsx9yM-Qi8mBju8RkxMkume43Gs1QJ5456aekFhHM1_laK");'></div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16" data-alt="A healthy breakfast bowl with oats and berries" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDocGNj72RF1Jux6lMMZ25OxLph2iz_4SiHA9HOQ6ZfBvMDONbJnSrQpSHYolitiSjBDyW9BCM_ZGaLZYe1F33gQtHcrvKSggFACJiGBQxgQm0i4MFI4G_BZjN_v0OKSMMf9OCThx2eEpxEvzY_rhZTX87MbgG_Lp4Gb87VB8-lOBFV0fVO8yb3AMHrMfOKkDPICuLPAy6CgYDCqJqyyf5UEx2FGOpkkr51slBE7vmLi8wnddlFZIUytw0PCatF2X_qJzc6IoH62d_VDrHv9-mDM7XcwdWh8L1fp8A");'></div>
 <div class="flex flex-col">
 <p class="text-text-secondary-dark text-sm">Breakfast</p>
 <p class="text-text-primary-dark font-bold">Oatmeal with Berries</p>
@@ -168,7 +171,7 @@
 </div>
 </div>
 <div class="flex items-start gap-4 rounded-lg bg-background-dark p-4">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16" data-alt="A protein shake" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCHpwQFaqcnJKu3g2setzuKtWooRteLBt_4b5QcmKZCAwgdX-nUXZ6mges96uYQh8e5jZ3iDhXBInubYcaoGYvnPyxT2yXR9zy89ovscHDrcdvjYezhIZVbGIRTy3ZCxweHjOQEszwnfgZvCejRqry3KlcdiVCIUtjt-2hGoVbjTzQOKQY-c233Xg-UyCnHg-y-OrRhgrCryX_T4p3ke6GLhjXNdFJaKY7OvXEcp6zuL78t9nm90qxx-_sg089VDTv9wUWfglwEBHBp");'></div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16" data-alt="A protein shake" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCHpwQFaqcnJKu3g2setzuKtWooRteLBt_4b5QcmKZCAwgdX-nUXZ6mges96uYQh8e5jZ3iDhXBInubYcaoGYvnPyxT2yXR9zy89ovscHDrcdvjYezhIZVbGIRTy3ZCxweHjOQEszwnfgZvCejRqry3KlcdiVCIUtjt-2hGoVbjTzQOKQY-c233Xg-UyHg-y-OrRhgrCryX_T4p3ke6GLhjXNdFJaKY7OvXEcp6zuL78t9nm90qxx-_sg089VDTv9wUWfglwEBHBp");'></div>
 <div class="flex flex-col">
 <p class="text-text-secondary-dark text-sm">Snack</p>
 <p class="text-text-primary-dark font-bold">Protein Shake</p>
@@ -218,8 +221,4 @@
 </div>
 </div>
 </div>
-<!-- Floating Action Button -->
-<button class="fixed bottom-8 right-8 flex h-16 w-16 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-primary text-white shadow-lg transition-transform duration-300 hover:scale-110 hover:shadow-primary/30">
-    <span class="material-symbols-outlined !text-3xl">add</span>
-</button>
 </body></html>

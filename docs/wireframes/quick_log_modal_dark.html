@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Quick Log Modal</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4199e1",
+                        "background-dark": "#1A202C",
+                        "surface-dark": "#2D3748",
+                        "text-primary-dark": "#F7FAFC",
+                        "text-secondary-dark": "#A0AEC0",
+                        "border-dark": "#4A5568",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
+        }
+    </style>
+</head>
+<body class="bg-background-dark font-display">
+    <!-- Modal Backdrop -->
+    <div class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+        <!-- Modal Container -->
+        <div class="relative w-full max-w-lg rounded-xl bg-surface-dark shadow-2xl border border-border-dark flex flex-col">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b border-border-dark">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary !text-2xl">edit_note</span>
+                    <h2 class="text-xl font-bold text-text-primary-dark">Log an Activity</h2>
+                </div>
+                <button class="p-2 rounded-full hover:bg-white/10 text-text-secondary-dark">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="p-6 flex-grow">
+                <p class="text-text-secondary-dark mb-4">
+                    Log an unplanned meal or workout using everyday language. The AI will understand and categorize it for you.
+                </p>
+                <textarea class="w-full h-32 p-3 rounded-lg bg-background-dark border border-border-dark text-text-primary-dark focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-text-secondary-dark" placeholder="e.g., 'Ate a chicken sandwich for lunch' or 'Went for a 3-mile run this afternoon'"></textarea>
+            </div>
+            <!-- Modal Footer -->
+            <div class="flex justify-end items-center gap-4 p-6 bg-background-dark/50 rounded-b-xl">
+                <button class="h-11 px-5 rounded-lg text-sm font-bold text-text-primary-dark hover:bg-white/10">
+                    Cancel
+                </button>
+                <button class="h-11 px-5 rounded-lg text-sm font-bold bg-primary text-white hover:bg-primary/90">
+                    Log Activity
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

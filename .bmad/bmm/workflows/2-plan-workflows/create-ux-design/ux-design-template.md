@@ -1,6 +1,6 @@
-# {{project_name}} UX Design Specification
+# ibe160 UX Design Specification
 
-_Created on {{date}} by {{user_name}}_
+_Created on torsdag 27. november 2025 by BIP_
 _Generated using BMad Method - Create UX Design Workflow v1.0_
 
 ---
