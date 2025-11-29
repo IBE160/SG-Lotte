@@ -88,7 +88,7 @@
 </div>
 <!-- PageHeading & ButtonGroup Section -->
 <div class="flex flex-wrap justify-between items-center gap-4 px-4 pb-8">
-<div class="flex min-w-72 flex-col gap-2">
+<div class="flex min-w-[72px] flex-col gap-2">
 <p class="text-text-primary-dark text-4xl font-black leading-tight tracking-[-0.033em]">Good Morning, Alex!</p>
 <p class="text-text-secondary-dark text-base font-normal leading-normal">Today's Focus: Cardio &amp; Calorie Target</p>
 </div>
@@ -102,116 +102,20 @@
 </div>
 </div>
 <!-- Dashboard Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 px-4">
-<!-- Left Column: Fitness and Meals -->
-<div class="lg:col-span-2 flex flex-col gap-6">
-<!-- Fitness Summary Card -->
-<div class="flex flex-col gap-4 rounded-xl bg-surface-dark p-6 @container">
-<div class="flex items-center gap-3">
-<div class="text-primary"><span class="material-symbols-outlined">fitness_center</span></div>
-<h3 class="text-text-primary-dark text-xl font-bold">Today's Workout</h3>
-</div>
-<div class="flex flex-col items-stretch justify-start rounded-lg @xl:flex-row @xl:items-start gap-6">
-<div class="w-full @xl:w-1/3 bg-center bg-no-repeat aspect-video @xl:aspect-square bg-cover rounded-lg" data-alt="A person doing high-intensity interval training" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAhmx7iWUHOlTcIunahtHdOhPwT2AKcwK_la8LMp1ltyohXnLdKRglwJzMGzoTxDgE0Wmh2QOAo0NFqxw_BQXmDwYnae7SoaNG92020BwMvONy4TtkDxCt_ksFZuVUM9bKzRb5nTZMpIelfDt0-kXYFnKGZB-lgkj1O2deTBKlxMm1T3YYGSWrvgDFQbZ_e50CA_4nnTH7HxHqV204Nxbtyw3J5SWza3K-iGL5P77m9typNN1Y9VA3jy2u2mP-OCflFp_nSb9m0UpXK");'></div>
-<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-3">
-<p class="text-text-primary-dark text-2xl font-bold leading-tight tracking-[-0.015em]">HIIT Cardio Session</p>
-<p class="text-text-secondary-dark text-base font-normal leading-normal">
-                        A high-intensity interval training session to boost your metabolism and cardiovascular health.
-                      </p>
-<div class="flex items-center gap-4 text-text-secondary-dark pt-2">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-lg">timer</span>
-<span class="text-sm font-medium">30 Minutes</span>
-</div>
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-lg">local_fire_department</span>
-<span class="text-sm font-medium">~350 Kcal</span>
-</div>
-</div>
-<div class="pt-4">
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-medium leading-normal hover:opacity-90">
-<span class="truncate">View Workout Details</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Meal Plan Card -->
-<div class="flex flex-col gap-4 rounded-xl bg-surface-dark p-6">
-<div class="flex items-center gap-3">
-<div class="text-primary"><span class="material-symbols-outlined">restaurant_menu</span></div>
-<h3 class="text-text-primary-dark text-xl font-bold">Meal Plan</h3>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div class="flex items-start gap-4 rounded-lg bg-background-dark p-4">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16" data-alt="A healthy breakfast bowl with oats and berries" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDocGNj72RF1Jux6lMMZ25OxLph2iz_4SiHA9HOQ6ZfBvMDONbJnSrQpSHYolitiSjBDyW9BCM_ZGaLZYe1F33gQtHcrvKSggFACJiGBQxgQm0i4MFI4G_BZjN_v0OKSMMf9OCThx2eEpxEvzY_rhZTX87MyW1dIVh4bsRuvjsrPOf7TRgqOs5PL6BzkowcJCtF48p039ZqN-NBTIEm5aQlUalx5ChYW-zsx9yM-Qi8mBju8RkxMkume43Gs1QJ5456aekFhHM1_laK");'></div>
-<div class="flex flex-col">
-<p class="text-text-secondary-dark text-sm">Breakfast</p>
-<p class="text-text-primary-dark font-bold">Oatmeal with Berries</p>
-<p class="text-text-secondary-dark text-sm">350 Kcal</p>
-</div>
-</div>
-<div class="flex items-start gap-4 rounded-lg bg-background-dark p-4">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16" data-alt="Grilled chicken salad for lunch" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDEoBKnuwIHbsRF4m_XY_MTIG3-Sr4ANCJ_StVG7t8BDh1JID7ReYenvjH0Mq7L6vqlOpoD9a5IZnPPPQN3QP3-QQt1hOZGBxIeOu2DvHMzxVTxlzr8imXSJQbyRJKwGQ6vVSIlsbaMnK08OLZyEJfnMbzA7HxzzdZ1lvclQAcXu0vJEyowf3Fi_HAVtwL7JusOeJVZdN3Zw1xTxgWKJYOeFjb4xZYQpWb3rJE1nJu0FxCbMK9O9C8UzBFcRblu-dT9QGvmrMU6H4pg");'></div>
-<div class="flex flex-col">
-<p class="text-text-secondary-dark text-sm">Lunch</p>
-<p class="text-text-primary-dark font-bold">Grilled Chicken Salad</p>
-<p class="text-text-secondary-dark text-sm">450 Kcal</p>
-</div>
-</div>
-<div class="flex items-start gap-4 rounded-lg bg-background-dark p-4">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16" data-alt="Salmon with asparagus for dinner" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDNBz-70tLhRU71xOwIMzPfjgDWNS6PEj5Ma7Ux4x6ezkExHN3aXXGT3MmpXfSuwCidvHS8i4berF8VXyo1stIz-zp3uaQ_6Y8PDaSTtauBHzmP9hCeApEvq_Fx3Rdv4u1kXIwJG5Kf8I9-KP9OSI6gbRJobIDoQDTU4iWb8yE4dTrGAaJpcQbmh4ED37LLBny6g7drlUkm2LFDc_Serdr43_HR1vMdhap5d9ebzQ419ITzNlhQxgEHpu_Uqkya2y9samyoI8N0N6wf");'></div>
-<div class="flex flex-col">
-<p class="text-text-secondary-dark text-sm">Dinner</p>
-<p class="text-text-primary-dark font-bold">Salmon &amp; Asparagus</p>
-<p class="text-text-secondary-dark text-sm">500 Kcal</p>
-</div>
-</div>
-<div class="flex items-start gap-4 rounded-lg bg-background-dark p-4">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16" data-alt="A protein shake" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCHpwQFaqcnJKu3g2setzuKtWooRteLBt_4b5QcmKZCAwgdX-nUXZ6mges96uYQh8e5jZ3iDhXBInubYcaoGYvnPyxT2yXR9zy89ovscHDrcdvjYezhIZVbGIRTy3ZCxweHjOQEszwnfgZvCejRqry3KlcdiVCIUtjt-2hGoVbjTzQOKQY-c233Xg-UyCnHg-y-OrRhgrCryX_T4p3ke6GLhjXNdFJaKY7OvXEcp6zuL78t9nm90qxx-_sg089VDTv9wUWfglwEBHBp");'></div>
-<div class="flex flex-col">
-<p class="text-text-secondary-dark text-sm">Snack</p>
-<p class="text-text-primary-dark font-bold">Protein Shake</p>
-<p class="text-text-secondary-dark text-sm">200 Kcal</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Right Column: Progress and AI Tip -->
-<div class="lg:col-span-1 flex flex-col gap-6">
-<!-- Progress Tracking Card -->
-<div class="flex flex-col gap-4 rounded-xl bg-surface-dark p-6">
-<div class="flex items-center gap-3">
-<div class="text-primary"><span class="material-symbols-outlined">monitoring</span></div>
-<h3 class="text-text-primary-dark text-xl font-bold">Progress Tracking</h3>
-</div>
-<p class="text-text-secondary-dark text-sm">Weight (Last 30 Days)</p>
-<div class="w-full">
-<img data-alt="A line chart showing a downward trend in weight over the last 4 weeks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFNkf3bSR9yAPOTioKApiF-GDk2WiNUaJum8wR_ov7yIMoIuGhShDCMpcK7IUqLORElCgHfg-ODIw07U5IBhSTaRgSjkMITANZdg2xEHphO2unI-SgWk2JTWCDby0OqOvOY0MoiSCOvW4QzOMkdt2SIODHDfnYmbpAL6AvZM2eF6NuCFp6uJZtUg6iR79BjSD0wmHQRNrSt3MVs6BO7-cmzk_unqmT2u08wQLSvnEzocAie85ngii2d6BqC9qc9DcjM5Ln4tuJpXhW"/>
-</div>
-<div class="flex justify-between items-center border-t border-border-dark pt-4 mt-2">
-<div class="flex flex-col">
-<p class="text-text-secondary-dark text-sm">Workout Streak</p>
-<p class="text-text-primary-dark font-bold text-lg">14 Days</p>
-</div>
-<div class="text-primary text-4xl">
-<span class="material-symbols-outlined !text-4xl">trending_up</span>
-</div>
-</div>
-</div>
-<!-- AI Coach Tip Card -->
-<div class="flex flex-col gap-4 rounded-xl bg-surface-dark p-6">
-<div class="flex items-center gap-3">
-<div class="text-primary"><span class="material-symbols-outlined">psychology</span></div>
-<h3 class="text-text-primary-dark text-xl font-bold">AI Coach Tip</h3>
-</div>
-<div class="flex flex-col gap-3">
-<p class="text-text-primary-dark font-medium">"Consistency is key. Even a short 20-minute workout is better than skipping a day. Keep the momentum going!"</p>
-<p class="text-text-secondary-dark text-sm">Remember to hydrate properly after your HIIT session to aid recovery.</p>
-</div>
-</div>
-</div>
+<div class="flex flex-col items-center justify-center gap-8 py-20 px-4 text-center">
+    <div class="size-24 text-primary opacity-70">
+        <span class="material-symbols-outlined !text-9xl">waving_hand</span>
+    </div>
+    <h2 class="text-text-primary-dark text-3xl font-bold leading-tight tracking-[-0.015em]">Welcome to Your AI Fitness Journey!</h2>
+    <p class="max-w-md text-text-secondary-dark text-base font-normal leading-normal">It looks like you haven't logged any activity yet. Let's get you started!</p>
+    <div class="flex gap-4">
+        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:opacity-90">
+            <span class="truncate">Start Your First Workout</span>
+        </button>
+        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-surface-dark text-text-primary-dark text-base font-bold leading-normal tracking-[0.015em] hover:bg-opacity-80">
+            <span class="truncate">Log a Meal</span>
+        </button>
+    </div>
 </div>
 </main>
 </div>
