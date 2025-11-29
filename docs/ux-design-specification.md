@@ -2,22 +2,13 @@
 
 ## 1. Introduction
 
-This document outlines the User Experience (UX) and User Interface (UI) design for the AI Fitness & Meal Planner application. It serves as a central hub, connecting the project's user flows to the corresponding wireframes and the detailed implementation guidelines defined in the **Design System Specification**.
+This document outlines the User Experience (UX) and User Interface (UI) design for the AI Fitness & Meal Planner application. It serves as the single source of truth for the application's visual and interactive design.
 
-The core design philosophy is a **clean, data-driven, and highly personalized experience**, realized through the "Minimalist" design direction chosen from the available mockups.
+The official and approved design is defined by the comprehensive, high-fidelity wireframes located in the `docs/ux-design/wireframes/` directory. These wireframes embody a modern, intuitive, and accessible dark-themed interface. Any designs or concepts outside of this directory, such as `final-app-showcase.html` or `feed-item-card-concepts.html`, are considered exploratory or deprecated and MUST NOT be used for final implementation.
 
-## 2. Collaborative Design & Decision-Making
+## 2. User Flow and Wireframe Specification
 
-To ensure a collaborative process, the following documents serve as the primary tools for making key design decisions:
-
-- **Color Palette Selection:** The `docs/ux-color-themes.html` visualizer must be used to compare and select a color theme that fits the brand and user experience goals.
-- **Visual Style Selection:** The `docs/ux-design-directions.html` mockup gallery must be used to choose a foundational visual style for the application's components and layout.
-
-All major design decisions, including the final selections from the documents above, must be documented in this specification with a clear rationale.
-
-## 3. User Flow and Wireframe Analysis
-
-This section maps user flows to the high-fidelity wireframes that represent the UI for each flow.
+This section maps core user flows to the definitive high-fidelity wireframes that specify the required UI and UX for each flow. The wireframes in the `docs/ux-design/wireframes/` folder are the authority for all implementation.
 
 ### Flow 0: New User Onboarding
 - **Description:** A 5-step guided setup process for new users.
