@@ -3,15 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Fitness Coach - UX Design Directions</title>
+    <title>AI Fitness Coach - Design Direction Mockups</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-    <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
-        }
-    </style>
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -19,6 +16,8 @@
                 extend: {
                     fontFamily: {
                         display: ["Inter", "sans-serif"],
+                        mono: ["Roboto Mono", "monospace"],
+                        jakarta: ["Plus Jakarta Sans", "sans-serif"],
                     },
                     colors: {
                         "primary": "#4299E1",
@@ -32,77 +31,124 @@
 </head>
 <body class="font-display bg-gray-100 dark:bg-background-dark text-gray-900 dark:text-gray-100 antialiased">
 
-    <div class="max-w-4xl mx-auto p-8">
-        <header class="text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-black tracking-tighter mb-3 text-gray-800 dark:text-white">UX Design Directions</h1>
-            <p class="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">Guiding principles for creating a proactive, personalized, and seamless fitness coaching experience.</p>
+    <div class="max-w-7xl mx-auto p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-black tracking-tighter mb-3 text-gray-800 dark:text-white">Design Direction Mockups</h1>
+            <p class="text-lg text-gray-500 dark:text-gray-400 max-w-3xl mx-auto">Explore these six distinct design directions for the 'Today's Workout' card. Each mockup represents a different visual philosophy. Choose the one that best fits the application's intended feel and user experience.</p>
         </header>
 
-        <main class="space-y-12">
-            <!-- Principle 1: Clean and Minimalist -->
-            <section class="flex flex-col md:flex-row items-center gap-8">
-                <div class="flex-shrink-0 w-24 h-24 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined !text-5xl">design_services</span>
-                </div>
-                <div class="flex-grow">
-                    <h2 class="text-2xl font-bold">1. Clean and Minimalist</h2>
-                    <p class="mt-2 text-gray-600 dark:text-gray-400">
-                        The interface must prioritize clarity and focus. By reducing cognitive load, we empower the user to concentrate on their fitness journey, not on navigating a complex app. We achieve this through generous whitespace, a card-based layout, and a limited color palette that uses color for intentional highlights, not decoration.
-                    </p>
-                </div>
-            </section>
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            <!-- Principle 2: Data-Driven and Proactive -->
-            <section class="flex flex-col md:flex-row items-center gap-8">
-                <div class="flex-shrink-0 w-24 h-24 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
-                     <span class="material-symbols-outlined !text-5xl">insights</span>
+            <!-- 1. Minimalist -->
+            <div class="space-y-3">
+                <h2 class="text-xl font-bold text-center">1. Minimalist</h2>
+                <div class="p-6 rounded-xl bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="text-primary-600 dark:text-primary"><span class="material-symbols-outlined">fitness_center</span></div>
+                        <h3 class="text-lg font-bold">Today's Workout</h3>
+                    </div>
+                    <p class="text-2xl font-bold mb-1">HIIT Cardio Session</p>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">A high-intensity session to boost your metabolism.</p>
+                    <div class="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-300">
+                        <div class="flex items-center gap-1.5"><span class="material-symbols-outlined !text-base">timer</span><span>30 Min</span></div>
+                        <div class="flex items-center gap-1.5"><span class="material-symbols-outlined !text-base">local_fire_department</span><span>~350 Kcal</span></div>
+                    </div>
+                    <button class="w-full mt-6 py-2 px-4 rounded-lg bg-primary-600 dark:bg-primary text-white font-semibold">View Details</button>
                 </div>
-                <div class="flex-grow">
-                    <h2 class="text-2xl font-bold">2. Data-Driven and Proactive</h2>
-                    <p class="mt-2 text-gray-600 dark:text-gray-400">
-                        The application should feel intelligent. It proactively surfaces the most relevant information, such as the day's workout on the dashboard. Progress is visualized through clear, simple charts (e.g., Recharts) to provide actionable insights at a glance, making data feel empowering, not overwhelming.
-                    </p>
-                </div>
-            </section>
+            </div>
 
-            <!-- Principle 3: Personalized and Adaptive -->
-            <section class="flex flex-col md:flex-row items-center gap-8">
-                 <div class="flex-shrink-0 w-24 h-24 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
-                     <span class="material-symbols-outlined !text-5xl">person</span>
+            <!-- 2. Data-Dense -->
+            <div class="space-y-3">
+                <h2 class="text-xl font-bold text-center">2. Data-Dense</h2>
+                <div class="p-4 rounded-lg font-mono text-sm" style="background-color: #2D3748; color: #F7FAFC;">
+                    <div class="flex justify-between items-center border-b border-gray-600 pb-2 mb-2">
+                        <p class="font-bold">[WORKOUT: TODAY]</p>
+                        <p>ID: #4A5568</p>
+                    </div>
+                    <p class="text-lg font-bold text-cyan-400">>> HIIT Cardio Session</p>
+                    <div class="grid grid-cols-3 gap-2 my-2 text-xs">
+                        <p>DURATION: 30m</p>
+                        <p>CALORIES: ~350</p>
+                        <p>INTENSITY: 8/10</p>
+                    </div>
+                    <div class="mt-3 pt-2 border-t border-gray-600 space-y-1 text-gray-400">
+                        <p>>>> Warm-up: 5min</p>
+                        <p>>>> Intervals: 20min (1:1)</p>
+                        <p>>>> Cool-down: 5min</p>
+                    </div>
+                    <button class="w-full mt-4 py-1 px-2 rounded-none bg-cyan-400 text-black font-bold text-xs">[EXECUTE]</button>
                 </div>
-                <div class="flex-grow">
-                    <h2 class="text-2xl font-bold">3. Personalized and Adaptive</h2>
-                    <p class="mt-2 text-gray-600 dark:text-gray-400">
-                        Every user's journey is unique. The design must reflect this by making AI-generated plans feel tailored and personal. Features like the "Calibration Week" banner and persona selection during onboarding establish this from the start. The UI adapts to user input, creating a dynamic and responsive experience.
-                    </p>
-                </div>
-            </section>
+            </div>
 
-            <!-- Principle 4: Accessible and Low-Friction -->
-            <section class="flex flex-col md:flex-row items-center gap-8">
-                 <div class="flex-shrink-0 w-24 h-24 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
-                     <span class="material-symbols-outlined !text-5xl">gesture</span>
+            <!-- 3. Playful -->
+            <div class="space-y-3">
+                <h2 class="text-xl font-bold text-center">3. Playful</h2>
+                <div class="p-6 rounded-3xl" style="background-color: #4299E1; color: white;">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="bg-white/20 p-2 rounded-full"><span class="material-symbols-outlined">fitness_center</span></div>
+                        <h3 class="text-lg font-bold font-jakarta">Let's Move!</h3>
+                    </div>
+                    <p class="text-3xl font-black font-jakarta leading-tight mb-2">HIIT Cardio!</p>
+                    <div class="flex items-center gap-4 text-sm bg-white/20 rounded-full px-3 py-1 w-fit">
+                         <p>⚡️ 30m</p>
+                         <p>🔥 350kcal</p>
+                    </div>
+                    <button class="w-full mt-6 py-3 rounded-full bg-white text-primary font-extrabold font-jakarta text-lg">START</button>
                 </div>
-                <div class="flex-grow">
-                    <h2 class="text-2xl font-bold">4. Accessible and Low-Friction</h2>
-                    <p class="mt-2 text-gray-600 dark:text-gray-400">
-                        Interactions should be effortless. We prioritize simple, intuitive controls for common tasks. Examples include single-click checkboxes for meal logging and a highly visible Floating Action Button (FAB) for adding unplanned activities. This minimizes the effort required to stay on track.
-                    </p>
+            </div>
+
+            <!-- 4. Corporate / Sharp -->
+            <div class="space-y-3">
+                 <h2 class="text-xl font-bold text-center">4. Corporate / Sharp</h2>
+                <div class="p-6 bg-gray-100 dark:bg-[#222222] border-l-4 border-primary">
+                    <h3 class="text-sm uppercase tracking-wider text-gray-500 mb-2">Scheduled Activity</h3>
+                    <h2 class="text-xl font-semibold mb-3">HIIT Cardio Session</h2>
+                    <div class="flex border-t border-b border-gray-300 dark:border-gray-600 py-2 text-sm">
+                        <div class="w-1/2 pr-2 border-r border-gray-300 dark:border-gray-600">
+                            <p class="text-gray-500">Duration</p>
+                            <p class="font-bold">30 Minutes</p>
+                        </div>
+                        <div class="w-1/2 pl-3">
+                            <p class="text-gray-500">Est. Calories</p>
+                            <p class="font-bold">~350 Kcal</p>
+                        </div>
+                    </div>
+                    <button class="w-full mt-6 py-2 px-4 bg-gray-700 text-white font-semibold text-sm hover:bg-gray-600">View Details</button>
                 </div>
-            </section>
-            
-            <!-- Principle 5: Consistent Visual Identity -->
-            <section class="flex flex-col md:flex-row items-center gap-8">
-                 <div class="flex-shrink-0 w-24 h-24 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary">
-                     <span class="material-symbols-outlined !text-5xl">palette</span>
+            </div>
+
+            <!-- 5. Glassmorphism -->
+            <div class="space-y-3">
+                <h2 class="text-xl font-bold text-center">5. Glassmorphism</h2>
+                <div class="p-6 rounded-xl bg-white/10 border border-white/20 backdrop-blur-lg">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="text-white"><span class="material-symbols-outlined">fitness_center</span></div>
+                        <h3 class="text-lg font-bold text-white">Today's Workout</h3>
+                    </div>
+                    <p class="text-2xl font-bold mb-1 text-white">HIIT Cardio Session</p>
+                    <p class="text-white/80 text-sm mb-4">A high-intensity session to boost your metabolism.</p>
+                    <div class="flex items-center gap-6 text-sm text-white/90">
+                        <div class="flex items-center gap-1.5"><span class="material-symbols-outlined !text-base">timer</span><span>30 Min</span></div>
+                        <div class="flex items-center gap-1.5"><span class="material-symbols-outlined !text-base">local_fire_department</span><span>~350 Kcal</span></div>
+                    </div>
+                    <button class="w-full mt-6 py-2 px-4 rounded-lg bg-white/20 text-white font-semibold backdrop-blur-sm">View Details</button>
                 </div>
-                <div class="flex-grow">
-                    <h2 class="text-2xl font-bold">5. Consistent Visual Identity</h2>
-                    <p class="mt-2 text-gray-600 dark:text-gray-400">
-                        A unified design system is crucial for a professional and trustworthy experience. All components must adhere to the established standards for color (`ux-color-themes.html`), typography (Inter font), and iconography (Material Symbols Outlined). This consistency ensures predictability and reinforces the brand.
-                    </p>
+            </div>
+
+            <!-- 6. Neubrutalism -->
+            <div class="space-y-3">
+                <h2 class="text-xl font-bold text-center">6. Neubrutalism</h2>
+                <div class="p-5 bg-white border-2 border-black rounded-none shadow-[4px_4px_0px_#000000]">
+                    <h3 class="text-2xl font-extrabold text-black mb-2">WORKOUT: HIIT</h3>
+                    <div class="flex gap-4 text-black font-mono text-sm mb-4">
+                        <span>TIME: 30m</span>
+                        <span>KCAL: 350</span>
+                    </div>
+                    <p class="text-black text-sm mb-4">High-intensity interval training. Maximum effort. Let's go.</p>
+                    <button class="w-full py-3 px-4 bg-yellow-300 text-black font-bold border-2 border-black rounded-none shadow-[2px_2px_0px_#000000] hover:shadow-none active:translate-x-[2px] active:translate-y-[2px]">START NOW</button>
                 </div>
-            </section>
+            </div>
+
         </main>
     </div>
 </body>
