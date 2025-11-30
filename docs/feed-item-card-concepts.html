@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FeedItemCard Concepts</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            margin: 0;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 1400px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #1c1e21;
+            margin-bottom: 0.5rem;
+        }
+        p.intro {
+            text-align: center;
+            color: #606770;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            align-items: flex-start;
+        }
+        .concept-column {
+            background-color: #fff;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid #dddfe2;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .concept-column h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+            color: #1c1e21;
+        }
+        .concept-column p {
+            margin: 0 0 2rem 0;
+            color: #606770;
+            font-size: 0.9rem;
+        }
+        .separator {
+            border-bottom: 1px solid #e2e8f0;
+            margin: 2rem 0;
+        }
+
+        /* --- Concept A: The Structured Card --- */
+        .card-a {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            background: #fff;
+        }
+        .card-a .header {
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .card-a .icon { font-size: 1.25rem; }
+        .card-a .title { font-weight: 600; font-size: 1rem; color: #2d3748; }
+        .card-a .body { padding: 1.5rem; }
+        .card-a .body p { margin: 0 0 1rem 0; color: #4a5568; font-size: 0.9rem;}
+        .card-a .body li { color: #4a5568; margin-bottom: 0.5rem; }
+        .card-a .actions { padding: 1rem 1.5rem; display: flex; gap: 1rem; background-color: #f7fafc; border-top: 1px solid #e2e8f0;}
+        .card-a .btn {
+            font-size: 0.9rem; padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid #4299e1;
+            background-color: #4299e1; color: white; cursor: pointer;
+        }
+        .card-a .btn-secondary { background-color: transparent; color: #4299e1; }
+
+
+        /* --- Concept B: The Conversational Bubble --- */
+        .bubble-b {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            max-width: 90%;
+        }
+        .bubble-b .avatar {
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 1.5rem; flex-shrink: 0;
+        }
+        .bubble-b .content {
+            border-radius: 1.25rem; padding: 0.8rem 1.2rem;
+        }
+        .bubble-b.from-coach .avatar { background-color: #bee3f8; color: #2b6cb0; }
+        .bubble-b.from-coach .content { background-color: #ebf8ff; color: #2d3748; border-top-left-radius: 0.25rem;}
+
+        .bubble-b.from-user .avatar { background-color: #c6f6d5; color: #2f855a; }
+        .bubble-b.from-user .content { background-color: #f0fff4; color: #2d3748; border-top-right-radius: 0.25rem;}
+        .bubble-b.from-user { align-self: flex-end; flex-direction: row-reverse; margin-left: 10%; }
+
+        .bubble-b h4 { margin: 0 0 0.25rem 0; font-size: 1rem; }
+        .bubble-b p, .bubble-b li { margin: 0; font-size: 0.95rem; color: #4a5568;}
+
+        /* --- Concept C: The Minimalist Item --- */
+        .item-c {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+        }
+        .item-c .checkbox {
+            width: 20px; height: 20px; border-radius: 50%; border: 2px solid #cbd5e0;
+            margin-right: 1rem; cursor: pointer; transition: all 0.2s;
+        }
+        .item-c:hover .checkbox { border-color: #4299e1; }
+        .item-c.completed .checkbox { background-color: #4299e1; border-color: #4299e1; }
+        .item-c .content { flex-grow: 1; }
+        .item-c .title { font-weight: 500; color: #2d3748; }
+        .item-c.completed .title { text-decoration: line-through; color: #a0aec0; }
+        .item-c .subtitle { font-size: 0.85rem; color: #718096; }
+        .item-c.completed .subtitle { text-decoration: line-through; color: #a0aec0; }
+        .item-c.tip .checkbox { border-style: dashed; }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Feed Item Card Concepts</h1>
+        <p class="intro">Here are three different concepts for the main component of our "Coach's Feed". Each has a different feel and encourages different kinds of interaction. Review the examples for each to see how they handle various feed events.</p>
+
+        <div class="concept-grid">
+            <!-- Column A: Structured Card -->
+            <div class="concept-column">
+                <h2>A. The Structured Card</h2>
+                <p><strong>Feeling:</strong> Organized, clear, informational.<br><strong>Pros:</strong> Very scannable, lots of room for details, clear separation of actions.<br><strong>Cons:</strong> Can feel a bit formal and less "conversational".</p>
+
+                <div class="card-a">
+                    <div class="header"><span class="icon">🏋️</span><span class="title">Workout Planned</span></div>
+                    <div class="body">
+                        <p>Your main workout for today is <strong>Full Body Strength A</strong>.</p>
+                        <ul>
+                            <li>Squats: 3 sets of 8-10 reps</li>
+                            <li>Push-ups: 3 sets to failure</li>
+                            <li>Plank: 3 sets of 60s</li>
+                        </ul>
+                    </div>
+                    <div class="actions">
+                        <button class="btn">Log Workout</button>
+                        <button class="btn btn-secondary">Swap Exercise</button>
+                    </div>
+                </div>
+
+                <div class="card-a">
+                    <div class="header"><span class="icon">✅</span><span class="title">Workout Logged</span></div>
+                    <div class="body">
+                        <p>Great job on the <strong>Full Body Strength A</strong> workout! Consistency is key.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column B: Conversational Bubble -->
+            <div class="concept-column" style="background-color: #f0f2f5; border: none; box-shadow: none;">
+                <h2>B. The Conversational Bubble</h2>
+                <p><strong>Feeling:</strong> Personal, dynamic, friendly.<br><strong>Pros:</strong> Directly mimics the "coach" metaphor, feels very engaging.<br><strong>Cons:</strong> Can be less information-dense and might take up more vertical space.</p>
+
+                <div class="bubble-b from-coach">
+                    <div class="avatar">🤖</div>
+                    <div class="content">
+                        <h4>Workout Planned</h4>
+                        <p>Your main workout for today is <strong>Full Body Strength A</strong>. Let's do it!</p>
+                    </div>
+                </div>
+
+                <div class="bubble-b from-user">
+                    <div class="avatar">👍</div>
+                    <div class="content">
+                        <h4>Workout Logged!</h4>
+                        <p>Done! That was tough but good. Rated difficulty 4/5.</p>
+                    </div>
+                </div>
+                
+                 <div class="bubble-b from-coach">
+                    <div class="avatar">🤖</div>
+                    <div class="content">
+                        <h4>Great job!</h4>
+                        <p>Noted. I'll adjust next week's plan based on your feedback.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column C: The Minimalist Item -->
+            <div class="concept-column">
+                <h2>C. The Minimalist Item</h2>
+                <p><strong>Feeling:</strong> Efficient, clean, actionable.<br><strong>Pros:</strong> Very scannable and compact. Feels like a powerful to-do list.<br><strong>Cons:</strong> May feel less "human" and lacks visual flair for rewards or tips.</p>
+
+                <div class="item-c">
+                    <div class="checkbox"></div>
+                    <div class="content">
+                        <div class="title">Workout: Full Body Strength A</div>
+                        <div class="subtitle">Squats, Push-ups, Plank</div>
+                    </div>
+                </div>
+
+                <div class="item-c completed">
+                    <div class="checkbox"></div>
+                    <div class="content">
+                        <div class="title">Workout: Full Body Strength A</div>
+                        <div class="subtitle">Logged! Difficulty: 4/5</div>
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+
+                 <div class="item-c tip">
+                    <div class="checkbox"></div>
+                    <div class="content">
+                        <div class="title">Coach Tip</div>
+                        <div class="subtitle">Remember to stay hydrated today!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

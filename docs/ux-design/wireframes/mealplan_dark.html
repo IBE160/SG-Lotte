@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Fitness Coach - Meal Plan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#4299E1",
+              "background-light": "#f6f7f8",
+              "background-dark": "#1A202C",
+
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        .peer:checked ~ .peer-checked\:line-through {
+          text-decoration: line-through;
+        }
+        .peer:checked ~ .peer-checked\:text-slate-400 {
+          color: #94a3b8;
+        }
+        .peer:checked ~ .peer-checked\:dark\:text-slate-500 {
+          color: #64748b;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-10 px-6 lg:px-10 py-3">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold tracking-[-0.015em]">AI Fitness Coach</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-center gap-8">
+<div class="flex items-center gap-8 text-sm font-medium text-slate-700 dark:text-slate-300">
+<a class="hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="hover:text-primary transition-colors" href="#">Workouts</a>
+<a class="text-primary font-semibold" href="#">Meal Plan</a>
+<a class="hover:text-primary transition-colors" href="#">Progress</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAMaSWgkp0C1MoV4CMA9pvurn4WS9BktsYVrlerh3SFpn-vvj-DkRlSqbZ72vBjcoWmuQ8BK-NJ-6oC_tG0PLt4ja_Wetwu21AZBj1Kqss-41_IWknz6eB7IG6_qIB3I_YaSywuqhZLUwOvHIREOQTvcRoCOyDPsx9bgScZr3nw_ITMg0tusAGHAwN70Ic0tm5K5KUrcttg-LMd75k6ZO5b_lCvjgG61OkUH6z-868LZx0wTzu3gq3Gi-7ocanvmgVdSOLpIVTD0GhN");'></div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-screen-2xl mx-auto p-4 md:p-6 lg:p-8">
+<div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-8">
+<div class="lg:col-span-2">
+<div class="flex flex-wrap justify-between items-start gap-4 mb-6">
+<div class="flex flex-col gap-1">
+<p class="text-slate-900 dark:text-white text-3xl md:text-4xl font-black tracking-[-0.033em]">Meal Plan &amp; Recipes</p>
+<p class="text-slate-500 dark:text-slate-400 text-base font-normal">Your personalized meal plan for the week.</p>
+</div>
+<button class="flex-shrink-0 flex items-center justify-center gap-2 h-11 px-6 rounded-lg bg-primary text-white text-base font-bold hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-base">receipt_long</span>
+<span>View Shopping List</span>
+</button>
+</div>
+<div class="flex justify-between items-center gap-4 px-4 py-3 bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 mb-6">
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+<p class="text-slate-800 dark:text-slate-200 font-semibold text-lg ml-2">This Week</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm hidden sm:block">Oct 23 - Oct 29, 2023</p>
+</div>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">calendar_today</span>
+</button>
+</div>
+<div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
+<div class="flex flex-col gap-4 bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+<p class="text-slate-900 dark:text-white text-lg font-bold">Monday</p>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="w-16 h-16 bg-center bg-no-repeat aspect-square bg-cover rounded-lg" data-alt="Avocado toast with a sunny side up egg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCA7Mp--VdjzSJfpvRVe9vaCM06b_9A1M3QD3WWBs10nX46ZNR6kvIEp4aJiINOhZ_pVCgDgo7fg96te_WSkKDVt6NaX203eUQMPaXwJpd14zLi9fg-VvtKrcbSzhEaeerX8eJPlL-WfkSaU8mUv6jY57eqyyQ8qc2b2ca51CoPcW-7iMh_R0Mc1ASjsW4aOv4-uLBkTx6Gm-PRc9npxxBFHYGpBGdAd92yWuRSqa7awtCe6vRejNEoJtxA1E9aAHoYW2pHZgQcpULS");'></div>
+<div class="flex-1">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase">Breakfast</p>
+<p class="text-slate-800 dark:text-slate-200 text-sm font-semibold">Avocado Egg Toast</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm">450 kcal</p>
+</div>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-16 h-16 bg-center bg-no-repeat aspect-square bg-cover rounded-lg" data-alt="Grilled chicken salad with mixed greens and cherry tomatoes" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBr03KhMbWLEL8YI0MPEgGxlBczlvOmyUi4nB3muVwzDgmc1GVQYOvy035pNxhM-2O-xtfOxT34zC8QXhrMg0aKsKK0MGgG5IZ-I_o-i2X7Sz2BNZ4LASTApEDr04g1P8bhvw_BX1hwprmyyITbBqEswShHRNZlb9sjo1lrx-XxeecIcPWnt4qM3-iZ53kMNF5pwBNiTPuicG4_MVJtCeTlBnarmqz2eJDa_7CuBVUmjl7D2drg3_0Wu78WSGP3vhOAg5YfuEdhvepY");'></div>
+<div class="flex-1">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase">Lunch</p>
+<p class="text-slate-800 dark:text-slate-200 text-sm font-semibold">Grilled Chicken Salad</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm">520 kcal</p>
+</div>
+<div class="flex items-center gap-1">
+<input type="checkbox" class="h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" />
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-16 h-16 bg-center bg-no-repeat aspect-square bg-cover rounded-lg" data-alt="Baked salmon with asparagus spears and lemon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCE8-VirWEk0A9tIbPP84-tCxqJ8dLgbK4Z8YAl_UfwW9syoNFi2THWp2w4rBzq7SkeQLLLaySqSif9zF4A8VPmcs_kSGQc4eFqJpX57Zph4FendABiPUA7YaZW4Gdnk6X4UQOzcxZOkcWC4IGI5h_jA88khUx-LwHM_P2SsqgxxKOimcN1lMe_5tzIoe0lIomClZfLd1KekRsYYv_n1p-8-JZh2pQqLn2TeBl68und57mMpo-mIBHEAiSk_PhZ61dxFn_89OUEKCOj");'></div>
+<div class="flex-1">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase">Dinner</p>
+<p class="text-slate-800 dark:text-slate-200 text-sm font-semibold">Baked Salmon</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm">600 kcal</p>
+</div>
+<div class="flex items-center gap-1">
+<input type="checkbox" class="h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" />
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+<p class="text-slate-900 dark:text-white text-lg font-bold">Tuesday</p>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="w-16 h-16 bg-center bg-no-repeat aspect-square bg-cover rounded-lg" data-alt="Greek yogurt bowl with fresh berries and granola" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDb9Sg9mVPPLZz3BLHlmz-D2hgR4R9qQxLSEM2B-rWxI9oT7OrRVElenuXlNGpe9mL2PjA40hr25Cksut7SCceLRsjl5_TRdJM0oLJ0wOccGONIFv4tcHbFlYUyW5q-QXdrYW0OF16-6VpJFp8nIO0tX0k83Me-6DlXibPDqGwfxSN4pcJhWLu7_NMQhEMo86qLLmPZaAbo8CylZF95tATI1RRxF4xb5bJh0FSG4U2e4kld91H71At7L33hKtVUjLbyVHRmKTjtY-jT");'></div>
+<div class="flex-1">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase">Breakfast</p>
+<p class="text-slate-800 dark:text-slate-200 text-sm font-semibold">Yogurt &amp; Berries</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm">250 kcal</p>
+</div>
+<div class="flex items-center gap-1">
+<input type="checkbox" class="h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" />
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-16 h-16 bg-center bg-no-repeat aspect-square bg-cover rounded-lg" data-alt="Colorful quinoa bowl with roasted vegetables" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA0v6Z8Y00My2mMpMd5nQq49VCBBnuRDINCDEgmKtltUPJo09RBF-Eq3r3ANLxERSwVEZO-sG3_zWC0mjzP1xJzZxrZC26p_JjHjp1v7KblxEbMYdNUq4_srZmWOq-j3IohSD6A88Bbx08vp9yEBjT4x15GByL6xB3pdNgZQHyGO-v5zSnwG5xCzc2ViKyWBU3lphOwGS6TfdOnfJxCuOB2AK0Fnp0PRM6Vv4uCZhbVaxtsBj98OwUIrTLCS_17gcy-njmJricSPJWT");'></div>
+<div class="flex-1">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase">Lunch</p>
+<p class="text-slate-800 dark:text-slate-200 text-sm font-semibold">Quinoa Bowl</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm">550 kcal</p>
+</div>
+<div class="flex items-center gap-1">
+<input type="checkbox" class="h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" />
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+</div>
+<button class="flex items-center gap-3 w-full p-3 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-primary hover:text-primary dark:hover:border-primary text-slate-500 dark:text-slate-400 transition-colors">
+<span class="material-symbols-outlined">add</span>
+<span class="text-sm font-medium">Add Dinner</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-1 mt-8 lg:mt-0 lg:sticky lg:top-24 h-fit">
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold mb-4">This Week's Shopping List</h3>
+<div class="flex gap-2 mb-4">
+    <div class="relative flex-1">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">add</span>
+        <input class="w-full pl-10 pr-4 py-2 text-sm rounded-lg bg-slate-100 dark:bg-slate-800 border-transparent focus:ring-2 focus:ring-primary focus:border-transparent text-slate-800 dark:text-slate-200" placeholder="Add custom item..." type="text"/>
+    </div>
+    <button class="h-9 px-3 flex items-center justify-center gap-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+        <span class="material-symbols-outlined text-base">share</span> Share
+    </button>
+    <button class="h-9 px-3 flex items-center justify-center gap-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+        <span class="material-symbols-outlined text-base">sort</span> Sort
+    </button>
+</div><div class="flex flex-col gap-4">
+<div>
+<h4 class="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-2">Produce</h4>
+<ul class="space-y-2">
+<li class="flex items-center gap-3">
+<input class="peer h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" id="item1" type="checkbox"/>
+<label class="flex-1 text-sm text-slate-700 dark:text-slate-300 peer-checked:line-through peer-checked:text-slate-400 dark:peer-checked:text-slate-500 transition-colors" for="item1">Avocado (2)</label>
+<button class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"><span class="material-symbols-outlined text-base">close</span></button>
+</li>
+<li class="flex items-center gap-3">
+<input checked="" class="peer h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" id="item2" type="checkbox"/>
+<label class="flex-1 text-sm text-slate-700 dark:text-slate-300 peer-checked:line-through peer-checked:text-slate-400 dark:peer-checked:text-slate-500 transition-colors" for="item2">Mixed Greens (1 bag)</label>
+<button class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"><span class="material-symbols-outlined text-base">close</span></button>
+</li>
+<li class="flex items-center gap-3">
+<input class="peer h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" id="item3" type="checkbox"/>
+<label class="flex-1 text-sm text-slate-700 dark:text-slate-300 peer-checked:line-through peer-checked:text-slate-400 dark:peer-checked:text-slate-500 transition-colors" for="item3">Asparagus (1 bunch)</label>
+<button class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"><span class="material-symbols-outlined text-base">close</span></button>
+</li>
+<li class="flex items-center gap-3">
+<input class="peer h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" id="item4" type="checkbox"/>
+<label class="flex-1 text-sm text-slate-700 dark:text-slate-300 peer-checked:line-through peer-checked:text-slate-400 dark:peer-checked:text-slate-500 transition-colors" for="item4">Fresh Berries (1 cup)</label>
+<button class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"><span class="material-symbols-outlined text-base">close</span></button>
+</li>
+</ul>
+</div>
+<div>
+<h4 class="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-2">Protein</h4>
+<ul class="space-y-2">
+<li class="flex items-center gap-3">
+<input class="peer h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" id="item5" type="checkbox"/>
+<label class="flex-1 text-sm text-slate-700 dark:text-slate-300 peer-checked:line-through peer-checked:text-slate-400 dark:peer-checked:text-slate-500 transition-colors" for="item5">Eggs (2)</label>
+<button class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"><span class="material-symbols-outlined text-base">close</span></button>
+</li>
+<li class="flex items-center gap-3">
+<input class="peer h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" id="item6" type="checkbox"/>
+<label class="flex-1 text-sm text-slate-700 dark:text-slate-300 peer-checked:line-through peer-checked:text-slate-400 dark:peer-checked:text-slate-500 transition-colors" for="item6">Chicken Breast (200g)</label>
+<button class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"><span class="material-symbols-outlined text-base">close</span></button>
+</li>
+<li class="flex items-center gap-3">
+<input class="peer h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" id="item7" type="checkbox"/>
+<label class="flex-1 text-sm text-slate-700 dark:text-slate-300 peer-checked:line-through peer-checked:text-slate-400 dark:peer-checked:text-slate-500 transition-colors" for="item7">Salmon Fillet (150g)</label>
+<button class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"><span class="material-symbols-outlined text-base">close</span></button>
+</li>
+</ul>
+</div>
+<div>
+<h4 class="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-2">Pantry</h4>
+<ul class="space-y-2">
+<li class="flex items-center gap-3">
+<input class="peer h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" id="item8" type="checkbox"/>
+<label class="flex-1 text-sm text-slate-700 dark:text-slate-300 peer-checked:line-through peer-checked:text-slate-400 dark:peer-checked:text-slate-500 transition-colors" for="item8">Quinoa (1 cup)</label>
+<button class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"><span class="material-symbols-outlined text-base">close</span></button>
+</li>
+<li class="flex items-center gap-3">
+<input checked="" class="peer h-5 w-5 rounded border-slate-300 dark:border-slate-600 text-primary focus:ring-primary/50 bg-transparent dark:bg-transparent dark:checked:bg-primary dark:focus:ring-offset-card-dark" id="item9" type="checkbox"/>
+<label class="flex-1 text-sm text-slate-700 dark:text-slate-300 peer-checked:line-through peer-checked:text-slate-400 dark:peer-checked:text-slate-500 transition-colors" for="item9">Granola (50g)</label>
+<button class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"><span class="material-symbols-outlined text-base">close</span></button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

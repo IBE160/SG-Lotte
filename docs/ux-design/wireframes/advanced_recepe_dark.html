@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Advanced Recipe Filtering</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4299E1",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#1A202C",
+                        "surface-dark": "#2D3748",
+                        "on-surface-dark": "#F7FAFC",
+
+                        "border-dark": "#4A5568",
+
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-dark font-display text-text-primary-dark">
+<div class="relative flex min-h-screen w-full">
+<aside class="flex-col bg-surface-dark border-r border-border-dark w-64 p-4 hidden lg:flex">
+<div class="flex h-full min-h-[700px] flex-col justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile picture of Alex Johnson" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCVt-8Gk5N3nl6KMCf-Gi5hRo0eoRrPuEmL8UlXYR6342MKJx92et24x5riaqcEz6E-eBcYcUTrAMxHooDeCQDCJMMTOvutcMV_hTfUGbvmiDx_Hf9Nvt8y8htEAJOFk9qJCWw4jNNnOPN1gblSKaHHTMsk0PeTCAdUiijOVPNn2xLinn0hX1toC9QiuSXVYYNWHlscU50ZOrTvcGKEch0AON47vcuGZNsLB3nOXu10idEmnbxWDNnry-37rkLqYVtDhOCbiV8j1wJq");'></div>
+<div class="flex flex-col">
+<h1 class="text-base font-medium leading-normal text-white">Alex Johnson</h1>
+<p class="text-sm font-normal leading-normal text-text-secondary-dark">AI Fitness Coach</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-6">
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary-dark hover:bg-[#272727] rounded-lg" href="#">
+<span class="material-symbols-outlined text-white">dashboard</span>
+<p class="text-sm font-medium leading-normal text-white">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined !fill-1 text-primary">restaurant_menu</span>
+<p class="text-sm font-medium leading-normal">Recipes</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary-dark hover:bg-[#272727] rounded-lg" href="#">
+<span class="material-symbols-outlined text-white">calendar_month</span>
+<p class="text-sm font-medium leading-normal text-white">Meal Plan</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary-dark hover:bg-[#272727] rounded-lg" href="#">
+<span class="material-symbols-outlined text-white">fitness_center</span>
+<p class="text-sm font-medium leading-normal text-white">Workouts</p>
+</a>
+</div>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-blue-500">
+<span class="truncate">New Workout</span>
+</button>
+</div>
+</aside>
+<main class="flex-1">
+<div class="flex flex-col lg:flex-row">
+<div class="w-full lg:w-80 xl:w-96 border-r border-border-dark bg-surface-dark p-6 space-y-8">
+<div class="flex justify-between items-center">
+<p class="text-white text-2xl font-black leading-tight tracking-[-0.033em]">Filter Recipes</p>
+<button class="text-sm text-primary hover:underline">Clear All</button>
+</div>
+<div class="space-y-6">
+<div>
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] pb-2">Meal Type</h3>
+<div class="space-y-1">
+<label class="flex items-center gap-x-3 py-2">
+<input checked="" class="h-5 w-5 rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<p class="text-base font-normal leading-normal text-text-primary-dark">Breakfast</p>
+</label>
+<label class="flex items-center gap-x-3 py-2">
+<input class="h-5 w-5 rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<p class="text-base font-normal leading-normal text-text-primary-dark">Lunch</p>
+</label>
+<label class="flex items-center gap-x-3 py-2">
+<input class="h-5 w-5 rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<p class="text-base font-normal leading-normal text-text-primary-dark">Dinner</p>
+</label>
+<label class="flex items-center gap-x-3 py-2">
+<input class="h-5 w-5 rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<p class="text-base font-normal leading-normal text-text-primary-dark">Snack</p>
+</label>
+</div>
+</div>
+<div>
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] pb-2">Dietary Restrictions</h3>
+<div class="space-y-1">
+<label class="flex items-center gap-x-3 py-2">
+<input class="h-5 w-5 rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<p class="text-base font-normal leading-normal text-text-primary-dark">Vegan</p>
+</label>
+<label class="flex items-center gap-x-3 py-2">
+<input checked="" class="h-5 w-5 rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<p class="text-base font-normal leading-normal text-text-primary-dark">Vegetarian</p>
+</label>
+<label class="flex items-center gap-x-3 py-2">
+<input class="h-5 w-5 rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<p class="text-base font-normal leading-normal text-text-primary-dark">Gluten-Free</p>
+</label>
+</div>
+</div>
+<div>
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] pb-2">Cooking Time</h3>
+<div class="pt-4">
+<input class="w-full h-2 bg-[#2D2D2D] rounded-lg appearance-none cursor-pointer accent-primary" max="120" min="15" type="range" value="45"/>
+<div class="flex justify-between text-sm text-text-secondary-dark mt-2">
+<span>15 min</span>
+<span>2 hours</span>
+</div>
+</div>
+</div>
+<div>
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] pb-2">Difficulty</h3>
+<div class="flex gap-2 pt-2">
+<button class="flex-1 py-2 px-4 rounded-lg border border-primary bg-primary/20 text-primary text-sm font-semibold">Easy</button>
+<button class="flex-1 py-2 px-4 rounded-lg border border-border-dark text-text-primary-dark text-sm font-semibold hover:bg-[#272727]">Medium</button>
+<button class="flex-1 py-2 px-4 rounded-lg border border-border-dark text-text-primary-dark text-sm font-semibold hover:bg-[#272727]">Hard</button>
+</div>
+</div>
+</div>
+<button class="w-full flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-blue-500 mt-8">
+<span class="truncate">Apply Filters</span>
+</button>
+</div>
+<div class="flex-1 p-6 lg:p-10">
+<div class="flex flex-wrap justify-between items-center gap-4 mb-8">
+<h2 class="text-xl font-bold text-white">Showing 42 Recipes</h2>
+<div class="flex items-center gap-2">
+<span class="text-sm text-text-secondary-dark">Sort by:</span>
+<select class="rounded-lg border-border-dark bg-surface-dark text-text-primary-dark focus:border-primary focus:ring-primary text-sm">
+<option>Most Popular</option>
+<option>Newest</option>
+<option>Cooking Time</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<div class="bg-surface-dark rounded-xl overflow-hidden shadow-sm border border-border-dark flex flex-col">
+<div class="bg-center bg-no-repeat aspect-[4/3] bg-cover" data-alt="A bowl of vibrant avocado toast with a poached egg on top" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCjmLYwnN9q03QwYk34q2NwvMm6V9oKhrOS8gqMn7tmrnhf7hw0Y8XHpu5xc0GJyrFLha-md2Hj-i6FnmWrr-au8qVH-F_CZgy2JUsjteYhYrXozxTeAy6VYg4VpMjWGeVDidH_7keSZ74IkAopAsuwtEx_cZjFrndEFQxA2Ihz73eKvxxFyLnSPzkL9h5wEZi70LLoJ3WfSVdW9hiSbL3V7yWRJLGlN8kQuv_1swK1JHkbRVUT8eQ7jJuXtn7Ll8Qrw6BDTBSuzEop");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<h4 class="text-lg font-bold text-white mb-2">Avocado &amp; Egg Toast</h4>
+<p class="text-sm text-text-secondary-dark mb-4 flex-grow">A quick and nutritious breakfast to start your day with healthy fats and protein.</p>
+<div class="flex justify-between items-center text-sm text-text-primary-dark">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">timer</span>
+<span>15 min</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">local_fire_department</span>
+<span>350 kcal</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark rounded-xl overflow-hidden shadow-sm border border-border-dark flex flex-col">
+<div class="bg-center bg-no-repeat aspect-[4/3] bg-cover" data-alt="A colorful quinoa salad with grilled chicken and mixed vegetables" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBgsrE-6x62f6FR3zmW6yklu9VItk_dt0Pi5UxJgITSxQS_1WQsxQCUHHIR3BebX5sXHO2eZ0ZhInWbXNFN8MsamsdF1CUZHD-Q1AYjg39bZj9gmTWEw_w1UYtOGf6PGkY2mRnuRA7-GlP2NluJ5I7up2sd4JXXsQL5mRsfswPb63mgPcQzQByh8kMGDclT_n6DDnaFYnR__IWgBoIMieo0gXVhA4tLedIAp-VLYverv9Fmm5LZ3FlkxsHCdTOMmrka1YMPNInI4YX5");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<h4 class="text-lg font-bold text-white mb-2">Grilled Chicken Quinoa Bowl</h4>
+<p class="text-sm text-text-secondary-dark mb-4 flex-grow">A light yet filling lunch, packed with protein and essential nutrients for recovery.</p>
+<div class="flex justify-between items-center text-sm text-text-primary-dark">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">timer</span>
+<span>30 min</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">local_fire_department</span>
+<span>450 kcal</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark rounded-xl overflow-hidden shadow-sm border border-border-dark flex flex-col">
+<div class="bg-center bg-no-repeat aspect-[4/3] bg-cover" data-alt="A plate of salmon fillet with asparagus spears" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBzqfdW6t4LbQ3TnG18Pyzxwnv6UqfIo6qeBfs3XxPMHlIfB9L3umRwovD0eBwqtTTKF_dLzQ18VdhRvhaPMwM5BUNHz9QBAKwbvgxp0aRGBFeYSSssZ1VYkO63dS-c19EtpCttYfbbTNTSV4sD0B_I3Nf1j_zPUdf5Ek4BUTtwdbaA52e80VKcg3zYpEUq1vdVPxYTOZLyfv7DoVpx84wRWvbNOUkdgf5d7w8PWDbjB6lNp5gNDikMT3BmL9Ozq7oGjw5AxgyeP7iz");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<h4 class="text-lg font-bold text-white mb-2">Lemon Herb Salmon</h4>
+<p class="text-sm text-text-secondary-dark mb-4 flex-grow">Perfect for a healthy dinner, this salmon is rich in Omega-3s and full of flavor.</p>
+<div class="flex justify-between items-center text-sm text-text-primary-dark">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">timer</span>
+<span>25 min</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">local_fire_department</span>
+<span>520 kcal</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark rounded-xl overflow-hidden shadow-sm border border-border-dark flex flex-col">
+<div class="bg-center bg-no-repeat aspect-[4/3] bg-cover" data-alt="Vegan curry with chickpeas and spinach in a bowl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBlcPmiMTAAcI4YnNhaWnpvnbJ0q4rGz3Jivho2RdW-gd8C9Nww59xcFiNDXtK18lJWsYC9bSGQ-bpS9lUCyQZvw9p053rUAswHQJ3irvJdJkPJDCiXQ1Wt-nulne_bipApnoLhiE8rSFy0CbP06G4Jze3dJVSmgjddPMtlBwyLPnxjzKCzQ93I7pxL09hetCbUcaygmrhwqgv2-OeGZoI_ZPgSAk0kfcCs_Z5nIIxkBB4089_bL_zDII1mkFUo5hISs0MG0lRxKYLg");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<h4 class="text-lg font-bold text-white mb-2">Chickpea &amp; Spinach Curry</h4>
+<p class="text-sm text-text-secondary-dark mb-4 flex-grow">A hearty and comforting vegan dish that is both delicious and easy to make.</p>
+<div class="flex justify-between items-center text-sm text-text-primary-dark">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">timer</span>
+<span>35 min</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">local_fire_department</span>
+<span>480 kcal</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark rounded-xl overflow-hidden shadow-sm border border-border-dark flex flex-col">
+<div class="bg-center bg-no-repeat aspect-[4/3] bg-cover" data-alt="A stack of blueberry pancakes with syrup drizzled on top" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCcUW1p3pKi-8XIovoferORePJpfMoQWxU87yhwuQHdhjBZSQ8GmYWJBTm06eHyygk2LURooQ29n_I4Bmy4CUzmCR3yVLIZV_QfGXSSJe7Ugi1A-5IAmK0cXJG3qnXIU-z-nLiog8K_iRKpc1ckxJqSQzum9wmB9dsda306Kyy4v2zRLA7XWLgzVHab29wIgVWwsX9DTzrkKj_Gm0TgMnlu-DW301PeIfqOSpM_BsMTWWPPkF-9C-Ao_YxEZEdU-9odqcdLcO6xpTc0");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<h4 class="text-lg font-bold text-white mb-2">Protein Blueberry Pancakes</h4>
+<p class="text-sm text-text-secondary-dark mb-4 flex-grow">Start your weekend right with these fluffy, protein-packed pancakes.</p>
+<div class="flex justify-between items-center text-sm text-text-primary-dark">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">timer</span>
+<span>20 min</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">local_fire_department</span>
+<span>410 kcal</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark rounded-xl overflow-hidden shadow-sm border border-border-dark flex flex-col">
+<div class="bg-center bg-no-repeat aspect-[4/3] bg-cover" data-alt="A vibrant smoothie bowl topped with fresh berries and seeds" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCuJCNtWSZe53NJ5NVufSiwbPB0oHT2cZnLiSk_0zOKyQcsvxdUwm7t2WRqpbm6rqoLDyhacDBBoVCUIXaHhfcMrBBojqBFICO2ofPI6fTFCVkFFUujk_z6ptxienbmSvlvfrqsUeUxl0bRACwljG2PWojgN2IX0yo-bi4TcKGKpicPTgqZ3veGvw5MSCmsq65Q70huZS1xNMNkHcO3ZMuP3IG1Au4S4JqHaADzPenCVWVHC_BIynK0qzMMM9BnNyqFQVdUOx7B4tc1");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<h4 class="text-lg font-bold text-white mb-2">Superfood Smoothie Bowl</h4>
+<p class="text-sm text-text-secondary-dark mb-4 flex-grow">A refreshing and antioxidant-rich bowl perfect for a light breakfast or snack.</p>
+<div class="flex justify-between items-center text-sm text-text-primary-dark">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">timer</span>
+<span>10 min</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">local_fire_department</span>
+<span>320 kcal</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center mt-12">
+<nav aria-label="Pagination" class="flex items-center gap-2">
+<a class="inline-flex items-center justify-center size-9 rounded-lg border border-border-dark text-text-secondary-dark hover:bg-[#272727]" href="#">
+<span class="material-symbols-outlined text-xl">chevron_left</span>
+</a>
+<a class="inline-flex items-center justify-center size-9 rounded-lg text-sm font-medium bg-primary text-white" href="#">1</a>
+<a class="inline-flex items-center justify-center size-9 rounded-lg text-sm font-medium text-text-primary-dark hover:bg-[#272727]" href="#">2</a>
+<a class="inline-flex items-center justify-center size-9 rounded-lg text-sm font-medium text-text-primary-dark hover:bg-[#272727]" href="#">3</a>
+<span class="inline-flex items-center justify-center size-9 text-sm font-medium text-text-primary-dark">...</span>
+<a class="inline-flex items-center justify-center size-9 rounded-lg text-sm font-medium text-text-primary-dark hover:bg-[#272727]" href="#">8</a>
+<a class="inline-flex items-center justify-center size-9 rounded-lg border border-border-dark text-text-secondary-dark hover:bg-[#272727]" href="#">
+<span class="material-symbols-outlined text-xl">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -30,8 +30,8 @@
   - [x] /run-agent-task pm *prd
     - [x] File: PRD.md
   - [x] /run-agent-task pm *validate-prd
-    - [x] File: validation-report-date.md
-  - [ ] /run-agent-task ux-designer *create-ux-design {prompt / user-input-file}
+    - [x] File: validation-report-20251116.md
+  - [x] /run-agent-task ux-designer *create-ux-design {prompt / user-input-file}
     - [x] File: ux-design-specification.md
     - [x] File: ux-color-themes.html
     - [x] File: ux-design-directions.html
