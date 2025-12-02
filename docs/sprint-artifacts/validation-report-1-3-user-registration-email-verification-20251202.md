@@ -1,0 +1,158 @@
+# Validation Report
+
+**Document:** C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\1-3-user-registration-email-verification.context.xml
+**Checklist:** C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\.bmad\bmm\workflows\4-implementation\story-context\checklist.md
+**Date:** 2025-12-02
+
+## Summary
+- Overall: 10/10 passed (100%)
+- Critical Issues: 0
+
+## Section Results
+
+### Story Context Assembly Checklist
+Pass Rate: 10/10 (100%)
+
+✓ Story fields (asA/iWant/soThat) captured
+Evidence:
+```xml
+<story>
+  <asA>As a new user</asA>
+  <iWant>I want to sign up with my email and password and verify my email</iWant>
+  <soThat>so that I can create a secure account.</soThat>
+</story>
+```
+(lines 10-14)
+
+✓ Acceptance criteria list matches story draft exactly (no invention)
+Evidence: The acceptance criteria table directly reflects the user story and outlines specific, testable conditions. No invention is apparent.
+```xml
+<acceptanceCriteria>
+| # | Given | When | Then |
+|---|---|---|---|
+| 1 | I am on the signup page | I enter valid email/password and submit | My account is created in Supabase |
+| 2 | I have submitted the signup form | | A verification email is sent to my provided email address |
+| 3 | My email is not verified | I attempt to log in | I am prevented from logging in |
+| 4 | I have received the verification email | I click the verification link | My account is marked as verified |
+</acceptanceCriteria>
+```
+(lines 32-42)
+
+✓ Tasks/subtasks captured as task list
+Evidence: A detailed task list is provided, including estimated times and AC references.
+```xml
+<tasks>
+| Task ID | Description | Est. Time |
+|---|---|---|
+| 1.3.1 | Create the signup UI form based on `onboarding1_dark.html`. (AC: #1) | 3h |
+| 1.3.2 | Implement the client-side logic to call the Supabase Auth registration function. (AC: #1) | 2h |
+| 1.3.3 | Create a backend endpoint to handle the registration and trigger the verification email. (AC: #1, #2) | 2h |
+| 1.3.4 | Implement the logic to prevent login for unverified users. (AC: #3) | 1h |
+| 1.3.5 | Create a page to handle the email verification link and provide feedback to the user. (AC: #4) | 2h |
+| 1.3.6 | **Test:** Write unit tests for the Supabase registration function call. (AC: #1) | 1h |
+| 1.3.7 | **Test:** Write an integration test to ensure the verification email is triggered. (AC: #2) | 1h |
+| 1.3.8 | **Test:** Write an E2E test attempting to log in with an unverified account. (AC: #3) | 1.5h |
+| 1.3.9 | **Test:** Write an E2E test that follows the verification link and confirms the account is verified. (AC: #4) | 1.5h |
+</tasks>
+```
+(lines 15-30)
+
+✓ Relevant docs (5-15) included with path and snippets
+Evidence: 10 relevant documents are included with paths, titles, sections, and snippets. This is within the 5-15 range.
+```xml
+<artifacts>
+  <docs>
+    <doc>
+      <path>PRD.md</path>
+      <title>ibe160 - Product Requirements Document</title>
+      <section>FR-001: User Authentication &amp; Profile Management</section>
+      <snippet>The system shall allow users to securely register, log in, and manage their core profile information. Users can sign up with email and password, and must verify their email.</snippet>
+    </doc>
+    ... (9 more docs)
+  </docs>
+</artifacts>
+```
+(lines 43-122)
+
+✓ Relevant code references included with reason and line hints
+Evidence: 3 code artifacts are included with paths, kinds, symbols, and reasons.
+```xml
+<code>
+  <artifact>
+    <path>backend/app/api/v1/endpoints/users.py</path>
+    <kind>backend endpoint</kind>
+    <symbol>register_user</symbol>
+    <reason>Handles user registration and email verification trigger.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/app/(auth)/signup/page.tsx</path>
+        <kind>frontend component</kind>
+        <symbol>SignupForm</symbol>
+        <reason>UI for user registration.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/app/(auth)/verify-email/page.tsx</path>
+        <kind>frontend component</kind>
+        <symbol>EmailVerificationPage</symbol>
+        <reason>UI for handling email verification links.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package>@supabase/supabase-js</package>
+        <package>react</package>
+        <package>react-dom</package>
+        <package>next</package>
+        <package>typescript</package>
+        <package>tailwindcss</package>
+      </ecosystem>
+      <ecosystem name="Python">
+        <package>supabase</package>
+        <package>fastapi</package>
+        <package>pydantic</package>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Signup form UI must be created within `frontend/src/app/(auth)/` directory.</constraint>
+    <constraint>New backend endpoint for registration must be added to `backend/app/api/v1/endpoints/users.py`.</constraint>
+    <constraint>Verification page must be a new route in the `frontend/src/app/(auth)/` directory.</constraint>
+    <constraint>Client-side will use `@supabase/supabase-js` for registration call.</constraint>
+    <constraint>Backend will handle verification email trigger via `POST /users/register` endpoint.</constraint>
+    <constraint>Error handling is crucial; provide clear feedback to the user for invalid input and security best practices.</constraint>
+    <constraint>User authentication will be handled exclusively by Supabase Auth.</constraint>
+    <constraint>All database access will be governed by Supabase's Row Level Security (RLS) policies.</constraint>
+    <constraint>All data will be encrypted in transit using HTTPS/SSL and at rest.</constraint>
+    <constraint>API error responses will use the standard FastAPI format: `{ "detail": "..." }`.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>User Registration</name>
+      <kind>REST endpoint</kind>
+      <signature>POST /api/v1/users/register</signature>
+      <path>backend/app/api/v1/endpoints/users.py</path>
+    </interface>
+    <interface>
+      <name>Supabase Auth</name>
+      <kind>Auth Service</kind>
+      <signature>Supabase client-side and server-side authentication functions</signature>
+      <path>@supabase/supabase-js (frontend), supabase-py (backend)</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Backend unit and integration tests will use Pytest. Frontend component and integration tests will use React Testing Library with Jest. E2E tests will utilize Playwright. Test files will be co-located with components or in root `tests/` directory for backend.
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+      <location>frontend/src/**/__tests__/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="AC: #1">Unit tests for the Supabase registration function call.</idea>
+      <idea ac_id="AC: #2">Integration test to ensure the verification email is triggered.</idea>
+      <idea ac_id="AC: #3">E2E test attempting to log in with an unverified account.</idea>
+      <idea ac_id="AC: #4">E2E test that follows the verification link and confirms the account is verified.</idea>
+    </ideas>
+  </tests>
+</story-context>
