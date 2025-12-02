@@ -1,5 +1,7 @@
 # Story 3.2: Application Settings
 
+**Status:** drafted
+
 **Epic:** Epic 3: User Control & Personalization
 **User:** Engaged User
 **Value Statement:** As an engaged user, I want a settings page to manage application preferences, so I can customize my experience.
@@ -14,8 +16,10 @@ This story is about creating a settings page where users can manage their applic
 
 ### 1.2. Source Documents
 
-*   **Epics:** `docs/epics.md`
-*   **Architecture:** `docs/architecture-2025-11-30.md`
+*   **Tech Spec:** `docs/sprint-artifacts/tech-spec-epic-3.md#detailed-design`
+*   **PRD:** `docs/PRD.md#non-functional-requirements` (for general settings), `docs/PRD.md#fr-007-notifications` (for notification settings)
+*   **Epics:** `docs/epics.md#story-32-application-settings`
+*   **Architecture:** `docs/architecture-2025-11-30.md#epic-to-architecture-mapping`
 *   **Wireframes:** `settings_dark.html` (conceptual)
 
 ---
@@ -35,15 +39,32 @@ This story is about creating a settings page where users can manage their applic
 
 | Task ID | Description | Est. Time |
 |---|---|---|
-| 3.2.1 | Create the backend endpoints for retrieving and updating user settings. | 3h |
-| 3.2.2 | Implement the frontend UI for the settings page based on the `settings_dark.html` concept. | 4h |
-| 3.2.3 | Implement the client-side logic to fetch and update the user's settings. | 3h |
-| 3.2.4 | Write tests for the application settings page. | 3h |
+| 3.2.1 | Create the backend endpoints for retrieving and updating user settings. (AC: #1, #2) | 3h |
+| 3.2.2 | Implement the frontend UI for the settings page based on the `settings_dark.html` concept. (AC: #1) | 4h |
+| 3.2.3 | Implement the client-side logic to fetch and update the user's settings. (AC: #1, #2) | 3h |
+| 3.2.4 | **Test:** Write unit tests for the frontend UI of the settings page to display options correctly. (AC: #1) | 1.5h |
+| 3.2.5 | **Test:** Write integration tests for the backend endpoint to update user settings. (AC: #2) | 1.5h |
+| 3.2.6 | **Test:** Write E2E tests for the settings page, verifying changes are saved and applied. (AC: #1, #2) | 1.5h |
 
 ### 3.2. Developer Notes
 
+#### Project Structure Notes
+*   The frontend UI for the settings page should be created within the `frontend/src/app/(dashboard)/settings/` directory.
+*   The backend endpoints for retrieving and updating user settings should be added to `backend/app/api/v1/endpoints/users.py` (or a dedicated `settings.py` if complexity warrants).
+
+#### General Notes
 *   The settings page should be user-friendly and provide clear options.
 *   Changes to settings should be applied immediately to give the user instant feedback.
+
+---
+
+## Dev Agent Record
+
+*   **Context Reference:**
+*   **Agent Model Used:**
+*   **Debug Log References:**
+*   **Completion Notes List:**
+*   **File List:**
 
 ---
 
@@ -51,9 +72,9 @@ This story is about creating a settings page where users can manage their applic
 
 ### 4.1. Validation Checklist
 
-*   [ ] User can view their application settings.
-*   [ ] User can update their application settings.
-*   [ ] The updated settings are applied correctly.
+*   [ ] **AC #1:** User can navigate to the settings page and view options to manage dark mode and notification preferences.
+*   [ ] **AC #2:** User can change a setting, and the change is immediately applied and saved correctly.
+*   [ ] **Testing:** All unit, integration, and E2E tests for the application settings page pass.
 
 ### 4.2. Review
 

@@ -1,5 +1,7 @@
 # Story 2.4: Dashboard Progress Visualization
 
+**Status:** drafted
+
 **Epic:** Epic 2: Adaptive Planning & Progress Logging
 **User:** Active User
 **Value Statement:** As an active user, I want to see a clear visualization of my progress (e.g., workout streak, weight trend) on my dashboard, so I can stay motivated and informed.
@@ -14,8 +16,10 @@ This story is about adding a progress visualization section to the dashboard. Th
 
 ### 1.2. Source Documents
 
-*   **Epics:** `docs/epics.md`
-*   **Architecture:** `docs/architecture-2025-11-30.md`
+*   **Tech Spec:** `docs/sprint-artifacts/tech-spec-epic-2.md#detailed-design`
+*   **PRD:** `docs/PRD.md#fr-006-dashboard-overview`
+*   **Epics:** `docs/epics.md#story-24-dashboard-progress-visualization`
+*   **Architecture:** `docs/architecture-2025-11-30.md#epic-to-architecture-mapping`
 
 ---
 
@@ -35,16 +39,34 @@ This story is about adding a progress visualization section to the dashboard. Th
 
 | Task ID | Description | Est. Time |
 |---|---|---|
-| 2.4.1 | Create the backend endpoint to fetch aggregated progress data. | 3h |
-| 2.4.2 | Implement the frontend UI for the progress visualization section. | 3h |
-| 2.4.3 | Integrate the `Recharts` library to create the weight trend chart. | 4h |
-| 2.4.4 | Write tests for the progress visualization feature. | 3h |
+| 2.4.1 | Create the backend endpoint to fetch aggregated progress data. (AC: #1, #2, #3) | 3h |
+| 2.4.2 | Implement the frontend UI for the progress visualization section. (AC: #1, #2) | 3h |
+| 2.4.3 | Integrate the `Recharts` library to create the weight trend chart. (AC: #2) | 4h |
+| 2.4.4 | **Test:** Write unit tests for the frontend component displaying workout streak. (AC: #1) | 1.5h |
+| 2.4.5 | **Test:** Write component tests for the weight trend chart using mock data. (AC: #2) | 1.5h |
+| 2.4.6 | **Test:** Write integration tests for the backend endpoint fetching aggregated progress data. (AC: #3) | 1.5h |
+| 2.4.7 | **Test:** Write E2E tests for the dashboard progress visualization section, verifying accuracy. (AC: #1, #2, #3) | 1.5h |
 
 ### 3.2. Developer Notes
 
+#### Project Structure Notes
+*   The frontend UI for the progress visualization section should be created within the `frontend/src/app/(dashboard)/dashboard/` directory.
+*   The backend endpoint to fetch aggregated progress data should be added to `backend/app/api/v1/endpoints/plans.py`.
+
+#### General Notes
 *   The weight trend chart should be clear and easy to understand.
 *   The workout streak should be prominently displayed.
 *   Ensure the API endpoint for progress data is efficient and only returns the necessary data.
+
+---
+
+## Dev Agent Record
+
+*   **Context Reference:**
+*   **Agent Model Used:**
+*   **Debug Log References:**
+*   **Completion Notes List:**
+*   **File List:**
 
 ---
 
@@ -52,9 +74,10 @@ This story is about adding a progress visualization section to the dashboard. Th
 
 ### 4.1. Validation Checklist
 
-*   [ ] Workout streak is displayed on the dashboard.
-*   [ ] Weight trend chart is displayed on the dashboard.
-*   [ ] The displayed data is accurate.
+*   [ ] **AC #1:** The workout streak summary is correctly displayed on the dashboard.
+*   [ ] **AC #2:** The weight trend chart for the last 30 days is accurately displayed on the dashboard.
+*   [ ] **AC #3:** The displayed visualizations use correct and up-to-date data from the user's logs.
+*   [ ] **Testing:** All unit, component, integration, and E2E tests for the progress visualization feature pass.
 
 ### 4.2. Review
 

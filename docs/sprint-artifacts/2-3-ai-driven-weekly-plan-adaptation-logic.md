@@ -1,5 +1,7 @@
 # Story 2.3: AI-Driven Weekly Plan Adaptation Logic
 
+**Status:** drafted
+
 **Epic:** Epic 2: Adaptive Planning & Progress Logging
 **User:** AI
 **Value Statement:** As an AI, I want to automatically adapt a user's next week's workout and meal plan based on their logged progress and feedback, so the plan evolves to better meet their goals.
@@ -14,8 +16,10 @@ This story is about implementing the core AI logic for adapting the user's weekl
 
 ### 1.2. Source Documents
 
-*   **Epics:** `docs/epics.md`
-*   **Architecture:** `docs/architecture-2025-11-30.md`
+*   **Tech Spec:** `docs/sprint-artifacts/tech-spec-epic-2.md#detailed-design`
+*   **PRD:** `docs/PRD.md#fr-002-ai-driven-workout-plan-generation--adaptation`
+*   **Epics:** `docs/epics.md#story-23-ai-driven-weekly-plan-adaptation-logic`
+*   **Architecture:** `docs/architecture-2025-11-30.md#adr-001-background-jobasync-processing-strategy`
 
 ---
 
@@ -37,16 +41,34 @@ This story is about implementing the core AI logic for adapting the user's weekl
 |---|---|---|
 | 2.3.1 | Create the Vercel Cron Job to trigger the weekly plan adaptation. | 1h |
 | 2.3.2 | Implement the backend endpoint to be called by the cron job. | 1h |
-| 2.3.3 | Implement the logic to fetch the user's logged data from the database. | 2h |
-| 2.3.4 | Implement the AI logic to process the data and generate a new plan. | 6h |
-| 2.3.5 | Implement the logic to store the new plan in the database. | 2h |
-| 2.3.6 | Write tests for the plan adaptation logic. | 4h |
+| 2.3.3 | Implement the logic to fetch the user's logged data from the database. (AC: #1) | 2h |
+| 2.3.4 | Implement the AI logic to process the data and generate a new plan. (AC: #1, #2) | 6h |
+| 2.3.5 | Implement the logic to store the new plan in the database. (AC: #3) | 2h |
+| 2.3.6 | **Test:** Write unit tests for the logic to fetch and process user's logged data. (AC: #1) | 2h |
+| 2.3.7 | **Test:** Write unit tests for the AI logic to process data and generate new plans, including prompt engineering validation. (AC: #2) | 2h |
+| 2.3.8 | **Test:** Write integration tests for the logic to store new plans in the database. (AC: #3) | 2h |
+| 2.3.9 | **Test:** Write E2E tests for the Vercel Cron Job triggering the adaptation process and verifying plan generation/storage. (AC: #1, #2, #3) | 2h |
 
 ### 3.2. Developer Notes
 
+#### Project Structure Notes
+*   The backend endpoint for the cron job should be added to `backend/app/api/v1/endpoints/plans.py`.
+*   The AI logic for processing data and generating plans should reside in `backend/app/services/ai_plan_generator.py` or a new dedicated service.
+
+#### General Notes
 *   This is a backend-heavy story.
 *   The AI prompt engineering will be critical to the success of this feature. The prompt should include the user's goals, preferences, and logged data.
 *   The process should be robust and handle potential errors gracefully.
+
+---
+
+## Dev Agent Record
+
+*   **Context Reference:**
+*   **Agent Model Used:**
+*   **Debug Log References:**
+*   **Completion Notes List:**
+*   **File List:**
 
 ---
 
@@ -54,9 +76,11 @@ This story is about implementing the core AI logic for adapting the user's weekl
 
 ### 4.1. Validation Checklist
 
-*   [ ] Vercel Cron Job is configured correctly.
-*   [ ] AI generates a new plan based on user data.
-*   [ ] New plan is stored in the database.
+*   [ ] **AC #1:** The Vercel Cron Job is correctly configured and triggers the backend adaptation process.
+*   [ ] **AC #2:** The AI successfully processes the user's logged workouts, meals, and difficulty ratings from the previous week.
+*   [ ] **AC #3:** The AI generates a new, adapted workout and meal plan for the upcoming week.
+*   [ ] **AC #4:** The new, adapted plans are correctly stored in the database.
+*   [ ] **Testing:** All unit, integration, and E2E tests for the plan adaptation logic pass.
 
 ### 4.2. Review
 

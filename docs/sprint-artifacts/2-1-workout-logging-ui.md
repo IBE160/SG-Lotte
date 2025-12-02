@@ -1,5 +1,7 @@
 # Story 2.1: Workout Logging UI
 
+**Status:** drafted
+
 **Epic:** Epic 2: Adaptive Planning & Progress Logging
 **User:** Active User
 **Value Statement:** As an active user, I want to easily log the completion status and perceived difficulty of my planned workouts, so the AI can track my progress.
@@ -14,8 +16,10 @@ This story is about creating the user interface for logging workout progress. Us
 
 ### 1.2. Source Documents
 
-*   **Epics:** `docs/epics.md`
-*   **Architecture:** `docs/architecture-2025-11-30.md`
+*   **Tech Spec:** `docs/sprint-artifacts/tech-spec-epic-2.md#detailed-design`
+*   **PRD:** `docs/PRD.md#fr-004-workout-logging`
+*   **Epics:** `docs/epics.md#story-21-workout-logging-ui`
+*   **Architecture:** `docs/architecture-2025-11-30.md#epic-to-architecture-mapping`
 *   **Wireframes:** `workoutplan_dark.html` (conceptual)
 
 ---
@@ -36,16 +40,34 @@ This story is about creating the user interface for logging workout progress. Us
 
 | Task ID | Description | Est. Time |
 |---|---|---|
-| 2.1.1 | Create the UI for the workout logging feature based on the `workoutplan_dark.html` concept. | 4h |
-| 2.1.2 | Implement the client-side logic to handle the user's interactions. | 2h |
-| 2.1.3 | Create a backend endpoint to store the workout log data. | 2h |
-| 2.1.4 | Write tests for the workout logging feature. | 2h |
+| 2.1.1 | Create the UI for the workout logging feature based on the `workoutplan_dark.html` concept. (AC: #1, #2) | 4h |
+| 2.1.2 | Implement the client-side logic to handle the user's interactions. (AC: #1, #2) | 2h |
+| 2.1.3 | Create a backend endpoint to store the workout log data. (AC: #3) | 2h |
+| 2.1.4 | **Test:** Write unit tests for the UI components to mark workout status. (AC: #1) | 1.5h |
+| 2.1.5 | **Test:** Write unit tests for the UI components to rate workout difficulty. (AC: #2) | 1.5h |
+| 2.1.6 | **Test:** Write integration tests for the backend endpoint to store workout log data. (AC: #3) | 1.5h |
+| 2.1.7 | **Test:** Write E2E tests for the complete workout logging flow. (AC: #1, #2, #3) | 1.5h |
 
 ### 3.2. Developer Notes
 
+#### Project Structure Notes
+*   The UI components for workout logging should be created within the `frontend/src/app/(dashboard)/workouts/` directory.
+*   The backend endpoint to store workout log data should be added to `backend/app/api/v1/endpoints/plans.py`.
+
+#### General Notes
 *   The UI should be intuitive and make it easy for users to log their workouts.
 *   The difficulty rating is a key input for the AI, so ensure it is captured correctly.
 *   Consider using optimistic UI updates to provide immediate feedback to the user.
+
+---
+
+## Dev Agent Record
+
+*   **Context Reference:**
+*   **Agent Model Used:**
+*   **Debug Log References:**
+*   **Completion Notes List:**
+*   **File List:**
 
 ---
 
@@ -53,9 +75,10 @@ This story is about creating the user interface for logging workout progress. Us
 
 ### 4.1. Validation Checklist
 
-*   [ ] User can mark a workout as "Completed" or "Skipped".
-*   [ ] User can rate the difficulty of a completed workout.
-*   [ ] Workout log data is stored in the database.
+*   [ ] **AC #1:** User can mark a workout as "Completed" or "Skipped" via the UI.
+*   [ ] **AC #2:** User can rate the difficulty of a completed workout on a 1-5 scale.
+*   [ ] **AC #3:** Workout log data, including status and difficulty, is correctly stored in the database.
+*   [ ] **Testing:** All unit, integration, and E2E tests for the workout logging feature pass.
 
 ### 4.2. Review
 

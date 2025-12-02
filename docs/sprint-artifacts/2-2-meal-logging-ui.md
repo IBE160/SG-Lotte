@@ -1,5 +1,7 @@
 # Story 2.2: Meal Logging UI
 
+**Status:** drafted
+
 **Epic:** Epic 2: Adaptive Planning & Progress Logging
 **User:** Active User
 **Value Statement:** As an active user, I want to easily log the consumption status of my planned meals, so the AI can track my adherence.
@@ -14,8 +16,10 @@ This story involves creating the user interface for logging meal consumption. Us
 
 ### 1.2. Source Documents
 
-*   **Epics:** `docs/epics.md`
-*   **Architecture:** `docs/architecture-2025-11-30.md`
+*   **Tech Spec:** `docs/sprint-artifacts/tech-spec-epic-2.md#detailed-design`
+*   **PRD:** `docs/PRD.md#fr-005-meal-logging`
+*   **Epics:** `docs/epics.md#story-22-meal-logging-ui`
+*   **Architecture:** `docs/architecture-2025-11-30.md#epic-to-architecture-mapping`
 *   **Wireframes:** `mealplan_dark.html` (conceptual)
 
 ---
@@ -35,15 +39,32 @@ This story involves creating the user interface for logging meal consumption. Us
 
 | Task ID | Description | Est. Time |
 |---|---|---|
-| 2.2.1 | Create the UI for the meal logging feature based on the `mealplan_dark.html` concept. | 4h |
-| 2.2.2 | Implement the client-side logic to handle the user's interactions. | 2h |
-| 2.2.3 | Create a backend endpoint to store the meal log data. | 2h |
-| 2.2.4 | Write tests for the meal logging feature. | 2h |
+| 2.2.1 | Create the UI for the meal logging feature based on the `mealplan_dark.html` concept. (AC: #1) | 4h |
+| 2.2.2 | Implement the client-side logic to handle the user's interactions. (AC: #1) | 2h |
+| 2.2.3 | Create a backend endpoint to store the meal log data. (AC: #2) | 2h |
+| 2.2.4 | **Test:** Write unit tests for the UI components to mark meal status. (AC: #1) | 1.5h |
+| 2.2.5 | **Test:** Write integration tests for the backend endpoint to store meal log data. (AC: #2) | 1.5h |
+| 2.2.6 | **Test:** Write E2E tests for the complete meal logging flow. (AC: #1, #2) | 1.5h |
 
 ### 3.2. Developer Notes
 
+#### Project Structure Notes
+*   The UI components for meal logging should be created within the `frontend/src/app/(dashboard)/meals/` directory.
+*   The backend endpoint to store meal log data should be added to `backend/app/api/v1/endpoints/plans.py`.
+
+#### General Notes
 *   The UI should be simple and quick to use.
 *   Consider using optimistic UI updates for a better user experience.
+
+---
+
+## Dev Agent Record
+
+*   **Context Reference:**
+*   **Agent Model Used:**
+*   **Debug Log References:**
+*   **Completion Notes List:**
+*   **File List:**
 
 ---
 
@@ -51,8 +72,9 @@ This story involves creating the user interface for logging meal consumption. Us
 
 ### 4.1. Validation Checklist
 
-*   [ ] User can mark a meal as "Eaten" or "Skipped".
-*   [ ] Meal log data is stored in the database.
+*   [ ] **AC #1:** User can mark a meal as "Eaten" or "Skipped" via the UI.
+*   [ ] **AC #2:** Meal log data, including status, is correctly stored in the database.
+*   [ ] **Testing:** All unit, integration, and E2E tests for the meal logging feature pass.
 
 ### 4.2. Review
 

@@ -1,5 +1,7 @@
 # Story 2.5: New Plan Notification
 
+**Status:** drafted
+
 **Epic:** Epic 2: Adaptive Planning & Progress Logging
 **User:** Active User
 **Value Statement:** As an active user, I want to be notified when my new weekly plans are ready, so I know when to check for updates.
@@ -14,8 +16,10 @@ This story is about implementing an in-app notification system to inform users w
 
 ### 1.2. Source Documents
 
-*   **Epics:** `docs/epics.md`
-*   **Architecture:** `docs/architecture-2025-11-30.md`
+*   **Tech Spec:** `docs/sprint-artifacts/tech-spec-epic-2.md#detailed-design`
+*   **PRD:** `docs/PRD.md#fr-007-notifications`
+*   **Epics:** `docs/epics.md#story-25-new-plan-notification`
+*   **Architecture:** `docs/architecture-2025-11-30.md#epic-to-architecture-mapping`
 *   **Wireframes:** `feedback_patterns_dark.html` (conceptual)
 
 ---
@@ -35,15 +39,32 @@ This story is about implementing an in-app notification system to inform users w
 
 | Task ID | Description | Est. Time |
 |---|---|---|
-| 2.5.1 | Create the backend endpoint to trigger and manage in-app notifications. | 3h |
-| 2.5.2 | Implement the frontend UI for the notification based on the `feedback_patterns_dark.html` concept. | 3h |
-| 2.5.3 | Implement the client-side logic to check for new notifications and display them. | 2h |
-| 2.5.4 | Write tests for the notification system. | 2h |
+| 2.5.1 | Create the backend endpoint to trigger and manage in-app notifications. (AC: #1) | 3h |
+| 2.5.2 | Implement the frontend UI for the notification based on the `feedback_patterns_dark.html` concept. (AC: #1, #2) | 3h |
+| 2.5.3 | Implement the client-side logic to check for new notifications and display them. (AC: #1, #2) | 2h |
+| 2.5.4 | **Test:** Write unit tests for the frontend UI of the notification. (AC: #1) | 1.5h |
+| 2.5.5 | **Test:** Write integration tests for the backend endpoint to trigger and manage notifications. (AC: #1) | 1.5h |
+| 2.5.6 | **Test:** Write E2E tests for the complete notification system, verifying display and navigation. (AC: #1, #2) | 1.5h |
 
 ### 3.2. Developer Notes
 
+#### Project Structure Notes
+*   The backend endpoint to trigger and manage notifications should be added to `backend/app/api/v1/endpoints/plans.py`.
+*   The frontend UI for notifications should be created as a shared component, potentially in `frontend/src/components/shared/notifications/`.
+
+#### General Notes
 *   The notification should be non-intrusive but also clearly visible to the user.
 *   Consider using a real-time communication channel (e.g., WebSockets) for instant notifications, although for the MVP, a check on app load is sufficient.
+
+---
+
+## Dev Agent Record
+
+*   **Context Reference:**
+*   **Agent Model Used:**
+*   **Debug Log References:**
+*   **Completion Notes List:**
+*   **File List:**
 
 ---
 
@@ -51,8 +72,9 @@ This story is about implementing an in-app notification system to inform users w
 
 ### 4.1. Validation Checklist
 
-*   [ ] In-app notification is displayed when a new plan is ready.
-*   [ ] User can navigate to the new plan from the notification.
+*   [ ] **AC #1:** An in-app notification is correctly displayed to the user when a new weekly plan is ready.
+*   [ ] **AC #2:** The user can easily navigate to the new plan by interacting with the notification.
+*   [ ] **Testing:** All unit, integration, and E2E tests for the notification system pass.
 
 ### 4.2. Review
 

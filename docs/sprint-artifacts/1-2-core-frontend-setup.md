@@ -1,5 +1,7 @@
 # Story 1.2: Core Frontend Setup
 
+**Status:** drafted
+
 **Epic:** Epic 1: First Plan & Foundation
 **User:** Developer
 **Value Statement:** As a developer, I want the Next.js frontend to be set up and connected to a Vercel deployment pipeline, so that I can build UI components and have continuous deployment.
@@ -14,8 +16,10 @@ This story involves initializing a new Next.js project using the `create-next-ap
 
 ### 1.2. Source Documents
 
-*   **Epics:** `docs/epics.md`
-*   **Architecture:** `docs/architecture-2025-11-30.md`
+*   **Tech Spec:** `docs/sprint-artifacts/tech-spec-epic-1.md#detailed-design`
+*   **PRD:** `docs/PRD.md#fr-006-dashboard-overview`
+*   **Epics:** `docs/epics.md#story-12-core-frontend-setup`
+*   **Architecture:** `docs/architecture-2025-11-30.md#project-initialization`
 
 ---
 
@@ -35,18 +39,34 @@ This story involves initializing a new Next.js project using the `create-next-ap
 
 | Task ID | Description | Est. Time |
 |---|---|---|
-| 1.2.1 | Initialize Next.js project using `npx create-next-app@latest frontend --typescript --tailwind --eslint --app --use-npm` | 1h |
-| 1.2.2 | Configure Tailwind CSS with the project's theme and design tokens. | 2h |
-| 1.2.3 | Create a new Vercel project and link it to the GitHub repository. | 1h |
-| 1.2.4 | Implement a simple API call from a frontend component to a health check endpoint on the backend. | 2h |
-| 1.2.5 | Write a simple test for the API call to ensure it is working correctly. | 1h |
-| 1.2.6 | Verify that the Vercel deployment pipeline is triggered on a push to the main branch. | 1h |
+| 1.2.1 | Initialize Next.js project using `npx create-next-app@latest frontend --typescript --tailwind --eslint --app --use-npm` (AC: #1) | 1h |
+| 1.2.2 | Configure Tailwind CSS with the project's theme and design tokens. (AC: #1) | 2h |
+| 1.2.3 | Create a new Vercel project and link it to the GitHub repository. (AC: #2) | 1h |
+| 1.2.4 | Implement a simple API call from a frontend component to a health check endpoint on the backend. (AC: #3) | 2h |
+| 1.2.5 | Verify that the Vercel deployment pipeline is triggered on a push to the main branch. (AC: #2) | 1h |
+| 1.2.6 | **Test:** Write unit tests to verify Tailwind CSS configuration and theme. (AC: #1) | 1h |
+| 1.2.7 | **Test:** Write an E2E test to confirm deployment to Vercel on git push. (AC: #2) | 1h |
+| 1.2.8 | **Test:** Write a simple test for the API call to ensure it is working correctly. (AC: #3) | 1h |
 
 ### 3.2. Developer Notes
 
+#### Project Structure Notes
+*   The Next.js project should be initialized in a new `frontend` directory at the root of the repository, as per the `unified-project-structure.md` guidelines.
+
+#### General Notes
 *   Refer to the `docs/architecture-2025-11-30.md` for detailed instructions on project setup and structure.
 *   Ensure that the Vercel project is configured with the correct environment variables for the backend API URL.
 *   The test API call should be simple and only verify the connection between the frontend and backend.
+
+---
+
+## Dev Agent Record
+
+*   **Context Reference:**
+*   **Agent Model Used:**
+*   **Debug Log References:**
+*   **Completion Notes List:**
+*   **File List:**
 
 ---
 
@@ -54,10 +74,14 @@ This story involves initializing a new Next.js project using the `create-next-ap
 
 ### 4.1. Validation Checklist
 
-*   [ ] Next.js project is created in the `frontend` directory.
-*   [ ] Tailwind CSS is configured and working.
-*   [ ] Vercel deployment is successful.
-*   [ ] API call from frontend to backend is successful.
+*   [ ] **AC #1:** Next.js project is created in the `frontend` directory with TypeScript and Tailwind.
+*   [ ] **AC #1:** Tailwind CSS is configured with the project theme and works as expected.
+*   [ ] **AC #2:** Vercel project is created and linked to the GitHub repository.
+*   [ ] **AC #2:** A push to the main branch successfully triggers a Vercel deployment.
+*   [ ] **AC #3:** The simple API call from a frontend component to the backend is successful.
+*   [ ] **Testing:** Unit tests for Tailwind configuration pass.
+*   [ ] **Testing:** E2E tests for the Vercel deployment pipeline pass.
+*   [ ] **Testing:** Tests for the frontend-backend API call pass.
 
 ### 4.2. Review
 
