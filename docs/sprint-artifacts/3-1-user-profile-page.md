@@ -1,6 +1,6 @@
 # Story 3.1: User Profile Page
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 3: User Control & Personalization
 **User:** Engaged User
@@ -62,6 +62,7 @@ This story is about creating a user profile page where users can view and update
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/3-1-user-profile-page.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

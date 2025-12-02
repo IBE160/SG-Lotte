@@ -1,6 +1,6 @@
 # Story 3.4: Plan Interruption Management
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 3: User Control & Personalization
 **User:** Engaged User
@@ -64,6 +64,7 @@ This story is about giving users the ability to manage interruptions to their pl
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/3-4-plan-interruption-management.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

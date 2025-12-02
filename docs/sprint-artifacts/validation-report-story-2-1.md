@@ -1,26 +1,52 @@
-# Story Quality Validation Report
+# Validation Report
 
-Story: 2.1 - Workout Logging UI
-Outcome: PASS (Critical: 0, Major: 0, Minor: 0)
+**Document:** docs/sprint-artifacts/2-1-workout-logging-ui.context.xml
+**Checklist:** .bmad/bmm/workflows/4-implementation/story-context/checklist.md
+**Date:** 2025-12-02
 
-## Critical Issues (Blockers)
+## Summary
+- Overall: 10/10 passed (100%)
+- Critical Issues: 0
 
+## Section Results
+
+### Story Context Assembly Checklist
+
+✓ Story fields (asA/iWant/soThat) captured
+Evidence: `<asA>As an active user</asA>`, `<iWant>I want to easily log the completion status and perceived difficulty of my planned workouts</iWant>`, `<soThat>so the AI can track my progress.</soThat>`
+
+✓ Acceptance criteria list matches story draft exactly (no invention)
+Evidence: The `acceptanceCriteria` section exactly matches the story draft from `docs/sprint-artifacts/2-1-workout-logging-ui.md`.
+
+✓ Tasks/subtasks captured as task list
+Evidence: The `tasks` section exactly matches the task breakdown in `docs/sprint-artifacts/2-1-workout-logging-ui.md`.
+
+✓ Relevant docs (5-15) included with path and snippets
+Evidence: 10 documents included in the `docs` section of `story-context.xml`.
+
+✓ Relevant code references included with reason and line hints
+Evidence: 3 code artifacts (frontend component, backend endpoint, database model) included in the `code` section of `story-context.xml`.
+
+✓ Interfaces/API contracts extracted if applicable
+Evidence: One interface for "Log Workout" included in the `interfaces` section of `story-context.xml`.
+
+✓ Constraints include applicable dev rules and patterns
+Evidence: 8 constraints included in the `constraints` section of `story-context.xml`.
+
+✓ Dependencies detected from manifests and frameworks
+Evidence: Node.js and Python ecosystem dependencies listed in the `dependencies` section of `story-context.xml`.
+
+✓ Testing standards and locations populated
+Evidence: `tests.standards` and `tests.locations` sections are populated in `story-context.xml`.
+
+✓ XML structure follows story-context template format
+Evidence: The generated XML `docs/sprint-artifacts/2-1-workout-logging-ui.context.xml` strictly follows the `context-template.xml` structure.
+
+## Failed Items
 (None)
 
-## Major Issues (Should Fix)
-
+## Partial Items
 (None)
 
-## Minor Issues (Nice to Have)
-
+## Recommendations
 (None)
-
-## Successes
-
-- All Acceptance Criteria are well-defined, testable, specific, and atomic, and they perfectly match the authoritative ACs in the tech spec.
-- All Acceptance Criteria are mapped to tasks, and all tasks reference an AC.
-- Sufficient testing subtasks are present (4 testing tasks for 3 ACs).
-- Story structure is complete and correct, including the "As a / I want / so that" format and initialized Dev Agent Record sections.
-- First story in Epic 2, so no continuity issues or unresolved review items expected.
-- All primary source documents cited (Tech Spec, PRD, Epics, Architecture) exist and are referenced with correct sections.
-- Developer Notes now contain explicit citations and more specific architectural guidance, addressing previous feedback.

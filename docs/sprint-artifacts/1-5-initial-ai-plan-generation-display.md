@@ -1,6 +1,6 @@
 # Story 1.5: Initial AI Plan Generation & Display
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 1: First Plan & Foundation
 **User:** New User
@@ -66,6 +66,7 @@ This story is about the initial generation and display of the user's personalize
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/1-5-initial-ai-plan-generation-display.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

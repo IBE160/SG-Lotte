@@ -1,6 +1,6 @@
 # Story 3.3: Account Management
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 3: User Control & Personalization
 **User:** Engaged User
@@ -65,6 +65,7 @@ This story is about providing users with the ability to manage their account, sp
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/3-3-account-management.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

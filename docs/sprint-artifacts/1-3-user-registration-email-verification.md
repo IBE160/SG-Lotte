@@ -1,6 +1,6 @@
 # Story 1.3: User Registration & Email Verification
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 1: First Plan & Foundation
 **User:** New User
@@ -67,6 +67,7 @@ This story focuses on implementing the user registration flow. It involves creat
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/1-3-user-registration-email-verification.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

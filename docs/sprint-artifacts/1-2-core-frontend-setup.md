@@ -1,6 +1,6 @@
 # Story 1.2: Core Frontend Setup
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 1: First Plan & Foundation
 **User:** Developer
@@ -63,6 +63,7 @@ This story involves initializing a new Next.js project using the `create-next-ap
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/1-2-core-frontend-setup.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

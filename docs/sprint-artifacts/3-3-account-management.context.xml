@@ -1,0 +1,182 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>Epic 3</epicId>
+    <storyId>3.3</storyId>
+    <title>Account Management</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-3-account-management.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As an engaged user</asA>
+    <iWant>I want options to change my password or delete my account from the settings page</iWant>
+    <soThat>so I have full control over my account.</soThat>
+    <tasks>
+| Task ID | Description | Est. Time |
+|---|---|---|
+| 3.3.1 | Implement the UI for the &quot;Change Password&quot; and &quot;Delete Account&quot; options on the settings page. (AC: #1, #2) | 3h |
+| 3.3.2 | Implement the client-side logic for the &quot;Change Password&quot; flow, including calling the Supabase Auth API. (AC: #1) | 3h |
+| 3.3.3 | Implement the client-side logic for the &quot;Delete Account&quot; flow, including the confirmation step. (AC: #2) | 2h |
+| 3.3.4 | Create the backend endpoints to handle account deletion, ensuring all user data is removed. (AC: #3) | 4h |
+| 3.3.5 | **Test:** Write E2E tests for the password change flow, including UI interaction and backend update verification. (AC: #1) | 2h |
+| 3.3.6 | **Test:** Write E2E tests for the account deletion flow, including confirmation and verification of data removal. (AC: #2, #3) | 2h |
+| 3.3.7 | **Test:** Write integration tests for the backend endpoint to handle account deletion and data removal. (AC: #3) | 2h |
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+| # | Given | When | Then |
+|---|---|---|---|
+| 1 | I am on the settings page and have provided my old password | I submit the change password form | my password is changed |
+| 2 | I am on the settings page | I select &quot;Delete Account&quot; and confirm | my account is deleted |
+| 3 | My account has been deleted | | all of my data is securely and permanently removed from the system |
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-001: User Authentication &amp; Profile Management</section>
+        <snippet>Users can log in, log out, and reset their password. Users can change their email address (with verification). Users can delete their account (with confirmation).</snippet>
+      </doc>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>Non-Functional Requirements: Security</section>
+        <snippet>The system handles sensitive personal and health-related data, requiring robust protection against unauthorized access and data breaches.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>System Architecture Alignment</section>
+        <snippet>The existing `users.py` endpoint in the FastAPI backend will be expanded to include new endpoints for managing profile data, changing passwords, and handling account deletion.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Security Architecture</section>
+        <snippet>Authentication: Handled by Supabase Auth, using JWTs for secure sessions. Authorization: Supabase's Row Level Security (RLS) will be enabled to ensure users can only access their own data.</snippet>
+      </doc>
+      <doc>
+        <path>ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Flow 6, 7, &amp; 8: Profile, Account, and History</section>
+        <snippet>Standard user account management and history review. Supporting Wireframes: `settings_dark.html`.</snippet>
+      </doc>
+      <doc>
+        <path>epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Epic 3: User Control &amp; Personalization</section>
+        <snippet>As an engaged user, I can manage my account, view my achievements, and handle interruptions to my plan, so the application feels tailored to my life.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Objectives and Scope</section>
+        <snippet>Account Management: Functionality for users to change their password and securely delete their account and all associated data.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Detailed Design: APIs and Interfaces</section>
+        <snippet>POST /users/change-password: Securely changes the user's password. DELETE /users/account: Permanently deletes the user's account and all associated data.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Workflows and Sequencing: Account Deletion Workflow</section>
+        <snippet>The backend authenticates the user and initiates the account deletion process. This involves calling Supabase Auth to delete the user and relying on database cascade deletes to remove all associated data.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Non-Functional Requirements: Security</section>
+        <snippet>Data Deletion: The account deletion process must be thorough, ensuring that all personally identifiable information (PII) and user-generated content is permanently removed from the system in compliance with GDPR. Secure Password Change: The password change functionality will rely on Supabase Auth's secure methods.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>frontend/src/app/(dashboard)/settings/page.tsx</path>
+        <kind>frontend component</kind>
+        <symbol>AccountManagementSection</symbol>
+        <reason>UI for "Change Password" and "Delete Account" options.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+        <kind>backend endpoint</kind>
+        <symbol>change_password, delete_account</symbol>
+        <reason>API endpoints for changing password and deleting account.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/services/user_management.py</path>
+        <kind>backend service</kind>
+        <symbol>UserManagementService</symbol>
+        <reason>Service to encapsulate user management logic, including Supabase Auth interactions.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package>@supabase/supabase-js</package>
+        <package>zustand</package>
+        <package>react</package>
+        <package>react-dom</package>
+        <package>next</package>
+        <package>typescript</package>
+        <package>tailwindcss</package>
+      </ecosystem>
+      <ecosystem name="Python">
+        <package>supabase</package>
+        <package>fastapi</package>
+        <package>pydantic</package>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>UI for "Change Password" and "Delete Account" must be part of `frontend/src/app/(dashboard)/settings/` page.</constraint>
+    <constraint>Client-side logic for both features will reside in the frontend.</constraint>
+    <constraint>Backend endpoints to handle account deletion must be added to `backend/app/api/v1/endpoints/users.py`.</constraint>
+    <constraint>Account deletion requires a clear, explicit confirmation step from the user.</constraint>
+    <constraint>Backend utilizes `DELETE /users/account` to trigger deletion in Supabase.</constraint>
+    <constraint>All user data must be properly and permanently deleted, achieved through configured cascade deletes in the database.</constraint>
+    <constraint>Password changes must be handled securely, adhering to industry best practices and utilizing `POST /users/change-password`.</constraint>
+    <constraint>Strict adherence to RLS policies and GDPR principles for data privacy.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Change Password</name>
+      <kind>REST endpoint</kind>
+      <signature>POST /api/v1/users/change-password</signature>
+      <path>backend/app/api/v1/endpoints/users.py</path>
+    </interface>
+    <interface>
+      <name>Delete Account</name>
+      <kind>REST endpoint</kind>
+      <signature>DELETE /api/v1/users/account</signature>
+      <path>backend/app/api/v1/endpoints/users.py</path>
+    </interface>
+    <interface>
+      <name>Supabase Auth</name>
+      <kind>Auth Service</kind>
+      <signature>Supabase client-side and server-side authentication functions</signature>
+      <path>@supabase/supabase-js (frontend), supabase-py (backend)</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Backend unit and integration tests will use Pytest. Frontend component and integration tests will use React Testing Library with Jest. E2E tests will utilize Playwright. Test files will be co-located with components or in root `tests/` directory for backend.
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+      <location>frontend/src/**/__tests__/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="AC: #1">E2E tests for the password change flow, including UI interaction and backend update verification.</idea>
+      <idea ac_id="AC: #2, #3">E2E tests for the account deletion flow, including confirmation and verification of data removal.</idea>
+      <idea ac_id="AC: #3">Integration tests for the backend endpoint to handle account deletion and data removal.</idea>
+    </ideas>
+  </tests>
+</story-context>

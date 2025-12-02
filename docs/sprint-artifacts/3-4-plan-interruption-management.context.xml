@@ -1,0 +1,170 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>Epic 3</epicId>
+    <storyId>3.4</storyId>
+    <title>Plan Interruption Management</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-4-plan-interruption-management.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As an engaged user</asA>
+    <iWant>I want to be able to pause my plan for a period (e.g., vacation) or indicate I am unwell</iWant>
+    <soThat>so the AI can adjust my plans accordingly.</soThat>
+    <tasks>
+| Task ID | Description | Est. Time |
+|---|---|---|
+| 3.4.1 | Implement the UI for the &quot;Pause Plan&quot; and &quot;Feeling Unwell&quot; options on the settings page based on the `plan_interruptions_dark.html` concept. (AC: #1, #2) | 4h |
+| 3.4.2 | Create the backend endpoints to record plan interruptions. (AC: #3) | 3h |
+| 3.4.3 | Implement the client-side logic to interact with the backend endpoints. (AC: #1, #2) | 3h |
+| 3.4.4 | Update the AI plan generation logic to take plan interruptions into account. (AC: #3) | 5h |
+| 3.4.5 | **Test:** Write unit tests for the UI components for pause and unwell options. (AC: #1, #2) | 2h |
+| 3.4.6 | **Test:** Write integration tests for backend endpoints recording plan interruptions and the AI logic for plan adjustment. (AC: #3) | 2h |
+| 3.4.7 | **Test:** Write E2E tests for the plan interruption management flow, verifying UI, backend, and AI behavior. (AC: #1, #2, #3) | 2h |
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+| # | Given | When | Then |
+|---|---|---|---|
+| 1 | I am on the settings page | I select &quot;Pause Plan&quot; and specify a date range | My plan is paused for that duration |
+| 2 | I am on the settings page | I select &quot;Feeling Unwell&quot; | the intensity of my future plans is adjusted |
+| 3 | I have interrupted my plan | | The interruption data is recorded and used by the AI for the next plan generation cycle |
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>Growth Features (Post-MVP)</section>
+        <snippet>Plan Interruption: Allowing users to pause their plan for a period (e.g., vacation) or indicate they are unwell.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>System Architecture Alignment</section>
+        <snippet>The logic for plan interruptions will also be handled within the backend services.</snippet>
+      </doc>
+      <doc>
+        <path>ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Flow 5: Manage Plan Interruptions</section>
+        <snippet>Supporting Wireframes: `plan_interruptions_dark.html`, `settings_dark.html`.</snippet>
+      </doc>
+      <doc>
+        <path>epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Epic 3: User Control &amp; Personalization</section>
+        <snippet>As an engaged user, I can manage my account, view my achievements, and handle interruptions to my plan, so the application feels tailored to my life.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Objectives and Scope</section>
+        <snippet>Plan Interruption: A UI for users to pause their plan for a specified duration (e.g., for a vacation) or to indicate they are unwell, which will influence future plan generation.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Detailed Design: Services and Modules</section>
+        <snippet>Backend Plan Interruption: Record and manage user-initiated plan interruptions (e.g., pause, unwell).</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Detailed Design: Data Models and Contracts</section>
+        <snippet>The `plan_interruptions` table stores records of user-initiated pauses or adjustments to their plans, including `id`, `user_id`, `type`, `start_date`, `end_date`, `created_at`.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Detailed Design: APIs and Interfaces</section>
+        <snippet>POST /plans/interrupt: Records a plan interruption, such as a vacation or illness. Request Body: `{ "type": "pause", "start_date": "2025-12-20", "end_date": "2025-12-28" }`.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Workflows and Sequencing: Plan Interruption Workflow</section>
+        <snippet>The frontend presents a UI to collect the necessary details. The frontend sends a `POST /plans/interrupt` request to the backend. During the weekly replanning cycle, the AI Plan Adaptation Service will query the `plan_interruptions` table and adjust the next generated plan accordingly.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>frontend/src/app/(dashboard)/settings/page.tsx</path>
+        <kind>frontend component</kind>
+        <symbol>PlanInterruptionManagement</symbol>
+        <reason>UI for "Pause Plan" and "Feeling Unwell" options on the settings page.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/plans.py</path>
+        <kind>backend endpoint</kind>
+        <symbol>record_plan_interruption</symbol>
+        <reason>Backend endpoint to record plan interruptions.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/models/plan_interruptions.py</path>
+        <kind>database model</kind>
+        <symbol>PlanInterruption</symbol>
+        <reason>Database model for storing plan interruption records.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/services/ai_plan_generator.py</path>
+        <kind>backend service</kind>
+        <symbol>adjust_plan_for_interruption</symbol>
+        <reason>AI plan generation logic will be updated to account for interruptions.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package>zustand</package>
+        <package>react</package>
+        <package>react-dom</package>
+        <package>next</package>
+        <package>typescript</package>
+        <package>tailwindcss</package>
+      </ecosystem>
+      <ecosystem name="Python">
+        <package>fastapi</package>
+        <package>pydantic</package>
+        <package>supabase</package>
+        <package>openai</package>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>UI for "Pause Plan" and "Feeling Unwell" options must be part of `frontend/src/app/(dashboard)/settings/` page.</constraint>
+    <constraint>Backend endpoints to record plan interruptions must be added to `backend/app/api/v1/endpoints/plans.py`.</constraint>
+    <constraint>AI plan generation logic update will primarily affect `backend/app/services/ai_plan_generator.py`.</constraint>
+    <constraint>UI for managing plan interruptions should be clear and easy to use.</constraint>
+    <constraint>Backend utilizes `POST /plans/interrupt` endpoint to record interruption details.</constraint>
+    <constraint>AI logic must be carefully designed to adjust plans based on recorded interruptions.</constraint>
+    <constraint>The `plan_interruptions` table must conform to the defined data model.</constraint>
+    <constraint>AI Plan Adaptation Service will query `plan_interruptions` table to adapt the next generated plan.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Record Plan Interruption</name>
+      <kind>REST endpoint</kind>
+      <signature>POST /api/v1/plans/interrupt</signature>
+      <path>backend/app/api/v1/endpoints/plans.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Backend unit and integration tests will use Pytest. Frontend component and integration tests will use React Testing Library with Jest. E2E tests will utilize Playwright. Test files will be co-located with components or in root `tests/` directory for backend.
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+      <location>frontend/src/**/__tests__/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="AC: #1, #2">Unit tests for the UI components for pause and unwell options.</idea>
+      <idea ac_id="AC: #3">Integration tests for backend endpoints recording plan interruptions and the AI logic for plan adjustment.</idea>
+      <idea ac_id="AC: #1, #2, #3">E2E tests for the plan interruption management flow, verifying UI, backend, and AI behavior.</idea>
+    </ideas>
+  </tests>
+</story-context>

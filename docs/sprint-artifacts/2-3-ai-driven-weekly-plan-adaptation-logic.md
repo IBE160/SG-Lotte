@@ -1,6 +1,6 @@
 # Story 2.3: AI-Driven Weekly Plan Adaptation Logic
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 2: Adaptive Planning & Progress Logging
 **User:** AI
@@ -66,6 +66,7 @@ This story is about implementing the core AI logic for adapting the user's weekl
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/2-3-ai-driven-weekly-plan-adaptation-logic.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

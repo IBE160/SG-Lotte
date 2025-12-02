@@ -1,0 +1,198 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>Epic 2</epicId>
+    <storyId>2.3</storyId>
+    <title>AI-Driven Weekly Plan Adaptation Logic</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-3-ai-driven-weekly-plan-adaptation-logic.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As an AI</asA>
+    <iWant>I want to automatically adapt a user's next week's workout and meal plan based on their logged progress and feedback</iWant>
+    <soThat>so the plan evolves to better meet their goals.</soThat>
+    <tasks>
+| Task ID | Description | Est. Time |
+|---|---|---|
+| 2.3.1 | Create the Vercel Cron Job to trigger the weekly plan adaptation. (AC: #1) | 1h |
+| 2.3.2 | Implement the backend endpoint to be called by the cron job. (AC: #1) | 1h |
+| 2.3.3 | Implement the logic to fetch the user's logged data from the database. (AC: #2) | 2h |
+| 2.3.4 | Implement the AI logic to process the data and generate a new plan. (AC: #2, #3) | 6h |
+| 2.3.5 | Implement the logic to store the new plan in the database. (AC: #4) | 2h |
+| 2.3.6 | **Test:** Write unit tests for the logic to fetch and process user's logged data. (AC: #2) | 2h |
+| 2.3.7 | **Test:** Write unit tests for the AI logic to process data and generate new plans, including prompt engineering validation. (AC: #3) | 2h |
+| 2.3.8 | **Test:** Write integration tests for the logic to store new plans in the database. (AC: #4) | 2h |
+| 2.3.9 | **Test:** Write E2E tests for the Vercel Cron Job triggering the adaptation process and verifying plan generation/storage. (AC: #1, #2, #3, #4) | 2h |
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+| # | Given | When | Then |
+|---|---|---|---|
+| 1 | The Vercel Cron Job is configured | the scheduled time is reached | the backend adaptation process is triggered |
+| 2 | The end of the current week | The Vercel Cron Job triggers the backend | The AI processes the user's logged workouts, meals, and difficulty ratings |
+| 3 | The AI has processed the user's data | | The AI generates a new, adapted workout and meal plan for the upcoming week |
+| 4 | A new plan has been generated | | The new plans are stored in the database |
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-002: AI-Driven Workout Plan Generation &amp; Adaptation</section>
+        <snippet>The system shall automatically generate and adapt weekly workout plans based on user goals, logged progress, and difficulty ratings.</snippet>
+      </doc>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-003: AI-Driven Meal Plan Generation &amp; Adaptation</section>
+        <snippet>The system shall automatically generate and adapt weekly meal plans based on user goals, dietary preferences, and logged meal consumption.</snippet>
+      </doc>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>Non-Functional Requirements: Reliability (AI Integration)</section>
+        <snippet>The system shall implement retry mechanisms with exponential backoff for OpenAI API calls. The system shall have fallback mechanisms in case of OpenAI API unavailability.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>ADR-001: Background Job/Async Processing Strategy</section>
+        <snippet>Decision: Vercel Cron Jobs. The FastAPI backend will require a dedicated, secure API endpoint to be triggered by the Vercel Cron Job. This decision directly supports Epic 2.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>System Architecture Alignment</section>
+        <snippet>This epic will implement the first ADR (ADR-001) by utilizing a Vercel Cron Job to trigger the weekly plan adaptation logic on the backend via a secure API endpoint.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Technology Stack Details</section>
+        <snippet>AI Integration: OpenAI GPT-4 API.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Objectives and Scope</section>
+        <snippet>AI-Driven Weekly Replanning: The core backend logic to process a user's weekly logs and generate a new, adapted plan for the following week. This will be triggered by a Vercel Cron Job.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design: Services and Modules</section>
+        <snippet>Backend AI Plan Adaptation Service: Process a user's logs from the previous week and generate a new, adapted plan.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design: APIs and Interfaces</section>
+        <snippet>POST /plans/trigger-adaptation: A protected endpoint designed to be called by the Vercel Cron Job to trigger the weekly plan adaptation for a user or batch of users.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Workflows and Sequencing</section>
+        <snippet>Scheduled Trigger: At a pre-defined time (e.g., Sunday evening), the Vercel Cron Job makes a request to the protected `/plans/trigger-adaptation` endpoint on the backend.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>backend/app/services/ai_plan_generator.py</path>
+        <kind>backend service</kind>
+        <symbol>adapt_weekly_plan</symbol>
+        <reason>Core AI logic for processing logged data and generating adapted plans.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/plans.py</path>
+        <kind>backend endpoint</kind>
+        <symbol>trigger_adaptation</symbol>
+        <reason>Endpoint to be called by the Vercel Cron Job to trigger plan adaptation.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/models/workout_log.py</path>
+        <kind>database model</kind>
+        <symbol>WorkoutLog</symbol>
+        <reason>Input for AI adaptation: user's logged workout data.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/models/meal_log.py</path>
+        <kind>database model</kind>
+        <symbol>MealLog</symbol>
+        <reason>Input for AI adaptation: user's logged meal data.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/models/workout_plans.py</path>
+        <kind>database model</kind>
+        <symbol>WorkoutPlan</symbol>
+        <reason>Output of AI adaptation: updated workout plans.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/models/meal_plans.py</path>
+        <kind>database model</kind>
+        <symbol>MealPlan</symbol>
+        <reason>Output of AI adaptation: updated meal plans.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Python">
+        <package>openai</package>
+        <package>fastapi</package>
+        <package>pydantic</package>
+        <package>supabase</package>
+      </ecosystem>
+      <ecosystem name="Next.js">
+        <package>next</package>
+        <package>react</package>
+        <package>typescript</package>
+        <package>tailwindcss</package>
+        <package>zustand</package>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>AI logic for processing data and generating plans should reside in `backend/app/services/ai_plan_generator.py`.</constraint>
+    <constraint>Backend endpoint for cron job must be added to `backend/app/api/v1/endpoints/plans.py`.</constraint>
+    <constraint>Weekly plan adaptation is triggered by a Vercel Cron Job via a protected `POST /plans/trigger-adaptation` endpoint.</constraint>
+    <constraint>Effective AI prompt engineering is critical; prompt must include original plan, adherence/difficulty feedback, and request for adapted plan.</constraint>
+    <constraint>Process must handle errors gracefully and implement retry mechanisms with exponential backoff for OpenAI API calls.</constraint>
+    <constraint>Cron Job endpoint must be secured (e.g., using a secret token).</constraint>
+    <constraint>AI Service Resiliency (retry mechanisms), Fallback (default plan), and Caching should be implemented.</constraint>
+    <constraint>Cron Job must be idempotent to prevent duplicate plans.</constraint>
+    <constraint>Log data from `workout_log` and `meal_log` tables will be used as input.</constraint>
+    <constraint>New plans will be stored in `workout_plans` and `meal_plans` tables.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Trigger Plan Adaptation</name>
+      <kind>REST endpoint (protected)</kind>
+      <signature>POST /api/v1/plans/trigger-adaptation</signature>
+      <path>backend/app/api/v1/endpoints/plans.py</path>
+    </interface>
+    <interface>
+      <name>OpenAI GPT-4 API</name>
+      <kind>External API</kind>
+      <signature>OpenAI Chat Completion API</signature>
+      <path>https://api.openai.com/v1/chat/completions</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Backend unit and integration tests will use Pytest. E2E tests will utilize Playwright. Backend tests will reside in the root `tests/` directory.
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="AC: #2">Unit tests for the logic to fetch and process user's logged data.</idea>
+      <idea ac_id="AC: #3">Unit tests for the AI logic to process data and generate new plans, including prompt engineering validation.</idea>
+      <idea ac_id="AC: #4">Integration tests for the logic to store new plans in the database.</idea>
+      <idea ac_id="AC: #1, #2, #3, #4">E2E tests for the Vercel Cron Job triggering the adaptation process and verifying plan generation/storage.</idea>
+    </ideas>
+  </tests>
+</story-context>

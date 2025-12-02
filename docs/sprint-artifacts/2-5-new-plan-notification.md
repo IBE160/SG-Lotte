@@ -1,6 +1,6 @@
 # Story 2.5: New Plan Notification
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 2: Adaptive Planning & Progress Logging
 **User:** Active User
@@ -61,6 +61,7 @@ This story is about implementing an in-app notification system to inform users w
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/2-5-new-plan-notification.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

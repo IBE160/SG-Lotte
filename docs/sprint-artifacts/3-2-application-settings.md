@@ -1,6 +1,6 @@
 # Story 3.2: Application Settings
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 3: User Control & Personalization
 **User:** Engaged User
@@ -62,6 +62,7 @@ This story is about creating a settings page where users can manage their applic
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/3-2-application-settings.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

@@ -1,6 +1,6 @@
 # Story 1.4: Guided Onboarding Flow
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 1: First Plan & Foundation
 **User:** New User
@@ -65,6 +65,7 @@ This story covers the implementation of a 5-step onboarding process to gather us
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/1-4-guided-onboarding-flow.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

@@ -1,0 +1,169 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>Epic 2</epicId>
+    <storyId>2.1</storyId>
+    <title>Workout Logging UI</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-1-workout-logging-ui.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As an active user</asA>
+    <iWant>I want to easily log the completion status and perceived difficulty of my planned workouts</iWant>
+    <soThat>so the AI can track my progress.</soThat>
+    <tasks>
+| Task ID | Description | Est. Time |
+|---|---|---|
+| 2.1.1 | Create the UI for the workout logging feature based on the `workoutplan_dark.html` concept. (AC: #1, #2) | 4h |
+| 2.1.2 | Implement the client-side logic to handle the user's interactions. (AC: #1, #2) | 2h |
+| 2.1.3 | Create a backend endpoint to store the workout log data. (AC: #3) | 2h |
+| 2.1.4 | **Test:** Write unit tests for the UI components to mark workout status. (AC: #1) | 1.5h |
+| 2.1.5 | **Test:** Write unit tests for the UI components to rate workout difficulty. (AC: #2) | 1.5h |
+| 2.1.6 | **Test:** Write integration tests for the backend endpoint to store workout log data. (AC: #3) | 1.5h |
+| 2.1.7 | **Test:** Write E2E tests for the complete workout logging flow. (AC: #1, #2, #3) | 1.5h |
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+| # | Given | When | Then |
+|---|---|---|---|
+| 1 | I am viewing my daily workout plan | I interact with a workout | I can mark it as &quot;Completed&quot; or &quot;Skipped&quot; |
+| 2 | I have marked a workout as &quot;Completed&quot; | | I can rate the difficulty on a 1-5 scale |
+| 3 | I have logged my workout | | This feedback is stored in the database |
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-004: Workout Logging</section>
+        <snippet>The system shall allow users to easily log the completion status and perceived difficulty of their planned workouts. Users can mark a planned workout as "Completed" or "Skipped". Users can rate the difficulty of a completed workout (e.g., 1-5 scale).</snippet>
+      </doc>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-006: Dashboard Overview</section>
+        <snippet>The system shall provide a clear, minimalist dashboard displaying the user's current weekly workout and meal plans. Dashboard visually indicates completed/skipped workouts and meals.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>System Architecture Alignment</section>
+        <snippet>Frontend: The implementation will add new components for logging within the dashboard, specifically under `src/app/(dashboard)/workouts/`.</snippet>
+      </doc>
+      <doc>
+        <path>ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Flow 3 &amp; 4: Log Workouts, Meals &amp; Provide Feedback</section>
+        <snippet>Supporting Wireframes: `workoutplan_dark.html`: Enables detailed logging of sets, reps, and weights. `feedback_patterns_dark.html`: Defines the visual patterns (toasts) for success, error, and warning feedback after a user action.</snippet>
+      </doc>
+      <doc>
+        <path>epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Epic 2: Adaptive Planning &amp; Progress Logging</section>
+        <snippet>As an active user, I can log my progress with simple clicks, and the app will automatically adapt my next week's plan to my performance, so my plan evolves with me.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Objectives and Scope</section>
+        <snippet>Workout Logging: A UI for users to mark workouts as "Completed" or "Skipped" and rate the difficulty of completed workouts.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design: Services and Modules</section>
+        <snippet>Frontend Logging Module: Provide UI for users to log workout completion/difficulty. Backend Logging Service: Receive and persist workout and meal log data from the frontend.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design: Data Models and Contracts</section>
+        <snippet>The `workout_log` table records the completion status and user feedback for individual workouts, including `id`, `user_id`, `workout_plan_id`, `exercise_id`, `status`, `difficulty_rating`, `logged_at`.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design: APIs and Interfaces</section>
+        <snippet>POST /log/workout: Logs the completion status and difficulty of a single workout. Request Body: `{ "workout_plan_id": "...", "exercise_id": "...", "status": "completed", "difficulty_rating": 4 }`.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Workflows and Sequencing</section>
+        <snippet>User Logging: Throughout the week, the user interacts with their daily plans on the frontend, marking workouts and meals as completed, skipped, and rating workout difficulty. Log Persistence: Each logging action on the frontend triggers an API call to the backend's `/log/workout` or `/log/meal` endpoints.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>frontend/src/app/(dashboard)/workouts/page.tsx</path>
+        <kind>frontend component</kind>
+        <symbol>WorkoutLoggingUI</symbol>
+        <reason>UI for displaying daily workout plan and logging progress.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/plans.py</path>
+        <kind>backend endpoint</kind>
+        <symbol>log_workout</symbol>
+        <reason>API endpoint to store workout log data.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/models/workout_log.py</path>
+        <kind>database model</kind>
+        <symbol>WorkoutLog</symbol>
+        <reason>Database model for recording workout completion status and feedback.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package>zustand</package>
+        <package>react</package>
+        <package>react-dom</package>
+        <package>next</package>
+        <package>typescript</package>
+        <package>tailwindcss</package>
+      </ecosystem>
+      <ecosystem name="Python">
+        <package>fastapi</package>
+        <package>pydantic</package>
+        <package>supabase</package>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>UI components for workout logging must be created within `frontend/src/app/(dashboard)/workouts/` directory.</constraint>
+    <constraint>Backend endpoint to store workout log data must be added to `backend/app/api/v1/endpoints/plans.py`.</constraint>
+    <constraint>UI should be intuitive and easy to use for logging workouts.</constraint>
+    <constraint>Each logging action on the frontend triggers an API call to `POST /log/workout`.</constraint>
+    <constraint>Difficulty rating must be captured correctly in the `workout_log` table.</constraint>
+    <constraint>Consider implementing optimistic UI updates for enhanced user experience.</constraint>
+    <constraint>The `workout_log` table must conform to the defined data model, including `status` and `difficulty_rating`.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Log Workout</name>
+      <kind>REST endpoint</kind>
+      <signature>POST /api/v1/log/workout</signature>
+      <path>backend/app/api/v1/endpoints/plans.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Backend unit and integration tests will use Pytest. Frontend component and integration tests will use React Testing Library with Jest. E2E tests will utilize Playwright. Test files will be co-located with components or in root `tests/` directory for backend.
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+      <location>frontend/src/**/__tests__/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="AC: #1">Unit tests for the UI components to mark workout status.</idea>
+      <idea ac_id="AC: #2">Unit tests for the UI components to rate workout difficulty.</idea>
+      <idea ac_id="AC: #3">Integration tests for the backend endpoint to store workout log data.</idea>
+      <idea ac_id="AC: #1, #2, #3">E2E tests for the complete workout logging flow.</idea>
+    </ideas>
+  </tests>
+</story-context>

@@ -1,0 +1,174 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>Epic 2</epicId>
+    <storyId>2.4</storyId>
+    <title>Dashboard Progress Visualization</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-4-dashboard-progress-visualization.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As an active user</asA>
+    <iWant>I want to see a clear visualization of my progress (e.g., workout streak, weight trend) on my dashboard</iWant>
+    <soThat>so I can stay motivated and informed.</soThat>
+    <tasks>
+| Task ID | Description | Est. Time |
+|---|---|---|
+| 2.4.1 | Create the backend endpoint to fetch aggregated progress data. (AC: #1, #2) | 3h |
+| 2.4.2 | Implement the frontend UI for the progress visualization section. (AC: #1, #2) | 3h |
+| 2.4.3 | Integrate the `Recharts` library to create the weight trend chart. (AC: #2) | 4h |
+| 2.4.4 | **Test:** Write unit tests for the frontend component displaying workout streak. (AC: #1) | 1.5h |
+| 2.4.5 | **Test:** Write component tests for the weight trend chart using mock data. (AC: #2) | 1.5h |
+| 2.4.6 | **Test:** Write integration tests for the backend endpoint fetching aggregated progress data. (AC: #1, #2) | 1.5h |
+| 2.4.7 | **Test:** Write E2E tests for the dashboard progress visualization section, verifying accuracy. (AC: #1, #2) | 1.5h |
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+| # | Given | When | Then |
+|---|---|---|---|
+| 1 | I am on the dashboard | I view the progress section | I see a summary of my workout streak |
+| 2 | I am on the dashboard | I view the progress section | I see a visualization of my weight trend over the last 30 days |
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-006: Dashboard Overview</section>
+        <snippet>The system shall provide a clear, minimalist dashboard displaying the user's current weekly workout and meal plans. Dashboard visually indicates completed/skipped workouts and meals.</snippet>
+      </doc>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>Growth Features (Post-MVP)</section>
+        <snippet>Advanced Progress Tracking: Detailed logging of sets, reps, weights, calories, etc. with historical charts (Recharts).</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Technology Stack Details: Core Technologies</section>
+        <snippet>Frontend: Next.js (React) with TypeScript, Tailwind CSS, and Recharts.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>System Architecture Alignment</section>
+        <snippet>Frontend: ... include the UI for progress visualization on the main dashboard page.</snippet>
+      </doc>
+      <doc>
+        <path>ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Flow 6, 7, &amp; 8: Profile, Account, and History</section>
+        <snippet>Standard user account management and history review. Supporting Wireframes: `Progress_history_dark.html`.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Objectives and Scope</section>
+        <snippet>Basic Progress Visualization: A dashboard component to display a user's workout streak and a trend line for weight.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design: Services and Modules</section>
+        <snippet>Frontend Progress Visualization: Display charts for workout streak and weight trend on the dashboard.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design: APIs and Interfaces</section>
+        <snippet>GET /progress/summary: Fetches aggregated progress data for the dashboard visualization. Response (200 OK): `{ "workout_streak": 5, "weight_trend": [...] }`.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Non-Functional Requirements: Performance</section>
+        <snippet>The initial load time for the dashboard page should be under 2 seconds. The system must support at least 100 concurrent active users without degradation in performance.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Dependencies and Integrations: Core Dependencies</section>
+        <snippet>Frontend (Next.js): `recharts`: Library for creating charts and visualizations.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/plans.py</path>
+        <kind>backend endpoint</kind>
+        <symbol>get_progress_summary</symbol>
+        <reason>API endpoint to fetch aggregated progress data for dashboard visualization.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/app/(dashboard)/dashboard/page.tsx</path>
+        <kind>frontend component</kind>
+        <symbol>DashboardProgressSection</symbol>
+        <reason>Main UI section for displaying progress visualizations.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/components/dashboard/WorkoutStreak.tsx</path>
+        <kind>frontend component</kind>
+        <symbol>WorkoutStreakDisplay</symbol>
+        <reason>Component to display the user's workout streak summary.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/components/dashboard/WeightTrendChart.tsx</path>
+        <kind>frontend component</kind>
+        <symbol>WeightTrendChart</symbol>
+        <reason>Component to display the user's weight trend over the last 30 days using Recharts.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package>recharts</package>
+        <package>zustand</package>
+        <package>react</package>
+        <package>react-dom</package>
+        <package>next</package>
+        <package>typescript</package>
+        <package>tailwindcss</package>
+      </ecosystem>
+      <ecosystem name="Python">
+        <package>fastapi</package>
+        <package>pydantic</package>
+        <package>supabase</package>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Frontend UI for progress visualization section must be created within `frontend/src/app/(dashboard)/dashboard/` directory.</constraint>
+    <constraint>Backend endpoint to fetch aggregated progress data must be added to `backend/app/api/v1/endpoints/plans.py`.</constraint>
+    <constraint>Weight trend chart should utilize the `Recharts` library.</constraint>
+    <constraint>Workout streak must be prominently displayed.</constraint>
+    <constraint>API endpoint for progress data must be efficient and return only necessary data.</constraint>
+    <constraint>Optimize frontend performance for data fetching and display.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Get Progress Summary</name>
+      <kind>REST endpoint</kind>
+      <signature>GET /api/v1/progress/summary</signature>
+      <path>backend/app/api/v1/endpoints/plans.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Backend unit and integration tests will use Pytest. Frontend component and integration tests will use React Testing Library with Jest. E2E tests will utilize Playwright. Test files will be co-located with components or in root `tests/` directory for backend.
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+      <location>frontend/src/**/__tests__/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="AC: #1">Unit tests for the frontend component displaying workout streak.</idea>
+      <idea ac_id="AC: #2">Component tests for the weight trend chart using mock data.</idea>
+      <idea ac_id="AC: #1, #2">Integration tests for the backend endpoint fetching aggregated progress data.</idea>
+      <idea ac_id="AC: #1, #2">E2E tests for the dashboard progress visualization section, verifying accuracy.</idea>
+    </ideas>
+  </tests>
+</story-context>

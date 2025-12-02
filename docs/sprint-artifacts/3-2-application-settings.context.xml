@@ -1,0 +1,159 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>Epic 3</epicId>
+    <storyId>3.2</storyId>
+    <title>Application Settings</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-2-application-settings.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As an engaged user</asA>
+    <iWant>I want a settings page to manage application preferences</iWant>
+    <soThat>so I can customize my experience.</soThat>
+    <tasks>
+| Task ID | Description | Est. Time |
+|---|---|---|
+| 3.2.1 | Create the backend endpoints for retrieving and updating user settings. (AC: #2, #3) | 3h |
+| 3.2.2 | Implement the frontend UI for the settings page based on the `settings_dark.html` concept. (AC: #1, #2) | 4h |
+| 3.2.3 | Implement the client-side logic to fetch and update the user's settings. (AC: #2, #3) | 3h |
+| 3.2.4 | **Test:** Write unit tests for the frontend UI of the settings page to display options correctly. (AC: #2) | 1.5h |
+| 3.2.5 | **Test:** Write integration tests for the backend endpoint to update user settings. (AC: #3) | 1.5h |
+| 3.2.6 | **Test:** Write E2E tests for the settings page, verifying changes are saved and applied. (AC: #1, #2, #3) | 1.5h |
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+| # | Given | When | Then |
+|---|---|---|---|
+| 1 | I am in the main application | I navigate to the settings page | I am on the dedicated settings page |
+| 2 | I navigate to the settings page | The page loads | I see options to manage dark mode and notification preferences |
+| 3 | I am on the settings page | I change a setting | The change is saved and applied immediately |
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>Non-Functional Requirements</section>
+        <snippet>This section defines general Non-Functional Requirements (NFRs) like performance, security, and scalability which influence application settings.</snippet>
+      </doc>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-007: Notifications</section>
+        <snippet>The system shall notify users when their new weekly plans are ready. This impacts notification settings.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>System Architecture Alignment</section>
+        <snippet>Frontend: New pages and components will be created within the Next.js application for the user profile and settings, located at `src/app/(dashboard)/profile/` and `src/app/(dashboard)/settings/` respectively.</snippet>
+      </doc>
+      <doc>
+        <path>ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Flow 6, 7, &amp; 8: Profile, Account, and History</section>
+        <snippet>Supporting Wireframes: `settings_dark.html`.</snippet>
+      </doc>
+      <doc>
+        <path>epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Epic 3: User Control &amp; Personalization</section>
+        <snippet>As an engaged user, I can manage my account, view my achievements, and handle interruptions to my plan, so the application feels tailored to my life.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Objectives and Scope</section>
+        <snippet>Application Settings: A settings page to manage application-level preferences, such as dark mode and notification settings.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Detailed Design: Services and Modules</section>
+        <snippet>Frontend Settings Module: Provide UI for managing app settings, changing password, and deleting account.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Detailed Design: APIs and Interfaces</section>
+        <snippet>PUT /users/profile: Updates the user's profile information. Request Body: `{ "name": "New Name", "fitness_goal": "new_goal" }`. This endpoint could be used for general user settings.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>frontend/src/app/(dashboard)/settings/page.tsx</path>
+        <kind>frontend component</kind>
+        <symbol>ApplicationSettingsPage</symbol>
+        <reason>UI for displaying and managing application preferences.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+        <kind>backend endpoint</kind>
+        <symbol>get_user_settings, update_user_settings</symbol>
+        <reason>API endpoints for retrieving and updating user application settings.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/hooks/useAppSettings.ts</path>
+        <kind>frontend hook</kind>
+        <symbol>useAppSettings</symbol>
+        <reason>Custom hook for managing client-side application settings state.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package>zustand</package>
+        <package>react</package>
+        <package>react-dom</package>
+        <package>next</package>
+        <package>typescript</package>
+        <package>tailwindcss</package>
+      </ecosystem>
+      <ecosystem name="Python">
+        <package>fastapi</package>
+        <package>pydantic</package>
+        <package>supabase</package>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Frontend UI for the settings page must be created within `frontend/src/app/(dashboard)/settings/` directory.</constraint>
+    <constraint>Backend endpoints for retrieving and updating user settings should be added to `backend/app/api/v1/endpoints/users.py` (or a dedicated `settings.py`).</constraint>
+    <constraint>Settings page must be user-friendly and provide clear options for managing preferences (dark mode, notifications).</constraint>
+    <constraint>Changes to settings are expected to be saved and applied immediately, providing instant feedback.</constraint>
+    <constraint>Global client-side state for settings will be managed with `Zustand`.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Get User Settings</name>
+      <kind>REST endpoint</kind>
+      <signature>GET /api/v1/users/settings</signature>
+      <path>backend/app/api/v1/endpoints/users.py</path>
+    </interface>
+    <interface>
+      <name>Update User Settings</name>
+      <kind>REST endpoint</kind>
+      <signature>PUT /api/v1/users/settings</signature>
+      <path>backend/app/api/v1/endpoints/users.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Backend unit and integration tests will use Pytest. Frontend component and integration tests will use React Testing Library with Jest. E2E tests will utilize Playwright. Test files will be co-located with components or in root `tests/` directory for backend.
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+      <location>frontend/src/**/__tests__/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="AC: #2">Unit tests for the frontend UI of the settings page to display options correctly.</idea>
+      <idea ac_id="AC: #3">Integration tests for the backend endpoint to update user settings.</idea>
+      <idea ac_id="AC: #1, #2, #3">E2E tests for the settings page, verifying changes are saved and applied.</idea>
+    </ideas>
+  </tests>
+</story-context>

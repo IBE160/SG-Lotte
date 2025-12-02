@@ -1,6 +1,6 @@
 # Story 2.1: Workout Logging UI
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 2: Adaptive Planning & Progress Logging
 **User:** Active User
@@ -64,6 +64,7 @@ This story is about creating the user interface for logging workout progress. Us
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/2-1-workout-logging-ui.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

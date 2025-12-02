@@ -1,6 +1,6 @@
 # Story 2.2: Meal Logging UI
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 2: Adaptive Planning & Progress Logging
 **User:** Active User
@@ -61,6 +61,7 @@ This story involves creating the user interface for logging meal consumption. Us
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/2-2-meal-logging-ui.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

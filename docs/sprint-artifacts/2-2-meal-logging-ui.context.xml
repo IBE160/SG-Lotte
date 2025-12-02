@@ -1,0 +1,165 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>Epic 2</epicId>
+    <storyId>2.2</storyId>
+    <title>Meal Logging UI</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-2-meal-logging-ui.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As an active user</asA>
+    <iWant>I want to easily log the consumption status of my planned meals</iWant>
+    <soThat>so the AI can track my adherence.</soThat>
+    <tasks>
+| Task ID | Description | Est. Time |
+|---|---|---|
+| 2.2.1 | Create the UI for the meal logging feature based on the `mealplan_dark.html` concept. (AC: #1) | 4h |
+| 2.2.2 | Implement the client-side logic to handle the user's interactions. (AC: #1) | 2h |
+| 2.2.3 | Create a backend endpoint to store the meal log data. (AC: #2) | 2h |
+| 2.2.4 | **Test:** Write unit tests for the UI components to mark meal status. (AC: #1) | 1.5h |
+| 2.2.5 | **Test:** Write integration tests for the backend endpoint to store meal log data. (AC: #2) | 1.5h |
+| 2.2.6 | **Test:** Write E2E tests for the complete meal logging flow. (AC: #1, #2) | 1.5h |
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+| # | Given | When | Then |
+|---|---|---|---|
+| 1 | I am viewing my daily meal plan | I interact with a meal | I can mark it as &quot;Eaten&quot; or &quot;Skipped&quot; |
+| 2 | I have logged my meal | | This feedback is stored in the database |
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-005: Meal Logging</section>
+        <snippet>The system shall allow users to easily log the consumption status of their planned meals. Users can mark a planned meal as "Eaten" or "Skipped".</snippet>
+      </doc>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-006: Dashboard Overview</section>
+        <snippet>The system shall provide a clear, minimalist dashboard displaying the user's current weekly workout and meal plans. Dashboard visually indicates completed/skipped workouts and meals.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>System Architecture Alignment</section>
+        <snippet>Frontend: The implementation will add new components for logging within the dashboard, specifically under `src/app/(dashboard)/meals/`.</snippet>
+      </doc>
+      <doc>
+        <path>ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Flow 1 &amp; 2: Plan Workouts &amp; Meals</section>
+        <snippet>AI-powered generation and display of weekly workout and meal plans. Supporting Wireframes: `mealplan_dark.html`.</snippet>
+      </doc>
+      <doc>
+        <path>ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Flow 3 &amp; 4: Log Workouts, Meals &amp; Provide Feedback</section>
+        <snippet>Supporting Wireframes: `mealplan_dark.html`: Enables simple checkbox-based logging for meal adherence.</snippet>
+      </doc>
+      <doc>
+        <path>epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Epic 2: Adaptive Planning &amp; Progress Logging</section>
+        <snippet>As an active user, I can log my progress with simple clicks, and the app will automatically adapt my next week's plan to my performance, so my plan evolves with me.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Objectives and Scope</section>
+        <snippet>Meal Logging: A UI for users to mark meals as "Eaten" or "Skipped".</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design: Services and Modules</section>
+        <snippet>Frontend Logging Module: Provide UI for users to log meal consumption. Backend Logging Service: Receive and persist workout and meal log data from the frontend.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design: Data Models and Contracts</section>
+        <snippet>The `meal_log` table records the consumption status of individual meals, including `id`, `user_id`, `meal_plan_id`, `meal_id`, `status`, `logged_at`.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design: APIs and Interfaces</section>
+        <snippet>POST /log/meal: Logs the consumption status of a single meal. Request Body: `{ "meal_plan_id": "...", "meal_id": "...", "status": "eaten" }`.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>frontend/src/app/(dashboard)/meals/page.tsx</path>
+        <kind>frontend component</kind>
+        <symbol>MealLoggingUI</symbol>
+        <reason>UI for displaying daily meal plan and logging consumption status.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/plans.py</path>
+        <kind>backend endpoint</kind>
+        <symbol>log_meal</symbol>
+        <reason>API endpoint to store meal log data.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/models/meal_log.py</path>
+        <kind>database model</kind>
+        <symbol>MealLog</symbol>
+        <reason>Database model for recording meal consumption status.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package>zustand</package>
+        <package>react</package>
+        <package>react-dom</package>
+        <package>next</package>
+        <package>typescript</package>
+        <package>tailwindcss</package>
+      </ecosystem>
+      <ecosystem name="Python">
+        <package>fastapi</package>
+        <package>pydantic</package>
+        <package>supabase</package>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>UI components for meal logging must be created within `frontend/src/app/(dashboard)/meals/` directory.</constraint>
+    <constraint>Backend endpoint to store meal log data must be added to `backend/app/api/v1/endpoints/plans.py`.</constraint>
+    <constraint>UI should be simple and quick to use for logging meals.</constraint>
+    <constraint>Each logging action on the frontend triggers an API call to `POST /log/meal`.</constraint>
+    <constraint>Consider implementing optimistic UI updates for enhanced user experience.</constraint>
+    <constraint>The `meal_log` table must conform to the defined data model, including `status`.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Log Meal</name>
+      <kind>REST endpoint</kind>
+      <signature>POST /api/v1/log/meal</signature>
+      <path>backend/app/api/v1/endpoints/plans.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Backend unit and integration tests will use Pytest. Frontend component and integration tests will use React Testing Library with Jest. E2E tests will utilize Playwright. Test files will be co-located with components or in root `tests/` directory for backend.
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+      <location>frontend/src/**/__tests__/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="AC: #1">Unit tests for the UI components to mark meal status.</idea>
+      <idea ac_id="AC: #2">Integration tests for the backend endpoint to store meal log data.</idea>
+      <idea ac_id="AC: #1, #2">E2E tests for the complete meal logging flow.</idea>
+    </ideas>
+  </tests>
+</story-context>

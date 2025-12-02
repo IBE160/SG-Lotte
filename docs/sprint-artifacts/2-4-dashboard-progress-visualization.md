@@ -1,6 +1,6 @@
 # Story 2.4: Dashboard Progress Visualization
 
-**Status:** drafted
+**Status:** ready-for-dev
 
 **Epic:** Epic 2: Adaptive Planning & Progress Logging
 **User:** Active User
@@ -62,6 +62,7 @@ This story is about adding a progress visualization section to the dashboard. Th
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   docs/sprint-artifacts/2-4-dashboard-progress-visualization.context.xml
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**

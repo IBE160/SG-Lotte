@@ -1,0 +1,171 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>Epic 3</epicId>
+    <storyId>3.1</storyId>
+    <title>User Profile Page</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-1-user-profile-page.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As an engaged user</asA>
+    <iWant>I want a dedicated profile page to view and update my personal information and fitness goals</iWant>
+    <soThat>so I have a central place to manage my identity.</soThat>
+    <tasks>
+| Task ID | Description | Est. Time |
+|---|---|---|
+| 3.1.1 | Create the backend endpoints for retrieving and updating user profile data. (AC: #2, #3) | 3h |
+| 3.1.2 | Implement the frontend UI for the profile page based on the `profilepage_dark.html` concept. (AC: #1, #2) | 4h |
+| 3.1.3 | Implement the client-side logic to fetch and update the user's profile data. (AC: #2, #3) | 3h |
+| 3.1.4 | **Test:** Write unit tests for the frontend UI of the profile page to display user information. (AC: #2) | 1.5h |
+| 3.1.5 | **Test:** Write integration tests for the backend endpoint to update user profile data. (AC: #3) | 1.5h |
+| 3.1.6 | **Test:** Write E2E tests for the user profile page, verifying viewing and updating of information. (AC: #1, #2, #3) | 1.5h |
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+| # | Given | When | Then |
+|---|---|---|---|
+| 1 | I am in the main application | I navigate to the profile page | I am on the dedicated profile page |
+| 2 | I navigate to the profile page | The page loads | I see my name, email, and current fitness goals |
+| 3 | I am on the profile page | I edit my personal details | The changes are saved to my user profile |
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-001: User Authentication &amp; Profile Management</section>
+        <snippet>The system shall allow users to securely register, log in, and manage their core profile information. Users can edit their primary fitness goal and core dietary preference.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>System Architecture Alignment</section>
+        <snippet>Frontend: The implementation will build out the user-facing components within the Next.js application, specifically the onboarding flow under `src/app/(auth)/` and the initial dashboard display in `src/app/(dashboard)/dashboard/`.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>API Contracts</section>
+        <snippet>`/users/`: For user management and profile information.</snippet>
+      </doc>
+      <doc>
+        <path>architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Security Architecture</section>
+        <snippet>Authorization: Supabase's Row Level Security (RLS) will be enabled to ensure users can only access their own data. API Security: Backend API endpoints will be protected and will require a valid JWT from an authenticated user.</snippet>
+      </doc>
+      <doc>
+        <path>ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Flow 6, 7, &amp; 8: Profile, Account, and History</section>
+        <snippet>Supporting Wireframes: `profilepage_dark.html`.</snippet>
+      </doc>
+      <doc>
+        <path>epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Epic 3: User Control &amp; Personalization</section>
+        <snippet>As an engaged user, I can manage my account, view my achievements, and handle interruptions to my plan, so the application feels tailored to my life.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Objectives and Scope</section>
+        <snippet>User Profile Page: A dedicated page for users to view and update their personal information and fitness goals.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Detailed Design: Services and Modules</section>
+        <snippet>Frontend Profile Module: Display and allow updates to the user's profile information (name, goals, etc.). Backend Profile Management: Handle updates to user profile data.</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Detailed Design: Data Models and Contracts</section>
+        <snippet>The `users` table will be extended to store more detailed profile information, including `name` (varchar, nullable).</snippet>
+      </doc>
+      <doc>
+        <path>sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Detailed Design: APIs and Interfaces</section>
+        <snippet>PUT /users/profile: Updates the user's profile information. Request Body: `{ "name": "New Name", "fitness_goal": "new_goal" }`. Response (200 OK): `{ "message": "Profile updated successfully" }`.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>frontend/src/app/(dashboard)/profile/page.tsx</path>
+        <kind>frontend component</kind>
+        <symbol>UserProfilePage</symbol>
+        <reason>UI for displaying and editing user profile information.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+        <kind>backend endpoint</kind>
+        <symbol>get_user_profile, update_user_profile</symbol>
+        <reason>API endpoints for retrieving and updating user profile data.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/models/users.py</path>
+        <kind>database model</kind>
+        <symbol>User</symbol>
+        <reason>Database model for user data, including extended profile fields.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package>zustand</package>
+        <package>react</package>
+        <package>react-dom</package>
+        <package>next</package>
+        <package>typescript</package>
+        <package>tailwindcss</package>
+      </ecosystem>
+      <ecosystem name="Python">
+        <package>fastapi</package>
+        <package>pydantic</package>
+        <package>supabase</package>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Frontend UI for the user profile page must be created within `frontend/src/app/(dashboard)/profile/` directory.</constraint>
+    <constraint>Backend endpoints for retrieving and updating user profile data must be added to `backend/app/api/v1/endpoints/users.py`.</constraint>
+    <constraint>Profile page must be designed for ease of navigation and editing, adhering to UX best practices.</constraint>
+    <constraint>Strict adherence to RLS policies is paramount to ensure secure user data handling.</constraint>
+    <constraint>The `users` table must be extended with a `name` field.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Get User Profile</name>
+      <kind>REST endpoint</kind>
+      <signature>GET /api/v1/users/profile</signature>
+      <path>backend/app/api/v1/endpoints/users.py</path>
+    </interface>
+    <interface>
+      <name>Update User Profile</name>
+      <kind>REST endpoint</kind>
+      <signature>PUT /api/v1/users/profile</signature>
+      <path>backend/app/api/v1/endpoints/users.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Backend unit and integration tests will use Pytest. Frontend component and integration tests will use React Testing Library with Jest. E2E tests will utilize Playwright. Test files will be co-located with components or in root `tests/` directory for backend.
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+      <location>frontend/src/**/__tests__/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="AC: #2">Unit tests for the frontend UI of the profile page to display user information.</idea>
+      <idea ac_id="AC: #3">Integration tests for the backend endpoint to update user profile data.</idea>
+      <idea ac_id="AC: #1, #2, #3">E2E tests for the user profile page, verifying viewing and updating of information.</idea>
+    </ideas>
+  </tests>
+</story-context>
