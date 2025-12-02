@@ -20,7 +20,7 @@ This story covers the implementation of a 5-step onboarding process to gather us
 *   **PRD:** `docs/PRD.md#fr-001-user-authentication--profile-management`
 *   **Epics:** `docs/epics.md#story-14-guided-onboarding-flow`
 *   **Architecture:** `docs/architecture-2025-11-30.md#epic-to-architecture-mapping`
-*   **Wireframes:** `onboarding1_dark.html` to `onboarding5_dark.html` (Note: these files are not in the project, but are referenced in the epics file. The developer will need to create the UI based on the descriptions in the epics file).
+*   **Wireframes:** `onboarding1_dark.html` to `onboarding5_dark.html` (Conceptual wireframes; developers should implement the UI based on the descriptions in the epics file. If physical files are created, they should reside in `docs/ux-design/wireframes/`).
 
 ---
 
@@ -56,9 +56,9 @@ This story covers the implementation of a 5-step onboarding process to gather us
 *   The backend endpoint to save user preferences should be added to `backend/app/api/v1/endpoints/users.py`.
 
 #### General Notes
-*   The wireframes are conceptual. The developer will need to implement the UI using the project's design system and components. The goal is to collect the user's fitness goal, dietary preferences, and fitness persona. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#detailed-design]
-*   The onboarding flow should be intuitive and easy to a use. Upon completion, the frontend sends these preferences to the backend's `POST /users/preferences` endpoint. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#workflows-and-sequencing]
-*   Ensure that the user's preferences are saved correctly to the `users` table in the database and can be retrieved for the AI plan generation. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#data-models-and-contracts]
+*   The wireframes are conceptual. The developer will need to implement the UI using the project's design system and components, focusing on collecting the user's fitness goal, dietary preferences, and fitness persona. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#detailed-design]
+*   The onboarding flow should be intuitive and easy to use. Upon completion, the frontend sends these preferences to the backend's `POST /users/preferences` endpoint. This interaction is detailed in the workflow. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#workflows-and-sequencing]
+*   Ensure that the user's preferences are saved correctly to the `users` table in the database and can be retrieved for the AI plan generation. Data model details are provided in the tech spec. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#data-models-and-contracts]
 
 ---
 

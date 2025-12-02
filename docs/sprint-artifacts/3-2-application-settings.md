@@ -54,8 +54,8 @@ This story is about creating a settings page where users can manage their applic
 *   The backend endpoints for retrieving and updating user settings should be added to `backend/app/api/v1/endpoints/users.py` (or a dedicated `settings.py` if complexity warrants).
 
 #### General Notes
-*   The settings page should be user-friendly and provide clear options for managing preferences like dark mode and notifications. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#objectives-and-scope]
-*   Changes to settings are saved and applied immediately, providing instant feedback to the user. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#acceptance-criteria-authoritative]
+*   The settings page should be designed to be user-friendly and provide clear, intuitive options for managing preferences such as dark mode and notification settings, aligning with the overall objectives and scope of the epic. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#objectives-and-scope]
+*   Changes to settings are expected to be saved and applied immediately, providing instant feedback to the user and adhering to the authoritative acceptance criteria. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#acceptance-criteria-authoritative]
 
 ---
 

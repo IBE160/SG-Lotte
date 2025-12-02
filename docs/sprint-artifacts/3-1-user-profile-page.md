@@ -54,8 +54,8 @@ This story is about creating a user profile page where users can view and update
 *   The backend endpoints for retrieving and updating user profile data should be added to `backend/app/api/v1/endpoints/users.py`.
 
 #### General Notes
-*   The profile page should be easy to navigate and edit. The backend will expose a `PUT /users/profile` endpoint to handle updates. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#apis-and-interfaces]
-*   Ensure that the user's data is handled securely, adhering to the RLS policies defined in the security architecture. [Source: docs/architecture-2025-11-30.md#security-architecture]
+*   The profile page should be designed for ease of navigation and editing, adhering to UX best practices. The backend will expose a `PUT /users/profile` endpoint to handle updates, with details available in the API interfaces specification. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#apis-and-interfaces]
+*   Strict adherence to RLS policies defined in the security architecture is paramount to ensure the user's data is handled securely, preventing unauthorized access or modification. [Source: docs/architecture-2025-11-30.md#security-architecture]
 
 ---
 

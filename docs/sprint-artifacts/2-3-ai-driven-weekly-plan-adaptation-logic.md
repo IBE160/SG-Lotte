@@ -57,9 +57,9 @@ This story is about implementing the core AI logic for adapting the user's weekl
 *   The AI logic for processing data and generating plans should reside in `backend/app/services/ai_plan_generator.py` or a new dedicated service.
 
 #### General Notes
-*   This is a backend-heavy story. The weekly plan adaptation is triggered by a Vercel Cron Job making a request to a protected `POST /plans/trigger-adaptation` endpoint. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#workflows-and-sequencing]
-*   The AI prompt engineering will be critical to the success of this feature. The prompt should include the user's original plan, their adherence and difficulty feedback from the logs, and a request to generate a new, adapted plan for the upcoming week. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#workflows-and-sequencing]
-*   The process should be robust and handle potential errors gracefully, implementing retry mechanisms with exponential backoff for OpenAI API calls. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#reliability-availability]
+*   This is a backend-heavy story. The weekly plan adaptation is triggered by a Vercel Cron Job making a request to a protected `POST /plans/trigger-adaptation` endpoint, as detailed in the workflows. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#workflows-and-sequencing]
+*   Effective AI prompt engineering will be critical for this feature's success. The prompt should meticulously include the user's original plan, their adherence and difficulty feedback from the logs, and a clear request for a new, adapted plan for the upcoming week. This aligns with the AI service's operational guidelines. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#workflows-and-sequencing]
+*   The process should be robust and handle potential errors gracefully, implementing retry mechanisms with exponential backoff for OpenAI API calls to ensure system reliability and fault tolerance. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#reliability-availability]
 
 ---
 

@@ -53,8 +53,8 @@ This story is about implementing an in-app notification system to inform users w
 *   The frontend UI for notifications should be created as a shared component, potentially in `frontend/src/components/shared/notifications/`.
 
 #### General Notes
-*   The notification should be non-intrusive but also clearly visible to the user. Upon successful creation of the new plan, the backend service creates a "Your new weekly plan is ready!" notification and saves it to the `notifications` table. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#workflows-and-sequencing]
-*   For the MVP, a check on app load is sufficient. The frontend will fetch unread notifications from the `GET /notifications` endpoint. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#apis-and-interfaces]
+*   The notification should be non-intrusive yet clearly visible to the user, balancing user experience with crucial information delivery. Upon successful creation of the new plan, the backend service creates a "Your new weekly plan is ready!" notification and saves it to the `notifications` table as specified in the workflows. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#workflows-and-sequencing]
+*   For the MVP, a check on app load is sufficient for notification retrieval. The frontend will fetch unread notifications from the `GET /notifications` endpoint, adhering to the defined API contracts. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#apis-and-interfaces]
 
 ---
 

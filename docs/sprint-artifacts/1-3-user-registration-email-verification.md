@@ -58,9 +58,9 @@ This story focuses on implementing the user registration flow. It involves creat
 *   The verification page should be a new route in the `frontend/src/app/(auth)/` directory.
 
 #### General Notes
-*   This story heavily relies on the Supabase Auth functionality as outlined in the Tech Spec's "Workflows and Sequencing" section. The client-side will use `@supabase/supabase-js` for the registration call. The backend will handle the verification email trigger via the `POST /users/register` endpoint. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#workflows-and-sequencing]
+*   This story heavily relies on the Supabase Auth functionality. The client-side will use `@supabase/supabase-js` for the registration call. The backend will handle the verification email trigger via the `POST /users/register` endpoint. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#workflows-and-sequencing]
 *   The frontend UI should be based on the `onboarding1_dark.html` wireframe.
-*   Error handling is crucial for this feature. Provide clear feedback to the user in case of errors (e.g., invalid email, password too short).
+*   Error handling is crucial for this feature. Provide clear feedback to the user in case of errors (e.g., invalid email, password too short), aligning with security best practices to prevent information leakage and ensure robust input validation. [Source: docs/architecture-2025-11-30.md#security-architecture]
 
 ---
 

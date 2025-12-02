@@ -56,8 +56,8 @@ This story is about giving users the ability to manage interruptions to their pl
 *   The AI plan generation logic update will primarily affect `backend/app/services/ai_plan_generator.py`.
 
 #### General Notes
-*   The UI for managing plan interruptions should be clear and easy to use. The backend will use `POST /plans/interrupt` to record the interruption. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#apis-and-interfaces]
-*   The AI logic for adjusting plans based on interruptions should be carefully designed to provide a good user experience. The AI Plan Adaptation Service will query the `plan_interruptions` table and adjust the next generated plan accordingly. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#workflows-and-sequencing]
+*   The UI for managing plan interruptions should be designed to be clear and easy to use, providing an intuitive user experience. The backend will utilize the `POST /plans/interrupt` endpoint to record the interruption details, as specified in the API interfaces. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#apis-and-interfaces]
+*   The AI logic responsible for adjusting plans based on recorded interruptions must be carefully designed to ensure a positive user experience. The AI Plan Adaptation Service will query the `plan_interruptions` table and adapt the next generated plan accordingly, as detailed in the workflows. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#workflows-and-sequencing]
 
 ---
 

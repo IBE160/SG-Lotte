@@ -53,9 +53,9 @@ This story is about adding a progress visualization section to the dashboard. Th
 *   The backend endpoint to fetch aggregated progress data should be added to `backend/app/api/v1/endpoints/plans.py`.
 
 #### General Notes
-*   The weight trend chart should be clear and easy to understand, using the Recharts library. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#detailed-design]
-*   The workout streak should be prominently displayed. The data for these visualizations will be fetched from the `GET /progress/summary` endpoint. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#apis-and-interfaces]
-*   Ensure the API endpoint for progress data is efficient and only returns the necessary data.
+*   The weight trend chart should be clear and easy to understand, utilizing the Recharts library as per design specifications. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#detailed-design]
+*   The workout streak should be prominently displayed. Data for these visualizations will be efficiently fetched from the `GET /progress/summary` endpoint, as defined in the API interfaces. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#apis-and-interfaces]
+*   Critical attention should be given to ensuring the API endpoint for progress data is efficient and returns only the necessary data to optimize frontend performance, aligning with non-functional requirements for performance. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#performance]
 
 ---
 

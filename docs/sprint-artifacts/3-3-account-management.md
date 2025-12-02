@@ -56,9 +56,9 @@ This story is about providing users with the ability to manage their account, sp
 *   Backend endpoints to handle account deletion should be added to `backend/app/api/v1/endpoints/users.py`.
 
 #### General Notes
-*   Account deletion is a destructive action and should have a clear confirmation step. The backend will use `DELETE /users/account` to trigger the deletion in Supabase. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#apis-and-interfaces]
-*   Ensure that all user data is properly deleted from the database and any other services. This will be achieved through cascade deletes in the database. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#security]
-*   Password changes should be handled securely, using the `POST /users/change-password` endpoint. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#apis-and-interfaces]
+*   Account deletion is a critical and destructive action that requires a clear, explicit confirmation step from the user to prevent accidental data loss. The backend will utilize the `DELETE /users/account` endpoint to trigger the deletion process in Supabase, as defined in the API interfaces. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#apis-and-interfaces]
+*   It is paramount to ensure all user data is properly and permanently deleted from the database and any other associated services. This will be achieved through configured cascade deletes in the database, in line with the project's security and data privacy policies. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#security]
+*   Password changes must be handled securely, adhering to industry best practices and utilizing the `POST /users/change-password` endpoint as specified in the API contracts. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#apis-and-interfaces]
 
 ---
 
