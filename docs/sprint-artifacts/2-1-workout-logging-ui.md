@@ -55,8 +55,8 @@ This story is about creating the user interface for logging workout progress. Us
 *   The backend endpoint to store workout log data should be added to `backend/app/api/v1/endpoints/plans.py`.
 
 #### General Notes
-*   The UI should be intuitive and make it easy for users to log their workouts.
-*   The difficulty rating is a key input for the AI, so ensure it is captured correctly.
+*   The UI should be intuitive and make it easy for users to log their workouts. Each logging action on the frontend triggers an API call to the backend's `POST /log/workout` endpoint. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#workflows-and-sequencing]
+*   The difficulty rating is a key input for the AI, so ensure it is captured correctly in the `workout_log` table. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#data-models-and-contracts]
 *   Consider using optimistic UI updates to provide immediate feedback to the user.
 
 ---

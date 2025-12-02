@@ -1,7 +1,7 @@
 # Story Quality Validation Report
 
-**Story:** 1-4-guided-onboarding-flow - Guided Onboarding Flow
-**Outcome:** PASS (Critical: 0, Major: 0, Minor: 0)
+Story: 1.4 - Guided Onboarding Flow
+Outcome: PASS with issues (Critical: 0, Major: 1, Minor: 2)
 
 ## Critical Issues (Blockers)
 
@@ -9,22 +9,25 @@
 
 ## Major Issues (Should Fix)
 
-(None)
+- Wireframe files are cited but explicitly stated as "not in the project".
+  Evidence: "Wireframes: `onboarding1_dark.html` to `onboarding5_dark.html` (Note: these files are not in the project...)"
+  Impact: Developers will look for non-existent files, leading to confusion and wasted time. The story should either include these files or provide clear instructions on how to access their content.
 
 ## Minor Issues (Nice to Have)
 
-(None)
+- No explicit citations in Dev Notes.
+  Evidence: Dev Notes do not use explicit `[Source: ...]` format for references.
+  Impact: Makes traceability slightly harder for developers.
+
+- Architecture guidance is a bit generic.
+  Evidence: "The wireframes are conceptual. The developer will need to implement the UI using the project's design system and components."
+  Impact: Could be more explicit in the story itself about key architectural constraints for this specific story.
 
 ## Successes
 
-*   **Full Compliance:** The story now meets all quality validation standards.
-*   **Status:** The `Status: drafted` field is correctly included.
-*   **Source Document Coverage:** All relevant source documents, including `tech-spec-epic-1.md`, `PRD.md`, `epics.md`, and `architecture-2025-11-30.md`, are now cited with specific sections.
-*   **Task-AC Mapping:** All tasks are now explicitly mapped to their corresponding Acceptance Criteria.
-*   **Sufficient Testing Tasks:** Dedicated testing tasks have been added for each Acceptance Criterion.
-*   **Project Structure Notes:** The "Project Structure Notes" subsection is present in the Developer Notes, providing guidance on file locations.
-*   **Dev Agent Record:** The "Dev Agent Record" section is present, ready for detailed development logging.
-*   **Validation Checklist:** The validation checklist has been updated to be comprehensive.
-*   Acceptance Criteria are well-written and align with the tech spec.
-*   The story file is correctly named and located.
-*   The Change Log is correctly initialized.
+- All Acceptance Criteria are well-defined, testable, specific, and atomic, and they perfectly match the authoritative ACs in the tech spec.
+- All Acceptance Criteria are mapped to tasks, and all tasks reference an AC.
+- Sufficient testing subtasks are present.
+- Story structure is complete and correct, including the "As a / I want / so that" format and initialized Dev Agent Record sections.
+- Previous story is drafted, so no continuity issues or unresolved review items expected.
+- All source documents cited (that exist) are referenced with correct sections.

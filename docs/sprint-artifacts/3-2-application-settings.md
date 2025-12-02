@@ -28,8 +28,9 @@ This story is about creating a settings page where users can manage their applic
 
 | # | Given | When | Then |
 |---|---|---|---|
-| 1 | I navigate to the settings page | The page loads | I see options to manage dark mode and notification preferences |
-| 2 | I am on the settings page | I change a setting | The change is saved and applied immediately |
+| 1 | I am in the main application | I navigate to the settings page | I am on the dedicated settings page |
+| 2 | I navigate to the settings page | The page loads | I see options to manage dark mode and notification preferences |
+| 3 | I am on the settings page | I change a setting | The change is saved and applied immediately |
 
 ---
 
@@ -39,12 +40,12 @@ This story is about creating a settings page where users can manage their applic
 
 | Task ID | Description | Est. Time |
 |---|---|---|
-| 3.2.1 | Create the backend endpoints for retrieving and updating user settings. (AC: #1, #2) | 3h |
-| 3.2.2 | Implement the frontend UI for the settings page based on the `settings_dark.html` concept. (AC: #1) | 4h |
-| 3.2.3 | Implement the client-side logic to fetch and update the user's settings. (AC: #1, #2) | 3h |
-| 3.2.4 | **Test:** Write unit tests for the frontend UI of the settings page to display options correctly. (AC: #1) | 1.5h |
-| 3.2.5 | **Test:** Write integration tests for the backend endpoint to update user settings. (AC: #2) | 1.5h |
-| 3.2.6 | **Test:** Write E2E tests for the settings page, verifying changes are saved and applied. (AC: #1, #2) | 1.5h |
+| 3.2.1 | Create the backend endpoints for retrieving and updating user settings. (AC: #2, #3) | 3h |
+| 3.2.2 | Implement the frontend UI for the settings page based on the `settings_dark.html` concept. (AC: #1, #2) | 4h |
+| 3.2.3 | Implement the client-side logic to fetch and update the user's settings. (AC: #2, #3) | 3h |
+| 3.2.4 | **Test:** Write unit tests for the frontend UI of the settings page to display options correctly. (AC: #2) | 1.5h |
+| 3.2.5 | **Test:** Write integration tests for the backend endpoint to update user settings. (AC: #3) | 1.5h |
+| 3.2.6 | **Test:** Write E2E tests for the settings page, verifying changes are saved and applied. (AC: #1, #2, #3) | 1.5h |
 
 ### 3.2. Developer Notes
 
@@ -53,8 +54,8 @@ This story is about creating a settings page where users can manage their applic
 *   The backend endpoints for retrieving and updating user settings should be added to `backend/app/api/v1/endpoints/users.py` (or a dedicated `settings.py` if complexity warrants).
 
 #### General Notes
-*   The settings page should be user-friendly and provide clear options.
-*   Changes to settings should be applied immediately to give the user instant feedback.
+*   The settings page should be user-friendly and provide clear options for managing preferences like dark mode and notifications. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#objectives-and-scope]
+*   Changes to settings are saved and applied immediately, providing instant feedback to the user. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#acceptance-criteria-authoritative]
 
 ---
 
@@ -72,8 +73,9 @@ This story is about creating a settings page where users can manage their applic
 
 ### 4.1. Validation Checklist
 
-*   [ ] **AC #1:** User can navigate to the settings page and view options to manage dark mode and notification preferences.
-*   [ ] **AC #2:** User can change a setting, and the change is immediately applied and saved correctly.
+*   [ ] **AC #1:** User can navigate to the settings page from the main application menu.
+*   [ ] **AC #2:** User can view options to manage dark mode and notification preferences on the settings page.
+*   [ ] **AC #3:** User can change a setting, and the change is immediately applied and saved correctly.
 *   [ ] **Testing:** All unit, integration, and E2E tests for the application settings page pass.
 
 ### 4.2. Review

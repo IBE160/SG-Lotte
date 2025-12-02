@@ -57,9 +57,9 @@ This story is about the initial generation and display of the user's personalize
 *   The frontend dashboard component should be located at `frontend/src/app/(dashboard)/dashboard/page.tsx`.
 
 #### General Notes
-*   The interaction with the OpenAI API is a core part of this story. Ensure that the prompts are well-defined to get the desired output.
-*   The dashboard UI should be based on the `dashboard_dark.html` wireframe concept.
-*   Error handling is important, especially for the AI service interaction.
+*   The interaction with the OpenAI API is a core part of this story. The backend's AI Plan Generator Service constructs a detailed prompt using the user's preferences and sends it to the OpenAI GPT-4 API. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#workflows-and-sequencing]
+*   The dashboard UI should be based on the `dashboard_dark.html` wireframe concept, and the frontend will automatically call the `POST /plans/generate-initial` endpoint to trigger the creation of the user's first plan. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#workflows-and-sequencing]
+*   Error handling is important, especially for the AI service interaction. The system must implement retry mechanisms with exponential backoff for the OpenAI API calls. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#reliability-availability]
 
 ---
 

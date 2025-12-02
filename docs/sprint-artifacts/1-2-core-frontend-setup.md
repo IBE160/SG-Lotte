@@ -54,7 +54,7 @@ This story involves initializing a new Next.js project using the `create-next-ap
 *   The Next.js project should be initialized in a new `frontend` directory at the root of the repository, as per the `unified-project-structure.md` guidelines.
 
 #### General Notes
-*   Refer to the `docs/architecture-2025-11-30.md` for detailed instructions on project setup and structure.
+*   Initialize the Next.js project using the command specified in the architecture document: `npx create-next-app@latest frontend --typescript --tailwind --eslint --app --use-npm`. This is also captured in Task 1.2.1. [Source: docs/architecture-2025-11-30.md#project-initialization]
 *   Ensure that the Vercel project is configured with the correct environment variables for the backend API URL.
 *   The test API call should be simple and only verify the connection between the frontend and backend.
 

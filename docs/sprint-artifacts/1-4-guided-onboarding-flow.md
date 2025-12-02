@@ -56,9 +56,9 @@ This story covers the implementation of a 5-step onboarding process to gather us
 *   The backend endpoint to save user preferences should be added to `backend/app/api/v1/endpoints/users.py`.
 
 #### General Notes
-*   The wireframes are conceptual. The developer will need to implement the UI using the project's design system and components.
-*   The onboarding flow should be intuitive and easy to use.
-*   Ensure that the user's preferences are saved correctly and can be retrieved for the AI plan generation.
+*   The wireframes are conceptual. The developer will need to implement the UI using the project's design system and components. The goal is to collect the user's fitness goal, dietary preferences, and fitness persona. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#detailed-design]
+*   The onboarding flow should be intuitive and easy to a use. Upon completion, the frontend sends these preferences to the backend's `POST /users/preferences` endpoint. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#workflows-and-sequencing]
+*   Ensure that the user's preferences are saved correctly to the `users` table in the database and can be retrieved for the AI plan generation. [Source: docs/sprint-artifacts/tech-spec-epic-1.md#data-models-and-contracts]
 
 ---
 

@@ -28,10 +28,9 @@ This story is about providing users with the ability to manage their account, sp
 
 | # | Given | When | Then |
 |---|---|---|---|
-| 1 | I am on the settings page | I select "Change Password" | I am prompted to enter my old and new passwords |
-| 2 | I have entered my old and new passwords | I submit the form | My password is updated securely via Supabase Auth |
-| 3 | I am on the settings page | I select "Delete Account" | I am prompted for confirmation |
-| 4 | I have confirmed the account deletion | | My account and associated data are securely deleted from the system |
+| 1 | I am on the settings page and have provided my old password | I submit the change password form | my password is changed |
+| 2 | I am on the settings page | I select "Delete Account" and confirm | my account is deleted |
+| 3 | My account has been deleted | | all of my data is securely and permanently removed from the system |
 
 ---
 
@@ -41,13 +40,13 @@ This story is about providing users with the ability to manage their account, sp
 
 | Task ID | Description | Est. Time |
 |---|---|---|
-| 3.3.1 | Implement the UI for the "Change Password" and "Delete Account" options on the settings page. (AC: #1, #3) | 3h |
-| 3.3.2 | Implement the client-side logic for the "Change Password" flow, including calling the Supabase Auth API. (AC: #2) | 3h |
-| 3.3.3 | Implement the client-side logic for the "Delete Account" flow, including the confirmation step. (AC: #3, #4) | 2h |
-| 3.3.4 | Create the backend endpoints to handle account deletion, ensuring all user data is removed. (AC: #4) | 4h |
-| 3.3.5 | **Test:** Write E2E tests for the password change flow, including UI interaction and backend update verification. (AC: #1, #2) | 2h |
-| 3.3.6 | **Test:** Write E2E tests for the account deletion flow, including confirmation and verification of data removal. (AC: #3, #4) | 2h |
-| 3.3.7 | **Test:** Write integration tests for the backend endpoint to handle account deletion and data removal. (AC: #4) | 2h |
+| 3.3.1 | Implement the UI for the "Change Password" and "Delete Account" options on the settings page. (AC: #1, #2) | 3h |
+| 3.3.2 | Implement the client-side logic for the "Change Password" flow, including calling the Supabase Auth API. (AC: #1) | 3h |
+| 3.3.3 | Implement the client-side logic for the "Delete Account" flow, including the confirmation step. (AC: #2) | 2h |
+| 3.3.4 | Create the backend endpoints to handle account deletion, ensuring all user data is removed. (AC: #3) | 4h |
+| 3.3.5 | **Test:** Write E2E tests for the password change flow, including UI interaction and backend update verification. (AC: #1) | 2h |
+| 3.3.6 | **Test:** Write E2E tests for the account deletion flow, including confirmation and verification of data removal. (AC: #2, #3) | 2h |
+| 3.3.7 | **Test:** Write integration tests for the backend endpoint to handle account deletion and data removal. (AC: #3) | 2h |
 
 ### 3.2. Developer Notes
 
@@ -57,9 +56,9 @@ This story is about providing users with the ability to manage their account, sp
 *   Backend endpoints to handle account deletion should be added to `backend/app/api/v1/endpoints/users.py`.
 
 #### General Notes
-*   Account deletion is a destructive action and should have a clear confirmation step.
-*   Ensure that all user data is properly deleted from the database and any other services.
-*   Password changes should be handled securely, following best practices.
+*   Account deletion is a destructive action and should have a clear confirmation step. The backend will use `DELETE /users/account` to trigger the deletion in Supabase. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#apis-and-interfaces]
+*   Ensure that all user data is properly deleted from the database and any other services. This will be achieved through cascade deletes in the database. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#security]
+*   Password changes should be handled securely, using the `POST /users/change-password` endpoint. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#apis-and-interfaces]
 
 ---
 
@@ -77,10 +76,9 @@ This story is about providing users with the ability to manage their account, sp
 
 ### 4.1. Validation Checklist
 
-*   [ ] **AC #1:** User is prompted for old and new passwords when selecting "Change Password."
-*   [ ] **AC #2:** User's password is securely updated via Supabase Auth after entering valid credentials.
-*   [ ] **AC #3:** User is prompted for confirmation when selecting "Delete Account."
-*   [ ] **AC #4:** User's account and all associated data are securely and permanently deleted from the system upon confirmation.
+*   [ ] **AC #1:** User can successfully change their password from the settings page after providing their old password.
+*   [ ] **AC #2:** User can delete their account from the settings page, which includes a confirmation step.
+*   [ ] **AC #3:** Upon account deletion, all of the user's data is securely and permanently removed from the system.
 *   [ ] **Testing:** All unit, integration, and E2E tests for account management features pass.
 
 ### 4.2. Review

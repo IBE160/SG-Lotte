@@ -28,8 +28,9 @@ This story is about creating a user profile page where users can view and update
 
 | # | Given | When | Then |
 |---|---|---|---|
-| 1 | I navigate to the profile page | The page loads | I see my name, email, and current fitness goals |
-| 2 | I am on the profile page | I edit my personal details | The changes are saved to my user profile |
+| 1 | I am in the main application | I navigate to the profile page | I am on the dedicated profile page |
+| 2 | I navigate to the profile page | The page loads | I see my name, email, and current fitness goals |
+| 3 | I am on the profile page | I edit my personal details | The changes are saved to my user profile |
 
 ---
 
@@ -39,12 +40,12 @@ This story is about creating a user profile page where users can view and update
 
 | Task ID | Description | Est. Time |
 |---|---|---|
-| 3.1.1 | Create the backend endpoints for retrieving and updating user profile data. (AC: #1, #2) | 3h |
-| 3.1.2 | Implement the frontend UI for the profile page based on the `profilepage_dark.html` concept. (AC: #1) | 4h |
-| 3.1.3 | Implement the client-side logic to fetch and update the user's profile data. (AC: #1, #2) | 3h |
-| 3.1.4 | **Test:** Write unit tests for the frontend UI of the profile page to display user information. (AC: #1) | 1.5h |
-| 3.1.5 | **Test:** Write integration tests for the backend endpoint to update user profile data. (AC: #2) | 1.5h |
-| 3.1.6 | **Test:** Write E2E tests for the user profile page, verifying viewing and updating of information. (AC: #1, #2) | 1.5h |
+| 3.1.1 | Create the backend endpoints for retrieving and updating user profile data. (AC: #2, #3) | 3h |
+| 3.1.2 | Implement the frontend UI for the profile page based on the `profilepage_dark.html` concept. (AC: #1, #2) | 4h |
+| 3.1.3 | Implement the client-side logic to fetch and update the user's profile data. (AC: #2, #3) | 3h |
+| 3.1.4 | **Test:** Write unit tests for the frontend UI of the profile page to display user information. (AC: #2) | 1.5h |
+| 3.1.5 | **Test:** Write integration tests for the backend endpoint to update user profile data. (AC: #3) | 1.5h |
+| 3.1.6 | **Test:** Write E2E tests for the user profile page, verifying viewing and updating of information. (AC: #1, #2, #3) | 1.5h |
 
 ### 3.2. Developer Notes
 
@@ -53,8 +54,8 @@ This story is about creating a user profile page where users can view and update
 *   The backend endpoints for retrieving and updating user profile data should be added to `backend/app/api/v1/endpoints/users.py`.
 
 #### General Notes
-*   The profile page should be easy to navigate and edit.
-*   Ensure that the user's data is handled securely.
+*   The profile page should be easy to navigate and edit. The backend will expose a `PUT /users/profile` endpoint to handle updates. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#apis-and-interfaces]
+*   Ensure that the user's data is handled securely, adhering to the RLS policies defined in the security architecture. [Source: docs/architecture-2025-11-30.md#security-architecture]
 
 ---
 
@@ -72,8 +73,9 @@ This story is about creating a user profile page where users can view and update
 
 ### 4.1. Validation Checklist
 
-*   [ ] **AC #1:** User can navigate to the profile page and view their name, email, and current fitness goals.
-*   [ ] **AC #2:** User can successfully edit their personal details (e.g., name) and save the changes to their user profile.
+*   [ ] **AC #1:** User can navigate to the profile page from the main application menu.
+*   [ ] **AC #2:** User can view their name, email, and current fitness goals on the profile page.
+*   [ ] **AC #3:** User can successfully edit their personal details (e.g., name) and save the changes to their user profile.
 *   [ ] **Testing:** All unit, integration, and E2E tests for the user profile page pass.
 
 ### 4.2. Review

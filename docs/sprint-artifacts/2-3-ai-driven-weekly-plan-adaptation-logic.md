@@ -27,9 +27,10 @@ This story is about implementing the core AI logic for adapting the user's weekl
 
 | # | Given | When | Then |
 |---|---|---|---|
-| 1 | The end of the current week | The Vercel Cron Job triggers the backend | The AI processes the user's logged workouts, meals, and difficulty ratings |
-| 2 | The AI has processed the user's data | | The AI generates a new, adapted workout and meal plan for the upcoming week |
-| 3 | A new plan has been generated | | The new plans are stored in the database |
+| 1 | The Vercel Cron Job is configured | the scheduled time is reached | the backend adaptation process is triggered |
+| 2 | The end of the current week | The Vercel Cron Job triggers the backend | The AI processes the user's logged workouts, meals, and difficulty ratings |
+| 3 | The AI has processed the user's data | | The AI generates a new, adapted workout and meal plan for the upcoming week |
+| 4 | A new plan has been generated | | The new plans are stored in the database |
 
 ---
 
@@ -39,15 +40,15 @@ This story is about implementing the core AI logic for adapting the user's weekl
 
 | Task ID | Description | Est. Time |
 |---|---|---|
-| 2.3.1 | Create the Vercel Cron Job to trigger the weekly plan adaptation. | 1h |
-| 2.3.2 | Implement the backend endpoint to be called by the cron job. | 1h |
-| 2.3.3 | Implement the logic to fetch the user's logged data from the database. (AC: #1) | 2h |
-| 2.3.4 | Implement the AI logic to process the data and generate a new plan. (AC: #1, #2) | 6h |
-| 2.3.5 | Implement the logic to store the new plan in the database. (AC: #3) | 2h |
-| 2.3.6 | **Test:** Write unit tests for the logic to fetch and process user's logged data. (AC: #1) | 2h |
-| 2.3.7 | **Test:** Write unit tests for the AI logic to process data and generate new plans, including prompt engineering validation. (AC: #2) | 2h |
-| 2.3.8 | **Test:** Write integration tests for the logic to store new plans in the database. (AC: #3) | 2h |
-| 2.3.9 | **Test:** Write E2E tests for the Vercel Cron Job triggering the adaptation process and verifying plan generation/storage. (AC: #1, #2, #3) | 2h |
+| 2.3.1 | Create the Vercel Cron Job to trigger the weekly plan adaptation. (AC: #1) | 1h |
+| 2.3.2 | Implement the backend endpoint to be called by the cron job. (AC: #1) | 1h |
+| 2.3.3 | Implement the logic to fetch the user's logged data from the database. (AC: #2) | 2h |
+| 2.3.4 | Implement the AI logic to process the data and generate a new plan. (AC: #2, #3) | 6h |
+| 2.3.5 | Implement the logic to store the new plan in the database. (AC: #4) | 2h |
+| 2.3.6 | **Test:** Write unit tests for the logic to fetch and process user's logged data. (AC: #2) | 2h |
+| 2.3.7 | **Test:** Write unit tests for the AI logic to process data and generate new plans, including prompt engineering validation. (AC: #3) | 2h |
+| 2.3.8 | **Test:** Write integration tests for the logic to store new plans in the database. (AC: #4) | 2h |
+| 2.3.9 | **Test:** Write E2E tests for the Vercel Cron Job triggering the adaptation process and verifying plan generation/storage. (AC: #1, #2, #3, #4) | 2h |
 
 ### 3.2. Developer Notes
 
@@ -56,9 +57,9 @@ This story is about implementing the core AI logic for adapting the user's weekl
 *   The AI logic for processing data and generating plans should reside in `backend/app/services/ai_plan_generator.py` or a new dedicated service.
 
 #### General Notes
-*   This is a backend-heavy story.
-*   The AI prompt engineering will be critical to the success of this feature. The prompt should include the user's goals, preferences, and logged data.
-*   The process should be robust and handle potential errors gracefully.
+*   This is a backend-heavy story. The weekly plan adaptation is triggered by a Vercel Cron Job making a request to a protected `POST /plans/trigger-adaptation` endpoint. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#workflows-and-sequencing]
+*   The AI prompt engineering will be critical to the success of this feature. The prompt should include the user's original plan, their adherence and difficulty feedback from the logs, and a request to generate a new, adapted plan for the upcoming week. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#workflows-and-sequencing]
+*   The process should be robust and handle potential errors gracefully, implementing retry mechanisms with exponential backoff for OpenAI API calls. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#reliability-availability]
 
 ---
 

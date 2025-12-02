@@ -28,10 +28,9 @@ This story is about giving users the ability to manage interruptions to their pl
 
 | # | Given | When | Then |
 |---|---|---|---|
-| 1 | I am on the settings page | I select "Pause Plan" | I am presented with options to specify a start and end date for the pause |
-| 2 | I have set a pause period | | My plans are temporarily paused, and no new plans are generated during this period |
-| 3 | I am on the settings page | I select "Feeling Unwell" | I am presented with options to reduce intensity for a duration |
-| 4 | I have indicated that I am unwell | | The AI adjusts future plans with a recovery-focused approach |
+| 1 | I am on the settings page | I select "Pause Plan" and specify a date range | My plan is paused for that duration |
+| 2 | I am on the settings page | I select "Feeling Unwell" | the intensity of my future plans is adjusted |
+| 3 | I have interrupted my plan | | The interruption data is recorded and used by the AI for the next plan generation cycle |
 
 ---
 
@@ -41,13 +40,13 @@ This story is about giving users the ability to manage interruptions to their pl
 
 | Task ID | Description | Est. Time |
 |---|---|---|
-| 3.4.1 | Implement the UI for the "Pause Plan" and "Feeling Unwell" options on the settings page based on the `plan_interruptions_dark.html` concept. (AC: #1, #3) | 4h |
-| 3.4.2 | Create the backend endpoints to record plan interruptions. (AC: #2, #4) | 3h |
-| 3.4.3 | Implement the client-side logic to interact with the backend endpoints. (AC: #2, #4) | 3h |
-| 3.4.4 | Update the AI plan generation logic to take plan interruptions into account. (AC: #2, #4) | 5h |
-| 3.4.5 | **Test:** Write unit tests for the UI components for pause and unwell options. (AC: #1, #3) | 2h |
-| 3.4.6 | **Test:** Write integration tests for backend endpoints recording plan interruptions and the AI logic for plan adjustment. (AC: #2, #4) | 2h |
-| 3.4.7 | **Test:** Write E2E tests for the plan interruption management flow, verifying UI, backend, and AI behavior. (AC: #1, #2, #3, #4) | 2h |
+| 3.4.1 | Implement the UI for the "Pause Plan" and "Feeling Unwell" options on the settings page based on the `plan_interruptions_dark.html` concept. (AC: #1, #2) | 4h |
+| 3.4.2 | Create the backend endpoints to record plan interruptions. (AC: #3) | 3h |
+| 3.4.3 | Implement the client-side logic to interact with the backend endpoints. (AC: #1, #2) | 3h |
+| 3.4.4 | Update the AI plan generation logic to take plan interruptions into account. (AC: #3) | 5h |
+| 3.4.5 | **Test:** Write unit tests for the UI components for pause and unwell options. (AC: #1, #2) | 2h |
+| 3.4.6 | **Test:** Write integration tests for backend endpoints recording plan interruptions and the AI logic for plan adjustment. (AC: #3) | 2h |
+| 3.4.7 | **Test:** Write E2E tests for the plan interruption management flow, verifying UI, backend, and AI behavior. (AC: #1, #2, #3) | 2h |
 
 ### 3.2. Developer Notes
 
@@ -57,8 +56,8 @@ This story is about giving users the ability to manage interruptions to their pl
 *   The AI plan generation logic update will primarily affect `backend/app/services/ai_plan_generator.py`.
 
 #### General Notes
-*   The UI for managing plan interruptions should be clear and easy to use.
-*   The AI logic for adjusting plans based on interruptions should be carefully designed to provide a good user experience.
+*   The UI for managing plan interruptions should be clear and easy to use. The backend will use `POST /plans/interrupt` to record the interruption. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#apis-and-interfaces]
+*   The AI logic for adjusting plans based on interruptions should be carefully designed to provide a good user experience. The AI Plan Adaptation Service will query the `plan_interruptions` table and adjust the next generated plan accordingly. [Source: docs/sprint-artifacts/tech-spec-epic-3.md#workflows-and-sequencing]
 
 ---
 
@@ -76,10 +75,9 @@ This story is about giving users the ability to manage interruptions to their pl
 
 ### 4.1. Validation Checklist
 
-*   [ ] **AC #1:** User is presented with options to specify start/end dates for plan pauses when selecting "Pause Plan."
-*   [ ] **AC #2:** User's plans are temporarily paused, and no new plans are generated during the specified period.
-*   [ ] **AC #3:** User is presented with options to reduce intensity for a duration when selecting "Feeling Unwell."
-*   [ ] **AC #4:** The AI correctly adjusts future plans with a recovery-focused approach based on the "Feeling Unwell" indication.
+*   [ ] **AC #1:** User can pause their plan for a specified date range from the settings page.
+*   [ ] **AC #2:** User can indicate they are "unwell," which adjusts the intensity of future plans.
+*   [ ] **AC #3:** Plan interruption data is correctly recorded in the database and influences the next AI plan generation cycle.
 *   [ ] **Testing:** All unit, integration, and E2E tests for the plan interruption management features pass.
 
 ### 4.2. Review

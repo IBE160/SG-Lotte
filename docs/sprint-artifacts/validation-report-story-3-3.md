@@ -1,7 +1,7 @@
 # Story Quality Validation Report
 
-**Story:** 3-3-account-management - Account Management
-**Outcome:** PASS (Critical: 0, Major: 0, Minor: 0)
+Story: 3.3 - Account Management
+Outcome: PASS with issues (Critical: 0, Major: 1, Minor: 3)
 
 ## Critical Issues (Blockers)
 
@@ -9,22 +9,28 @@
 
 ## Major Issues (Should Fix)
 
-(None)
+- Testing subtasks are fewer than Acceptance Criteria.
+  Evidence: The story lists 4 Acceptance Criteria but only 3 explicit testing subtasks (3.3.5, 3.3.6, 3.3.7). While some E2E tests cover multiple ACs, the count directly indicates a potential gap.
+  Impact: This may indicate insufficient testing coverage for all defined acceptance criteria, potentially leading to bugs or incomplete feature validation.
 
 ## Minor Issues (Nice to Have)
 
-(None)
+- Story's Acceptance Criteria deviate slightly in granularity from the authoritative Tech Spec.
+  Evidence: The story breaks down Tech Spec AC 3.3.1 (change password) and 3.3.2 (delete account) into more granular ACs (story ACs 1 & 2 for password, 3 & 4 for deletion).
+  Impact: While comprehensive, this slight deviation from the authoritative spec's granularity might require extra cross-referencing.
+
+- No explicit citations in Dev Notes.
+  Evidence: Dev Notes do not use explicit `[Source: ...]` format for references.
+  Impact: Makes traceability slightly harder for developers.
+
+- Architecture guidance is a bit generic.
+  Evidence: "Account deletion is a destructive action and should have a clear confirmation step." and "Ensure that all user data is properly deleted from the database and any other services." and "Password changes should be handled securely, following best practices."
+  Impact: Could be more explicit in the story itself about key architectural constraints for this specific story, reducing reliance on external documentation for basic understanding.
 
 ## Successes
 
-*   **Full Compliance:** The story now meets all quality validation standards.
-*   **Status:** The `Status: drafted` field is correctly included.
-*   **Source Document Coverage:** All relevant source documents, including `tech-spec-epic-3.md`, `PRD.md`, `epics.md`, and `architecture-2025-11-30.md`, are now cited with specific sections.
-*   **Task-AC Mapping:** All tasks are now explicitly mapped to their corresponding Acceptance Criteria.
-*   **Sufficient Testing Tasks:** Dedicated testing tasks have been added for each Acceptance Criterion.
-*   **Project Structure Notes:** The "Project Structure Notes" subsection is present in the Developer Notes, providing guidance on file locations.
-*   **Dev Agent Record:** The "Dev Agent Record" section is present, ready for detailed development logging.
-*   **Validation Checklist:** The validation checklist has been updated to be comprehensive.
-*   Acceptance Criteria are well-written and align with the tech spec.
-*   The story file is correctly named and located.
-*   The Change Log is correctly initialized.
+- All Acceptance Criteria elements (though slightly re-granularized) are present and align with the authoritative Tech Spec.
+- All tasks reference at least one AC, ensuring good traceability between development work and requirements.
+- Story structure is complete and correct, including the "As a / I want / so that" format and initialized Dev Agent Record sections.
+- Previous story is drafted, so no continuity issues or unresolved review items expected.
+- All source documents cited exist and are referenced with correct sections.

@@ -53,8 +53,8 @@ This story involves creating the user interface for logging meal consumption. Us
 *   The backend endpoint to store meal log data should be added to `backend/app/api/v1/endpoints/plans.py`.
 
 #### General Notes
-*   The UI should be simple and quick to use.
-*   Consider using optimistic UI updates for a better user experience.
+*   The UI should be simple and quick to use. Each logging action on the frontend triggers an API call to the backend's `POST /log/meal` endpoint. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#workflows-and-sequencing]
+*   Consider using optimistic UI updates for a better user experience. The backend will persist the log data to the `meal_log` table. [Source: docs/sprint-artifacts/tech-spec-epic-2.md#data-models-and-contracts]
 
 ---
 
