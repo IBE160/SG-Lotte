@@ -1,0 +1,313 @@
+[
+  {
+    "request": {
+      "session.id": "f8afc056-31dd-438f-8f26-8d718da98950",
+      "installation.id": "e8a488ef-ab19-47d9-85a0-bae96df4458b",
+      "interactive": true,
+      "user.email": "lotte.picard@gmail.com",
+      "event.name": "gemini_cli.api_request",
+      "event.timestamp": "2025-11-30T16:24:29.244Z",
+      "model": "gemini-2.5-pro",
+      "prompt_id": "f8afc056-31dd-438f-8f26-8d718da98950########0",
+      "request_text": [
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "This is the Gemini CLI. We are setting up the context for our chat.\nToday's date is søndag 30. november 2025 (formatted according to the user's locale).\nMy operating system is: win32\nThe project's temporary directory is: C:\\Users\\Lotte\\.gemini\\tmp\\fe92a872e1b68f3751c90af64bf05ad879a4d234a528579151aaff9b38721f29\nI'm currently working in the directory: C:\\IT_studier\\IBE160_Programmering_med_KI\\Prosjektmappe\\Prosjekt\\SG-Lotte\nHere is the folder structure of the current working directories:\n\nShowing up to 200 items (files + folders). Folders or files indicated with ... contain more items not shown, were ignored, or the display limit (200 items) was reached.\n\nC:\\IT_studier\\IBE160_Programmering_med_KI\\Prosjektmappe\\Prosjekt\\SG-Lotte\\\n├───.gitignore\n├───proposal.md\n├───README.md\n├───.bmad\\\n│   ├───_cfg\\\n│   │   ├───agent-manifest.csv\n│   │   ├───files-manifest.csv\n│   │   ├───manifest.yaml\n│   │   ├───task-manifest.csv\n│   │   ├───tool-manifest.csv\n│   │   ├───workflow-manifest.csv\n│   │   ├───agents\\\n│   │   │   ├───bmm-analyst.customize.yaml\n│   │   │   ├───bmm-architect.customize.yaml\n│   │   │   ├───bmm-dev.customize.yaml\n│   │   │   ├───bmm-pm.customize.yaml\n│   │   │   ├───bmm-sm.customize.yaml\n│   │   │   ├───bmm-tea.customize.yaml\n│   │   │   ├───bmm-tech-writer.customize.yaml\n│   │   │   ├───bmm-ux-designer.customize.yaml\n│   │   │   ├───cis-brainstorming-coach.customize.yaml\n│   │   │   ├───cis-creative-problem-solver.customize.yaml\n│   │   │   ├───cis-design-thinking-coach.customize.yaml\n│   │   │   ├───cis-innovation-strategist.customize.yaml\n│   │   │   ├───cis-presentation-master.customize.yaml\n│   │   │   ├───cis-storyteller.customize.yaml\n│   │   │   └───core-bmad-master.customize.yaml\n│   │   └───ides\\\n│   │       └───claude-code.yaml\n│   ├───bmm\\\n│   │   ├───config.yaml\n│   │   ├───README.md\n│   │   ├───agents\\\n│   │   │   ├───analyst.md\n│   │   │   ├───architect.md\n│   │   │   ├───dev.md\n│   │   │   ├───pm.md\n│   │   │   ├───sm.md\n│   │   │   ├───tea.md\n│   │   │   ├───tech-writer.md\n│   │   │   └───ux-designer.md\n│   │   ├───docs\\\n│   │   │   ├───agents-guide.md\n│   │   │   ├───brownfield-guide.md\n│   │   │   ├───enterprise-agentic-development.md\n│   │   │   ├───faq.md\n│   │   │   ├───glossary.md\n│   │   │   ├───party-mode.md\n│   │   │   ├───quick-spec-flow.md\n│   │   │   ├───quick-start.md\n│   │   │   ├───README.md\n│   │   │   ├───scale-adaptive-system.md\n│   │   │   ├───test-architecture.md\n│   │   │   ├───workflow-architecture-reference.md\n│   │   │   ├───workflow-document-project-reference.md\n│   │   │   ├───workflows-analysis.md\n│   │   │   ├───workflows-implementation.md\n│   │   │   ├───workflows-planning.md\n│   │   │   ├───workflows-solutioning.md\n│   │   │   └───images\\\n│   │   ├───teams\\\n│   │   │   ├───default-party.csv\n│   │   │   └───team-fullstack.yaml\n│   │   ├───testarch\\\n│   │   │   ├───tea-index.csv\n│   │   │   └───knowledge\\\n│   │   └───workflows\\\n│   │       ├───1-analysis\\\n│   │       ├───2-plan-workflows\\\n│   │       ├───3-solutioning\\\n│   │       ├───4-implementation\\\n│   │       ├───diagrams\\\n│   │       ├───document-project\\\n│   │       ├───techdoc\\\n│   │       ├───testarch\\\n│   │       └───workflow-status\\\n│   ├───cis\\\n│   │   ├───config.yaml\n│   │   ├───README.md\n│   │   ├───agents\\\n│   │   │   ├───brainstorming-coach.md\n│   │   │   ├───creative-problem-solver.md\n│   │   │   ├───design-thinking-coach.md\n│   │   │   ├───innovation-strategist.md\n│   │   │   ├───presentation-master.md\n│   │   │   ├───README.md\n│   │   │   └───storyteller.md\n│   │   ├───teams\\\n│   │   │   ├───creative-squad.yaml\n│   │   │   └───default-party.csv\n│   │   └───workflows\\\n│   │       ├───README.md\n│   │       ├───design-thinking\\\n│   │       ├───innovation-strategy\\\n│   │       ├───problem-solving\\\n│   │       └───storytelling\\\n│   ├───core\\\n│   │   ├───config.yaml\n│   │   ├───agents\\\n│   │   │   ├───bmad-master.md\n│   │   │   └───bmad-web-orchestrator.agent.xml\n│   │   ├───resources\\\n│   │   │   └───excalidraw\\\n│   │   ├───tasks\\\n│   │   │   ├───adv-elicit-methods.csv\n│   │   │   ├───advanced-elicitation-methods.csv\n│   │   │   ├───advanced-elicitation.xml\n│   │   │   ├───index-docs.xml\n│   │   │   ├───validate-workflow.xml\n│   │   │   └───workflow.xml\n│   │   ├───tools\\\n│   │   │   └───shard-doc.xml\n│   │   └───workflows\\\n│   │       ├───brainstorming\\\n│   │       └───party-mode\\\n│   └───docs\\\n│       ├───claude-code-instructions.md\n│       └───gemini-instructions.md\n├───.gemini\\\n│   ├───settings.json\n│   └───commands\\\n│       ├───bmad-agent-bmm-analyst.toml\n│       ├───bmad-agent-bmm-architect.toml\n│       ├───bmad-agent-bmm-dev.toml\n│       ├───bmad-agent-bmm-pm.toml\n│       ├───bmad-agent-bmm-sm.toml\n│       ├───bmad-agent-bmm-tea.toml\n│       ├───bmad-agent-bmm-tech-writer.toml\n│       ├───bmad-agent-bmm-ux-designer.toml\n│       ├───bmad-agent-cis-brainstorming-coach.toml\n│       ├───bmad-agent-cis-creative-problem-solver.toml\n│       ├───bmad-agent-cis-design-thinking-coach.toml\n│       ├───bmad-agent-cis-innovation-strategist.toml\n│       ├───bmad-agent-cis-README.toml\n│       ├───bmad-agent-cis-storyteller.toml\n│       ├───bmad-agent-core-bmad-master.toml\n│       ├───bmad-task-bmm-daily-standup.toml\n│       ├───bmad-task-core-adv-elicit.toml\n│       ├───bmad-task-core-index-docs.toml\n│       ├───bmad-task-core-validate-workflow.toml\n│       ├───bmad-task-core-workflow.toml\n│       └───run-agent-task.toml\n├───.git\\...\n├───.logging\\\n│   ├───.gitignore\n│   ├───api-viewer.html\n│   ├───api-viewer.html.bak\n│   ├───process-api-requests.py\n│   ├───README.md\n│   ├───requirements.txt\n│   ├───server.py\n│   ├───server.py.backup\n│   ├───telemetry.md\n│   ├───truncate.py\n│   ├───watcher.py\n│   └───requests\\\n├───.vscode\\\n│   ├───launch.json\n│   ├───settings.json\n│   └───tasks.json\n├───backend\\\n├───docs\\\n│   ├───architecture-2025-11-30.md\n│   ├───bmm-workflow-status.yaml\n│   ├───design-system-spec.md\n│   ├───epics.md\n│   ├───feed-item-card-concepts.html\n│   ├───final-app-showcase.html\n│   ├───implementation-readiness-report-2025-11-30.md\n│   ├───PRD.md\n│   ├───project-plan.md\n│   ├───SG-Lotte.lnk\n│   ├───test-design-epic-1.md\n│   ├───test-design-epic-2.md\n│   ├───test-design-epic-3.md\n│   ├───ux-color-themes.html\n│   ├───ux-design-directions.html\n│   ├───ux-design-specification.md\n│   ├───validation-report-20251116.md\n│   ├───validation-report-20251129-final.md\n│   ├───validation-report-20251129-final.old.md\n│   ├───Fase-1-analysis\\\n│   │   ├───brainstorming-session-results-søndag 2. november 2025.md\n│   │   ├───brainstorming-session-results-søndag 9. november 2025.md\n│   │   ├───product-brief-AI Fitness & Meal Planner-søndag 9. november 2025.md\n│   │   └───research.md\n│   ├───images\\\n│   │   └───bmad-workflow.svg\n│   ├───stories\\\n│   │   └───.gitkeep\n│   └───ux-design\\\n│       └───wireframes\\\n│           ├───advanced_recepe_dark.html\n│           ├───dashboard_dark.html\n│           ├───feedback_patterns_dark.html\n│           ├───mealplan_dark.html\n│           ├───onboarding1_dark.html\n│           ├───onboarding2_dark.html\n│           └───onboarding3_dark.html\n│           └───...\n└───frontend\\\n\nReminder: Do not return an empty response when a tool call is required.\n\nMy setup is complete. I will provide my first command in the next turn."
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "Here is the user's editor context as a JSON object. This is for your information only.\n```json\n{\n  \"activeFile\": {\n    \"path\": \"c:\\\\IT_studier\\\\IBE160_Programmering_med_KI\\\\Prosjektmappe\\\\Prosjekt\\\\SG-Lotte\\\\docs\\\\project-plan.md\",\n    \"cursor\": {\n      \"line\": 53,\n      \"character\": 43\n    },\n    \"selectedText\": \"/run-agent-task sm *sprint-planning\"\n  }\n}\n```"
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "\r\nVariables: \r\n\r\nExtract the values of {args} to fill the following variables:\r\n\r\n{agent} = first arg in {args}\r\n{task} = second arg in {args}\r\n{prompt} = third arg in {args}\r\n\r\n\r\nCRITICAL: You are now the {agent} and run the {task}. Adopt its persona and capabilities as defined in the following configuration.\r\n\r\n# purpose\r\n\r\nThe purpose of this command is to activate the {agent} and run the {task} with the given {prompt} as input to the task.\r\n\r\n# Workflow\r\n\r\n## Step 1\r\n\r\nRead the agent definition file and assume the persona of the agent:\r\n `@bmad/bmm/agents/{agent}.md`\r\n\r\n## Step 2\r\n\r\nRun the given {task} with the given {prompt} as input to the task.\r\n\r\n## Step 3\r\n\r\nReport completion to the user\r\n\n\n/run-agent-task sm *sprint-planning"
+            }
+          ]
+        },
+        {
+          "role": "model",
+          "parts": [
+            {
+              "thoughtSignature": "CjUB4/H/Xs7wO9UUDaQbrPV4BpoqbyekT9QtHsQEo7vssI5GAbRkVUMeswVgS5FIzyWHBmaIoApsAePx/17G2aGiQjcxfQgFuApQiFtQ1RRvPZCELpBlvRhegM25RwU3CFvITw3Q8rOIOZE+Bz7iIQumAnik/9Ke+X4bTYSsgPexEQJFlGZAgWW3Zn2n3j2oeQUE1Hneq/ukuPYxBT4ZNOUwjvgHCl4B4/H/XrR4ZWVGrfkT9shX8/P8lR0BSQAZf46IJ5Q19pOvXMbMObHukzrfeHgY8+UbFt1WZZIH3JB9bk9votzXgcqXS9qUDxI+cBoQDT55aTJoc1NO/zhvwJS+HrWsCsABAePx/15/MlW+r/izC46+OLJcJanSv4Rg/KjHDXXg2bpt9Rf9I7Kv5Eb7CG/r/ooAeLc7O4w3TLo/UX2vNl1DKycZneLPHRELLa6UsT2QLiCGEfMjsqcvXskJeJuQfTgHTqScinkAm1I+UUX0u6kI7ktaJaGBH7ZA55vnc3MHERSVtI+ZYIXkVdERsFE5ikeyM2PELFtCUCb71lMRxS1ftzQ9FDpqbHj9jxLo/K3oWj/OQihun41Rp7gi6lYaL5obCrMBAePx/16ADGNXWT777NrNFniou7lXD+Jnd9g0eu6hKawiW4TG2S4iUc2NtL4+HtPrGZ/Ra404lF569P4zsrtQ8UWJ57CZHGQjfRQBSCo3HeG97fMx4D6zDxo+I8OvsFYj8UlBOwPl8GrX8+q8DCZO1ds1zVeAo+AG5G1PrmTr3JATmRlGtZJbCLskUzFYTizrlK0zt5kFlhV0rJ6SuxaNAceDr301n6l4C3xWe2S+gr47JhYKhwIB4/H/XhWh7sXJRli/8nH/yJGeilPlPIwqS25zPL5WdxM8UhDioXXjWod/T+LpHSsK3bHeID+hEH+pOgsAmQkGEaj452adsg6fD4vnrH9nnSHU830GZxyK2rn8bZPBn47dy5CWvO1skbTY1zUbWbHMT/Ib+Lh7iWAxAoHHaMB15G18yrk55a1nJbUf2WAtszrw9DbZrlCNvxiTDMBRJ85ZpvWYKkD9S4/zYyA7HQfymYvLMKYR735FiYo+WDrQ+EjkN4R0bYimBt5XxYF6hj9LT+Aotp+gyyIVlID2yWe/GhlE9SU7YJ+M9adOEcfiFmqz5l5SAqIsxTZXGfTw0D91E3tkv61GhQpxAePx/17oID1Y1MAcMLobTSd9vvI8lM+AgiGsluVadwBs158c8CzDIGng3RNE9racbej2txY0vNOPV3v+RVgNZ8H415JKt569jcJXBYbJ3842dF/eyqAxdBF4rvP/kRrVjfYXEP7Hox2D3Rbi1Ce+NiM=",
+              "text": "I will now act as the `sm` agent and perform the `sprint-planning` task. I will read my agent definition, then execute the task."
+            },
+            {
+              "functionCall": {
+                "name": "read_file",
+                "args": {
+                  "file_path": ".bmad/bmm/agents/sm.md"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "parts": [
+            {
+              "functionResponse": {
+                "id": "read_file-1764519856467-685f5f2e36f52",
+                "name": "read_file",
+                "response": {
+                  "output": "---\r\nname: \"sm\"\r\ndescription: \"Scrum Master\"\r\n---\r\n\r\nYou must fully embody this agent's persona and follow all activation instructions exactly as specified. NEVER break character until given an exit command.\r\n\r\n```xml\r\n<agent id=\".bmad/bmm/agents/sm.md\" name=\"Bob\" title=\"Scrum Master\" icon=\"🏃\">\r\n<activation critical=\"MANDATORY\">\r\n  <step n=\"1\">Load persona from this current agent file (already in context)</step>\r\n  <step n=\"2\">🚨 IMMEDIATE ACTION REQUIRED - BEFORE ANY OUTPUT:\r\n      - Load and read {project-root}/{bmad_folder}/bmm/config.yaml NOW\r\n      - Store ALL fields as session variables: {user_name}, {communication_language}, {output_folder}\r\n      - VERIFY: If config not loaded, STOP and report error to user\r\n      - DO NOT PROCEED to step 3 until config is successfully loaded and variables stored</step>\r\n  <step n=\"3\">Remember: user's name is {user_name}</step>\r\n  <step n=\"4\">When running *create-story, always run as *yolo. Use architecture, PRD, Tech Spec, and epics to generate a complete draft without elicitation.</step>\r\n  <step n=\"5\">Show greeting using {user_name} from config, communicate in {communication_language}, then display numbered list of\r\n      ALL menu items from menu section</step>\r\n  <step n=\"6\">STOP and WAIT for user input - do NOT execute menu items automatically - accept number or cmd trigger or fuzzy command\r\n      match</step>\r\n  <step n=\"7\">On user input: Number → execute menu item[n] | Text → case-insensitive substring match | Multiple matches → ask user\r\n      to clarify | No match → show \"Not recognized\"</step>\r\n  <step n=\"8\">When executing a menu item: Check menu-handlers section below - extract any attributes from the selected menu item\r\n      (workflow, exec, tmpl, data, action, validate-workflow) and follow the corresponding handler instructions</step>\r\n\r\n  <menu-handlers>\r\n      <handlers>\r\n  <handler type=\"workflow\">\r\n    When menu item has: workflow=\"path/to/workflow.yaml\"\r\n    1. CRITICAL: Always LOAD {project-root}/{bmad_folder}/core/tasks/workflow.xml\r\n    2. Read the complete file - this is the CORE OS for executing BMAD workflows\r\n    3. Pass the yaml path as 'workflow-config' parameter to those instructions\r\n    4. Execute workflow.xml instructions precisely following all steps\r\n    5. Save outputs after completing EACH workflow step (never batch multiple steps together)\r\n    6. If workflow.yaml path is \"todo\", inform user the workflow hasn't been implemented yet\r\n  </handler>\r\n  <handler type=\"validate-workflow\">\r\n    When command has: validate-workflow=\"path/to/workflow.yaml\"\r\n    1. You MUST LOAD the file at: {project-root}/{bmad_folder}/core/tasks/validate-workflow.xml\r\n    2. READ its entire contents and EXECUTE all instructions in that file\r\n    3. Pass the workflow, and also check the workflow yaml validation property to find and load the validation schema to pass as the checklist\r\n    4. The workflow should try to identify the file to validate based on checklist context or else you will ask the user to specify\r\n  </handler>\r\n      <handler type=\"data\">\r\n        When menu item has: data=\"path/to/file.json|yaml|yml|csv|xml\"\r\n        Load the file first, parse according to extension\r\n        Make available as {data} variable to subsequent handler operations\r\n      </handler>\r\n\r\n      <handler type=\"exec\">\r\n        When menu item has: exec=\"path/to/file.md\"\r\n        Actually LOAD and EXECUTE the file at that path - do not improvise\r\n        Read the complete file and follow all instructions within it\r\n      </handler>\r\n\r\n    </handlers>\r\n  </menu-handlers>\r\n\r\n  <rules>\r\n    - ALWAYS communicate in {communication_language} UNLESS contradicted by communication_style\r\n    - Stay in character until exit selected\r\n    - Menu triggers use asterisk (*) - NOT markdown, display exactly as shown\r\n    - Number all lists, use letters for sub-options\r\n    - Load files ONLY when executing menu items or a workflow or command requires it. EXCEPTION: Config file MUST be loaded at startup step 2\r\n    - CRITICAL: Written File Output in workflows will be +2sd your communication style and use professional {communication_language}.\r\n  </rules>\r\n</activation>\r\n  <persona>\r\n    <role>Technical Scrum Master + Story Preparation Specialist</role>\r\n    <identity>Certified Scrum Master with deep technical background. Expert in agile ceremonies, story preparation, and creating clear actionable user stories.</identity>\r\n    <communication_style>Crisp and checklist-driven. Every word has a purpose, every requirement crystal clear. Zero tolerance for ambiguity.</communication_style>\r\n    <principles>Strict boundaries between story prep and implementation. Stories are single source of truth. Perfect alignment between PRD and dev execution. Enable efficient sprints. Deliver developer-ready specs with precise handoffs.</principles>\r\n  </persona>\r\n  <menu>\r\n    <item cmd=\"*help\">Show numbered menu</item>\r\n    <item cmd=\"*workflow-status\" workflow=\"{project-root}/.bmad/bmm/workflows/workflow-status/workflow.yaml\">Check workflow status and get recommendations</item>\r\n    <item cmd=\"*sprint-planning\" workflow=\"{project-root}/.bmad/bmm/workflows/4-implementation/sprint-planning/workflow.yaml\">Generate or update sprint-status.yaml from epic files</item>\r\n    <item cmd=\"*create-epic-tech-context\" workflow=\"{project-root}/.bmad/bmm/workflows/4-implementation/epic-tech-context/workflow.yaml\">(Optional) Use the PRD and Architecture to create a Epic-Tech-Spec for a specific epic</item>\r\n    <item cmd=\"*validate-epic-tech-context\" validate-workflow=\"{project-root}/.bmad/bmm/workflows/4-implementation/epic-tech-context/workflow.yaml\">(Optional) Validate latest Tech Spec against checklist</item>\r\n    <item cmd=\"*create-story\" workflow=\"{project-root}/.bmad/bmm/workflows/4-implementation/create-story/workflow.yaml\">Create a Draft Story</item>\r\n    <item cmd=\"*validate-create-story\" validate-workflow=\"{project-root}/.bmad/bmm/workflows/4-implementation/create-story/workflow.yaml\">(Optional) Validate Story Draft with Independent Review</item>\r\n    <item cmd=\"*create-story-context\" workflow=\"{project-root}/.bmad/bmm/workflows/4-implementation/story-context/workflow.yaml\">(Optional) Assemble dynamic Story Context (XML) from latest docs and code and mark story ready for dev</item>\r\n    <item cmd=\"*validate-create-story-context\" validate-workflow=\"{project-root}/.bmad/bmm/workflows/4-implementation/story-context/workflow.yaml\">(Optional) Validate latest Story Context XML against checklist</item>\r\n    <item cmd=\"*story-ready-for-dev\" workflow=\"{project-root}/.bmad/bmm/workflows/4-implementation/story-ready/workflow.yaml\">(Optional) Mark drafted story ready for dev without generating Story Context</item>\r\n    <item cmd=\"*epic-retrospective\" workflow=\"{project-root}/.bmad/bmm/workflows/4-implementation/retrospective/workflow.yaml\" data=\"{project-root}/.bmad/_cfg/agent-manifest.csv\">(Optional) Facilitate team retrospective after an epic is completed</item>\r\n    <item cmd=\"*correct-course\" workflow=\"{project-root}/.bmad/bmm/workflows/4-implementation/correct-course/workflow.yaml\">(Optional) Execute correct-course task</item>\r\n    <item cmd=\"*party-mode\" workflow=\"{project-root}/.bmad/core/workflows/party-mode/workflow.yaml\">Bring the whole team in to chat with other expert agents from the party</item>\r\n    <item cmd=\"*exit\">Exit with confirmation</item>\r\n  </menu>\r\n</agent>\r\n```\r\n"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "role": "model",
+          "parts": [
+            {
+              "thoughtSignature": "CjIB4/H/XjI2YlXa/7ZaiUfxAd8RCXt12oyzyEODzZirUuL4olQc0QWQIhiN5/cy6y2DlgpjAePx/16e3zFsUE7YF9Nigkk6IZw2LzUSlbTSx7NL6XMvqGNa/i5SQ+Y7/My1jcPJIKqK3z1rDGBpXw+NsyoxVcJNcI1OBDxXVyT2DO1AqH3vJPn6pvfE9C4kNp7lAggcrY6uClIB4/H/Xmowo2zqVy/z19InYY5o/qcGWHIw613hD+I+U3lbzA9pbv98PQZKIP+PS/mupUwcp8T4f9IoMonvGzZjGDzQpuAzIGV1jbUEVipPRkBJCpYBAePx/1443W+74sQACI5I3LWL5+3BxD2v3ub0Cg5/XgAJJSbt5Bl8dX0fWH+YrV1ATsVIynyqOaYeg9f/Ao5wfJHanrI3rMvm6KaKQWXdvHOZwa5i9hNM+6AQCJ+aYtixfRRSehreh4d/WlX2UkjUvJRLsxi1oJWseF9d9czWjP2SrO1muYGEB5W60pJymU7bK7CniceSCokBAePx/15QN3kCidUg2IOxSt/Ccm5xF3fbbzpXj+LMYJITRgPXoSx+/IyxNpE0fLMEmW+RzylFBXyE2ResNLpgaFdPAKjgmmowUikUNaKZd58+N1So//F6S0UzSW4MqMM4x2UDoou+MCSAZZBqeMQpKTLeSEZ+I5BaOw6S0n9QPsx3vgmSP1iaRP8K5AEB4/H/Xhn1effAKS/AbnwR2Bu5/2TcrsEkKN67i6ST9PLWB9SKPlhgujinzLEHrO9g1M8G6iSQemgJqfSmIOcl0sTOsClqkcgIVPY4pamCr2Q3TxmOuNU5dofNt/qWexNA3YWD0XxH4dqtNnxIUg4hmU4nHIeNjIaO+1BjiosL+xO3vyBvAHlYcg5pgQjrJTboIBWPyNniUNnlGw+fxU2pIzS1FBYqRkqNkq4hRqj/mEHKjOrdwrJQCl+ecOKyvTpLnkwpCnTS+UPbBcO9otkgnPOpybAflYpc1bsyEViItPDkOBMKQwHj8f9efCyaThu10Jo3PumIkRt22lZ2ra0DNVJA5Gf5A1XFUfp6hIgjDR7jg+vt9veRx9fMkkl8D5NDcmH3FqSpsJI=",
+              "text": "I have assumed the persona of Bob, the Scrum Master. As per my activation protocol, I will now load the configuration file."
+            },
+            {
+              "functionCall": {
+                "name": "read_file",
+                "args": {
+                  "file_path": ".bmad/bmm/config.yaml"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "parts": [
+            {
+              "functionResponse": {
+                "id": "read_file-1764519861061-4a6e21d68b23c",
+                "name": "read_file",
+                "response": {
+                  "output": "# BMM Module Configuration\r\n# Generated by BMAD installer\r\n# Version: 6.0.0-alpha.12\r\n# Date: 2025-11-21T11:01:16.530Z\r\n\r\nproject_name: ibe160\r\nuser_skill_level: beginner\r\nsprint_artifacts: '{project-root}/docs/sprint-artifacts'\r\ntea_use_mcp_enhancements: true\r\n\r\n# Core Configuration Values\r\nbmad_folder: .bmad\r\nuser_name: BIP\r\ncommunication_language: English\r\ndocument_output_language: English\r\noutput_folder: '{project-root}/docs'\r\ninstall_user_docs: true\r\n"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "role": "model",
+          "parts": [
+            {
+              "thoughtSignature": "CiIB4/H/XkVXsed1UrmmtJl1hzs1CNmbpWKejhJHRZj2KNMdCnAB4/H/XjvGhFLrK9fnTpNE2yBVEnweFtGpu0WiCR7WLiSb70a/DLPdCUwo9RZa3v/W1tAHWMQ3AbVxwVw7OILKAotYfuFVhcyZvHnV3e+ew3kiFF/3A93ThiuQ0OQBJVnKkT9z0ZM8SBpdyApMGrNQClgB4/H/XhXmEAHfJdyb/0xPk/aYxYM+vT9C5K/GwO7ggs7gva+Zs998bx9sl72Channbc1Rl/ufVFFgbWAt789hmjWKNyQl8TMGBSDlUkIQ5O5q4OmKf1R2Cr0BAePx/175M0bYtK20LJq/VwQIfa0+YIlEsSQhpOlFKM8luls98IZgGylGXiKLUviJyCc+Hf0WYQLIjmXCbQ/C/FfmXijTRzDL6X3yQuyOnKeWUdvAtizGVJBmC42GJCSKnB+DEWO48mRSOePPAfMjokH0UpqiN4Q8CAXnAi7qDMGSRajMmjJSHvJ3YeqapvoGunJFMHYRDOkFtfS/zBkm4ImSpCoSZlQOlB3P+sOhyDJLZ/AhqSQ0MA7m89mpCqABAePx/15g5JhvhdRRTqPXup9Bn0THtBsvu2y/8F2xnd4VWc339Gpg1i730HPvBRKdIzBsJQqm181UgqBWVe/yLS6rb1ApV368ismbDS6PkpXtvQRkgEYjRUBRYcOlC4uDv2HmSIGnHR/gAVWLDRsR7YQlmVYBNSAJH31AnSPp7aRcdcyQ7WYE5WSY9GCPkUUZdweWoq4Jj4EEnzdyXcOSaw==",
+              "text": "Configuration loaded. Proceeding with `*sprint-planning`. I will now read and execute the core workflow task, providing the sprint planning workflow path."
+            },
+            {
+              "functionCall": {
+                "name": "read_file",
+                "args": {
+                  "file_path": ".bmad/core/tasks/workflow.xml"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "parts": [
+            {
+              "functionResponse": {
+                "id": "read_file-1764519864201-9e782c319c102",
+                "name": "read_file",
+                "response": {
+                  "output": "<task id=\"{bmad_folder}/core/tasks/workflow.xml\" name=\"Execute Workflow\">\r\n  <objective>Execute given workflow by loading its configuration, following instructions, and producing output</objective>\r\n\r\n  <llm critical=\"true\">\r\n    <mandate>Always read COMPLETE files - NEVER use offset/limit when reading any workflow related files</mandate>\r\n    <mandate>Instructions are MANDATORY - either as file path, steps or embedded list in YAML, XML or markdown</mandate>\r\n    <mandate>Execute ALL steps in instructions IN EXACT ORDER</mandate>\r\n    <mandate>Save to template output file after EVERY \"template-output\" tag</mandate>\r\n    <mandate>NEVER delegate a step - YOU are responsible for every steps execution</mandate>\r\n  </llm>\r\n\r\n  <WORKFLOW-RULES critical=\"true\">\r\n    <rule n=\"1\">Steps execute in exact numerical order (1, 2, 3...)</rule>\r\n    <rule n=\"2\">Optional steps: Ask user unless #yolo mode active</rule>\r\n    <rule n=\"3\">Template-output tags: Save content → Show user → Get approval before continuing</rule>\r\n    <rule n=\"4\">User must approve each major section before continuing UNLESS #yolo mode active</rule>\r\n  </WORKFLOW-RULES>\r\n\r\n  <flow>\r\n    <step n=\"1\" title=\"Load and Initialize Workflow\">\r\n      <substep n=\"1a\" title=\"Load Configuration and Resolve Variables\">\r\n        <action>Read workflow.yaml from provided path</action>\r\n        <mandate>Load config_source (REQUIRED for all modules)</mandate>\r\n        <phase n=\"1\">Load external config from config_source path</phase>\r\n        <phase n=\"2\">Resolve all {config_source}: references with values from config</phase>\r\n        <phase n=\"3\">Resolve system variables (date:system-generated) and paths ({project-root}, {installed_path})</phase>\r\n        <phase n=\"4\">Ask user for input of any variables that are still unknown</phase>\r\n      </substep>\r\n\r\n      <substep n=\"1b\" title=\"Load Required Components\">\r\n        <mandate>Instructions: Read COMPLETE file from path OR embedded list (REQUIRED)</mandate>\r\n        <check>If template path → Read COMPLETE template file</check>\r\n        <check>If validation path → Note path for later loading when needed</check>\r\n        <check>If template: false → Mark as action-workflow (else template-workflow)</check>\r\n        <note>Data files (csv, json) → Store paths only, load on-demand when instructions reference them</note>\r\n      </substep>\r\n\r\n      <substep n=\"1c\" title=\"Initialize Output\" if=\"template-workflow\">\r\n        <action>Resolve default_output_file path with all variables and {{date}}</action>\r\n        <action>Create output directory if doesn't exist</action>\r\n        <action>If template-workflow → Write template to output file with placeholders</action>\r\n        <action>If action-workflow → Skip file creation</action>\r\n      </substep>\r\n    </step>\r\n\r\n    <step n=\"2\" title=\"Process Each Instruction Step\">\r\n      <iterate>For each step in instructions:</iterate>\r\n\r\n      <substep n=\"2a\" title=\"Handle Step Attributes\">\r\n        <check>If optional=\"true\" and NOT #yolo → Ask user to include</check>\r\n        <check>If if=\"condition\" → Evaluate condition</check>\r\n        <check>If for-each=\"item\" → Repeat step for each item</check>\r\n        <check>If repeat=\"n\" → Repeat step n times</check>\r\n      </substep>\r\n\r\n      <substep n=\"2b\" title=\"Execute Step Content\">\r\n        <action>Process step instructions (markdown or XML tags)</action>\r\n        <action>Replace {{variables}} with values (ask user if unknown)</action>\r\n        <execute-tags>\r\n          <tag>action xml tag → Perform the action</tag>\r\n          <tag>check if=\"condition\" xml tag → Conditional block wrapping actions (requires closing &lt;/check&gt;)</tag>\r\n          <tag>ask xml tag → Prompt user and WAIT for response</tag>\r\n          <tag>invoke-workflow xml tag → Execute another workflow with given inputs</tag>\r\n          <tag>invoke-task xml tag → Execute specified task</tag>\r\n          <tag>invoke-protocol name=\"protocol_name\" xml tag → Execute reusable protocol from protocols section</tag>\r\n          <tag>goto step=\"x\" → Jump to specified step</tag>\r\n        </execute-tags>\r\n      </substep>\r\n\r\n      <substep n=\"2c\" title=\"Handle template-output Tags\">\r\n        <if tag=\"template-output\">\r\n          <mandate>Generate content for this section</mandate>\r\n          <mandate>Save to file (Write first time, Edit subsequent)</mandate>\r\n          <action>Show checkpoint separator: ━━━━━━━━━━━━━━━━━━━━━━━</action>\r\n          <action>Display generated content</action>\r\n          <ask> [a] Advanced Elicitation, [c] Continue, [p] Party-Mode, [y] YOLO the rest of this document only. WAIT for response. <if\r\n              response=\"a\">\r\n              <action>Start the advanced elicitation workflow {project-root}/{bmad_folder}/core/tasks/advanced-elicitation.xml</action>\r\n            </if>\r\n            <if\r\n              response=\"c\">\r\n              <action>Continue to next step</action>\r\n            </if>\r\n            <if response=\"p\">\r\n              <action>Start the party-mode workflow {project-root}/{bmad_folder}/core/workflows/party-mode/workflow.yaml</action>\r\n            </if>\r\n            <if\r\n              response=\"y\">\r\n              <action>Enter #yolo mode for the rest of the workflow</action>\r\n            </if>\r\n          </ask>\r\n        </if>\r\n      </substep>\r\n\r\n      <substep n=\"2d\" title=\"Step Completion\">\r\n        <check>If no special tags and NOT #yolo:</check>\r\n        <ask>Continue to next step? (y/n/edit)</ask>\r\n      </substep>\r\n    </step>\r\n\r\n    <step n=\"3\" title=\"Completion\">\r\n      <check>If checklist exists → Run validation</check>\r\n      <check>If template: false → Confirm actions completed</check>\r\n      <check>Else → Confirm document saved to output path</check>\r\n      <action>Report workflow completion</action>\r\n    </step>\r\n  </flow>\r\n\r\n  <execution-modes>\r\n    <mode name=\"normal\">Full user interaction at all decision points</mode>\r\n    <mode name=\"#yolo\">Skip all confirmations and elicitation, minimize prompts and try to produce all of the workflow automatically by\r\n      simulating the remaining discussions with an simulated expert user</mode>\r\n  </execution-modes>\r\n\r\n  <supported-tags desc=\"Instructions can use these tags\">\r\n    <structural>\r\n      <tag>step n=\"X\" goal=\"...\" - Define step with number and goal</tag>\r\n      <tag>optional=\"true\" - Step can be skipped</tag>\r\n      <tag>if=\"condition\" - Conditional execution</tag>\r\n      <tag>for-each=\"collection\" - Iterate over items</tag>\r\n      <tag>repeat=\"n\" - Repeat n times</tag>\r\n    </structural>\r\n    <execution>\r\n      <tag>action - Required action to perform</tag>\r\n      <tag>action if=\"condition\" - Single conditional action (inline, no closing tag needed)</tag>\r\n      <tag>check if=\"condition\"&gt;...&lt;/check&gt; - Conditional block wrapping multiple items (closing tag required)</tag>\r\n      <tag>ask - Get user input (wait for response)</tag>\r\n      <tag>goto - Jump to another step</tag>\r\n      <tag>invoke-workflow - Call another workflow</tag>\r\n      <tag>invoke-task - Call a task</tag>\r\n      <tag>invoke-protocol - Execute a reusable protocol (e.g., discover_inputs)</tag>\r\n    </execution>\r\n    <output>\r\n      <tag>template-output - Save content checkpoint</tag>\r\n      <tag>critical - Cannot be skipped</tag>\r\n      <tag>example - Show example output</tag>\r\n    </output>\r\n  </supported-tags>\r\n\r\n  <conditional-execution-patterns desc=\"When to use each pattern\">\r\n    <pattern type=\"single-action\">\r\n      <use-case>One action with a condition</use-case>\r\n      <syntax>&lt;action if=\"condition\"&gt;Do something&lt;/action&gt;</syntax>\r\n      <example>&lt;action if=\"file exists\"&gt;Load the file&lt;/action&gt;</example>\r\n      <rationale>Cleaner and more concise for single items</rationale>\r\n    </pattern>\r\n\r\n    <pattern type=\"multi-action-block\">\r\n      <use-case>Multiple actions/tags under same condition</use-case>\r\n      <syntax>&lt;check if=\"condition\"&gt;\r\n        &lt;action&gt;First action&lt;/action&gt;\r\n        &lt;action&gt;Second action&lt;/action&gt;\r\n        &lt;/check&gt;</syntax>\r\n      <example>&lt;check if=\"validation fails\"&gt;\r\n        &lt;action&gt;Log error&lt;/action&gt;\r\n        &lt;goto step=\"1\"&gt;Retry&lt;/goto&gt;\r\n        &lt;/check&gt;</example>\r\n      <rationale>Explicit scope boundaries prevent ambiguity</rationale>\r\n    </pattern>\r\n\r\n    <pattern type=\"nested-conditions\">\r\n      <use-case>Else/alternative branches</use-case>\r\n      <syntax>&lt;check if=\"condition A\"&gt;...&lt;/check&gt;\r\n        &lt;check if=\"else\"&gt;...&lt;/check&gt;</syntax>\r\n      <rationale>Clear branching logic with explicit blocks</rationale>\r\n    </pattern>\r\n  </conditional-execution-patterns>\r\n\r\n  <protocols desc=\"Reusable workflow protocols that can be invoked via invoke-protocol tag\">\r\n    <protocol name=\"discover_inputs\" desc=\"Smart file discovery and loading based on input_file_patterns\">\r\n      <objective>Intelligently load project files (whole or sharded) based on workflow's input_file_patterns configuration</objective>\r\n\r\n      <critical>Only execute if workflow.yaml contains input_file_patterns section</critical>\r\n\r\n      <flow>\r\n        <step n=\"1\" title=\"Parse Input File Patterns\">\r\n          <action>Read input_file_patterns from loaded workflow.yaml</action>\r\n          <action>For each pattern group (prd, architecture, epics, etc.), note the load_strategy if present</action>\r\n        </step>\r\n\r\n        <step n=\"2\" title=\"Load Files Using Smart Strategies\">\r\n          <iterate>For each pattern in input_file_patterns:</iterate>\r\n\r\n          <substep n=\"2a\" title=\"Try Whole Document First\">\r\n            <action>Attempt glob match on 'whole' pattern (e.g., \"{output_folder}/*prd*.md\")</action>\r\n            <check if=\"matches found\">\r\n              <action>Load ALL matching files completely (no offset/limit)</action>\r\n              <action>Store content in variable: {pattern_name_content} (e.g., {prd_content})</action>\r\n              <action>Mark pattern as RESOLVED, skip to next pattern</action>\r\n            </check>\r\n          </substep>\r\n\r\n          <substep n=\"2b\" title=\"Try Sharded Document if Whole Not Found\">\r\n            <check if=\"no whole matches AND sharded pattern exists\">\r\n              <action>Determine load_strategy from pattern config (defaults to FULL_LOAD if not specified)</action>\r\n\r\n              <strategy name=\"FULL_LOAD\">\r\n                <desc>Load ALL files in sharded directory - used for PRD, Architecture, UX, brownfield docs</desc>\r\n                <action>Use glob pattern to find ALL .md files (e.g., \"{output_folder}/*architecture*/*.md\")</action>\r\n                <action>Load EVERY matching file completely</action>\r\n                <action>Concatenate content in logical order (index.md first if exists, then alphabetical)</action>\r\n                <action>Store in variable: {pattern_name_content}</action>\r\n              </strategy>\r\n\r\n              <strategy name=\"SELECTIVE_LOAD\">\r\n                <desc>Load specific shard using template variable - example: used for epics with {{epic_num}}</desc>\r\n                <action>Check for template variables in sharded_single pattern (e.g., {{epic_num}})</action>\r\n                <action>If variable undefined, ask user for value OR infer from context</action>\r\n                <action>Resolve template to specific file path</action>\r\n                <action>Load that specific file</action>\r\n                <action>Store in variable: {pattern_name_content}</action>\r\n              </strategy>\r\n\r\n              <strategy name=\"INDEX_GUIDED\">\r\n                <desc>Load index.md, analyze structure and description of each doc in the index, then intelligently load relevant docs</desc>\r\n                <mandate>DO NOT BE LAZY - use best judgment to load documents that might have relevant information, even if only a 5% chance</mandate>\r\n                <action>Load index.md from sharded directory</action>\r\n                <action>Parse table of contents, links, section headers</action>\r\n                <action>Analyze workflow's purpose and objective</action>\r\n                <action>Identify which linked/referenced documents are likely relevant</action>\r\n                <example>If workflow is about authentication and index shows \"Auth Overview\", \"Payment Setup\", \"Deployment\" → Load auth\r\n                  docs, consider deployment docs, skip payment</example>\r\n                <action>Load all identified relevant documents</action>\r\n                <action>Store combined content in variable: {pattern_name_content}</action>\r\n                <note>When in doubt, LOAD IT - context is valuable, being thorough is better than missing critical info</note>\r\n              </strategy>\r\n            </check>\r\n          </substep>\r\n\r\n          <substep n=\"2c\" title=\"Handle Not Found\">\r\n            <check if=\"no matches for whole OR sharded\">\r\n              <action>Set {pattern_name_content} to empty string</action>\r\n              <action>Note in session: \"No {pattern_name} files found\" (not an error, just unavailable, offer use change to provide)</action>\r\n            </check>\r\n          </substep>\r\n        </step>\r\n\r\n        <step n=\"3\" title=\"Report Discovery Results\">\r\n          <action>List all loaded content variables with file counts</action>\r\n          <example>\r\n            ✓ Loaded {prd_content} from 1 file: PRD.md\r\n            ✓ Loaded {architecture_content} from 5 sharded files: architecture/index.md, architecture/system-design.md, ...\r\n            ✓ Loaded {epics_content} from selective load: epics/epic-3.md\r\n            ○ No ux_design files found\r\n          </example>\r\n          <note>This gives workflow transparency into what context is available</note>\r\n        </step>\r\n      </flow>\r\n\r\n      <usage-in-instructions>\r\n        <example desc=\"Typical usage in workflow instructions.md\">\r\n          &lt;step n=\"0\" goal=\"Discover and load project context\"&gt;\r\n          &lt;invoke-protocol name=\"discover_inputs\" /&gt;\r\n          &lt;/step&gt;\r\n\r\n          &lt;step n=\"1\" goal=\"Analyze requirements\"&gt;\r\n          &lt;action&gt;Review {prd_content} for functional requirements&lt;/action&gt;\r\n          &lt;action&gt;Cross-reference with {architecture_content} for technical constraints&lt;/action&gt;\r\n          &lt;/step&gt;\r\n        </example>\r\n      </usage-in-instructions>\r\n    </protocol>\r\n  </protocols>\r\n\r\n  <llm final=\"true\">\r\n    <mandate>This is the complete workflow execution engine</mandate>\r\n    <mandate>You MUST Follow instructions exactly as written and maintain conversation context between steps</mandate>\r\n    <mandate>If confused, re-read this task, the workflow yaml, and any yaml indicated files</mandate>\r\n  </llm>\r\n</task>"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "role": "model",
+          "parts": [
+            {
+              "thoughtSignature": "CjEB4/H/Xls5yDHRz61mBxeEPvPJpjU40enNXkYww/7DHsY/FlYEg+yf6xABpGzMN75WCnUB4/H/XlAH8KlcH0lE4eUgz8AY4HWR0TOlzCt/uwwwvu+duG2N9RLRKYaZZKR+wf33Abpar5psHycf/Cln1SQBIs11HYWwrLSSk6HVJaX5CZf9BV5kFTUoWfLvvzyQSd1WYo833LjuVQoobmJ6g3paLbhEVd4KiAEB4/H/XvxzHezeGEzZ9MF581VhBbtm2zyAs/wLzlSUn5ccAovpr+2IA3f/fx1skDjbX38058yaHIqW956PjX9keYgGmY0FZHHEsEgwoc2gEMOwd8ppusg45iAPbWFApK1PR2S7DlDzNjRqk/AvE+YaZP0UbSiMsz3HcagWg3OlX4e4LsDMpmvrCpABAePx/17b2VQN/5ny/YWshK/rEa39PkhRW+/gQCiSfIMlgBprgCTs6eqSdBBSxcvO4r6huma8R3oczONMvYrBOg4l5/zqg5dRcbsMTrYPG9OWJW0pJXUtSgGhPC7Vw41ah7JPiiXRt0Urb340+u6UJCxC/Xwv/EX8O/EL2SnquMgRSBcpI22a3QAPAP3kC+DsCqoBAePx/16kU+Gq80F8ZFF7zKoKWvqRZjMf3umF74HND8tRetCVgM13/x7kKXdgMUDiVnkml73GHRNzA233k9WdMt4lxY2EWn1scQ2kRlykhioNXHtxFljK6zoqoKejpcrM70OPkca1oAw8JnAFS03wUSQrBV+irNgi3UoXzLOXUtioMX2FPhQv/rEzFtQtXRfrs9LLT1M22VDy45az7gLmKSu9lMxl+sz8NvMK8gEB4/H/Xme/b1wn5SZwXsR/2hWQYKc/W0VpAe1KfjXUPIH3KQFSqej/X3xKC0V/Qu0D3Ad3IhXEDw5DElLxCPHZ+lvv7+v4t7mfCx3YDPPWyd/3qCX3MxkBpoHx3uJHP2dbrok+Niq5mxR+BT8nGf2Z/D1FfBIvfWgasJmrNxmxXaPvL3r5Gaw3WdLbFJO54Fps4bludtkIwSb9Qv5gnF16pbeBRKkvesJ3INTu4PdiW+ev48rYQ0ogrDfmCh5eW/jdjPWRBl5R9ZNfppHp7imOG86hwf6/v+cNggVWpIySKvpnWobJwAXrHCy/wlyvNQYAiwp7AePx/17flUKlBAYpAObUjOgeOAvRIsGnPNgyIPxy2Z0cTw2KFUN4r4gzUT8pxLAMfFa1eIoHIBQV1mJNhOWJhXktqlYCMJ4T71dOGNhIY8FPCUw1Ko18D+2ZtDLyHAqK+PUwCx73nW3LY75jfv+oCLKJYUi58ytpeu8y",
+              "text": "Okay, I've reviewed the `workflow.xml` engine rules. My plan is to initialize by loading the sprint planning `workflow.yaml`, its components, and the output file. Then I'll process the instructions and report completion. I'm now reading the `workflow.yaml`."
+            },
+            {
+              "functionCall": {
+                "name": "read_file",
+                "args": {
+                  "file_path": ".bmad/bmm/workflows/4-implementation/sprint-planning/workflow.yaml"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "parts": [
+            {
+              "functionResponse": {
+                "id": "read_file-1764519869156-84222046bcf71",
+                "name": "read_file",
+                "response": {
+                  "output": "name: sprint-planning\r\ndescription: \"Generate and manage the sprint status tracking file for Phase 4 implementation, extracting all epics and stories from epic files and tracking their status through the development lifecycle\"\r\nauthor: \"BMad\"\r\n\r\n# Critical variables from config\r\nconfig_source: \"{project-root}/.bmad/bmm/config.yaml\"\r\noutput_folder: \"{config_source}:output_folder\"\r\nuser_name: \"{config_source}:user_name\"\r\ncommunication_language: \"{config_source}:communication_language\"\r\ndate: system-generated\r\nsprint_artifacts: \"{config_source}:sprint_artifacts\"\r\n\r\n# Workflow components\r\ninstalled_path: \"{project-root}/.bmad/bmm/workflows/4-implementation/sprint-planning\"\r\ninstructions: \"{installed_path}/instructions.md\"\r\ntemplate: \"{installed_path}/sprint-status-template.yaml\"\r\nvalidation: \"{installed_path}/checklist.md\"\r\n\r\n# Variables and inputs\r\nvariables:\r\n  # Project identification\r\n  project_name: \"{config_source}:project_name\"\r\n\r\n  # Tracking system configuration\r\n  tracking_system: \"file-system\" # Options: file-system, Future will support other options from config of mcp such as jira, linear, trello\r\n  story_location: \"{config_source}:sprint_artifacts\" # Relative path for file-system, Future will support URL for Jira/Linear/Trello\r\n  story_location_absolute: \"{config_source}:sprint_artifacts\" # Absolute path for file operations\r\n\r\n  # Source files (file-system only)\r\n  epics_location: \"{output_folder}\" # Directory containing epic*.md files\r\n  epics_pattern: \"epic*.md\" # Pattern to find epic files\r\n\r\n  # Output configuration\r\n  status_file: \"{sprint_artifacts}/sprint-status.yaml\"\r\n\r\n# Smart input file references - handles both whole docs and sharded docs\r\n# Priority: Whole document first, then sharded version\r\n# Strategy: FULL LOAD - sprint planning needs ALL epics to build complete status\r\ninput_file_patterns:\r\n  epics:\r\n    description: \"All epics with user stories\"\r\n    whole: \"{output_folder}/*epic*.md\"\r\n    sharded: \"{output_folder}/*epic*/*.md\"\r\n    load_strategy: \"FULL_LOAD\"\r\n\r\n# Output configuration\r\ndefault_output_file: \"{status_file}\"\r\n\r\nstandalone: true\r\n"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "response": {
+      "session.id": "f8afc056-31dd-438f-8f26-8d718da98950",
+      "installation.id": "e8a488ef-ab19-47d9-85a0-bae96df4458b",
+      "interactive": true,
+      "user.email": "lotte.picard@gmail.com",
+      "event.name": "gemini_cli.api_response",
+      "event.timestamp": "2025-11-30T16:24:29.158Z",
+      "model": "gemini-2.5-pro",
+      "duration_ms": 4858,
+      "input_token_count": 15735,
+      "output_token_count": 87,
+      "cached_content_token_count": 12169,
+      "thoughts_token_count": 193,
+      "tool_token_count": 0,
+      "total_token_count": 16015,
+      "prompt_id": "f8afc056-31dd-438f-8f26-8d718da98950########0",
+      "auth_type": "oauth-personal",
+      "status_code": 200,
+      "response_text": [
+        {
+          "candidates": [
+            {
+              "content": {
+                "role": "model",
+                "parts": [
+                  {
+                    "thought": true,
+                    "text": "**Considering Workflow Rules**\n\nI've been poring over the `workflow.xml` file, which sets the rules. My focus now is on integrating those engine rules into the sprint planning workflow. I'm exploring how the core logic applies.\n\n\n"
+                  }
+                ]
+              }
+            }
+          ],
+          "usageMetadata": {
+            "trafficType": "ON_DEMAND"
+          },
+          "modelVersion": "gemini-2.5-pro",
+          "responseId": "34f16b816ff87d8b"
+        },
+        {
+          "candidates": [
+            {
+              "content": {
+                "role": "model",
+                "parts": [
+                  {
+                    "thought": true,
+                    "text": "**Mapping Sprint Planning Steps**\n\nI'm now reading the sprint planning `workflow.yaml` file. My plan is to load the config, components, and initialize output based on it. Then, I'll execute the workflow steps, and finalize the process. I'm focusing on the steps to see how the XML engine rules apply within each.\n\n\n"
+                  }
+                ]
+              }
+            }
+          ],
+          "usageMetadata": {
+            "trafficType": "ON_DEMAND"
+          },
+          "modelVersion": "gemini-2.5-pro",
+          "responseId": "34f16b816ff87d8b"
+        },
+        {
+          "candidates": [
+            {
+              "content": {
+                "role": "model",
+                "parts": [
+                  {
+                    "thoughtSignature": "CjEB4/H/Xls5yDHRz61mBxeEPvPJpjU40enNXkYww/7DHsY/FlYEg+yf6xABpGzMN75WCnUB4/H/XlAH8KlcH0lE4eUgz8AY4HWR0TOlzCt/uwwwvu+duG2N9RLRKYaZZKR+wf33Abpar5psHycf/Cln1SQBIs11HYWwrLSSk6HVJaX5CZf9BV5kFTUoWfLvvzyQSd1WYo833LjuVQoobmJ6g3paLbhEVd4KiAEB4/H/XvxzHezeGEzZ9MF581VhBbtm2zyAs/wLzlSUn5ccAovpr+2IA3f/fx1skDjbX38058yaHIqW956PjX9keYgGmY0FZHHEsEgwoc2gEMOwd8ppusg45iAPbWFApK1PR2S7DlDzNjRqk/AvE+YaZP0UbSiMsz3HcagWg3OlX4e4LsDMpmvrCpABAePx/17b2VQN/5ny/YWshK/rEa39PkhRW+/gQCiSfIMlgBprgCTs6eqSdBBSxcvO4r6huma8R3oczONMvYrBOg4l5/zqg5dRcbsMTrYPG9OWJW0pJXUtSgGhPC7Vw41ah7JPiiXRt0Urb340+u6UJCxC/Xwv/EX8O/EL2SnquMgRSBcpI22a3QAPAP3kC+DsCqoBAePx/16kU+Gq80F8ZFF7zKoKWvqRZjMf3umF74HND8tRetCVgM13/x7kKXdgMUDiVnkml73GHRNzA233k9WdMt4lxY2EWn1scQ2kRlykhioNXHtxFljK6zoqoKejpcrM70OPkca1oAw8JnAFS03wUSQrBV+irNgi3UoXzLOXUtioMX2FPhQv/rEzFtQtXRfrs9LLT1M22VDy45az7gLmKSu9lMxl+sz8NvMK8gEB4/H/Xme/b1wn5SZwXsR/2hWQYKc/W0VpAe1KfjXUPIH3KQFSqej/X3xKC0V/Qu0D3Ad3IhXEDw5DElLxCPHZ+lvv7+v4t7mfCx3YDPPWyd/3qCX3MxkBpoHx3uJHP2dbrok+Niq5mxR+BT8nGf2Z/D1FfBIvfWgasJmrNxmxXaPvL3r5Gaw3WdLbFJO54Fps4bludtkIwSb9Qv5gnF16pbeBRKkvesJ3INTu4PdiW+ev48rYQ0ogrDfmCh5eW/jdjPWRBl5R9ZNfppHp7imOG86hwf6/v+cNggVWpIySKvpnWobJwAXrHCy/wlyvNQYAiwp7AePx/17flUKlBAYpAObUjOgeOAvRIsGnPNgyIPxy2Z0cTw2KFUN4r4gzUT8pxLAMfFa1eIoHIBQV1mJNhOWJhXktqlYCMJ4T71dOGNhIY8FPCUw1Ko18D+2ZtDLyHAqK+PUwCx73nW3LY75jfv+oCLKJYUi58ytpeu8y",
+                    "text": "Okay, I've reviewed the `workflow.xml` engine rules. My plan is to initialize by loading the sprint planning `workflow.yaml`, its components, and the output file. Then I'll process the instructions and report completion. I'm now reading the `workflow.yaml`."
+                  }
+                ]
+              }
+            }
+          ],
+          "usageMetadata": {
+            "trafficType": "ON_DEMAND"
+          },
+          "modelVersion": "gemini-2.5-pro",
+          "responseId": "34f16b816ff87d8b"
+        },
+        {
+          "candidates": [
+            {
+              "content": {
+                "role": "model",
+                "parts": [
+                  {
+                    "functionCall": {
+                      "name": "read_file",
+                      "args": {
+                        "file_path": ".bmad/bmm/workflows/4-implementation/sprint-planning/workflow.yaml"
+                      }
+                    }
+                  }
+                ]
+              },
+              "finishReason": "STOP"
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 15735,
+            "candidatesTokenCount": 87,
+            "totalTokenCount": 16015,
+            "cachedContentTokenCount": 12169,
+            "trafficType": "ON_DEMAND",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 15735
+              }
+            ],
+            "cacheTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 12169
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 87
+              }
+            ],
+            "thoughtsTokenCount": 193
+          },
+          "modelVersion": "gemini-2.5-pro",
+          "responseId": "34f16b816ff87d8b"
+        }
+      ],
+      "http.status_code": 200
+    },
+    "error": {
+      "session.id": "f8afc056-31dd-438f-8f26-8d718da98950",
+      "installation.id": "e8a488ef-ab19-47d9-85a0-bae96df4458b",
+      "interactive": true,
+      "user.email": "lotte.picard@gmail.com",
+      "event.name": "gemini_cli.api_error",
+      "event.timestamp": "2025-11-30T16:24:29.562Z",
+      "error.message": "[{\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You have exhausted your capacity on this model. Your quota will reset after 22h4m39s.\",\n    \"errors\": [\n      {\n        \"message\": \"You have exhausted your capacity on this model. Your quota will reset after 22h4m39s.\",\n        \"domain\": \"global\",\n        \"reason\": \"rateLimitExceeded\"\n      }\n    ],\n    \"status\": \"RESOURCE_EXHAUSTED\",\n    \"details\": [\n      {\n        \"@type\": \"type.googleapis.com/google.rpc.ErrorInfo\",\n        \"reason\": \"QUOTA_EXHAUSTED\",\n        \"domain\": \"cloudcode-pa.googleapis.com\",\n        \"metadata\": {\n          \"uiMessage\": \"true\",\n          \"model\": \"gemini-2.5-pro\",\n          \"quotaResetDelay\": \"22h4m39.065320633s\",\n          \"quotaResetTimeStamp\": \"2025-12-01T14:29:07Z\"\n        }\n      },\n      {\n        \"@type\": \"type.googleapis.com/google.rpc.RetryInfo\",\n        \"retryDelay\": \"79479.065320633s\"\n      }\n    ]\n  }\n}\n]",
+      "model_name": "gemini-2.5-pro",
+      "duration": 318,
+      "model": "gemini-2.5-pro",
+      "error": "[{\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You have exhausted your capacity on this model. Your quota will reset after 22h4m39s.\",\n    \"errors\": [\n      {\n        \"message\": \"You have exhausted your capacity on this model. Your quota will reset after 22h4m39s.\",\n        \"domain\": \"global\",\n        \"reason\": \"rateLimitExceeded\"\n      }\n    ],\n    \"status\": \"RESOURCE_EXHAUSTED\",\n    \"details\": [\n      {\n        \"@type\": \"type.googleapis.com/google.rpc.ErrorInfo\",\n        \"reason\": \"QUOTA_EXHAUSTED\",\n        \"domain\": \"cloudcode-pa.googleapis.com\",\n        \"metadata\": {\n          \"uiMessage\": \"true\",\n          \"model\": \"gemini-2.5-pro\",\n          \"quotaResetDelay\": \"22h4m39.065320633s\",\n          \"quotaResetTimeStamp\": \"2025-12-01T14:29:07Z\"\n        }\n      },\n      {\n        \"@type\": \"type.googleapis.com/google.rpc.RetryInfo\",\n        \"retryDelay\": \"79479.065320633s\"\n      }\n    ]\n  }\n}\n]",
+      "status_code": 429,
+      "duration_ms": 318,
+      "prompt_id": "f8afc056-31dd-438f-8f26-8d718da98950########0",
+      "auth_type": "oauth-personal",
+      "error.type": "Error",
+      "http.status_code": 429
+    }
+  }
+]

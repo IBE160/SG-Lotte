@@ -1,0 +1,89 @@
+[
+  {
+    "request": {
+      "session.id": "0b20a407-3084-47d9-8745-f2302b864a44",
+      "installation.id": "e8a488ef-ab19-47d9-85a0-bae96df4458b",
+      "interactive": true,
+      "user.email": "lotte.picard@gmail.com",
+      "event.name": "gemini_cli.api_request",
+      "event.timestamp": "2025-12-02T13:12:42.112Z",
+      "model": "gemini-2.5-flash",
+      "prompt_id": "0b20a407-3084-47d9-8745-f2302b864a44########0",
+      "request_text": [
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "This is the Gemini CLI. We are setting up the context for our chat.\nToday's date is tirsdag 2. desember 2025 (formatted according to the user's locale).\nMy operating system is: win32\nThe project's temporary directory is: C:\\Users\\Lotte\\.gemini\\tmp\\fe92a872e1b68f3751c90af64bf05ad879a4d234a528579151aaff9b38721f29\nI'm currently working in the directory: C:\\IT_studier\\IBE160_Programmering_med_KI\\Prosjektmappe\\Prosjekt\\SG-Lotte\nHere is the folder structure of the current working directories:\n\nShowing up to 200 items (files + folders). Folders or files indicated with ... contain more items not shown, were ignored, or the display limit (200 items) was reached.\n\nC:\\IT_studier\\IBE160_Programmering_med_KI\\Prosjektmappe\\Prosjekt\\SG-Lotte\\\n├───.gitignore\n├───proposal.md\n├───README.md\n├───.bmad\\\n│   ├───_cfg\\\n│   │   ├───agent-manifest.csv\n│   │   ├───files-manifest.csv\n│   │   ├───manifest.yaml\n│   │   ├───task-manifest.csv\n│   │   ├───tool-manifest.csv\n│   │   ├───workflow-manifest.csv\n│   │   ├───agents\\\n│   │   │   ├───bmm-analyst.customize.yaml\n│   │   │   ├───bmm-architect.customize.yaml\n│   │   │   ├───bmm-dev.customize.yaml\n│   │   │   ├───bmm-pm.customize.yaml\n│   │   │   ├───bmm-sm.customize.yaml\n│   │   │   ├───bmm-tea.customize.yaml\n│   │   │   ├───bmm-tech-writer.customize.yaml\n│   │   │   ├───bmm-ux-designer.customize.yaml\n│   │   │   ├───cis-brainstorming-coach.customize.yaml\n│   │   │   ├───cis-creative-problem-solver.customize.yaml\n│   │   │   ├───cis-design-thinking-coach.customize.yaml\n│   │   │   ├───cis-innovation-strategist.customize.yaml\n│   │   │   ├───cis-presentation-master.customize.yaml\n│   │   │   ├───cis-storyteller.customize.yaml\n│   │   │   └───core-bmad-master.customize.yaml\n│   │   └───ides\\\n│   │       └───claude-code.yaml\n│   ├───bmm\\\n│   │   ├───config.yaml\n│   │   ├───README.md\n│   │   ├───agents\\\n│   │   │   ├───analyst.md\n│   │   │   ├───architect.md\n│   │   │   ├───dev.md\n│   │   │   ├───pm.md\n│   │   │   ├───sm.md\n│   │   │   ├───tea.md\n│   │   │   ├───tech-writer.md\n│   │   │   └───ux-designer.md\n│   │   ├───docs\\\n│   │   │   ├───agents-guide.md\n│   │   │   ├───brownfield-guide.md\n│   │   │   ├───enterprise-agentic-development.md\n│   │   │   ├───faq.md\n│   │   │   ├───glossary.md\n│   │   │   ├───party-mode.md\n│   │   │   ├───quick-spec-flow.md\n│   │   │   ├───quick-start.md\n│   │   │   ├───README.md\n│   │   │   ├───scale-adaptive-system.md\n│   │   │   ├───test-architecture.md\n│   │   │   ├───workflow-architecture-reference.md\n│   │   │   ├───workflow-document-project-reference.md\n│   │   │   ├───workflows-analysis.md\n│   │   │   ├───workflows-implementation.md\n│   │   │   ├───workflows-planning.md\n│   │   │   ├───workflows-solutioning.md\n│   │   │   └───images\\\n│   │   ├───teams\\\n│   │   │   ├───default-party.csv\n│   │   │   └───team-fullstack.yaml\n│   │   ├───testarch\\\n│   │   │   ├───tea-index.csv\n│   │   │   └───knowledge\\\n│   │   └───workflows\\\n│   │       ├───1-analysis\\\n│   │       ├───2-plan-workflows\\\n│   │       ├───3-solutioning\\\n│   │       ├───4-implementation\\\n│   │       ├───diagrams\\\n│   │       └───...\n│   ├───cis\\\n│   │   ├───config.yaml\n│   │   ├───README.md\n│   │   ├───agents\\\n│   │   ├───teams\\\n│   │   └───workflows\\\n│   ├───core\\\n│   │   ├───config.yaml\n│   │   ├───agents\\\n│   │   ├───resources\\\n│   │   ├───tasks\\\n│   │   ├───tools\\\n│   │   └───workflows\\\n│   └───docs\\\n│       ├───claude-code-instructions.md\n│       └───gemini-instructions.md\n├───.gemini\\\n│   ├───settings.json\n│   └───commands\\\n│       ├───bmad-agent-bmm-analyst.toml\n│       ├───bmad-agent-bmm-architect.toml\n│       ├───bmad-agent-bmm-dev.toml\n│       ├───bmad-agent-bmm-pm.toml\n│       ├───bmad-agent-bmm-sm.toml\n│       ├───bmad-agent-bmm-tea.toml\n│       ├───bmad-agent-bmm-tech-writer.toml\n│       ├───bmad-agent-bmm-ux-designer.toml\n│       ├───bmad-agent-cis-brainstorming-coach.toml\n│       ├───bmad-agent-cis-creative-problem-solver.toml\n│       ├───bmad-agent-cis-design-thinking-coach.toml\n│       ├───bmad-agent-cis-innovation-strategist.toml\n│       ├───bmad-agent-cis-README.toml\n│       ├───bmad-agent-cis-storyteller.toml\n│       ├───bmad-agent-core-bmad-master.toml\n│       ├───bmad-task-bmm-daily-standup.toml\n│       ├───bmad-task-core-adv-elicit.toml\n│       ├───bmad-task-core-index-docs.toml\n│       ├───bmad-task-core-validate-workflow.toml\n│       ├───bmad-task-core-workflow.toml\n│       └───run-agent-task.toml\n├───.git\\...\n├───.logging\\\n│   ├───.gitignore\n│   ├───api-viewer.html\n│   ├───api-viewer.html.bak\n│   ├───process-api-requests.py\n│   ├───README.md\n│   ├───requirements.txt\n│   ├───server.py\n│   ├───server.py.backup\n│   ├───telemetry.md\n│   ├───truncate.py\n│   ├───watcher.py\n│   └───requests\\\n├───.vscode\\\n│   ├───launch.json\n│   ├───settings.json\n│   └───tasks.json\n├───backend\\\n├───docs\\\n│   ├───architecture-2025-11-30.md\n│   ├───bmm-workflow-status.yaml\n│   ├───design-system-spec.md\n│   ├───epics.md\n│   ├───feed-item-card-concepts.html\n│   ├───final-app-showcase.html\n│   ├───implementation-readiness-report-2025-11-30.md\n│   ├───PRD.md\n│   ├───project-plan.md\n│   ├───RISK_REGISTER.md\n│   ├───SG-Lotte.lnk\n│   ├───test-design-epic-1.md\n│   ├───test-design-epic-2.md\n│   ├───test-design-epic-3.md\n│   ├───ux-color-themes.html\n│   ├───ux-design-directions.html\n│   ├───ux-design-specification.md\n│   ├───validation-report-20251116.md\n│   ├───validation-report-20251129-final.md\n│   ├───validation-report-20251129-final.old.md\n│   ├───Fase-1-analysis\\\n│   │   ├───brainstorming-session-results-søndag 2. november 2025.md\n│   │   ├───brainstorming-session-results-søndag 9. november 2025.md\n│   │   ├───product-brief-AI Fitness & Meal Planner-søndag 9. november 2025.md\n│   │   └───research.md\n│   ├───images\\\n│   │   └───bmad-workflow.svg\n│   ├───sprint-artifacts\\\n│   │   ├───sprint-status.yaml\n│   │   ├───tech-spec-epic-1.md\n│   │   ├───tech-spec-epic-2.md\n│   │   ├───tech-spec-epic-3.md\n│   │   ├───validation-report-epic-1-20251202.md\n│   │   ├───validation-report-epic-2-20251202.md\n│   │   └───validation-report-epic-3-20251202.md\n│   ├───stories\\\n│   │   ├───.gitkeep\n│   │   ├───story-1.1.md\n│   │   ├───story-1.2.md\n│   │   ├───story-1.3.md\n│   │   ├───story-1.4.md\n│   │   ├───story-1.5.md\n│   │   ├───story-2.1.md\n│   │   ├───story-2.2.md\n│   │   ├───story-2.3.md\n│   │   ├───story-2.4.md\n│   │   ├───story-2.5.md\n│   │   ├───story-3.1.md\n│   │   ├───story-3.2.md\n│   │   ├───story-3.3.md\n│   │   ├───story-3.4.md\n│   │   ├───validation-report-story-1.1-20251202.md\n│   │   ├───validation-report-story-1.2-20251202.md\n│   │   ├───validation-report-story-1.3-20251202.md\n│   │   ├───validation-report-story-1.4-20251202.md\n│   │   ├───validation-report-story-1.5-20251202.md\n│   │   ├───validation-report-story-2.1-20251202.md\n│   │   ├───validation-report-story-2.2-20251202.md\n│   │   ├───validation-report-story-2.3-20251202.md\n│   │   ├───validation-report-story-2.4-20251202.md\n│   │   ├───validation-report-story-2.5-20251202.md\n│   │   ├───validation-report-story-3.1-20251202.md\n│   │   ├───validation-report-story-3.2-20251202.md\n│   │   ├───validation-report-story-3.3-20251202.md\n│   │   └───validation-report-story-3.4-20251202.md\n│   └───ux-design\\\n│       └───wireframes\\\n└───frontend\\\n\nReminder: Do not return an empty response when a tool call is required.\n\nMy setup is complete. I will provide my first command in the next turn."
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "uv run .logging/process-api-requests.py"
+            }
+          ]
+        }
+      ]
+    },
+    "response": {
+      "session.id": "0b20a407-3084-47d9-8745-f2302b864a44",
+      "installation.id": "e8a488ef-ab19-47d9-85a0-bae96df4458b",
+      "interactive": true,
+      "user.email": "lotte.picard@gmail.com",
+      "event.name": "gemini_cli.api_response",
+      "event.timestamp": "2025-12-02T13:12:42.095Z",
+      "model": "gemini-2.5-flash-lite",
+      "duration_ms": 16881,
+      "input_token_count": 16971,
+      "output_token_count": 46,
+      "cached_content_token_count": 0,
+      "thoughts_token_count": 212,
+      "tool_token_count": 0,
+      "total_token_count": 17229,
+      "prompt_id": "0b20a407-3084-47d9-8745-f2302b864a44########0",
+      "auth_type": "oauth-personal",
+      "status_code": 200,
+      "response_text": {
+        "candidates": [
+          {
+            "content": {
+              "role": "model",
+              "parts": [
+                {
+                  "text": "{\n  \"reasoning\": \"This is a direct command execution requiring a single tool call to run a script. It has Low Operational Complexity (1 step).\",\n  \"model_choice\": \"flash\"\n}"
+                }
+              ]
+            },
+            "finishReason": "STOP",
+            "avgLogprobs": -0.5538553569627844
+          }
+        ],
+        "usageMetadata": {
+          "promptTokenCount": 16971,
+          "candidatesTokenCount": 46,
+          "totalTokenCount": 17229,
+          "trafficType": "ON_DEMAND",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 16971
+            }
+          ],
+          "candidatesTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 46
+            }
+          ],
+          "thoughtsTokenCount": 212
+        },
+        "modelVersion": "gemini-2.5-flash-lite"
+      },
+      "http.status_code": 200
+    },
+    "error": null
+  }
+]
