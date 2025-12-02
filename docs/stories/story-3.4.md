@@ -1,5 +1,5 @@
 ### Story 3.4: Plan Interruption Management
-Status: Backlog
+Status: drafted
 
 As an engaged user,
 I want to be able to pause my plan for a period (e.g., vacation) or indicate I am unwell,
@@ -19,12 +19,15 @@ So the AI can adjust my plans accordingly.
 **Prerequisites:** Epic 2 completion.
 
 **Tasks:**
-*   **AC 3.4.1:** Implement UI to specify start and end dates for plan pause.
-*   **AC 3.4.2:** Implement logic to temporarily pause plan generation.
-*   **AC 3.4.3:** Implement UI to indicate "Feeling Unwell" and reduce intensity.
-*   **AC 3.4.4:** Implement AI adjustment for recovery-focused plans.
-*   **AC 3.4.5:** Implement database recording of plan interruption data.
-*   **Testing:** E2E test plan pause and "Feeling Unwell" scenarios; Integration tests for AI adjustment and database recording.
+*   **Task 3.4.1:** Implement the UI to specify start and end dates for a plan pause. (AC: 3.4.1)
+*   **Task 3.4.2:** Implement the logic to temporarily pause plan generation. (AC: 3.4.1)
+*   **Task 3.4.3:** Implement the UI to indicate "Feeling Unwell" and reduce intensity. (AC: 3.4.2)
+*   **Task 3.4.4:** Implement the AI adjustment for recovery-focused plans. (AC: 3.4.2)
+*   **Task 3.4.5:** Implement the database recording of plan interruption data. (AC: 3.4.3)
+*   **Testing Subtasks:**
+    *   Write an E2E test for the plan pause scenario. (AC: 3.4.1)
+    *   Write an E2E test for the "Feeling Unwell" scenario. (AC: 3.4.2)
+    *   Write an integration test for the AI adjustment and database recording. (AC: 3.4.3)
 
 **Technical Notes:**
 Frontend UI based on `plan_interruptions_dark.html`, API endpoints to record plan interruptions and influence AI plan generation.
@@ -37,6 +40,7 @@ Frontend UI based on `plan_interruptions_dark.html`, API endpoints to record pla
 **References:**
 *   [Source: docs/epics.md]
 *   [Source: docs/sprint-artifacts/tech-spec-epic-3.md]
+*   [Source: docs/architecture-2025-11-30.md]
 *   [Source: plan_interruptions_dark.html - Assumed UI template]
 
 ---
@@ -47,6 +51,10 @@ Frontend UI based on `plan_interruptions_dark.html`, API endpoints to record pla
 *   **Prompt:** Fix validation report issues for story-3.4.md.
 *   **Output:** Updated story-3.4.md with missing sections and citations.
 *   **Comments:** Added Status, AC Source, Tasks, Architecture patterns and constraints, References, Dev Agent Record, and Change Log, and added missing AC 3.4.3.
+*   **Completion Notes List:**
+    *   [ ] Note 1
+*   **File List:**
+    *   [ ] `docs/stories/story-3.4.md` (MODIFIED)
 
 ---
 

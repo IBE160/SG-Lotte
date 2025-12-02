@@ -1,5 +1,5 @@
 ### Story 2.4: Dashboard Progress Visualization
-Status: Backlog
+Status: drafted
 
 As an active user,
 I want to see a clear visualization of my progress (e.g., workout streak, weight trend) on my dashboard,
@@ -16,10 +16,13 @@ So I can stay motivated and informed.
 **Prerequisites:** Story 2.1, Story 2.2.
 
 **Tasks:**
-*   **AC 2.4.1:** Implement UI to display workout streak summary.
-*   **AC 2.4.2:** Implement UI to display weight trend visualization (using `Recharts`).
-*   **AC 2.4.3:** Create API endpoint to fetch aggregated progress data.
-*   **Testing:** Frontend component tests for visualizations; API tests for progress data endpoint.
+*   **Task 2.4.1:** Implement the UI to display the workout streak summary. (AC: 2.4.1)
+*   **Task 2.4.2:** Implement the UI to display the weight trend visualization using `Recharts`. (AC: 2.4.2)
+*   **Task 2.4.3:** Create the backend API endpoint to fetch the aggregated progress data. (AC: 2.4.3)
+*   **Testing Subtasks:**
+    *   Write a frontend component test for the workout streak summary. (AC: 2.4.1)
+    *   Write a frontend component test for the weight trend visualization. (AC: 2.4.2)
+    *   Write an API test for the progress data endpoint. (AC: 2.4.3)
 
 **Technical Notes:**
 Frontend development using `Recharts` for graphs, API endpoint to fetch aggregated progress data.
@@ -32,6 +35,7 @@ Frontend development using `Recharts` for graphs, API endpoint to fetch aggregat
 **References:**
 *   [Source: docs/epics.md]
 *   [Source: docs/sprint-artifacts/tech-spec-epic-2.md]
+*   [Source: docs/architecture-2025-11-30.md]
 
 ---
 
@@ -41,6 +45,10 @@ Frontend development using `Recharts` for graphs, API endpoint to fetch aggregat
 *   **Prompt:** Fix validation report issues for story-2.4.md.
 *   **Output:** Updated story-2.4.md with missing sections and citations.
 *   **Comments:** Added Status, AC Source, Tasks, Architecture patterns and constraints, References, Dev Agent Record, and Change Log.
+*   **Completion Notes List:**
+    *   [ ] Note 1
+*   **File List:**
+    *   [ ] `docs/stories/story-2.4.md` (MODIFIED)
 
 ---
 

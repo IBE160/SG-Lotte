@@ -1,5 +1,5 @@
 ### Story 2.3: AI-Driven Weekly Plan Adaptation Logic
-Status: Backlog
+Status: drafted
 
 As an AI,
 I want to automatically adapt a user's next week's workout and meal plan based on their logged progress and feedback,
@@ -17,12 +17,15 @@ So the plan evolves to better meet their goals.
 **Prerequisites:** Epic 1 completion, Story 2.1, Story 2.2.
 
 **Tasks:**
-*   **AC 2.3.1:** Implement Vercel Cron Job to trigger backend processing.
-*   **AC 2.3.2:** Develop AI processing logic for logged workouts, meals, and difficulty ratings.
-*   **AC 2.3.3:** Integrate OpenAI GPT-4 for generating new adapted workout plans.
-*   **AC 2.3.4:** Integrate OpenAI GPT-4 for generating new adapted meal plans.
-*   **AC 2.3.5:** Implement database write operations for new plans.
-*   **Testing:** Unit tests for AI processing logic; Integration tests for OpenAI GPT-4 integration and database operations.
+*   **Task 2.3.1:** Implement the Vercel Cron Job to trigger the backend processing. (AC: 2.3.1)
+*   **Task 2.3.2:** Develop the AI processing logic for logged workouts, meals, and difficulty ratings. (AC: 2.3.2)
+*   **Task 2.3.3:** Integrate OpenAI GPT-4 for generating new adapted workout and meal plans. (AC: 2.3.3, 2.3.4)
+*   **Task 2.3.4:** Implement the database write operations for the new plans. (AC: 2.3.5)
+*   **Testing Subtasks:**
+    *   Write a unit test for the AI processing logic. (AC: 2.3.2)
+    *   Write an integration test for the OpenAI GPT-4 integration. (AC: 2.3.3, 2.3.4)
+    *   Write an integration test for the database operations. (AC: 2.3.5)
+    *   Write an E2E test for the cron job trigger and plan adaptation flow. (AC: 2.3.1, 2.3.2, 2.3.3, 2.3.4, 2.3.5)
 
 **Technical Notes:**
 Implementation of the background processing logic in FastAPI triggered by Vercel Cron Job (ADR-001), integration with OpenAI GPT-4, and database write operations.
@@ -36,6 +39,7 @@ Implementation of the background processing logic in FastAPI triggered by Vercel
 **References:**
 *   [Source: docs/epics.md]
 *   [Source: docs/sprint-artifacts/tech-spec-epic-2.md]
+*   [Source: docs/architecture-2025-11-30.md]
 *   [Source: ADR-001]
 
 ---
@@ -46,6 +50,10 @@ Implementation of the background processing logic in FastAPI triggered by Vercel
 *   **Prompt:** Fix validation report issues for story-2.3.md.
 *   **Output:** Updated story-2.3.md with missing sections and citations.
 *   **Comments:** Added Status, AC Source, Tasks, Architecture patterns and constraints, References, Dev Agent Record, and Change Log.
+*   **Completion Notes List:**
+    *   [ ] Note 1
+*   **File List:**
+    *   [ ] `docs/stories/story-2.3.md` (MODIFIED)
 
 ---
 

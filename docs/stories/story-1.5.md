@@ -1,5 +1,5 @@
 ### Story 1.5: Initial AI Plan Generation & Display
-Status: Backlog
+Status: drafted
 
 As a new user who has completed onboarding,
 I want to immediately see my first AI-generated "diagnostic" workout and meal plan on my dashboard,
@@ -16,11 +16,14 @@ So I can begin my health journey.
 **Prerequisites:** Story 1.4
 
 **Tasks:**
-*   **AC 1.5.1:** Implement AI plan generation service (`ai_plan_generator.py`).
-*   **AC 1.5.2:** Create API endpoint to trigger plan generation.
-*   **AC 1.5.3:** Integrate database to store generated plans.
-*   **AC 1.5.4:** Implement frontend integration to display plan on dashboard.
-*   **Testing:** API test to validate structure of AI-generated plan; E2E test to verify display on dashboard.
+*   **Task 1.5.1:** Implement the AI plan generation service (`ai_plan_generator.py`). (AC: 1.5.1)
+*   **Task 1.5.2:** Create the API endpoint to trigger the plan generation. (AC: 1.5.1)
+*   **Task 1.5.3:** Integrate the database to store the generated plans. (AC: 1.5.3)
+*   **Task 1.5.4:** Implement the frontend integration to display the plan on the dashboard. (AC: 1.5.2)
+*   **Testing Subtasks:**
+    *   Write an API test to validate the structure of the AI-generated plan. (AC: 1.5.1)
+    *   Write an integration test to verify the generated plan is stored correctly in the database. (AC: 1.5.3)
+    *   Write an E2E test to verify the plan is displayed correctly on the dashboard after onboarding. (AC: 1.5.2)
 
 **Technical Notes:**
 Backend service (`ai_plan_generator.py`) for AI interaction, API endpoint to trigger plan generation, database integration to store plans. Frontend integration to display on dashboard.
@@ -34,6 +37,7 @@ Backend service (`ai_plan_generator.py`) for AI interaction, API endpoint to tri
 **References:**
 *   [Source: docs/epics.md]
 *   [Source: docs/sprint-artifacts/tech-spec-epic-1.md]
+*   [Source: docs/architecture-2025-11-30.md]
 *   [Source: dashboard_dark.html - Assumed UI template]
 *   [Source: ai_plan_generator.py - Backend service file]
 
@@ -45,6 +49,10 @@ Backend service (`ai_plan_generator.py`) for AI interaction, API endpoint to tri
 *   **Prompt:** Fix validation report issues for story-1.5.md.
 *   **Output:** Updated story-1.5.md with missing sections and citations.
 *   **Comments:** Added Status, AC Source, Tasks, Architecture patterns and constraints, References, Dev Agent Record, and Change Log.
+*   **Completion Notes List:**
+    *   [ ] Note 1
+*   **File List:**
+    *   [ ] `docs/stories/story-1.5.md` (MODIFIED)
 
 ---
 

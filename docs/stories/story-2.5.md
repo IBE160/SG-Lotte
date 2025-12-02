@@ -1,5 +1,5 @@
 ### Story 2.5: New Plan Notification
-Status: Backlog
+Status: drafted
 
 As an active user,
 I want to be notified when my new weekly plans are ready,
@@ -15,10 +15,13 @@ So I know when to check for updates.
 **Prerequisites:** Story 2.3.
 
 **Tasks:**
-*   **AC 2.5.1:** Implement in-app notification UI to confirm new plans.
-*   **AC 2.5.2:** Implement navigation from notification to the new plan.
-*   **AC 2.5.3:** Create API endpoint to trigger/manage in-app notifications.
-*   **Testing:** Frontend component tests for notifications; API tests for notification management.
+*   **Task 2.5.1:** Implement the in-app notification UI to confirm new plans. (AC: 2.5.1)
+*   **Task 2.5.2:** Implement the navigation from the notification to the new plan. (AC: 2.5.2)
+*   **Task 2.5.3:** Create the backend API endpoint to trigger and manage in-app notifications. (AC: 2.5.1)
+*   **Testing Subtasks:**
+    *   Write a frontend component test for the notification UI. (AC: 2.5.1)
+    *   Write an API test for the notification management endpoint. (AC: 2.5.1)
+    *   Write an E2E test to verify the notification is received and can be navigated. (AC: 2.5.1, 2.5.2)
 
 **Technical Notes:**
 Frontend notification UI based on `feedback_patterns_dark.html`, API endpoint to trigger/manage in-app notifications.
@@ -30,6 +33,7 @@ Frontend notification UI based on `feedback_patterns_dark.html`, API endpoint to
 **References:**
 *   [Source: docs/epics.md]
 *   [Source: docs/sprint-artifacts/tech-spec-epic-2.md]
+*   [Source: docs/architecture-2025-11-30.md]
 *   [Source: feedback_patterns_dark.html - Assumed UI template]
 
 ---
@@ -40,6 +44,10 @@ Frontend notification UI based on `feedback_patterns_dark.html`, API endpoint to
 *   **Prompt:** Fix validation report issues for story-2.5.md.
 *   **Output:** Updated story-2.5.md with missing sections and citations.
 *   **Comments:** Added Status, AC Source, Tasks, Architecture patterns and constraints, References, Dev Agent Record, and Change Log.
+*   **Completion Notes List:**
+    *   [ ] Note 1
+*   **File List:**
+    *   [ ] `docs/stories/story-2.5.md` (MODIFIED)
 
 ---
 

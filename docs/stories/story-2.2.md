@@ -1,5 +1,5 @@
 ### Story 2.2: Meal Logging UI
-Status: Backlog
+Status: drafted
 
 As an active user,
 I want to easily log the consumption status of my planned meals,
@@ -15,9 +15,11 @@ So the AI can track my adherence.
 **Prerequisites:** Epic 1 completion.
 
 **Tasks:**
-*   **AC 2.2.1:** Implement UI to mark meals as "Eaten" or "Skipped".
-*   **AC 2.2.2:** Create API endpoint to store meal feedback.
-*   **Testing:** Frontend component tests for logging UI; API tests for meal status endpoint.
+*   **Task 2.2.1:** Implement the UI to mark meals as "Eaten" or "Skipped". (AC: 2.2.1)
+*   **Task 2.2.2:** Create the backend API endpoint to store the meal feedback. (AC: 2.2.2)
+*   **Testing Subtasks:**
+    *   Write a frontend component test for the meal logging UI. (AC: 2.2.1)
+    *   Write an API test for the meal status endpoint. (AC: 2.2.2)
 
 **Technical Notes:**
 Frontend UI implementation based on `mealplan_dark.html`, API endpoint for logging meal status.
@@ -29,6 +31,7 @@ Frontend UI implementation based on `mealplan_dark.html`, API endpoint for loggi
 **References:**
 *   [Source: docs/epics.md]
 *   [Source: docs/sprint-artifacts/tech-spec-epic-2.md]
+*   [Source: docs/architecture-2025-11-30.md]
 *   [Source: mealplan_dark.html - Assumed UI template]
 
 ---
@@ -39,6 +42,10 @@ Frontend UI implementation based on `mealplan_dark.html`, API endpoint for loggi
 *   **Prompt:** Fix validation report issues for story-2.2.md.
 *   **Output:** Updated story-2.2.md with missing sections and citations.
 *   **Comments:** Added Status, AC Source, Tasks, Architecture patterns and constraints, References, Dev Agent Record, and Change Log.
+*   **Completion Notes List:**
+    *   [ ] Note 1
+*   **File List:**
+    *   [ ] `docs/stories/story-2.2.md` (MODIFIED)
 
 ---
 

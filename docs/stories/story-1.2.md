@@ -1,5 +1,5 @@
 ### Story 1.2: Core Frontend Setup
-Status: Backlog
+Status: drafted
 
 As a developer,
 I want the Next.js frontend to be set up and connected to a Vercel deployment pipeline,
@@ -16,10 +16,13 @@ So that I can build UI components and have continuous deployment.
 **Prerequisites:** Story 1.1
 
 **Tasks:**
-*   **AC 1.2.1:** Create Next.js app with TypeScript and Tailwind CSS.
-*   **AC 1.2.2:** Configure Vercel CI/CD pipeline.
-*   **AC 1.2.3:** Implement basic API call from frontend to backend.
-*   **Testing:** Write unit/integration tests for frontend setup and API connectivity.
+*   **Task 1.2.1:** Create the Next.js application with TypeScript and Tailwind CSS. (AC: 1.2.1)
+*   **Task 1.2.2:** Configure the Vercel project and connect the CI/CD pipeline. (AC: 1.2.2)
+*   **Task 1.2.3:** Implement a basic API call from the frontend to the backend to verify connectivity. (AC: 1.2.3)
+*   **Testing Subtasks:**
+    *   Write a test to verify the Next.js application initializes correctly. (AC: 1.2.1)
+    *   Write a test to confirm the Vercel deployment pipeline is triggered on a git push. (AC: 1.2.2)
+    *   Write an integration test for the API call from the frontend to the backend. (AC: 1.2.3)
 
 **Technical Notes:**
 Use `create-next-app` command, configure Tailwind, setup Vercel project, implement a simple test API call.
@@ -32,6 +35,7 @@ Use `create-next-app` command, configure Tailwind, setup Vercel project, impleme
 **References:**
 *   [Source: docs/epics.md]
 *   [Source: docs/sprint-artifacts/tech-spec-epic-1.md]
+*   [Source: docs/architecture-2025-11-30.md]
 
 ---
 
@@ -41,6 +45,10 @@ Use `create-next-app` command, configure Tailwind, setup Vercel project, impleme
 *   **Prompt:** Fix validation report issues for story-1.2.md.
 *   **Output:** Updated story-1.2.md with missing sections and citations.
 *   **Comments:** Added Status, AC Source, Tasks, Architecture patterns and constraints, References, Dev Agent Record, and Change Log.
+*   **Completion Notes List:**
+    *   [ ] Note 1
+*   **File List:**
+    *   [ ] `docs/stories/story-1.2.md` (MODIFIED)
 
 ---
 

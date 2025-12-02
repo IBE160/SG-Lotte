@@ -1,5 +1,5 @@
 ### Story 1.4: Guided Onboarding Flow
-Status: Backlog
+Status: drafted
 
 As a new user who has just verified my email,
 I want to complete a guided 5-step onboarding process,
@@ -16,10 +16,13 @@ So the AI can gather my preferences and generate my first personalized plan.
 **Prerequisites:** Story 1.3
 
 **Tasks:**
-*   **AC 1.4.1:** Develop 5 onboarding UI screens.
-*   **AC 1.4.2:** Implement preference selection UI for fitness goal, dietary preference, and fitness persona.
-*   **AC 1.4.3:** Create API endpoint to save user preferences.
-*   **Testing:** E2E test onboarding flow and API for saving preferences.
+*   **Task 1.4.1:** Develop the 5 UI screens for the onboarding flow. (AC: 1.4.1)
+*   **Task 1.4.2:** Implement the preference selection UI components. (AC: 1.4.2)
+*   **Task 1.4.3:** Create the backend API endpoint to save user preferences. (AC: 1.4.3)
+*   **Testing Subtasks:**
+    *   Write component tests for each of the 5 onboarding screens. (AC: 1.4.1)
+    *   Write an integration test for the API endpoint that saves user preferences. (AC: 1.4.3)
+    *   Write an E2E test for the entire onboarding flow. (AC: 1.4.1, 1.4.2, 1.4.3)
 
 **Technical Notes:**
 Frontend development for the onboarding screens, API endpoints to save user preferences.
@@ -31,6 +34,7 @@ Frontend development for the onboarding screens, API endpoints to save user pref
 **References:**
 *   [Source: docs/epics.md]
 *   [Source: docs/sprint-artifacts/tech-spec-epic-1.md]
+*   [Source: docs/architecture-2025-11-30.md]
 *   [Source: onboarding1_dark.html - Assumed UI template]
 *   [Source: onboarding2_dark.html - Assumed UI template]
 *   [Source: onboarding3_dark.html - Assumed UI template]
@@ -45,6 +49,10 @@ Frontend development for the onboarding screens, API endpoints to save user pref
 *   **Prompt:** Fix validation report issues for story-1.4.md.
 *   **Output:** Updated story-1.4.md with missing sections and citations.
 *   **Comments:** Added Status, AC Source, Tasks, Architecture patterns and constraints, References, Dev Agent Record, and Change Log.
+*   **Completion Notes List:**
+    *   [ ] Note 1
+*   **File List:**
+    *   [ ] `docs/stories/story-1.4.md` (MODIFIED)
 
 ---
 

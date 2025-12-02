@@ -1,5 +1,5 @@
 ### Story 3.1: User Profile Page
-Status: Backlog
+Status: drafted
 
 As an engaged user,
 I want a dedicated profile page to view and update my personal information and fitness goals,
@@ -15,10 +15,13 @@ So I have a central place to manage my identity.
 **Prerequisites:** Epic 1 completion.
 
 **Tasks:**
-*   **AC 3.1.1:** Implement UI for displaying user's name, email, and fitness goals.
-*   **AC 3.1.2:** Implement UI for editing personal details (e.g., name, primary goal).
-*   **AC 3.1.3:** Create API endpoints for retrieving and updating user profile data.
-*   **Testing:** Frontend component tests for profile page; API tests for profile data endpoints.
+*   **Task 3.1.1:** Implement the UI for displaying the user's name, email, and fitness goals. (AC: 3.1.1)
+*   **Task 3.1.2:** Implement the UI for editing personal details. (AC: 3.1.2)
+*   **Task 3.1.3:** Create the backend API endpoints for retrieving and updating user profile data. (AC: 3.1.2)
+*   **Testing Subtasks:**
+    *   Write a frontend component test for the profile page display. (AC: 3.1.1)
+    *   Write a frontend component test for the profile editing UI. (AC: 3.1.2)
+    *   Write an API test for the profile data endpoints. (AC: 3.1.2)
 
 **Technical Notes:**
 Frontend UI development based on `profilepage_dark.html`, API endpoints for retrieving and updating user profile data.
@@ -30,6 +33,7 @@ Frontend UI development based on `profilepage_dark.html`, API endpoints for retr
 **References:**
 *   [Source: docs/epics.md]
 *   [Source: docs/sprint-artifacts/tech-spec-epic-3.md]
+*   [Source: docs/architecture-2025-11-30.md]
 *   [Source: profilepage_dark.html - Assumed UI template]
 
 ---
@@ -40,6 +44,10 @@ Frontend UI development based on `profilepage_dark.html`, API endpoints for retr
 *   **Prompt:** Fix validation report issues for story-3.1.md.
 *   **Output:** Updated story-3.1.md with missing sections and citations.
 *   **Comments:** Added Status, AC Source, Tasks, Architecture patterns and constraints, References, Dev Agent Record, and Change Log.
+*   **Completion Notes List:**
+    *   [ ] Note 1
+*   **File List:**
+    *   [ ] `docs/stories/story-3.1.md` (MODIFIED)
 
 ---
 
