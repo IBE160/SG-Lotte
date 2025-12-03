@@ -78,7 +78,7 @@ So that I can build API endpoints and data models.
 
 **Prerequisites:** None
 
-**Technical Notes:** This involves setting up the `backend/` directory, `requirements.txt`, basic FastAPI app structure, and Supabase client.
+**Technical Notes:** This involves setting up the `backend/` directory, `requirements.txt`, basic FastAPI app structure, and Supabase client. I want the backend to use UV as package management and project management.
 
 ### Story 1.2: Core Frontend Setup
 
