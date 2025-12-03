@@ -1,6 +1,6 @@
 # Story 1.3: User Registration & Email Verification
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -77,6 +77,11 @@ The successful setup of both backend and frontend indicates that the architectur
 -   **UI:** The primary UI is the signup form, which should be based on the `onboarding1_dark.html` wireframe.
 -   **Testing:** Use Jest and React Testing Library for frontend tests. Mock Supabase client interactions. [Source: `docs/architecture-2025-11-30.md#Testing-Strategy`]
 
+### Architecture patterns and constraints
+- **Supabase Client:** A singleton instance of the Supabase client should be created in `frontend/lib/supabase.ts` and used throughout the application to ensure consistent configuration and connection management.
+- **Environment Variables:** Supabase URL and anon key must be stored in `.env.local` and accessed via `process.env.NEXT_PUBLIC_SUPABASE_URL` and `process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY`. Do not hardcode these values.
+- **Error Handling:** All calls to Supabase methods must be wrapped in appropriate try/catch blocks or use promise-based `.then().catch()` handling to manage potential API errors gracefully.
+
 ### Learnings from Previous Story: Core Frontend Setup (1.2)
 
 **From Story 1.2-core-frontend-setup (Status: done)**
@@ -87,3 +92,25 @@ The successful setup of both backend and frontend indicates that the architectur
 -   **Warnings for Next Story**: Vercel deployment is a manual step that needs to be configured for the project if not already done.
 
 [Source: `docs/sprint-artifacts/1-2-core-frontend-setup.md`]
+
+## Dev Agent Record
+
+### Context Reference
+- docs/sprint-artifacts/1-3-user-registration-email-verification.context.xml
+
+### Agent Model Used
+- Gemini
+
+### Debug Log References
+- Initial draft created by user.
+- Validation and corrections by Scrum Master Agent.
+
+### Completion Notes List
+-
+
+### File List
+-
+
+## Change Log
+- **2025-12-03:** Initial draft created by user.
+- **2025-12-03:** Corrected by Scrum Master Agent: Added missing 'Architecture patterns and constraints', 'Dev Agent Record', and 'Change Log' sections.
