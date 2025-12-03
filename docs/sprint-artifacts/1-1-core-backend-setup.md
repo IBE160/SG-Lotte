@@ -59,23 +59,23 @@ The backend will implement a caching layer (e.g., using `fastapi-cache2` with an
 
 ## Tasks / Subtasks
 
-- [ ] Initialize FastAPI project structure (AC: all)
-  - [ ] Create `backend/` directory
-  - [ ] Create `backend/requirements.txt` with `FastAPI`, `uvicorn`, `SQLAlchemy`, `psycopg2-binary`, `alembic`, `python-dotenv`
-  - [ ] Create `backend/app/main.py` with basic FastAPI app instance
-  - [ ] Configure `uvicorn` to run the app
-- [ ] Connect FastAPI to Supabase (AC: Supabase configured)
-  - [ ] Install `supabase-py` client library
-  - [ ] Configure Supabase client with API URL and Anon Key from environment variables
-  - [ ] Verify connection to Supabase database
-- [ ] Configure Alembic for database migrations (AC: Alembic migrations configured)
-  - [ ] Initialize Alembic in `backend/alembic`
-  - [ ] Configure `alembic.ini` to connect to Supabase PostgreSQL database
-  - [ ] Generate initial migration script
-  - [ ] Apply initial migration to create necessary tables (e.g., `users` table as a placeholder)
-- [ ] Implement basic test for backend setup (AC: FastAPI app running)
-  - [ ] Create `backend/tests/test_main.py`
-  - [ ] Write a simple test to verify FastAPI app is accessible (e.g., GET `/`)
+- [x] Initialize FastAPI project structure (AC: all)
+  - [x] Create `backend/` directory
+  - [x] Create `backend/requirements.txt` with `FastAPI`, `uvicorn`, `SQLAlchemy`, `psycopg2-binary`, `alembic`, `python-dotenv`
+  - [x] Create `backend/app/main.py` with basic FastAPI app instance
+  - [x] Configure `uvicorn` to run the app
+- [x] Connect FastAPI to Supabase (AC: Supabase configured)
+  - [x] Install `supabase-py` client library
+  - [x] Configure Supabase client with API URL and Anon Key from environment variables
+  - [x] Verify connection to Supabase database
+- [x] Configure Alembic for database migrations (AC: Alembic migrations configured)
+  - [x] Initialize Alembic in `backend/alembic`
+  - [x] Configure `alembic.ini` to connect to Supabase PostgreSQL database
+  - [x] Generate initial migration script
+  - [x] Apply initial migration to create necessary tables (e.g., `users` table as a placeholder)
+- [x] Implement basic test for backend setup (AC: FastAPI app running)
+  - [x] Create `backend/tests/test_main.py`
+  - [x] Write a simple test to verify FastAPI app is accessible (e.g., GET `/`)
 
 ## Dev Notes
 
@@ -97,10 +97,22 @@ Status: ready-for-dev
 Gemini
 
 ### Debug Log References
+- Initialized FastAPI project structure (backend/ directory, requirements.txt, backend/app/main.py created, uvicorn configured).
+- Connected FastAPI to Supabase (supabase-py installed, client configured, health check endpoint added).
+- Configured Alembic for database migrations (alembic init, alembic.ini and env.py updated).
+- Implemented basic test for backend setup (backend/tests/test_main.py created with basic tests).
+
 
 ### Completion Notes List
 
 ### File List
+- backend/requirements.txt (modified)
+- backend/app/main.py (modified)
+- backend/alembic.ini (created/modified)
+- backend/alembic/env.py (created/modified)
+- backend/alembic/versions/ (created)
+- backend/tests/test_main.py (created)
+
 
 ## Change Log
 

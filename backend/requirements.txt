@@ -1,0 +1,8 @@
+FastAPI
+uvicorn
+SQLAlchemy
+psycopg2-binary
+alembic
+python-dotenv
+supabase
+pytest
