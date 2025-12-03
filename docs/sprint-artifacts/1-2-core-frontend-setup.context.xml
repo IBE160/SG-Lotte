@@ -1,0 +1,218 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>2</storyId>
+    <title>Core Frontend Setup</title>
+    <status>drafted</status>
+    <generatedAt>onsdag 3. desember 2025</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/sprint-artifacts/1-2-core-frontend-setup.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As a developer,</asA>
+    <iWant>I want the Next.js frontend to be set up and connected to a Vercel deployment pipeline,</iWant>
+    <soThat>so that I can build UI components and have continuous deployment.</soThat>
+    <tasks>
+-   [ ] Initialize Next.js project with TypeScript, Tailwind CSS, and ESLint.
+-   [ ] Configure project for Vercel deployment.
+-   [ ] Establish a basic API call from frontend to backend.
+-   [ ] Add basic component and integration tests using React Testing Library and Jest.
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1.  Given the project is initialized, when I set up the frontend, then a Next.js app is created with TypeScript and Tailwind CSS.
+2.  A Vercel CI/CD pipeline is connected for automated deployments.
+3.  A basic API call from the frontend to the backend is successful.
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Product Scope - MVP</section>
+        <snippet>Core Dashboard: Displays the current week's plan only. Basic Progress Logging: Simple logging of completed workouts and meals (e.g., checkboxes).</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Functional Requirements - FR-006: Dashboard Overview</section>
+        <snippet>The system shall provide a clear, minimalist dashboard displaying the user's current weekly workout and meal plans.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Non-Functional Requirements - Performance</section>
+        <snippet>Response time for non-AI queries shall be less than 500ms.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Non-Functional Requirements - Security</section>
+        <snippet>All data in transit (HTTPS) and at rest (database encryption) shall be encrypted.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Executive Summary</section>
+        <snippet>The frontend is a Next.js application, the backend is a FastAPI service, and the data persistence and user authentication are managed by Supabase.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Context</section>
+        <snippet>Frontend: Next.js 14+ (App Router) with TypeScript, Tailwind CSS, and Recharts. User Experience: The UX is defined by high-fidelity dark-themed wireframes, requiring a rich, component-based architecture.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Initialization</section>
+        <snippet>Initialization Command: `npx create-next-app@latest frontend --typescript --tailwind --eslint --app --use-npm`. Architectural Decisions Provided by Starter: Next.js, TypeScript, Tailwind CSS, ESLint, App Router directory layout. First Implementation Story: execute the above command to set up the project structure.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Structure</section>
+        <snippet>Details the complete `frontend/` directory structure.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Epic to Architecture Mapping - Epic 1</section>
+        <snippet>Frontend: `src/app/(auth)/` (Onboarding UI), `src/app/(dashboard)/dashboard/` (Dashboard UI).</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Technology Stack Details - Core Technologies</section>
+        <snippet>Frontend: Next.js v16.0.5 (React) with TypeScript. Styling: Tailwind CSS.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Technology Stack Details - Integration Points</section>
+        <snippet>Frontend to Backend: Next.js frontend communicates with FastAPI backend via REST API (`/api/v1/`). Frontend to Supabase: interacts directly with Supabase for authentication and real-time data updates using `supabase-js` library.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Implementation Patterns - Naming</section>
+        <snippet>Frontend Components (React): PascalCase. Frontend Component Files: Kebab-case. Frontend Hooks/Utilities: CamelCase.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Implementation Patterns - Structure</section>
+        <snippet>Testing (Frontend): Test files co-located in `__tests__` subdirectory. Component Organization: by feature or route. Shared Utilities (Frontend): `frontend/src/lib/`.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Implementation Patterns - Format</section>
+        <snippet>API Responses: successful (`2xx`) return JSON data directly. Error: `{ "detail": "..." }`. Dates in JSON: ISO 8601 UTC.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Implementation Patterns - Communication</section>
+        <snippet>Client-Side State: Zustand. Server-Side State (Data Fetching): SWR/React Query.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Consistency Rules - Testing Strategy</section>
+        <snippet>Frontend (Next.js): Component and integration tests with `React Testing Library` and `Jest`.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Deployment Architecture</section>
+        <snippet>Platform: Next.js frontend and FastAPI backend deployed to Vercel. CI/CD: continuous integration and deployment pipeline through Vercel's Git integration, automatic deployments.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Development Environment - Setup Commands</section>
+        <snippet>Install frontend dependencies: `cd frontend`, `npm install`. Run development servers: `cd frontend && npm run dev`.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness & Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>1. Introduction</section>
+        <snippet>The official and approved design is defined by the comprehensive, high-fidelity wireframes located in the `docs/ux-design/wireframes/` directory. These wireframes embody a modern, intuitive and accessible dark-themed interface.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness & Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>4. Design System and Implementation Guidelines</section>
+        <snippet>All visual and interactive aspects of the application MUST adhere to the detailed specifications outlined in the official Design System Specification, covering Visual Foundation, Component Library, UX Pattern Consistency Rules, Responsive Design, and Accessibility (A11y).</snippet>
+      </doc>
+    </docs>
+    <code></code>
+    <code></code>
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package name="next" version="^16.0.5" />
+        <package name="react" />
+        <package name="typescript" />
+        <package name="tailwindcss" />
+        <package name="zustand" />
+        <package name="swr" />
+        <package name="react-query" />
+        <package name="@supabase/supabase-js" version="^2.86.0" />
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+  </artifacts>
+
+  <constraints>
+    <constraint>Adhere to the standard Next.js App Router directory layout.</constraint>
+    <constraint>Frontend code should primarily reside under `frontend/src/app/` and `frontend/src/components/`.</constraint>
+    <constraint>Reusable functions and utilities should be placed in `frontend/src/lib/`.</constraint>
+    <constraint>Testing files should be co-located with components in `__tests__` subdirectories.</constraint>
+    <constraint>Strictly adhere to `docs/architecture-2025-11-30.md` for frontend project structure, naming conventions (PascalCase for components, kebab-case for component files), and component organization (by feature or route).</constraint>
+    <constraint>Locate all frontend testing code under `frontend/src/__tests__/` or co-located in `__tests__` subdirectories within component folders.</constraint>
+    <constraint>Ensure `frontend/src/lib/` is used for shared utilities and functions.</constraint>
+    <constraint>API Endpoints: Plural nouns and kebab-case.</constraint>
+    <constraint>Frontend Components (React): PascalCase.</constraint>
+    <constraint>Frontend Component Files: Kebab-case.</constraint>
+    <constraint>Frontend Hooks/Utilities: CamelCase.</constraint>
+    <constraint>API Responses: Successful responses (`2xx`) will return JSON data directly. Error responses use standard FastAPI format: `{ "detail": "..." }`.</constraint>
+    <constraint>Dates in JSON: ISO 8601 strings in UTC.</constraint>
+    <constraint>Client-Side State: Managed with Zustand.</constraint>
+    <constraint>Server-Side State (Data Fetching): Managed by SWR or React Query.</constraint>
+    <constraint>Frontend (Next.js) tests: Component and integration tests with `React Testing Library` and `Jest`.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Frontend to Backend API</name>
+      <kind>REST endpoint</kind>
+      <signature>/api/v1/ (versioned REST API)</signature>
+      <path>docs/architecture-2025-11-30.md</path>
+    </interface>
+    <interface>
+      <name>Frontend to Supabase Authentication</name>
+      <kind>Library Integration</kind>
+      <signature>@supabase/supabase-js</signature>
+      <path>docs/architecture-2025-11-30.md</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Component and integration tests will be written using React Testing Library with Jest. Test files will be co-located with the components they are testing in a `__tests__` subdirectory. Frontend (Next.js) tests will be written using React Testing Library with Jest.</standards>
+    <locations>
+      <location>frontend/src/__tests__/</location>
+      <location>__tests__ subdirectories within component folders</location>
+      <location>frontend/tests/</location>
+    </locations>
+    <ideas>
+      <idea ac="1">Write unit/integration tests to confirm Next.js app setup and configuration.</idea>
+      <idea ac="2">Manually verify Vercel deployment and CI/CD pipeline functionality.</idea>
+      <idea ac="3">Write an integration test to verify the successful frontend-to-backend API call.</idea>
+      <idea>Write a simple component test for a basic UI element (e.g., a button).</idea>
+      <idea>Write an integration test to verify the frontend's API call in a test environment.</idea>
+    </ideas>
+  </tests>
+</story-context>

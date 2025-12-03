@@ -1,6 +1,6 @@
 # Story 1.2: Core Frontend Setup
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -113,6 +113,7 @@ The successful setup of the backend indicates that the architectural guidelines 
 ## Dev Agent Record
 
 ### Context Reference
+- docs/sprint-artifacts/1-2-core-frontend-setup.context.xml
 
 ### Agent Model Used
 
