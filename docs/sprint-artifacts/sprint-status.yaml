@@ -37,8 +37,8 @@ story_location: C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt
 
 development_status:
   epic-1: contexted
-  1-1-core-backend-setup: in-progress
-  1-2-core-frontend-setup: ready-for-dev
+  1-1-core-backend-setup: done
+  1-2-core-frontend-setup: review
   1-3-user-registration-email-verification: backlog
   1-4-guided-onboarding-flow: backlog
   1-5-initial-ai-plan-generation-display: backlog

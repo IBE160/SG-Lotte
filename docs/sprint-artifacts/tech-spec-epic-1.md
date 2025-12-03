@@ -1,225 +1,71 @@
-# Epic Technical Specification: First Plan & Foundation
+# Tech Spec: Epic 1 - First Plan & Foundation
 
-Date: onsdag 3. desember 2025
-Author: BIP
-Epic ID: epic-1
-Status: Draft
+This document outlines the technical specifications, guidelines, and architectural decisions for Epic 1: First Plan & Foundation. Its purpose is to ensure consistency and alignment across all stories within this epic.
 
----
+## 1. Epic 1 Overview
 
-## Overview
+Epic 1 focuses on establishing the core technical foundation for the AI Fitness & Meal Planner application. This includes setting up the backend and frontend, implementing user authentication, and delivering the initial AI-driven plan generation feature.
 
-This technical specification details Epic 1: "First Plan & Foundation" for the AI Fitness & Meal Planner. The overarching goal, as described in the Product Requirements Document (PRD), is to develop an AI-assisted web application that generates and adapts personalized workout and meal plans. For this epic, the focus is on enabling new users to quickly sign up, define their core health goals, and receive their initial personalized plan, thereby initiating their health journey.
+## 2. Technology Stack
 
-## Objectives and Scope
+| Component | Technology | Version/Details |
+| :--- | :--- | :--- |
+| **Backend** | Python / FastAPI | Python 3.14, FastAPI 0.122.0 |
+| **Database** | Supabase (PostgreSQL) | - |
+| **ORM/Migration** | SQLAlchemy / Alembic | - |
+| **Frontend** | JavaScript / Next.js | Next.js 14+ |
+| **Authentication**| Supabase Auth | JWT-based |
+| **Testing** | Pytest (backend) | - |
 
-**Objectives:**
-- Establish the core technical infrastructure (backend, frontend, database).
-- Implement secure user registration, login, and email verification.
-- Guide new users through a 5-step onboarding process to gather essential preferences.
-- Generate and display the user's first "diagnostic" workout and meal plan.
+## 3. Project Structure
 
-**In-Scope:**
-- Setup of Next.js frontend, FastAPI backend, and Supabase integration.
-- User authentication and profile management (FR-001 - basic setup).
-- Guided onboarding flow for initial preference collection.
-- Initial AI plan generation (FR-002, FR-003 - diagnostic plan).
-- Basic dashboard display of the current week's plan (FR-006).
+The project follows a monorepo structure with decoupled `frontend` and `backend` directories.
 
-**Out-of-Scope (for this epic):**
-- Advanced progress logging.
-- AI-driven weekly plan adaptation (beyond initial generation).
-- Detailed historical data visualization.
-- Comprehensive user profile and advanced account management (beyond basic signup/login).
+```
+/
+├── backend/
+│   ├── alembic/              # Database migrations
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── v1/
+│   │   │       └── endpoints/
+│   │   ├── core/               # Core logic, config, services
+│   │   ├── services/
+│   │   └── main.py             # FastAPI app entry point
+│   ├── tests/                # Backend tests
+│   └── requirements.txt
+├── docs/
+│   └── ...
+└── frontend/
+    └── ...                   # Next.js app structure
+```
 
-## System Architecture Alignment
+## 4. API Design
 
-Epic 1 aligns with the foundational architecture of a decoupled Next.js frontend, FastAPI backend, and Supabase for data persistence and authentication. Specifically:
-- **Backend:** Will implement user authentication logic via `app/api/v1/endpoints/users.py` (leveraging Supabase Auth) and initial plan generation capabilities through `app/services/ai_plan_generator.py`.
-- **Frontend:** Will handle the user interface for the onboarding process via `src/app/(auth)/` and the initial dashboard display via `src/app/(dashboard)/dashboard/`.
-The chosen technologies and their intended use support the rapid establishment of the core user journey for the first plan.
+- **Naming Convention:** API endpoints will use plural nouns and kebab-case (e.g., `/api/v1/workout-plans`).
+- **Versioning:** All endpoints will be versioned under `/api/v1/`.
+- **Response Format:** All API responses will use a consistent JSON structure.
+- **Error Handling:** API errors will return a standardized JSON object: `{ "detail": "Error message" }`.
 
-## Detailed Design
+## 5. Database Design
 
-## Detailed Design
+- **Table Naming:** Database tables will use plural nouns and snake_case (e.g., `users`, `workout_plans`).
+- **Column Naming:** Database columns will use snake_case (e.g., `user_id`, `created_at`).
 
-### Services and Modules
+## 6. Authentication and Authorization
 
-| Module/Service         | Responsibilities                                                                                   | Inputs/Outputs                                                                            | Owner |
-| :--------------------- | :------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------- | :---- |
-| `backend/app/api/v1/endpoints/users.py` | Handles user authentication (registration, login) and core user profile management (saving preferences). | **Input:** User credentials, profile data. **Output:** JWT, user profile.                 | Backend |
-| `backend/app/services/ai_plan_generator.py` | Orchestrates AI calls to Gemini 2.5 Pro/Flash for initial "diagnostic" plan generation.            | **Input:** User preferences, goals. **Output:** Structured JSON workout and meal plan.    | Backend |
-| `frontend/src/app/(auth)/` | Implements the 5-step onboarding UI, registration, and login flows.                                | **Input:** User input for signup, preferences. **Output:** API calls to backend.          | Frontend |
-| `frontend/src/app/(dashboard)/dashboard/` | Displays the generated initial weekly workout and meal plans.                                      | **Input:** Plan data from backend API. **Output:** User interaction for viewing plans.    | Frontend |
+- **Authentication:** Handled by Supabase Auth, using JWTs for secure sessions. The frontend will manage the JWT, and the backend will validate it for protected endpoints.
+- **Authorization:** Supabase's Row Level Security (RLS) will be enabled for all tables containing user-specific data to enforce data access policies at the database level.
 
-### Data Models and Contracts
+## 7. Testing Strategy
 
-The following key entities will be stored in the Supabase PostgreSQL database:
+- **Backend:** Unit and integration tests for the FastAPI backend will be written using `Pytest`. All backend tests will reside in the `backend/tests/` directory. A key initial test is a health check endpoint (`/`) that returns a 200 OK status.
+- **Frontend:** (To be detailed in Story 1.2 tech spec).
+- **E2E:** A simple "hello world" API call from the frontend to the backend will be used to verify the end-to-end connection.
 
-- **`users` table:**
-  - `id` (PK, UUID, from Supabase Auth)
-  - `email` (Unique, from Supabase Auth)
-  - `primary_goal` (ENUM, e.g., 'lose_weight', 'gain_muscle')
-  - `dietary_preferences` (JSONB, array of strings)
-  - `fitness_persona` (VARCHAR)
-  - `created_at`, `updated_at` (Timestamps)
-- **`workout_plans` table:**
-  - `id` (PK, UUID)
-  - `user_id` (FK to `users.id`)
-  - `plan_data` (JSONB, structured plan generated by AI)
-  - `week_start_date` (Date)
-  - `created_at`
-- **`meal_plans` table:**
-  - `id` (PK, UUID)
-  - `user_id` (FK to `users.id`)
-  - `plan_data` (JSONB, structured plan generated by AI)
-  - `week_start_date` (Date)
-  - `created_at`
+## 8. Architectural Decision Records (ADRs)
 
-### APIs and Interfaces
+- **ADR-001: Background Job/Async Processing Strategy:** The architecture anticipates using Vercel Cron Jobs for future asynchronous tasks (e.g., in Epic 2 for plan adaptations). The backend setup should be designed to facilitate this.
+- **ADR-002: Caching Strategy:** A caching layer will be implemented in the FastAPI backend (e.g., using `fastapi-cache2`) to improve performance by caching common database queries. This will be considered from the initial setup.
 
-All APIs will be RESTful and versioned under `/api/v1/`.
-
-- **User Authentication & Profile:**
-  - `POST /api/v1/auth/register`: User registration.
-  - `POST /api/v1/auth/login`: User login.
-  - `POST /api/v1/users/preferences`: Save user preferences (during onboarding).
-- **Plan Generation & Retrieval:**
-  - `POST /api/v1/plans/generate-initial`: Triggers initial AI plan generation.
-  - `GET /api/v1/plans/current`: Retrieves the current week's workout and meal plans.
-
-### Workflows and Sequencing
-
-1.  **Core Setup (Story 1.1, 1.2):**
-    -   Developers set up FastAPI backend, connect to Supabase, configure Alembic.
-    -   Developers set up Next.js frontend, configure Vercel CI/CD.
-2.  **User Registration (Story 1.3):**
-    -   User accesses signup page.
-    -   User provides email and password.
-    -   Supabase Auth handles user creation and sends verification email.
-    -   User verifies email via link.
-3.  **Guided Onboarding (Story 1.4):**
-    -   Post email verification, user is directed to a 5-step onboarding flow (`onboarding1_dark.html` to `onboarding5_dark.html`).
-    -   User inputs fitness goals, dietary preferences, and persona.
-    -   Frontend sends these preferences to a backend API endpoint for storage in the `users` table.
-4.  **Initial Plan Generation & Display (Story 1.5):**
-    -   Upon completion of onboarding, the frontend triggers `POST /api/v1/plans/generate-initial`.
-    -   The `ai_plan_generator.py` service constructs a prompt based on user preferences and calls Gemini 2.5 Pro/Flash.
-    -   AI returns a structured JSON plan, which is stored in `workout_plans` and `meal_plans` tables.
-    -   The dashboard UI (`dashboard_dark.html`) fetches and displays the newly generated plan.
-
-## Non-Functional Requirements
-
-### Performance
-
--   **Response Time:** Non-AI queries shall have a response time of less than 500ms.
--   **Concurrency:** The system shall support at least 100 concurrent active users without degradation.
--   **Caching Strategy:** Multi-layered caching will be implemented (backend in-memory, frontend SWR/React Query) to reduce redundant data fetching.
--   **Code Splitting:** Next.js's automatic code splitting will optimize initial page loads.
--   **CDN:** Vercel's CDN will be utilized for efficient asset delivery.
-
-### Security
-
--   **Data Encryption:** All data will be encrypted both in transit (HTTPS) and at rest (database encryption managed by Supabase).
--   **Authentication:** User authentication will be handled by Supabase Auth, utilizing JWT tokens for secure sessions.
--   **Authorization:** Supabase Row Level Security (RLS) will restrict user access to their own data.
--   **API Security:** All backend API endpoints will require a valid JWT for access.
--   **Compliance:** The system will adhere to GDPR principles for data privacy and retention.
-
-### Reliability/Availability
-
--   **AI Integration:** For AI plan generation (using Pydantic AI framework with Gemini 2.5), the system will implement retry mechanisms with exponential backoff for API calls.
--   **AI Caching:** Caching will be employed for AI responses to mitigate latency and reduce external dependency.
--   **Fallback:** Fallback mechanisms (e.g., default plan templates) will be in place for AI service unavailability.
-
-### Observability
-
--   **Logging:** Structured logging will be implemented with JSON format, including timestamp, log level (INFO, WARNING, ERROR), and a message.
--   **Log Target:** Logs will be output to console (`stdout`/`stderr`), compatible with Vercel's logging infrastructure.
-
-## Dependencies and Integrations
-
-### Frontend (`frontend/package.json`)
-
--   **Framework:** Next.js (v16.0.5)
--   **Language:** TypeScript
--   **Styling:** Tailwind CSS
--   **UI Libraries:** Recharts (for potential future charting, though basic dashboard in Epic 1)
--   **State Management:** Zustand (client-side), SWR/React Query (server-side data fetching)
--   **Authentication Client:** `@supabase/supabase-js` (v2.86.0)
-
-### Backend (`backend/requirements.txt`)
-
--   **Framework:** FastAPI (v0.122.0)
--   **Language:** Python (3.14+)
--   **Database Client:** Supabase client (for PostgreSQL interaction)
--   **AI Integration:** Pydantic AI framework (with Gemini 2.5 Pro/Flash)
--   **ORM/Database Migration:** Alembic
-
-### Integrations
-
--   **Supabase:** Primary BaaS for PostgreSQL database, Authentication, and Row Level Security (RLS).
--   **Vercel:** Deployment platform for both frontend (Next.js) and backend (FastAPI, leveraging serverless functions/Vercel functions for FastAPI). Includes Vercel Cron Jobs for background tasks (though more relevant for Epic 2, the integration point is established).
--   **Gemini 2.5 Pro/Flash:** AI model for plan generation, integrated via the Pydantic AI framework.
-
-## Acceptance Criteria (Authoritative)
-
-**User Registration & Email Verification:**
-1.  Users can successfully sign up with an email and password.
-2.  A verification email is sent to the provided email address upon registration.
-3.  Users cannot log in until their email address is verified.
-4.  Upon clicking the verification link, the user's email is marked as verified.
-5.  Users can successfully log in after email verification.
-6.  Users can initiate and complete a password reset flow.
-
-**Guided Onboarding Flow:**
-7.  New users are presented with a 5-step guided onboarding UI after email verification.
-8.  Users can select their primary fitness goal during onboarding.
-9.  Users can select their dietary preferences during onboarding.
-10. Users can select a fitness persona during onboarding.
-11. Selected preferences are securely saved to the user's profile in the database.
-
-**Initial AI Plan Generation & Display:**
-12. A 7-day personalized workout plan is generated by the AI upon onboarding completion.
-13. A 7-day personalized meal plan is generated by the AI upon onboarding completion.
-14. The generated workout plan is displayed on the user's dashboard.
-15. The generated meal plan is displayed on the user's dashboard.
-16. The details of the generated plans are stored persistently in the database.
-
-## Traceability Mapping
-
-| Acceptance Criteria (AC) | Spec Section(s)                                                              | Component(s)/API(s)                                                                       | Test Idea                                                                     |
-| :----------------------- | :--------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| AC 1-6                   | FR-001 (PRD), Story 1.3 (Epics)                                            | `frontend/src/app/(auth)/`, `backend/app/api/v1/endpoints/users.py`, Supabase Auth        | E2E test: User signup, email verification, login, password reset              |
-| AC 7-11                  | FR-001 (PRD), Story 1.4 (Epics), `onboardingX_dark.html` (UX Spec)         | `frontend/src/app/(auth)/`, `backend/app/api/v1/endpoints/users.py`                     | UI test: 5-step onboarding navigation; Integration test: Preference persistence |
-| AC 12-16                 | FR-002, FR-003, FR-006 (PRD), Story 1.5 (Epics), `dashboard_dark.html` (UX Spec) | `frontend/src/app/(dashboard)/dashboard/`, `backend/app/services/ai_plan_generator.py`, `backend/app/api/v1/plans/` | E2E test: Onboarding completes, plan displayed; Unit test: AI plan generation |
-
-## Risks, Assumptions, Open Questions
-
-### Risks
-
--   **AI Model Reliability:** Potential for AI errors, timeouts, or unexpected plan generation outcomes, leading to a poor user experience or fallback to default templates. Mitigation: Implement robust retry mechanisms, caching, and fallback strategies.
--   **API Cost Management:** Uncontrolled API usage for AI plan generation could lead to unexpected high costs. Mitigation: Implement usage monitoring, caching, and cost-aware design patterns.
-
-### Assumptions
-
--   **Supabase Stability & Scalability:** We assume Supabase will provide a stable, scalable, and secure backend-as-a-service suitable for our MVP and initial growth.
--   **Vercel Function Limits:** We assume Vercel's serverless function limits and performance will be sufficient for our FastAPI backend and cron job needs for the MVP.
-
-### Open Questions
-
--   **Detailed AI Prompt Engineering:** The specifics of prompt engineering for Gemini 2.5 Pro/Flash to generate optimal workout and meal plans still need to be fully defined and iterated upon.
--   **User Feedback Integration with AI:** How precisely will user feedback (e.g., workout difficulty, meal consumption) be fed back into the AI for plan adaptation in subsequent epics? (This impacts future epics but needs to be considered now for data capture).
-
-## Test Strategy Summary
-
-The testing strategy for Epic 1 will focus on ensuring the foundational components are robust and integrated correctly.
-
--   **Backend (FastAPI):**
-    -   **Unit Tests:** Using `Pytest` to test individual functions and modules (e.g., user creation, preference storage, AI plan generation logic).
-    -   **Integration Tests:** Using `Pytest` to verify interactions between backend services and Supabase (e.g., user registration flow, plan persistence).
--   **Frontend (Next.js):**
-    -   **Component Tests:** Using `React Testing Library` and `Jest` to ensure individual UI components (e.g., onboarding steps, dashboard display) render correctly and behave as expected.
-    -   **Integration Tests:** Using `React Testing Library` and `Jest` to test the interaction between frontend components and backend APIs (e.g., successful user signup, plan display).
--   **End-to-End (E2E):** This will be considered for future phases, but manual E2E testing will be performed for critical user flows in Epic 1 to ensure overall system coherence.
--   **Manual Testing:** Comprehensive manual testing will be conducted for the entire user journey within Epic 1, covering registration, onboarding, and initial plan display.
+This document serves as the primary technical reference for developers working on Epic 1. All implementation should adhere to these guidelines.

@@ -1,7 +1,11 @@
 import os
+import logging
 from dotenv import load_dotenv
 from fastapi import FastAPI, Depends, HTTPException
 from supabase import create_client, Client
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Load environment variables from .env file
 load_dotenv()
