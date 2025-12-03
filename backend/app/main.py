@@ -17,9 +17,26 @@ SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 if not SUPABASE_URL or not SUPABASE_KEY:
     raise ValueError("Supabase URL and Key must be set in environment variables")
 
+from fastapi.middleware.cors import CORSMiddleware
+
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",  # Allow your Next.js frontend
+    "http://127.0.0.1",
+    "http://127.0.0.1:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_supabase_client():
     return supabase

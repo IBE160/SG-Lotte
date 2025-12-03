@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from 'react';
 import { getBackendHealth } from '../lib/api';
 import { HealthCheckResponse } from '../lib/types';

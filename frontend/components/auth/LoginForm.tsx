@@ -1,14 +1,13 @@
-'use client';
-
 import React, { useState } from 'react';
-import { createSupabaseBrowserClient } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase';
+import { useRouter } from 'next/navigation';
 
 const LoginForm = () => {
-  const supabase = createSupabaseBrowserClient();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,8 +23,7 @@ const LoginForm = () => {
     if (error) {
       setError(error.message);
     } else {
-      // Redirect to a protected page on successful login
-      window.location.href = '/dashboard';
+      router.push('/dashboard');
     }
   };
 

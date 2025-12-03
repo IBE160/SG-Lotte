@@ -1,22 +1,8 @@
-✅ Story context generated successfully, BIP!
+Yes, it is good practice to put double quotes around the `SUPABASE_URL` and `SUPABASE_KEY` values in your `.env` file, like this:
 
-**Story Details:**
+```
+SUPABASE_URL="https://your-project-id.supabase.co"
+SUPABASE_KEY="your_actual_service_role_secret_key"
+```
 
-- Story: 1.2 - Core Frontend Setup
-- Story Key: 1-2-core-frontend-setup
-- Context File: C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/sprint-artifacts/1-2-core-frontend-setup.context.xml
-- Status: drafted → ready-for-dev
-
-**Context Includes:**
-
-- Documentation artifacts and references
-- Existing code and interfaces
-- Dependencies and frameworks
-- Testing standards and ideas
-- Development constraints
-
-**Next Steps:**
-
-1. Review the context file: C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/sprint-artifacts/1-2-core-frontend-setup.context.xml
-2. Run `dev-story` to implement the story
-3. Generate context for more drafted stories if needed
+This ensures that the values are correctly parsed as strings, especially if they contain any special characters.
