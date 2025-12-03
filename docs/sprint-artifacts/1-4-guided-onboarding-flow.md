@@ -1,6 +1,6 @@
 # Story 1.4: Guided Onboarding Flow
 
-Status: drafted
+Status: ready-for-dev
 
 **Story Statement:** As a new user who has just verified my email, I want to complete a guided 5-step onboarding process, so the AI can gather my preferences and generate my first personalized plan.
 
@@ -121,7 +121,7 @@ This ensures that Story 1.4 builds upon the solid foundation laid by previous st
 
 ### References
 - **PRD:** `docs/PRD.md` (FR-001: User Authentication & Profile Management)
-- **Epics:** `docs/epics.md` (Epic 1, Story 1.4 details)
+- **Epics:** `docs/epics` (Epic 1, Story 1.4 details)
 - **Architecture Document:** `docs/architecture-2025-11-30.md` (Sections: "Authentication", "Project Structure", "API Design", "Testing Strategy")
 - **Epic 1 Tech Spec:** `docs/sprint-artifacts/tech-spec-epic-1.md` (Sections: "API Design", "Database Design", "Authentication and Authorization")
 - **UX Design Spec:** `docs/ux-design-specification.md` (Flow 0: New User Onboarding, `onboarding1_dark.html` to `onboarding5_dark.html`, Feedback Patterns)
@@ -151,7 +151,7 @@ This ensures that Story 1.4 builds upon the solid foundation laid by previous st
 
 ### Context Reference
 - docs/sprint-artifacts/1-4-guided-onboarding-flow.md
-- {current story context xml file if created}
+- C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/sprint-artifacts/1-4-guided-onboarding-flow.context.xml
 
 ### Agent Model Used
 Gemini

@@ -1,0 +1,294 @@
+<story-context id="{bmad_folder}/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>4</storyId>
+    <title>Guided Onboarding Flow</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-03</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-4-guided-onboarding-flow.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a new user who has just verified my email</asA>
+    <iWant>complete a guided 5-step onboarding process</iWant>
+    <soThat>the AI can gather my preferences and generate my first personalized plan</soThat>
+    <tasks>
+### Frontend Tasks
+
+-   **Task: Implement Onboarding UI Flow**
+    -   Create `OnboardingLayout` component(s) to manage the 5-step flow within `frontend/app/(auth)/onboarding/` (AC: 1).
+    -   Develop individual UI components for each step (e.g., `GoalSelection.tsx`, `DietaryPreferences.tsx`, `PersonaSelection.tsx`), aligning with `onboarding1_dark.html` to `onboarding5_dark.html` wireframes (AC: 1, 2).
+    -   Implement navigation between onboarding steps (e.g., "Next", "Back" buttons) (AC: 1).
+    -   Integrate state management (e.g., Zustand) for user selections across the onboarding flow (AC: 2).
+    -   Display appropriate feedback (success/error) upon saving preferences, adhering to `feedback_patterns_dark.html` (AC: 3).
+    -   **Test Subtask:** Write component tests for each onboarding step using React Testing Library and Jest, covering UI rendering, user interaction, and state updates (AC: 1, 2).
+    -   **Test Subtask:** Write integration tests for the full onboarding flow, ensuring correct navigation and data capture (AC: 1, 2).
+
+### Backend Tasks
+
+-   **Task: Create API Endpoint for User Preferences**
+    -   Define a POST or PUT endpoint (e.g., `/api/v1/users/preferences`) in `backend/app/api/v1/endpoints/users.py` to receive and save user preferences (AC: 3).
+    -   Implement request body validation using Pydantic schemas for fitness goals, dietary preferences, and fitness persona (AC: 3).
+    -   Integrate with the Supabase client in the backend to securely update the user's profile in the PostgreSQL database (AC: 3).
+    -   Ensure proper error handling and response messages (AC: 3).
+    -   **Test Subtask:** Write integration tests using Pytest for the `/api/v1/users/preferences` endpoint, covering valid/invalid input, successful saving, and error scenarios (AC: 3).
+
+### Database/Supabase Tasks
+
+-   **Task: Update Supabase User Profile Schema**
+    -   If necessary, add columns to the `users` table or a new `user_profiles` table to store `fitness_goal`, `dietary_preferences`, and `fitness_persona` (AC: 3).
+    -   Ensure Row Level Security (RLS) policies are correctly applied to these new columns/tables to restrict access to the user's own data (AC: 3).
+    -   Create Alembic migration scripts for any schema changes (AC: 3).
+
+### General Tasks
+
+-   **Task: Coordinate Frontend-Backend Integration**
+    -   Ensure the frontend sends data to the correct backend API endpoint with the expected format (AC: 3).
+    -   Verify the backend successfully receives, processes, and stores the data (AC: 3).
+-   **Task: Update Sprint Status**
+    -   Upon completion, update `docs/sprint-artifacts/sprint-status.yaml` to mark this story as `done`.
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1.  **Guided Onboarding UI Presentation:**
+    *   **Given** a user has verified their email and initiates the onboarding process
+    *   **When** they navigate through the onboarding flow
+    *   **Then** they are presented with five distinct UI screens, visually consistent with `onboarding1_dark.html` through `onboarding5_dark.html`.
+
+2.  **User Preference Collection:**
+    *   **Given** a user is on an onboarding screen designed for preference selection
+    *   **When** they interact with the UI to select their primary fitness goal, dietary preferences, and fitness persona
+    *   **Then** their selections are captured accurately by the frontend.
+
+3.  **Secure Preference Saving:**
+    *   **Given** a user has made their preferences and proceeds to the next step or completes the onboarding flow
+    *   **When** the preferences are submitted
+    *   **Then** their selections are securely saved to their user profile in the Supabase database
+    *   **And** appropriate API endpoints are used for this data persistence.
+    </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-001: User Authentication &amp; Profile Management</section>
+        <snippet>The system shall allow users to securely register, log in, and manage their core profile information. This includes signing up with email/password, email verification, login/logout, password reset, and editing primary fitness goals and core dietary preferences, which directly relates to the onboarding process of collecting user preferences.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-002: AI-Driven Workout Plan Generation &amp; Adaptation</section>
+        <snippet>The system shall automatically generate and adapt weekly workout plans based on user goals, logged progress, and difficulty ratings. The onboarding flow (Story 1.4) collects initial preferences crucial for generating the "diagnostic" first-week plan.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-003: AI-Driven Meal Plan Generation &amp; Adaptation</section>
+        <snippet>The system shall automatically generate and adapt weekly meal plans based on user goals, dietary preferences, and logged meal consumption. Initial dietary preferences collected during onboarding (Story 1.4) are fundamental for this functionality.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture Document</title>
+        <section>Project Structure</section>
+        <snippet>Defines the overall project structure, including the `frontend/` and `backend/` directories. For onboarding, it specifies `frontend/src/app/(auth)/` as the location for authentication and onboarding related UI, aligning with Story 1.4's frontend component placement.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture Document</title>
+        <section>Epic to Architecture Mapping</section>
+        <snippet>Maps Epic 1 to `frontend: src/app/(auth)/ (Onboarding UI)` and `backend: app/api/v1/endpoints/users.py (Authentication: use supabase auth - only change profile)`. This directly informs the architectural components involved in Story 1.4.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture Document</title>
+        <section>Implementation Patterns: Naming Patterns</section>
+        <snippet>Specifies naming conventions for API Endpoints (plural nouns, kebab-case), Frontend Components (PascalCase), and Frontend Component Files (Kebab-case), which are critical for consistent development of onboarding UI and API integration.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture Document</title>
+        <section>Implementation Patterns: Structure Patterns</section>
+        <snippet>Details component organization (by feature or route) and placement of shared utilities in `frontend/src/lib/`, guiding the structure of the onboarding UI components within `frontend/app/(auth)/` and `frontend/lib/supabase.ts` for Supabase client initialization.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture Document</title>
+        <section>API Contracts</section>
+        <snippet>Defines that `/users/` endpoints are for user management and profile information, directly supporting the need for API endpoints to save user preferences collected during onboarding.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture Document</title>
+        <section>Security Architecture</section>
+        <snippet>Outlines authentication via Supabase Auth and authorization using RLS, ensuring secure saving of user preferences collected in Story 1.4.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>Flow 0: New User Onboarding</section>
+        <snippet>Description of the 5-step guided setup process for new users, explicitly referencing `onboarding1_dark.html` to `onboarding5_dark.html` as supporting wireframes, which are central to Story 1.4's UI development.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>Design System and Implementation Guidelines</section>
+        <snippet>Mandates adherence to the external Design System Specification for all visual and interactive aspects, ensuring consistency in the UI for the onboarding flow.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Epic 1: First Plan &amp; Foundation</section>
+        <snippet>Value statement and high-level scope for Epic 1, which Story 1.4 is a part of, emphasizing user registration, core goals, and getting the first personalized plan, aligning with the onboarding flow's objectives.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 1.4: Guided Onboarding Flow</section>
+        <snippet>Provides the detailed description, value proposition, and acceptance criteria for Story 1.4 itself, serving as a direct reference for its implementation within the context of Epic 1.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+        <kind>API Endpoint</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Existing module for user-related API endpoints; will need new POST/PUT endpoint for user preferences.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/lib/supabase.ts</path>
+        <kind>Utility</kind>
+        <symbol>createClient</symbol>
+        <lines>N/A</lines>
+        <reason>Provides the Supabase client instance for frontend-to-Supabase interaction, crucial for saving user preferences.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/app/(auth)/signup/SignupForm.tsx</path>
+        <kind>Component</kind>
+        <symbol>SignupForm</symbol>
+        <lines>N/A</lines>
+        <reason>Example of an authentication-related UI component, serving as a reference for structure and implementation for new onboarding components.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/app/(auth)/signup/page.tsx</path>
+        <kind>Page</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Example of an authentication-related page, serving as a reference for routing and page-level logic for new onboarding pages.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/app/(auth)/signup/__tests__/SignupForm.test.tsx</path>
+        <kind>Test</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Example of a component test file, demonstrating established testing patterns for new onboarding UI components.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/tests/test_users.py</path>
+        <kind>Test</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Existing backend test file, provides an example for writing integration tests for new user preference API endpoints.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js (Frontend)">
+        <package name="@supabase/ssr" version="^0.8.0"/>
+        <package name="@supabase/supabase-js" version="^2.43.4"/>
+        <package name="next" version="16.0.7"/>
+        <package name="react" version="19.2.0"/>
+        <package name="react-dom" version="19.2.0"/>
+        <package name="@tailwindcss/postcss" version="^4"/>
+        <package name="@testing-library/jest-dom" version="^6.9.1"/>
+        <package name="@testing-library/react" version="^16.3.0"/>
+        <package name="@types/node" version="^20"/>
+        <package name="@types/react" version="^19"/>
+        <package name="@types/react-dom" version="^19"/>
+        <package name="eslint" version="^9"/>
+        <package name="eslint-config-next" version="16.0.7"/>
+        <package name="jest" version="^30.2.0"/>
+        <package name="jest-environment-jsdom" version="^30.2.0"/>
+        <package name="tailwindcss" version="^4"/>
+        <package name="typescript" version="^5"/>
+      </ecosystem>
+      <ecosystem name="Python (Backend)">
+        <package name="FastAPI" version="N/A"/>
+        <package name="uvicorn" version="N/A"/>
+        <package name="SQLAlchemy" version="N/A"/>
+        <package name="psycopg2-binary" version="N/A"/>
+        <package name="alembic" version="N/A"/>
+        <package name="python-dotenv" version="N/A"/>
+        <package name="supabase" version="N/A"/>
+        <package name="pytest" version="N/A"/>
+        <package name="pydantic[email]" version="N/A"/>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Frontend components for onboarding should be located in `frontend/app/(auth)/onboarding/` or a similar logical grouping within `frontend/app/(auth)/`.</constraint>
+    <constraint>Backend API endpoints for saving user preferences should follow the `/api/v1/` versioning and kebab-case naming conventions, likely within `backend/app/api/v1/endpoints/users.py` or a new preferences module.</constraint>
+    <constraint>Utilize `frontend/lib/supabase.ts` for Supabase client initialization and interactions.</constraint>
+    <constraint>Adhere to naming conventions: PascalCase for React components, kebab-case for component files, plural nouns and kebab-case for API endpoints, snake_case for database tables and columns.</constraint>
+    <constraint>Frontend testing will use React Testing Library and Jest, with tests co-located in `__tests__` subdirectories.</constraint>
+    <constraint>Backend testing will use Pytest for integration tests for new API endpoints.</constraint>
+    <constraint>Supabase Auth and Row Level Security (RLS) policies must be applied correctly for secure user preference storage.</constraint>
+    <constraint>User preferences will be stored in snake_case table/columns within the Supabase database.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>User Preferences API Endpoint</name>
+      <kind>REST Endpoint</kind>
+      <signature>POST /api/v1/users/preferences</signature>
+      <path>backend/app/api/v1/endpoints/users.py</path>
+    </interface>
+    <interface>
+      <name>Supabase Client (Frontend)</name>
+      <kind>Function Signature</kind>
+      <signature>createClient(supabaseUrl, supabaseAnonKey)</signature>
+      <path>frontend/lib/supabase.ts</path>
+    </interface>
+    <interface>
+      <name>Supabase Auth</name>
+      <kind>Library Interface</kind>
+      <signature>supabase.auth.signUp(), supabase.auth.signInWithPassword(), etc.</signature>
+      <path>N/A</path>
+    </interface>
+    <interface>
+      <name>Supabase Database Client</name>
+      <kind>Library Interface</kind>
+      <signature>supabase.from().select().eq()</signature>
+      <path>N/A</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Frontend testing will utilize Jest and React Testing Library for component and integration tests. Backend testing will employ Pytest for integration tests of API endpoints. All tests should adhere to the established project testing strategy outlined in the architecture document.</standards>
+    <locations>
+      <location>frontend/app/(auth)/onboarding/__tests__/</location>
+      <location>backend/tests/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="AC1">
+        <description>Component tests for each individual onboarding step (e.g., GoalSelection.tsx) covering UI rendering, user interaction, and visual consistency with wireframes (`onboardingX_dark.html`).</description>
+      </idea>
+      <idea ac_id="AC1">
+        <description>Integration tests for the full onboarding flow, ensuring correct navigation between the 5 steps and proper rendering of each UI screen.</description>
+      </idea>
+      <idea ac_id="AC2">
+        <description>Component tests to verify accurate capture of user selections for primary fitness goal, dietary preferences, and fitness persona within the UI.</description>
+      </idea>
+      <idea ac_id="AC2">
+        <description>Integration tests to confirm that user selections are correctly maintained across steps and passed to the final submission.</description>
+      </idea>
+      <idea ac_id="AC3">
+        <description>Backend integration tests (Pytest) for the new `/api/v1/users/preferences` endpoint, covering valid/invalid input, successful saving of preferences to Supabase, and appropriate error handling.</description>
+      </idea>
+      <idea ac_id="AC3">
+        <description>End-to-end (or advanced integration) tests to ensure the frontend successfully sends data to the backend API, and preferences are securely persisted in the database.</description>
+      </idea>
+    </ideas>
+  </tests>
+</story-context>
