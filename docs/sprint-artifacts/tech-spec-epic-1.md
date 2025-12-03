@@ -30,16 +30,16 @@ This document details the technical specification for Epic 1: 'First Plan & Foun
 
 ## System Architecture Alignment
 
-The design aligns with the established decoupled frontend (Next.js) and backend (FastAPI) architecture. Key components for Epic 1 include the `users.py` endpoint and `ai_plan_generator.py` service on the backend, responsible for user authentication and initial plan generation, respectively. The frontend will implement the onboarding and dashboard UIs within `src/app/(auth)/` and `src/app/(dashboard)/dashboard/`, interacting with the backend via a versioned REST API and directly with Supabase for authentication.
+The design aligns with the established decoupled frontend (Next.js) and backend (FastAPI) architecture. Key components for Epic 1 include the `users.py` endpoint on the backend, responsible for user *profile management* (for Supabase authenticated users), and `ai_plan_generator.py` service, responsible for initial plan generation. The frontend will implement the onboarding and dashboard UIs within `src/app/(auth)/` and `src/app/(dashboard)/dashboard/`, interacting with the backend via a versioned REST API for profile and plan data, and *directly with Supabase for user authentication (registration, login, email verification)*.
 
 ## Detailed Design
 
 ### Services and Modules
 
 *   **`backend/app/api/v1/endpoints/users.py`**:
-    *   **Responsibilities:** Handles user registration, login, and profile management (as per FR-001).
-    *   **Inputs:** User credentials (email, password), profile data.
-    *   **Outputs:** JWT token, user profile.
+    *   **Responsibilities:** Handles user *profile management* (e.g., fitness goals, dietary preferences) for *authenticated users*. Core registration and login are handled directly by Supabase Auth.
+    *   **Inputs:** Authenticated user's JWT, profile data.
+    *   **Outputs:** Updated user profile.
     *   **Owner:** Backend Team
 *   **`backend/app/services/ai_plan_generator.py`**:
     *   **Responsibilities:** Orchestrates calls to OpenAI GPT-4 for initial workout and meal plan generation (as per FR-002, FR-003). Validates AI output.
@@ -47,7 +47,7 @@ The design aligns with the established decoupled frontend (Next.js) and backend 
     *   **Outputs:** Structured JSON for workout and meal plans.
     *   **Owner:** Backend Team
 *   **`frontend/src/app/(auth)/`**:
-    *   **Responsibilities:** Implements the user registration, login, and 5-step onboarding user interfaces. Interacts with `users.py` endpoint and Supabase Auth.
+    *   **Responsibilities:** Implements the user registration, login, and 5-step onboarding user interfaces. *Interacts directly with Supabase Auth for registration and login, and with the `users.py` endpoint for saving profile-related preferences during onboarding.*
     *   **Inputs:** User input from forms.
     *   **Outputs:** Displays UI, sends user data.
     *   **Owner:** Frontend Team
@@ -60,9 +60,9 @@ The design aligns with the established decoupled frontend (Next.js) and backend 
 ### Data Models and Contracts
 
 *   **`users` table (Supabase/PostgreSQL)**:
-    *   `id` (UUID, PK)
-    *   `email` (TEXT, UNIQUE, NOT NULL)
-    *   `password_hash` (TEXT, NOT NULL) - Managed by Supabase Auth
+    *   `id` (UUID, PK) - Maps to `auth.users.id`
+    *   `email` (TEXT, UNIQUE, NOT NULL) - Redundant with `auth.users.email` but useful for profile data.
+    *   *Password management handled exclusively by Supabase Auth.*
     *   `fitness_goal` (TEXT)
     *   `dietary_preference` (TEXT)
     *   `created_at` (TIMESTAMP, default NOW())
@@ -84,16 +84,11 @@ The design aligns with the established decoupled frontend (Next.js) and backend 
 
 ### APIs and Interfaces
 
-*   **User Authentication & Management (`/api/v1/users`)**:
-    *   `POST /register`: User registration.
-        *   Request: `{ "email": "string", "password": "string" }`
-        *   Response: `{ "message": "Verification email sent" }`
-    *   `POST /login`: User login.
-        *   Request: `{ "email": "string", "password": "string" }`
-        *   Response: `{ "access_token": "string", "token_type": "bearer" }`
-    *   `GET /me`: Get current user profile.
+*   **User Profile Management (`/api/v1/users`)**:
+    *   *User registration and login are handled directly by Supabase Auth (e.g., via `@supabase/supabase-js` on the frontend).*
+    *   `GET /me`: Get current user profile *for an authenticated user*.
         *   Response: `{ "id": "uuid", "email": "string", "fitness_goal": "string", "dietary_preference": "string" }`
-    *   `PUT /me`: Update user profile (fitness goal, dietary preference).
+    *   `PUT /me`: Update user profile (fitness goal, dietary preference) *for an authenticated user*.
         *   Request: `{ "fitness_goal": "string", "dietary_preference": "string" }`
         *   Response: `{ "message": "Profile updated" }`
 *   **Plan Generation & Retrieval (`/api/v1/plans`)**:
@@ -106,13 +101,13 @@ The design aligns with the established decoupled frontend (Next.js) and backend 
 ### Workflows and Sequencing
 
 1.  **New User Onboarding Flow:**
-    *   User navigates to `/register`.
-    *   Submits email and password via `POST /api/v1/users/register`.
-    *   Receives verification email.
-    *   Verifies email via link (handled by Supabase Auth).
-    *   User logs in via `POST /api/v1/users/login`.
+    *   User navigates to the frontend registration page.
+    *   User submits email and password *directly to Supabase Auth*.
+    *   User receives verification email from Supabase.
+    *   User verifies email via link (handled by Supabase Auth).
+    *   User logs in *directly via Supabase Auth*.
     *   User is redirected to 5-step onboarding UI (`frontend/src/app/(auth)/`).
-    *   User submits preferences, saved via `PUT /api/v1/users/me`.
+    *   User submits preferences, saved via `PUT /api/v1/users/me` (to backend profile management).
     *   Initial AI plan generation is triggered via `POST /api/v1/plans/generate`.
     *   User is redirected to dashboard (`frontend/src/app/(dashboard)/dashboard/`).
     *   Dashboard fetches and displays the current plan via `GET /api/v1/plans/current`.
@@ -178,11 +173,11 @@ The design aligns with the established decoupled frontend (Next.js) and backend 
 
 ## Acceptance Criteria (Authoritative)
 
-1.  Users can successfully register with email and password.
-2.  Users receive an email verification link upon registration.
-3.  Users cannot log in until their email is verified.
-4.  Users' accounts are marked as verified after clicking the verification link.
-5.  Users can successfully log in and log out.
+1.  Users can successfully register with email and password *via Supabase Auth*.
+2.  Users receive an email verification link upon registration *from Supabase*.
+3.  Users cannot log in until their email is verified *by Supabase Auth*.
+4.  Users' accounts are marked as verified *by Supabase Auth* after clicking the verification link.
+5.  Users can successfully log in and log out *via Supabase Auth*.
 6.  Users can edit their primary fitness goal and core dietary preference via the onboarding flow.
 7.  New users are presented with a 5-step guided onboarding process after email verification.
 8.  User preferences (fitness goal, dietary, persona) selected during onboarding are securely saved to their profile.
@@ -201,9 +196,9 @@ The design aligns with the established decoupled frontend (Next.js) and backend 
 
 | AC # | Spec Section(s)                                   | Component(s)/API(s)                                                                    | Test Idea                                                                     |
 | :--- | :------------------------------------------------ | :------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------- |
-| 1-4  | FR-001, Story 1.3 (User Reg & Email Verification) | `backend/app/api/v1/endpoints/users.py` (register, login), Supabase Auth, `frontend/src/app/(auth)/` | E2E: Register, check email, verify, login; Unit: `users.py` handlers          |
-| 5    | FR-001, Story 1.3 (User Reg & Email Verification) | `backend/app/api/v1/endpoints/users.py` (login, logout), Supabase Auth                 | E2E: Login/logout flow                                                        |
-| 6-8  | FR-001, Story 1.4 (Guided Onboarding Flow)        | `backend/app/api/v1/endpoints/users.py` (update profile), `frontend/src/app/(auth)/`   | E2E: Complete onboarding, verify saved prefs; Unit: `users.py` update logic   |
+| 1-4  | FR-001, Story 1.3 (User Reg & Email Verification) | Supabase Auth (registration, email verification), `frontend/src/app/(auth)/`         | E2E: Register, check email, verify, login; Integration: Supabase Auth flows   |
+| 5    | FR-001, Story 1.3 (User Reg & Email Verification) | Supabase Auth (login, logout), `frontend/src/app/(auth)/`                            | E2E: Login/logout flow                                                        |
+| 6-8  | FR-001, Story 1.4 (Guided Onboarding Flow)        | `backend/app/api/v1/users` (profile update), Supabase Auth (session), `frontend/src/app/(auth)/` | E2E: Complete onboarding, verify saved prefs; Unit: `users.py` update logic   |
 | 9-10 | FR-002, FR-003, Story 1.5 (Initial AI Plan Gen)   | `backend/app/services/ai_plan_generator.py`, OpenAI GPT-4, `/api/v1/plans/generate`    | Integration: Plan generation API call; Unit: `ai_plan_generator` logic        |
 | 11-12 | FR-006, Story 1.5 (Initial AI Plan Gen & Display) | `backend/app/api/v1/endpoints/plans.py` (get current), `frontend/src/app/(dashboard)/dashboard/` | E2E: Verify dashboard plan display; Unit: Plan retrieval API                   |
 | 13-15 | Story 1.1 (Core Backend Setup)                    | FastAPI app, Supabase integration, Alembic                                             | Unit/Integration: Backend setup scripts, DB connection, migration tests       |
