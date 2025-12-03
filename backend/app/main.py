@@ -29,14 +29,14 @@ def read_root():
     return {"message": "Welcome to AI Fitness & Meal Planner Backend!"}
 
 @app.get("/health/supabase")
-async def check_supabase_connection(db: Client = Depends(get_supabase_client)):
+def check_supabase_connection(db: Client = Depends(get_supabase_client)):
     try:
         # Attempt a simple query to verify connection
-        response = await db.from_('users').select('id').limit(1).execute()
+        response = db.from_('users').select('id').limit(1).execute()
         # If no exception, connection is successful. Check for errors in response.
         if response.data is not None:
             return {"message": "Supabase connection successful!"}
         else:
-            raise HTTPException(status_code=500, detail=f"Supabase query failed: {response.error.message}")
+            raise HTTPException(status_code=500, detail=f"Supabase query failed: {response.error.message if response.error else 'Unknown error'}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Could not connect to Supabase: {e}")

@@ -1,10 +1,9 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 import { getBackendHealth } from '../lib/api';
+import { HealthCheckResponse } from '../lib/types';
 
 export default function HealthCheck() {
-  const [health, setHealth] = useState<any>(null);
+  const [health, setHealth] = useState<HealthCheckResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

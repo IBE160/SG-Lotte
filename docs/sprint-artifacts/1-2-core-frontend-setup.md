@@ -1,6 +1,6 @@
 # Story 1.2: Core Frontend Setup
 
-Status: review
+Status: done
 
 ## Story
 
@@ -124,6 +124,10 @@ Gemini
 - Established basic API call to backend.
 - Set up Jest and React Testing Library.
 - Wrote component test for HealthCheck component.
+
+### Completion Notes
+**Completed:** onsdag 3. desember 2025
+**Definition of Done:** All acceptance criteria met, code reviewed, tests passing
 
 ### Completion Notes List
 - Vercel deployment is a manual step for the user.
