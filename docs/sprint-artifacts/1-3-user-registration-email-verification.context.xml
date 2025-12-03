@@ -1,124 +1,313 @@
-<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+<story-context id="C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/.bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
   <metadata>
     <epicId>1</epicId>
     <storyId>3</storyId>
-    <title>user-registration-email-verification</title>
+    <title>User Registration &amp; Email Verification</title>
     <status>drafted</status>
-    <generatedAt>onsdag 3. desember 2025</generatedAt>
+    <generatedAt>2025-12-03</generatedAt>
     <generator>BMAD Story Context Workflow</generator>
-    <sourceStoryPath>C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/sprint-artifacts</sourceStoryPath>
+    <sourceStoryPath>C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/sprint-artifacts/1-3-user-registration-email-verification.md</sourceStoryPath>
   </metadata>
 
   <story>
-    <asA>As a new user</asA>
+    <asA>new user</asA>
     <iWant>to sign up with my email and password and verify my email</iWant>
-    <soThat>that I can create a secure account.</soThat>
+    <soThat>I can create a secure account</soThat>
     <tasks>
-        <task title="Create Signup UI Component." ac_refs="1">
-            <subtask>Create a new React component for the registration form based on `onboarding1_dark.html`.</subtask>
-            <subtask>Place the component in an appropriate directory (e.g., `frontend/components/auth/SignUpForm.tsx`).</subtask>
-            <subtask>Implement form fields for email and password with basic validation (e.g., password length).</subtask>
-        </task>
-        <task title="Integrate Supabase Authentication." ac_refs="1, 2, 3, 4, 5">
-            <subtask>Add the `@supabase/supabase-js` package to the frontend.</subtask>
-            <subtask>Create a Supabase client utility in `frontend/lib/supabase.ts`.</subtask>
-            <subtask>Implement the `supabase.auth.signUp()` function call on form submission.</subtask>
-            <subtask>Implement a login function using `supabase.auth.signInWithPassword()`.</subtask>
-            <subtask>Protect a test page to verify that un-verified users cannot access it.</subtask>
-        </task>
-        <task title="Create Email Verification Flow." ac_refs="2, 4">
-            <subtask>Configure the email template in the Supabase dashboard (manual step, to be noted).</subtask>
-            <subtask>Ensure the verification link redirects to a success page on the frontend.</subtask>
-            <subtask>Display a message to the user on the signup page instructing them to check their email.</subtask>
-        </task>
-        <task title="Write Tests." ac_refs="1, 3, 5">
-            <subtask>Write a component test for the `SignUpForm` component to check form rendering and input.</subtask>
-            <subtask>Write an integration test to mock the `supabase.auth.signUp` call and verify its behavior on success and error.</subtask>
-            <subtask>Write a test to verify that a protected route redirects unauthenticated users.</subtask>
-        </task>
-    </tasks>
+-   [ ] **Task: Implement User Registration UI and Logic (Frontend)**
+    -   [ ] Create signup form components based on `onboarding1_dark.html` wireframe.
+    -   [ ] Implement client-side validation for email and password.
+    -   [ ] Integrate Supabase client (`supabase-js`) for user registration.
+    -   [ ] Handle successful registration (e.g., display message, redirect to email verification notice).
+    -   [ ] Handle registration errors (e.g., display error messages).
+    -   [ ] **Test Subtask:** Write unit/integration tests for the signup form components.
+    -   [ ] **Test Subtask:** Write integration tests for successful user registration and error handling via Supabase.
+    -   *AC Reference:* 1, 2
+    *   *Source:* `docs/architecture-2025-11-30.md`, `tech-spec-epic-1.md`, `ux-design-specification.md`
+
+-   [ ] **Task: Configure Supabase for Email Verification**
+    -   [ ] Ensure email verification is enabled in Supabase authentication settings.
+    -   [ ] Customize email templates if necessary.
+    -   *AC Reference:* 2
+    *   *Source:* `tech-spec-epic-1.md`
+
+-   [ ] **Task: Implement Login Flow with Email Verification Check (Frontend)**
+    -   [ ] Create login form components.
+    -   [ ] Integrate Supabase client (`supabase-js`) for user login.
+    -   [ ] Implement logic to check if the user's email is verified after login attempt.
+    -   [ ] If not verified, display appropriate message and prevent access to protected routes.
+    -   [ ] **Test Subtask:** Write unit/integration tests for the login form components.
+    -   [ ] **Test Subtask:** Write integration tests for login attempts with unverified and verified emails.
+    -   *AC Reference:* 3
+    *   *Source:* `docs/architecture-2025-11-30.md`, `tech-spec-epic-1.md`
+
+-   [ ] **Task: Implement Email Verification Callback Handling (Frontend/Backend)**
+    -   [ ] (Frontend) Implement a page/component to handle the callback from the email verification link.
+    -   [ ] (Backend) If necessary, create an API endpoint to process the verification callback and update user status (though Supabase often handles this directly).
+    -   [ ] **Test Subtask:** Write integration tests to simulate email verification callback and status update.
+    -   *AC Reference:* 4
+    *   *Source:* `docs/architecture-2025-11-30.md`, `tech-spec-epic-1.md`
+
+-   [ ] **Task: Implement Row Level Security (RLS) for User Data (Supabase)**
+    -   [ ] Identify tables that will store user-specific data (e.g., `profiles`, `plans`).
+    -   [ ] Create appropriate RLS policies to ensure users can only access their own data.
+    -   [ ] **Test Subtask:** Write integration tests to verify RLS policies prevent unauthorized data access.
+    -   *AC Reference:* Architectural Constraint
+    *   *Source:* `docs/architecture-2025-11-30.md`, `tech-spec-epic-1.md`</tasks>
   </story>
 
   <acceptanceCriteria>
-        <criterion id="1">Given I am on the signup page, when I enter a valid email and password and submit, then my account is created in the Supabase `auth.users` table.</criterion>
-        <criterion id="2">A verification email is sent to my provided email address.</criterion>
-        <criterion id="3">I cannot log in with my credentials until my email is verified.</criterion>
-        <criterion id="4">When I click the verification link in my email, then my account is marked as verified in Supabase.</criterion>
-        <criterion id="5">After verification, I can successfully log in.</criterion>
-    </acceptanceCriteria>
+1.  **Given** I am on the signup page, **When** I enter valid email/password and submit, **Then** my account is created in Supabase.
+2.  **Given** my account is created, **Then** a verification email is sent to my provided email address.
+3.  **Given** my email is not verified, **Then** I cannot log in.
+4.  **Given** I receive a verification email, **When** I click the verification link, **Then** my account is marked as verified.
+  </acceptanceCriteria>
 
   <artifacts>
     <docs>
-      <doc path="docs/PRD.md" title="Product Requirements Document" section="FR-001: User Authentication &amp; Profile Management" snippet="The system shall allow users to securely register, log in, and manage their core profile information. Users can sign up with email and password, and must verify their email."></doc>
-      <doc path="docs/sprint-artifacts/tech-spec-epic-1.md" title="Tech Spec: Epic 1 - First Plan &amp; Foundation" section="Authentication and Authorization" snippet="Authentication: Handled by Supabase Auth, using JWTs for secure sessions. The frontend will manage the JWT, and the backend will validate it for protected endpoints."></doc>
-      <doc path="docs/architecture-2025-11-30.md" title="Architecture" section="Authentication" snippet="Supabase (PostgreSQL) for the database, authentication, RLS, and storage. Supabase Auth (using `@supabase/supabase-js` v2.86.0)."></doc>
-      <doc path="docs/architecture-2025-11-30.md" title="Architecture" section="Epic to Architecture Mapping" snippet="Epic 1: src/app/(auth)/ (Onboarding UI)."></doc>
-      <doc path="docs/architecture-2025-11-30.md" title="Architecture" section="Project Structure" snippet="Frontend project structure includes: frontend/src/app/(auth)/."></doc>
-      <doc path="docs/ux-design-specification.md" title="AI Fitness &amp; Meal Planner - UX Design Specification" section="Flow 0: New User Onboarding" snippet="A 5-step guided setup process for new users. Supporting Wireframes: onboarding1_dark.html to onboarding5_dark.html."></doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-001: User Authentication &amp; Profile Management</section>
+        <snippet>The system shall allow users to securely register, log in, and manage their core profile information. Users can sign up with email and password, and must verify their email. Users can log in, log out, and reset their password. Users cannot log in until email is verified.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-1.md</path>
+        <title>Tech Spec: Epic 1 - First Plan &amp; Foundation</title>
+        <section>6. Authentication and Authorization</section>
+        <snippet>Authentication will be handled by Supabase Auth, using JWTs for secure sessions. The frontend will manage the JWT, and the backend will validate it for protected endpoints. Supabase's Row Level Security (RLS) will be enabled for all tables containing user-specific data.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-1.md</path>
+        <title>Tech Spec: Epic 1 - First Plan &amp; Foundation</title>
+        <section>3. Project Structure</section>
+        <snippet>The project follows a monorepo structure with decoupled `frontend` and `backend` directories. This document outlines the technical specifications, guidelines, and architectural decisions for Epic 1.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-1.md</path>
+        <title>Tech Spec: Epic 1 - First Plan &amp; Foundation</title>
+        <section>5. Database Design</section>
+        <snippet>Database tables will use plural nouns and snake_case (e.g., `users`, `workout_plans`). Database columns will use snake_case (e.g., `user_id`, `created_at`).</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Epic to Architecture Mapping</section>
+        <snippet>Epic 1: First Plan &amp; Foundation maps to Backend: `app/api/v1/endpoints/users.py` (Authentication: use supabase auth - only change profile), Frontend: `src/app/(auth)/` (Onboarding UI).</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Technology Stack Details</section>
+        <snippet>Authentication will use Supabase Auth (using `@supabase/supabase-js` v2.86.0). The Next.js frontend communicates with the FastAPI backend via a versioned REST API (`/api/v1/`).</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Security Architecture</section>
+        <snippet>Authentication is handled by Supabase Auth, using JWTs for secure sessions. Authorization uses Supabase's Row Level Security (RLS) to ensure users can only access their own data. All data is encrypted in transit and at rest.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Structure</section>
+        <snippet>The overall project structure includes `backend/`, `frontend/`, and `docs/` directories. Frontend: `src/app/(auth)/` for authentication related UI. Backend: `app/api/v1/endpoints/users.py` for user endpoints.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Implementation Patterns</section>
+        <snippet>Frontend Components (React): PascalCase. Frontend Component Files: Kebab-case. Frontend Hooks/Utilities: CamelCase. Testing (Frontend): Test files co-located with components in `__tests__` subdirectory. Testing (Backend): All tests in `tests/` directory.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Testing Strategy</section>
+        <snippet>Backend (FastAPI): Unit and integration tests with `Pytest`. Frontend (Next.js): Component and integration tests with `React Testing Library` with `Jest`.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Flow 0: New User Onboarding</section>
+        <snippet>A 5-step guided setup process for new users, supported by wireframes `onboarding1_dark.html` to `onboarding5_dark.html`. The `onboarding1_dark.html` wireframe is specifically relevant for the initial signup UI.</snippet>
+      </doc>
     </docs>
     <code>
-      <artifact path="frontend/components/auth/SignUpForm.tsx" kind="component" symbol="SignUpForm" reason="New React component for user registration UI." />
-      <artifact path="frontend/lib/supabase.ts" kind="utility" symbol="supabaseClient" reason="New utility for Supabase client initialization." />
-      <artifact path="frontend/components/auth/__tests__/SignUpForm.test.tsx" kind="test" symbol="SignUpForm tests" reason="New component tests for SignUpForm." />
-      <artifact path="frontend/tests/integration/supabase-auth.test.ts" kind="test" symbol="Supabase authentication integration tests" reason="New integration tests for Supabase authentication flow." />
+      <code-artifact>
+        <path>backend/app/main.py</path>
+        <kind>FastAPI Application</kind>
+        <symbol>db.from_('users').select('id').limit(1).execute()</symbol>
+        <lines>52</lines>
+        <reason>Example usage of 'users' table in a health check, indicating database connectivity and potential future user data interaction.</reason>
+      </code-artifact>
+      <code-artifact>
+        <path>backend/tests/test_main.py</path>
+        <kind>Pytest Test</kind>
+        <symbol>users table reference</symbol>
+        <lines>15</lines>
+        <reason>Test comment indicating an expectation for the 'users' table to be accessible, suggesting early consideration for user data.</reason>
+      </code-artifact>
     </code>
     <dependencies>
-        <dependency ecosystem="Python">
-            <package name="FastAPI" />
-            <package name="uvicorn" />
-            <package name="SQLAlchemy" />
-            <package name="psycopg2-binary" />
-            <package name="alembic" />
-            <package name="python-dotenv" />
-            <package name="supabase" />
-            <package name="pytest" />
-        </dependency>
-        <dependency ecosystem="Node.js">
-            <package name="next" version="16.0.7" />
-            <package name="react" version="19.2.0" />
-            <package name="react-dom" version="19.2.0" />
-            <package name="@tailwindcss/postcss" version="^4" />
-            <package name="@testing-library/jest-dom" version="^6.9.1" />
-            <package name="@testing-library/react" version="^16.3.0" />
-            <package name="@types/node" version="^20" />
-            <package name="@types/react" version="^19" />
-            <package name="@types/react-dom" version="^19" />
-            <package name="eslint" version="^9" />
-            <package name="eslint-config-next" version="16.0.7" />
-            <package name="jest" version="^30.2.0" />
-            <package name="jest-environment-jsdom" version="^30.2.0" />
-            <package name="tailwindcss" version="^4" />
-            <package name="typescript" version="^5" />
-        </dependency>
-        <framework name="Next.js" />
-        <framework name="FastAPI" />
-        <framework name="Supabase" />
-        <framework name="Tailwind CSS" />
-        <framework name="Jest" />
-        <framework name="React Testing Library" />
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>@supabase/ssr</package>
+        <version>^0.8.0</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>@supabase/supabase-js</package>
+        <version>^2.43.4</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>next</package>
+        <version>16.0.7</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>react</package>
+        <version>19.2.0</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>react-dom</package>
+        <version>19.2.0</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>tailwindcss</package>
+        <version>^4</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>typescript</package>
+        <version>^5</version>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>FastAPI</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>uvicorn</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>SQLAlchemy</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>psycopg2-binary</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>alembic</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>python-dotenv</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>supabase</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>pytest</package>
+      </dependency>
     </dependencies>
+
   </artifacts>
 
   <constraints>
-    <constraint type="architectural-pattern" name="Supabase Client Singleton" description="A singleton instance of the Supabase client should be created in `frontend/lib/supabase.ts` and used throughout the application to ensure consistent configuration and connection management." />
-    <constraint type="environment-variables" name="Supabase API Keys" description="Supabase URL and anon key must be stored in `.env.local` and accessed via `process.env.NEXT_PUBLIC_SUPABASE_URL` and `process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY`. Do not hardcode these values." />
-    <constraint type="error-handling" name="Supabase API Calls Error Handling" description="All calls to Supabase methods must be wrapped in appropriate try/catch blocks or use promise-based `.then().catch()` handling to manage potential API errors gracefully." />
+    <constraint>
+      <type>architectural-pattern</type>
+      <description>Authentication must be handled by Supabase Auth (using `@supabase/supabase-js` v2.86.0) for JWT-based secure sessions.</description>
+      <source>docs/architecture-2025-11-30.md#Security-Architecture, docs/sprint-artifacts/tech-spec-epic-1.md#Authentication-and-Authorization</source>
+    </constraint>
+    <constraint>
+      <type>security-rule</type>
+      <description>Supabase's Row Level Security (RLS) must be enabled and configured for all tables containing user-specific data to ensure data isolation.</description>
+      <source>docs/architecture-2025-11-30.md#Security-Architecture, docs/sprint-artifacts/tech-spec-epic-1.md#Authentication-and-Authorization</source>
+    </constraint>
+    <constraint>
+      <type>project-structure</type>
+      <description>Frontend authentication UI components should reside within `frontend/src/app/(auth)/`.</description>
+      <source>docs/architecture-2025-11-30.md#Project-Structure</source>
+    </constraint>
+    <constraint>
+      <type>project-structure</type>
+      <description>Backend API endpoints for user management should be located in `backend/app/api/v1/endpoints/users.py`.</description>
+      <source>docs/architecture-2025-11-30.md#Epic-to-Architecture-Mapping</source>
+    </constraint>
+    <constraint>
+      <type>testing-requirement</type>
+      <description>Frontend tests for components and integration must use `React Testing Library` with `Jest`. Backend unit and integration tests must use `Pytest`.</description>
+      <source>docs/architecture-2025-11-30.md#Testing-Strategy</source>
+    </constraint>
   </constraints>
   <interfaces>
-    <interface name="supabase.auth.signUp()" kind="function-signature" signature="async function signUp(credentials: { email?: string; password?: string; phone?: string; options?: SignUpWithPasswordCredentials['options'] }): Promise&lt;{ data: AuthResponse['data']; error: AuthResponse['error'] }>" path="frontend/lib/supabase.ts" />
-    <interface name="supabase.auth.signInWithPassword()" kind="function-signature" signature="async function signInWithPassword(credentials: SignInWithPasswordCredentials): Promise&lt;{ data: AuthResponse['data']; error: AuthResponse['error'] }>" path="frontend/lib/supabase.ts" />
-    <interface name="Supabase Client" kind="class-interface" signature="SupabaseClient" path="frontend/lib/supabase.ts" />
+    <interface>
+      <name>Supabase Auth `signUp`</name>
+      <kind>Function Call</kind>
+      <signature>supabase.auth.signUp({ email, password })</signature>
+      <path>frontend/lib/supabase.ts (anticipated)</path>
+    </interface>
+    <interface>
+      <name>Supabase Auth `signInWithPassword`</name>
+      <kind>Function Call</kind>
+      <signature>supabase.auth.signInWithPassword({ email, password })</signature>
+      <path>frontend/lib/supabase.ts (anticipated)</path>
+    </interface>
+    <interface>
+      <name>Supabase Auth `verifyOtp`</name>
+      <kind>Function Call</kind>
+      <signature>supabase.auth.verifyOtp({ email, token, type: 'signup' })</signature>
+      <path>frontend/lib/supabase.ts (anticipated)</path>
+    </interface>
   </interfaces>
   <tests>
-    <standards>Frontend tests will be written using Jest and React Testing Library. Supabase client interactions should be mocked.</standards>
+    <standards>
+      <standard>
+        <type>frontend</type>
+        <framework>React Testing Library / Jest</framework>
+        <description>Frontend tests (component and integration) use React Testing Library with Jest. Test files are co-located with components in `__tests__` subdirectories.</description>
+      </standard>
+      <standard>
+        <type>backend</type>
+        <framework>Pytest</framework>
+        <description>Backend tests (unit and integration) use Pytest and reside in the `backend/tests/` directory.</description>
+      </standard>
+    </standards>
     <locations>
-      <location>frontend/components/auth/__tests__/</location>
-      <location>frontend/tests/integration/</location>
+      <location>
+        <type>frontend</type>
+        <path>frontend/src/**/__tests__/</path>
+        <glob>frontend/src/**/*.test.{ts,tsx}</glob>
+      </location>
+      <location>
+        <type>backend</type>
+        <path>backend/tests/</path>
+        <glob>backend/tests/**/*.py</glob>
+      </location>
     </locations>
     <ideas>
-      <idea ac_id="1">Component test for the SignUpForm component to check form rendering and input validation.</idea>
-      <idea ac_id="3,5">Integration test to mock the `supabase.auth.signUp` call and verify its behavior on success and error.</idea>
-      <idea ac_id="1,3,5">Test to verify that a protected route redirects unauthenticated users.</idea>
+      <idea acRef="1">
+        <description>Test successful user registration through the frontend UI, verifying Supabase entry and initial state.</description>
+      </idea>
+      <idea acRef="2">
+        <description>Simulate email verification trigger upon successful registration and check for email sending mechanism (mocked).</description>
+      </idea>
+      <idea acRef="3">
+        <description>Test login attempts with unverified emails, ensuring access is denied to protected routes.</description>
+      </idea>
+      <idea acRef="4">
+        <description>Test the email verification callback handling, ensuring the user's account status is updated to verified upon clicking the link.</description>
+      </idea>
+      <idea acRef="architectural-constraint">
+        <description>Test Row Level Security (RLS) policies for user-specific data to prevent unauthorized access to `profiles` or `plans` tables.</description>
+      </idea>
     </ideas>
   </tests>
 </story-context>

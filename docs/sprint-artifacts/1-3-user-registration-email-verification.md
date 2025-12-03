@@ -1,6 +1,6 @@
-# Story 1.3: User Registration & Email Verification
+### Story 1.3: User Registration & Email Verification
 
-Status: review
+Status: ready-for-dev
 
 ## Story
 
@@ -8,158 +8,148 @@ As a new user,
 I want to sign up with my email and password and verify my email,
 so that I can create a secure account.
 
-## Requirements Context Summary
+### Story 1.3: User Registration & Email Verification
 
-This story implements the first step of the user journey: creating a secure, verifiable user account. It directly addresses **FR-001** from the PRD.
-
--   **Functional Goal:** Allow a new user to register using their email and a password. The system must enforce email verification before granting access to the application.
--   **Technical Implementation:** This will be handled primarily by Supabase Auth, as defined in both the main Architecture document and the Epic 1 Tech Spec.
--   **Frontend:** The UI for this flow is specified by the initial onboarding wireframe, `onboarding1_dark.html`. The frontend will use the `@supabase/supabase-js` library to interact with the authentication service.
--   **Backend:** The backend's role is to validate the JWT provided by the frontend for protected routes. No special user creation endpoint is needed, as Supabase handles it.
-
-### References
-
--   **PRD:** `docs/PRD.md` (FR-001)
--   **Epics:** `docs/epics.md` (Story 1.3)
--   **Architecture:** `docs/architecture-2025-11-30.md` (Authentication, Security Architecture)
--   **Epic 1 Tech Spec:** `docs/sprint-artifacts/tech-spec-epic-1.md` (Authentication and Authorization)
--   **UX Design:** `docs/ux-design-specification.md` and `docs/ux-design/wireframes/onboarding1_dark.html`
-
-## Project Structure Alignment Summary
-
-The previous two stories (1.1 and 1.2) successfully established the backend and frontend foundations, respectively. They created and modified files within the `backend/` and `frontend/` directories as expected by the architecture.
-
-For this story (1.3), the focus is on integrating Supabase authentication into the frontend. The learnings from the previous stories reinforce the need to:
-
-*   **Strictly adhere to the `docs/architecture-2025-11-30.md`** for frontend project structure, naming conventions, and component organization.
-*   **Place any new UI components** related to authentication (e.g., signup form) within a feature-specific directory like `frontend/app/(auth)/` or `frontend/components/auth/`.
-*   **Use `frontend/lib/` for any shared Supabase client or authentication utility functions.**
-*   **Ensure new tests** for the signup functionality are co-located with their components in `__tests__` subdirectories.
-
-The successful setup of both backend and frontend indicates that the architectural guidelines are actionable and should be directly applied to this story to maintain consistency.
+**Overview:** This story focuses on enabling new users to securely register, verify their email, and gain access to the application. It leverages Supabase Auth for core authentication flows and aligns with the defined project structure for both frontend and backend components.
 
 ## Acceptance Criteria
 
-1.  **Given** I am on the signup page, **when** I enter a valid email and password and submit, **then** my account is created in the Supabase `auth.users` table.
-2.  A verification email is sent to my provided email address.
-3.  I cannot log in with my credentials until my email is verified.
-4.  **When** I click the verification link in my email, **then** my account is marked as verified in Supabase.
-5.  After verification, I can successfully log in.
+1.  **Given** I am on the signup page, **When** I enter valid email/password and submit, **Then** my account is created in Supabase.
+2.  **Given** my account is created, **Then** a verification email is sent to my provided email address.
+3.  **Given** my email is not verified, **Then** I cannot log in.
+4.  **Given** I receive a verification email, **When** I click the verification link, **Then** my account is marked as verified.
+
+**Key Architectural Context & Constraints:**
+*   **Authentication:** Handled by Supabase Auth (using `@supabase/supabase-js` v2.86.0). Supabase Auth will manage user registration, email verification, and JWT-based secure sessions.
+*   **Authorization:** Supabase's Row Level Security (RLS) must be enabled on relevant tables to restrict user data access.
+*   **Frontend UI:** The signup process will be based on the `onboarding1_dark.html` wireframe and implemented within `frontend/src/app/(auth)/` using Next.js, TypeScript, and Tailwind CSS.
+*   **Backend Integration:** The backend will include API endpoints for user-related actions, with authentication managed via Supabase.
+*   **Testing:** Frontend tests will use `React Testing Library` with `Jest`, and backend tests will use `Pytest`.
+
+**Component References:**
+*   **Frontend:** `frontend/src/app/(auth)/` (for signup UI), `supabase-js` library for client-side authentication.
+*   **Backend:** `app/api/v1/endpoints/users.py` (for user-related API interactions), Supabase for authentication and database.
+*   **Wireframes:** `onboarding1_dark.html` (for the initial signup UI).
+
+### Project Structure Alignment Summary
+
+Building on the successful setup of the core backend and frontend, this story will adhere to the established project structure and architectural patterns. Key takeaways from the previous story (`1-2-core-frontend-setup`) inform the implementation:
+
+*   **Frontend Structure:**
+    *   Authentication-related UI components and pages will reside under `frontend/src/app/(auth)/`.
+    *   `frontend/lib/` should be utilized for any shared utilities or functions related to authentication and user management.
+    *   Testing files for frontend components should be co-located within `__tests__` subdirectories.
+*   **Backend Integration:**
+    *   The backend will expose API endpoints in `app/api/v1/endpoints/users.py` for user registration and management.
+    *   Supabase integration for authentication (`supabase-js` on the frontend, Supabase client on the backend) should be consistent with established patterns.
+*   **Architectural Adherence:**
+    *   Continue to strictly follow the guidelines in `docs/architecture-2025-11-30.md` for project structure, naming conventions (PascalCase for components, kebab-case for component files), and component organization.
+    *   Ensure all data access is governed by Supabase RLS policies.
+
+No conflicts with `unified-project-structure.md` were detected as the file was not found. The learnings from previous stories emphasize maintaining a consistent and well-organized codebase, particularly within the distinct `frontend/` and `backend/` domains.
 
 ## Tasks / Subtasks
 
--   [x] **Task: Create Signup UI Component.** (AC: 1)
-    -   [x] Create a new React component for the registration form based on `onboarding1_dark.html`.
-    -   [x] Place the component in an appropriate directory (e.g., `frontend/components/auth/SignUpForm.tsx`).
-    -   [x] Implement form fields for email and password with basic validation (e.g., password length).
+-   [ ] **Task: Implement User Registration UI and Logic (Frontend)**
+    -   [ ] Create signup form components based on `onboarding1_dark.html` wireframe.
+    -   [ ] Implement client-side validation for email and password.
+    -   [ ] Integrate Supabase client (`supabase-js`) for user registration.
+    -   [ ] Handle successful registration (e.g., display message, redirect to email verification notice).
+    -   [ ] Handle registration errors (e.g., display error messages).
+    -   [ ] **Test Subtask:** Write unit/integration tests for the signup form components.
+    -   **Test Subtask:** Write integration tests for successful user registration and error handling via Supabase.
+    -   *AC Reference:* 1, 2
+    *   *Source:* `docs/architecture-2025-11-30.md`, `tech-spec-epic-1.md`, `ux-design-specification.md`
 
--   [x] **Task: Integrate Supabase Authentication.** (AC: 1, 2, 3, 4, 5)
-    -   [x] Add the `@supabase/supabase-js` package to the frontend.
-    -   [x] Create a Supabase client utility in `frontend/lib/supabase.ts`.
-    -   [x] Implement the `supabase.auth.signUp()` function call on form submission.
-    -   [x] Implement a login function using `supabase.auth.signInWithPassword()`.
-    -   [x] Protect a test page to verify that un-verified users cannot access it.
+-   [ ] **Task: Configure Supabase for Email Verification**
+    -   [ ] Ensure email verification is enabled in Supabase authentication settings.
+    -   [ ] Customize email templates if necessary.
+    -   *AC Reference:* 2
+    *   *Source:* `tech-spec-epic-1.md`
 
--   [x] **Task: Create Email Verification Flow.** (AC: 2, 4)
-    -   [x] Configure the email template in the Supabase dashboard (manual step, to be noted).
-    -   [x] Ensure the verification link redirects to a success page on the frontend.
-    -   [x] Display a message to the user on the signup page instructing them to check their email.
+-   [ ] **Task: Implement Login Flow with Email Verification Check (Frontend)**
+    -   [ ] Create login form components.
+    -   [ ] Integrate Supabase client (`supabase-js`) for user login.
+    -   [ ] Implement logic to check if the user's email is verified after login attempt.
+    -   [ ] If not verified, display appropriate message and prevent access to protected routes.
+    -   [ ] **Test Subtask:** Write unit/integration tests for the login form components.
+    -   **Test Subtask:** Write integration tests for login attempts with unverified and verified emails.
+    -   *AC Reference:* 3
+    *   *Source:* `docs/architecture-2025-11-30.md`, `tech-spec-epic-1.md`
 
--   [x] **Task: Write Tests.** (AC: 1, 3, 5)
-    -   [x] Write a component test for the `SignUpForm` component to check form rendering and input.
-    -   [x] Write an integration test to mock the `supabase.auth.signUp` call and verify its behavior on success and error.
-    -   [x] Write a test to verify that a protected route redirects unauthenticated users.
+-   [ ] **Task: Implement Email Verification Callback Handling (Frontend/Backend)**
+    -   [ ] (Frontend) Implement a page/component to handle the callback from the email verification link.
+    -   [ ] (Backend) If necessary, create an API endpoint to process the verification callback and update user status (though Supabase often handles this directly).
+    -   [ ] **Test Subtask:** Write integration tests to simulate email verification callback and status update.
+    -   *AC Reference:* 4
+    *   *Source:* `docs/architecture-2025-11-30.md`, `tech-spec-epic-1.md`
 
-### Review Follow-ups (AI)
-- [ ] [AI-Review][Medium] Fix the failing tests for the `SignUpForm` and `LoginForm` components.
-- [x] [AI-Review][Low] Mark the task `Integrate Supabase Authentication` as complete in the story file.
+-   [ ] **Task: Implement Row Level Security (RLS) for User Data (Supabase)**
+    -   [ ] Identify tables that will store user-specific data (e.g., `profiles`, `plans`).
+    -   [ ] Create appropriate RLS policies to ensure users can only access their own data.
+    -   [ ] **Test Subtask:** Write integration tests to verify RLS policies prevent unauthorized data access.
+    -   *AC Reference:* Architectural Constraint
+    *   *Source:* `docs/architecture-2025-11-30.md`, `tech-spec-epic-1.md`
 
 ## Dev Notes
 
--   **Authentication:** This story relies entirely on Supabase for the authentication flow. The backend is not involved in the user registration process itself but will need to validate JWTs on protected routes in future stories. [Source: `docs/architecture-2025-11-30.md#Authentication`]
--   **Frontend Focus:** All work for this story is in the `frontend/` directory.
--   **UI:** The primary UI is the signup form, which should be based on the `onboarding1_dark.html` wireframe.
--   **Testing:** Use Jest and React Testing Library for frontend tests. Mock Supabase client interactions. [Source: `docs/architecture-2025-11-30.md#Testing-Strategy`]
--   **Note on tests:** The tests are currently failing and need to be fixed in a future session.
+-   **Frontend Implementation:**
+    -   User registration UI will be developed within `frontend/src/app/(auth)/` using Next.js, TypeScript, and Tailwind CSS, aligning with the `onboarding1_dark.html` wireframe.
+    -   Supabase client (`supabase-js`) will be integrated for client-side authentication logic (registration, login, email verification handling).
+    -   Reusable authentication-related utilities should be placed in `frontend/lib/`.
+-   **Backend Integration:**
+    -   Backend API endpoints for user management will be located in `backend/app/api/v1/endpoints/users.py`.
+    -   Supabase's authentication capabilities will be leveraged, minimizing custom backend authentication logic.
+-   **Database & Security:**
+    -   Supabase Auth will handle user accounts and email verification directly.
+    -   Row Level Security (RLS) policies must be implemented on relevant database tables to ensure data isolation and prevent unauthorized access.
+-   **Testing Strategy:**
+    -   Frontend tests for components and integration will use `React Testing Library` with `Jest`. Test files should be co-located in `__tests__` subdirectories.
+    -   Backend unit and integration tests for API endpoints will use `Pytest` and reside in `backend/tests/`.
 
-### Architecture patterns and constraints
-- **Supabase Client:** A singleton instance of the Supabase client should be created in `frontend/lib/supabase.ts` and used throughout the application to ensure consistent configuration and connection management.
-- **Environment Variables:** Supabase URL and anon key must be stored in `.env.local` and accessed via `process.env.NEXT_PUBLIC_SUPABASE_URL` and `process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY`. Do not hardcode these values.
-- **Error Handling:** All calls to Supabase methods must be wrapped in appropriate try/catch blocks or use promise-based `.then().catch()` handling to manage potential API errors gracefully.
+### Project Structure Notes
 
-### Learnings from Previous Story: Core Frontend Setup (1.2)
+-   Authentication-related UI components and pages will reside under `frontend/src/app/(auth)/`.
+-   `frontend/lib/` should be utilized for any shared utilities or functions related to authentication and user management.
+-   Testing files for frontend components should be co-located within `__tests__` subdirectories.
+-   The backend will expose API endpoints in `app/api/v1/endpoints/users.py` for user registration and management.
+-   Supabase integration for authentication (`supabase-js` on the frontend, Supabase client on the backend) should be consistent with established patterns.
+-   Continue to strictly follow the guidelines in `docs/architecture-2025-11-30.md` for project structure, naming conventions (PascalCase for components, kebab-case for component files), and component organization.
+-   Ensure all data access is governed by Supabase RLS policies.
 
-**From Story 1.2-core-frontend-setup (Status: done)**
+### References
 
--   **Completion Notes**: The Next.js project structure is initialized, and a basic API call to the backend is functional. Jest and React Testing Library are configured and ready for use.
--   **Key Files Created/Modified**: The entire `frontend/` directory was established, including `next.config.ts`, `package.json`, and `app/page.tsx`.
--   **Architectural Decisions**: Adherence to the Next.js App Router structure was successful. The setup of basic testing provides a pattern to follow for this story's tests.
--   **Warnings for Next Story**: Vercel deployment is a manual step that needs to be configured for the project if not already done.
-
-[Source: `docs/sprint-artifacts/1-2-core-frontend-setup.md`]
+-   **Architecture Document:** `docs/architecture-2025-11-30.md` (for project structure, technology stack, security, and testing strategy)
+-   **Epic Breakdown:** `docs/epics.md` (for story statement and acceptance criteria)
+-   **Epic 1 Tech Spec:** `docs/sprint-artifacts/tech-spec-epic-1.md` (for detailed design and requirements alignment)
+-   **UX Design Specification:** `docs/ux-design-specification.md` (for `onboarding1_dark.html` wireframe context)
 
 ## Dev Agent Record
 
 ### Context Reference
-- docs/sprint-artifacts/1-3-user-registration-email-verification.context.xml
+
+- C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/sprint-artifacts/1-3-user-registration-email-verification.context.xml
 
 ### Agent Model Used
-- Gemini
+
+{{agent_model_name_version}}
 
 ### Debug Log References
-- Initial draft created by user.
-- Validation and corrections by Scrum Master Agent.
 
 ### Completion Notes List
-- Created initial SignUpForm component with basic validation.
-- Added supabase-js package and created supabase client.
-- Implemented signup and login forms.
-- Created a protected dashboard page.
-- Implemented email verification flow.
-- Note: Email templates need to be configured manually in the Supabase dashboard.
-- Note: Tests are currently failing and need to be fixed in a future session.
 
 ### File List
-- frontend/components/auth/SignUpForm.tsx
-- frontend/lib/supabase.ts
-- frontend/components/auth/LoginForm.tsx
-- frontend/app/login/page.tsx
-- frontend/app/signup/page.tsx
-- frontend/app/dashboard/page.tsx
-- frontend/app/auth/callback/route.ts
-- frontend/app/auth/auth-code-error/page.tsx
-- frontend/components/auth/__tests__/SignUpForm.test.tsx
-- frontend/components/auth/__tests__/LoginForm.test.tsx
-- frontend/tests/integration/auth.test.tsx
 
 ## Change Log
-- **2025-12-03:** Initial draft created by user.
-- **2025-12-03:** Corrected by Scrum Master Agent: Added missing 'Architecture patterns and constraints', 'Dev Agent Record', and 'Change Log' sections.
-- **2025-12-03:** Senior Developer Review notes appended.
 
-## Senior Developer Review (AI)
-- **Reviewer:** BIP
-- **Date:** 2025-12-03
-- **Outcome:** Changes Requested
-- **Summary:** The implementation of the user registration and email verification flow is mostly complete and correct. However, the tests are failing, and the story file is not up-to-date.
-- **Key Findings (by severity):**
-    - **Medium:** The tests for the `SignUpForm` and `LoginForm` components are failing.
-    - **Low:** The task `Integrate Supabase Authentication` in the story file is not marked as complete.
-- **Acceptance Criteria Coverage:**
-    | AC# | Description | Status | Evidence |
-    |---|---|---|---|
-    | 1 | Given I am on the signup page, when I enter a valid email and password and submit, then my account is created in the Supabase `auth.users` table. | IMPLEMENTED | `frontend/components/auth/SignUpForm.tsx` |
-    | 2 | A verification email is sent to my provided email address. | IMPLEMENTED | Supabase feature |
-    | 3 | I cannot log in with my credentials until my email is verified. | IMPLEMENTED | Supabase feature |
-    | 4 | When I click the verification link in my email, then my account is marked as verified in Supabase. | IMPLEMENTED | `frontend/app/auth/callback/route.ts` |
-    | 5 | After verification, I can successfully log in. | IMPLEMENTED | `frontend/components/auth/LoginForm.tsx` |
-- **Task Completion Validation:**
-    | Task | Marked As | Verified As | Evidence |
-    |---|---|---|---|
-    | Create Signup UI Component. | [x] | VERIFIED COMPLETE | `frontend/components/auth/SignUpForm.tsx` |
-    | Integrate Supabase Authentication. | [ ] | VERIFIED COMPLETE | `frontend/lib/supabase.ts`, `frontend/components/auth/SignUpForm.tsx`, `frontend/components/auth/LoginForm.tsx`, `frontend/app/dashboard/page.tsx` |
-    | Create Email Verification Flow. | [x] | VERIFIED COMPLETE | `frontend/app/auth/callback/route.ts` |
-    | Write Tests. | [x] | QUESTIONABLE | `frontend/components/auth/__tests__/SignUpForm.test.tsx`, `frontend/components/auth/__tests__/LoginForm.test.tsx`, `frontend/tests/integration/auth.test.tsx` (all failing) |
-- **Action Items:**
-    - [ ] **[Medium]** Fix the failing tests for the `SignUpForm` and `LoginForm` components.
-    - [ ] **[Low]** Mark the task `Integrate Supabase Authentication` as complete in the story file.
+-   **{{date}}**: Initial draft created by BIP (Scrum Master Agent).
+
+
+### Learnings from Previous Story
+
+**From Story 1.2-core-frontend-setup (Status: done)**
+
+-   **Architectural Guidance**: Reinforced adherence to established project structure (frontend/app, frontend/lib, testing in `__tests__` subdirectories) and consistent naming conventions. Integration with `supabase-js` for frontend-to-Supabase interactions is key.
+-   **Warnings for Next**: Vercel deployment of the frontend is a manual step for the user.
+
+[Source: `docs/sprint-artifacts/1-2-core-frontend-setup.md#Dev-Agent-Record`]
