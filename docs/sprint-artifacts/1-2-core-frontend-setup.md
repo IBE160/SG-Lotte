@@ -78,36 +78,38 @@ The successful setup of the backend indicates that the architectural guidelines 
 
 ## Tasks / Subtasks
 
--   [ ] **Task: Initialize Next.js project with TypeScript, Tailwind CSS, and ESLint.**
-    -   [ ] Execute `npx create-next-app@latest frontend --typescript --tailwind --eslint --app --use-npm`.
-    -   [ ] Verify `frontend/` directory structure matches standard Next.js App Router layout.
-    -   [ ] Confirm `package.json` contains required dependencies (Next.js, React, Tailwind CSS, TypeScript).
-    -   [ ] Validate ESLint configuration is active and without errors.
-    -   *AC Reference:* 1
-    *   *Source:* `docs/architecture-2025-11-30.md` (Project Initialization)
+    -   [ ] **Task: Initialize Next.js project with TypeScript, Tailwind CSS, and ESLint.**
+        -   [ ] Execute `npx create-next-app@latest frontend --typescript --tailwind --eslint --app --use-npm`.
+        -   [ ] Verify `frontend/` directory structure matches standard Next.js App Router layout.
+        -   [ ] Confirm `package.json` contains required dependencies (Next.js, React, Tailwind CSS, TypeScript).
+        -   [ ] Validate ESLint configuration is active and without errors.
+        -   [ ] **Test Subtask:** Write unit/integration tests to confirm Next.js app setup and configuration. (AC: 1)
+        -   *AC Reference:* 1
+        *   *Source:* `docs/architecture-2025-11-30.md` (Project Initialization)
 
--   [ ] **Task: Configure project for Vercel deployment.**
-    -   [ ] Create or link the Vercel project to the Git repository.
-    -   [ ] Verify automated deployments trigger on push to `main` branch.
-    -   [ ] Confirm Vercel deployment of a basic "hello world" page is successful.
-    -   *AC Reference:* 2
-    *   *Source:* `docs/architecture-2025-11-30.md` (Deployment Architecture)
+    -   [ ] **Task: Configure project for Vercel deployment.**
+        -   [ ] Create or link the Vercel project to the Git repository.
+        -   [ ] Verify automated deployments trigger on push to `main` branch.
+        -   [ ] Confirm Vercel deployment of a basic "hello world" page is successful.
+        -   [ ] **Test Subtask:** Manually verify Vercel deployment and CI/CD pipeline functionality. (AC: 2)
+        -   *AC Reference:* 2
+        *   *Source:* `docs/architecture-2025-11-30.md` (Deployment Architecture)
 
--   [ ] **Task: Establish a basic API call from frontend to backend.**
-    -   [ ] Implement a simple fetch request from a frontend page (e.g., `frontend/src/app/page.tsx`) to a placeholder backend endpoint (e.g., `/api/v1/health-check`).
-    -   [ ] Display the response on the frontend.
-    -   [ ] Ensure `supabase-js` is integrated and configured for future authentication needs.
-    -   *AC Reference:* 3
-    *   *Source:* `docs/architecture-2025-11-30.md` (Integration Points, Technology Stack - Supabase Auth)
+    -   [ ] **Task: Establish a basic API call from frontend to backend.**
+        -   [ ] Implement a simple fetch request from a frontend page (e.g., `frontend/src/app/page.tsx`) to a placeholder backend endpoint (e.g., `/api/v1/health-check`).
+        -   [ ] Display the response on the frontend.
+        -   [ ] Ensure `supabase-js` is integrated and configured for future authentication needs.
+        -   [ ] **Test Subtask:** Write an integration test to verify the successful frontend-to-backend API call. (AC: 3)
+        -   *AC Reference:* 3
+        *   *Source:* `docs/architecture-2025-11-30.md` (Integration Points, Technology Stack - Supabase Auth)
 
--   [ ] **Task: Add basic component and integration tests using React Testing Library and Jest.**
-    -   [ ] Set up Jest and React Testing Library in the `frontend/` project.
-    -   [ ] Write a simple component test for a basic UI element (e.g., a button).
-    -   [ ] Write an integration test to verify the frontend's API call in a test environment.
-    -   [ ] Ensure test files are located in `__tests__` subdirectories within component folders or `frontend/tests/`.
-    -   *AC Reference:* All (Verification)
-    *   *Source:* `docs/architecture-2025-11-30.md` (Testing Strategy, Project Structure Notes)
-
+    -   [ ] **Task: Add basic component and integration tests using React Testing Library and Jest.**
+        -   [ ] Set up Jest and React Testing Library in the `frontend/` project.
+        -   [ ] Write a simple component test for a basic UI element (e.g., a button).
+        -   [ ] Write an integration test to verify the frontend's API call in a test environment.
+        -   [ ] Ensure test files are located in `__tests__` subdirectories within component folders or `frontend/tests/`.
+        -   *AC Reference:* All (Verification)
+        *   *Source:* `docs/architecture-2025-11-30.md` (Testing Strategy, Project Structure Notes)
 ## Dev Agent Record
 
 ### Context Reference
