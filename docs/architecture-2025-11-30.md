@@ -9,7 +9,7 @@ This document outlines the architecture for the **AI Fitness & Meal Planner**, a
 Based on a review of the Product Requirements Document (PRD), epics, UX specifications, and detailed analysis/research documents, the following project context is established:
 
 * **Core Objective:** The project, "ibe160", is a greenfield web application to create an AI-driven fitness and meal planner.
-* **Key Feature:** The central value is the AI's ability to generate and dynamically adapt personalized plans using Gemini 2.5 pro/flash.
+* **Key Feature:** The central value is the AI's ability to generate and dynamically adapt personalized plans using Pydantic AI framework with Gemini 2.5 pro/flash.
 * **Defined Technology Stack:** The technical direction is explicitly defined and validated:
   * **Frontend:** Next.js 14+ (App Router) with TypeScript, Tailwind CSS, and Recharts.
   * **Backend:** FastAPI (Python).
@@ -182,7 +182,7 @@ Based on our project requirements and the chosen technology stack, most core arc
 * **Frontend to Backend:** The Next.js frontend communicates with the FastAPI backend via a versioned REST API (`/api/v1/`).
 * **Frontend to Supabase:** The frontend interacts directly with Supabase for authentication and real-time data updates using the `supabase-js` library.
 * **Backend to Supabase:** The FastAPI backend connects to the Supabase PostgreSQL database for data persistence.
-* **Backend to OpenAI:** The backend communicates with the OpenAI API to generate AI-driven plans.
+* **Backend to Gemini 2.5 pro/flash:** The backend communicates with the Pydantic AI framework with Gemini 2.5 pro/flash to generate AI-driven plans.
 
 ## Novel Pattern Designs
 
@@ -191,7 +191,7 @@ After a thorough review of the project requirements, no fundamentally novel arch
 This pattern involves:
 
 1. Collecting user data, goals, and progress.
-2. Constructing a detailed prompt for the OpenAI GPT-4 API.
+2. Constructing a detailed prompt for the Pydantic AI framework with Gemini 2.5 pro/flash.
 3. Receiving, validating, and storing the structured JSON response.
 4. Using user feedback to refine subsequent prompts for continuous adaptation.
 
