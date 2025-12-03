@@ -85,11 +85,12 @@ The backend will implement a caching layer (e.g., using `fastapi-cache2` with an
 - Backend code should reside under `backend/app/`.
 - Testing code for backend should be under `backend/tests/`.
 
+Status: ready-for-dev
+
 ## Dev Agent Record
 
 ### Context Reference
-
-<!-- Path(s) to story context XML will be added here by context workflow -->
+- C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/sprint-artifacts/1-1-core-backend-setup.context.xml
 
 ### Agent Model Used
 

@@ -1,0 +1,224 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1</storyId>
+    <title>Core Backend Setup</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-03</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/sprint-artifacts/1-1-core-backend-setup.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a developer</asA>
+    <iWant>the FastAPI backend and Supabase database to be set up and connected</iWant>
+    <soThat>I can build API endpoints and data models.</soThat>
+    <tasks>
+      - [ ] Initialize FastAPI project structure (AC: all)
+        - [ ] Create `backend/` directory
+        - [ ] Create `backend/requirements.txt` with `FastAPI`, `uvicorn`, `SQLAlchemy`, `psycopg2-binary`, `alembic`, `python-dotenv`
+        - [ ] Create `backend/app/main.py` with basic FastAPI app instance
+        - [ ] Configure `uvicorn` to run the app
+      - [ ] Connect FastAPI to Supabase (AC: Supabase configured)
+        - [ ] Install `supabase-py` client library
+        - [ ] Configure Supabase client with API URL and Anon Key from environment variables
+        - [ ] Verify connection to Supabase database
+      - [ ] Configure Alembic for database migrations (AC: Alembic migrations configured)
+        - [ ] Initialize Alembic in `backend/alembic`
+        - [ ] Configure `alembic.ini` to connect to Supabase PostgreSQL database
+        - [ ] Generate initial migration script
+        - [ ] Apply initial migration to create necessary tables (e.g., `users` table as a placeholder)
+      - [ ] Implement basic test for backend setup (AC: FastAPI app running)
+        - [ ] Create `backend/tests/test_main.py`
+        - [ ] Write a simple test to verify FastAPI app is accessible (e.g., GET `/`)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    **Given** the project is initialized
+    **When** I set up the backend
+    **Then** a FastAPI app is created and running
+    **And** a Supabase project is connected and configured
+    **And** Alembic migrations are configured for database schema management
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-001: User Authentication & Profile Management</section>
+        <snippet>The system shall allow users to securely register, log in, and manage their core profile information. Users can sign up with email and password, and must verify their email. Users can log in, log out, and reset their password.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Non-Functional Requirements: Security</section>
+        <snippet>The system handles sensitive personal and health-related data, requiring robust protection against unauthorized access and data breaches. All data in transit (HTTPS) and at rest (database encryption) shall be encrypted. Access to user data shall be restricted by Row Level Security (RLS) policies. User authentication shall be handled by Supabase Auth using JWT tokens.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Non-Functional Requirements: Scalability</section>
+        <snippet>The database (PostgreSQL on Supabase) shall be capable of scaling to handle increased data volume and user load. The backend (FastAPI) shall be deployable in a horizontally scalable manner.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Executive Summary</section>
+        <snippet>The architecture is based on a decoupled frontend and backend system, leveraging a modern, scalable technology stack. The frontend is a Next.js application, the backend is a FastAPI service, and the data persistence and user authentication are managed by Supabase.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Technology Stack Details</section>
+        <snippet>Backend: FastAPI v0.122.0 with Python 3.14. Database: Supabase (PostgreSQL). ORM/Database Migration: Alembic.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Implementation Patterns: Naming Patterns</section>
+        <snippet>API Endpoints: Plural nouns and kebab-case (e.g., `/api/v1/workout-plans`). Database Tables: Plural nouns and snake_case (e.g., `users`, `workout_plans`). Database Columns: Snake_case (e.g., `user_id`, `created_at`).</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Implementation Patterns: Structure Patterns</section>
+        <snippet>Testing (Backend): All tests will reside in the root `tests/` directory. Shared Logic (Backend): Core logic, configuration, and services will be placed in `backend/app/core/` and `backend/app/services/`.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Consistency Rules: API Response and Error Handling</section>
+        <snippet>All API responses will use a consistent JSON structure. All API errors will return a JSON object with a standardized format: `{ "detail": "Error message" }`.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Security Architecture</section>
+        <snippet>Authentication: Handled by Supabase Auth, using JWTs for secure sessions. Authorization: Supabase's Row Level Security (RLS) will be enabled. Data Security: All data will be encrypted in transit and at rest.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Development Environment: Setup Commands</section>
+        <snippet>Install backend dependencies: `cd ../backend` `pip install -r requirements.txt`. Run the development servers: `cd backend && uvicorn app.main:app --reload`.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>ADR-002: Caching Strategy</section>
+        <snippet>Implement a multi-layered caching strategy using both Backend Caching and Frontend Caching. The FastAPI backend will implement a caching layer (e.g., using `fastapi-cache2`).</snippet>
+      </doc>
+      <doc>
+        <path>docs/test-design-epic-1.md</path>
+        <title>Test Design: Epic 1 - First Plan & Foundation</title>
+        <section>Risk Assessment: High-Priority Risks</section>
+        <snippet>R-002 SEC: User registration is insecure, allowing for account takeover. Enforce email verification, use Supabase's built-in security features, test for common vulnerabilities.</snippet>
+      </doc>
+      <doc>
+        <path>docs/test-design-epic-1.md</path>
+        <title>Test Design: Epic 1 - First Plan & Foundation</title>
+        <section>Risk Assessment: Medium-Priority Risks</section>
+        <snippet>R-004 OPS: Backend/Frontend setup is misconfigured, causing deployment or integration issues. Implement CI/CD pipeline early, have a simple "hello world" API call to verify connection. R-005 SEC: Sensitive user preferences are not stored securely. Implement and test Supabase Row Level Security policies.</snippet>
+      </doc>
+      <doc>
+        <path>docs/test-design-epic-1.md</path>
+        <title>Test Design: Epic 1 - First Plan & Foundation</title>
+        <section>Test Coverage Plan: P0 (Critical)</section>
+        <snippet>User can register and verify email. AI generates a valid plan. Backend health check endpoint returns 200 OK.</snippet>
+      </doc>
+      <doc>
+        <path>docs/test-design-epic-1.md</path>
+        <title>Test Design: Epic 1 - First Plan & Foundation</title>
+        <section>Test Coverage Plan: P1 (High)</section>
+        <snippet>Backend/Frontend are connected. User preferences are saved securely.</snippet>
+      </doc>
+      <doc>
+        <path>docs/test-design-epic-1.md</path>
+        <title>Test Design: Epic 1 - First Plan & Foundation</title>
+        <section>Prerequisites</section>
+        <snippet>Test Data: User data factory for creating test users. Tooling: `Pytest` for backend testing. Environment: A staging environment with a separate Supabase project for running E2E tests.</snippet>
+      </doc>
+      <doc>
+        <path>docs/test-design-epic-1.md</path>
+        <title>Test Design: Epic 1 - First Plan & Foundation</title>
+        <section>Mitigation Plans: R-002: Insecure user registration</section>
+        <snippet>All authentication will be handled by Supabase Auth, which includes email verification. A security review of the frontend and backend integration with Supabase will be conducted.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epics</title>
+        <section>Epic 1: First Plan & Foundation</section>
+        <snippet>Focuses on setting up the core technical foundation and the initial user experience for plan generation and basic interaction. This epic lays the groundwork for all subsequent features.</snippet>
+      </doc>
+    </docs>
+    <code></code>
+    <dependencies>
+      <python>
+        <package name="FastAPI" version="0.122.0"/>
+        <package name="uvicorn"/>
+        <package name="SQLAlchemy"/>
+        <package name="psycopg2-binary"/>
+        <package name="alembic"/>
+        <package name="python-dotenv"/>
+        <package name="supabase-py"/>
+      </python>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>
+      <type>Project Structure</type>
+      <description>Adhere to the defined project structure from docs/architecture-2025-11-30.md. Backend code should reside under `backend/app/`. Testing code for backend should be under `backend/tests/`.</description>
+    </constraint>
+    <constraint>
+      <type>Technology Stack</type>
+      <description>Use FastAPI v0.122.0 with Python 3.14, Supabase (PostgreSQL), and Alembic for database migrations.</description>
+    </constraint>
+    <constraint>
+      <type>Naming Conventions</type>
+      <description>API Endpoints: Plural nouns and kebab-case. Database Tables: Plural nouns and snake_case. Database Columns: Snake_case.</description>
+    </constraint>
+    <constraint>
+      <type>Background Processing</type>
+      <description>The backend setup should facilitate integration with Vercel Cron Jobs for future async tasks (ADR-001).</description>
+    </constraint>
+    <constraint>
+      <type>Caching</type>
+      <description>Consider implementing a caching layer (e.g., using `fastapi-cache2` with an in-memory backend for the MVP) during initial setup (ADR-002).</description>
+    </constraint>
+    <constraint>
+      <type>Testing</type>
+      <description>All backend tests will reside in the `backend/tests/` directory.</description>
+    </constraint>
+  </constraints>
+  <interfaces></interfaces>
+  <tests>
+    <standards>
+      <standard>Unit and integration tests for the FastAPI backend will be written using Pytest.</standard>
+      <standard>Testing code for the backend should reside under `backend/tests/`.</standard>
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+    </locations>
+    <ideas>
+      <idea>
+        <description>Implement a basic test to verify the FastAPI app is accessible (e.g., GET `/`).</description>
+        <acceptance-criteria>FastAPI app is created and running</acceptance-criteria>
+      </idea>
+      <idea>
+        <description>Backend health check endpoint returns 200 OK.</description>
+        <acceptance-criteria>FastAPI app is created and running</acceptance-criteria>
+      </idea>
+      <idea>
+        <description>Verify connection to Supabase database.</description>
+        <acceptance-criteria>Supabase project is connected and configured</acceptance-criteria>
+      </idea>
+      <idea>
+        <description>Verify Alembic migrations are configured and can generate/apply initial migration.</description>
+        <acceptance-criteria>Alembic migrations are configured for database schema management</acceptance-criteria>
+      </idea>
+    </ideas>
+  </tests>
+</story-context>
