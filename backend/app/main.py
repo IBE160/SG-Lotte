@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, Depends, HTTPException
 from supabase import create_client, Client
 
+from backend.app.api.v1.endpoints import users # NEW: Import users router
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -40,6 +42,8 @@ app.add_middleware(
 
 def get_supabase_client():
     return supabase
+
+app.include_router(users.router, prefix="/api/v1", tags=["users"]) # NEW: Include users router
 
 @app.get("/")
 def read_root():
