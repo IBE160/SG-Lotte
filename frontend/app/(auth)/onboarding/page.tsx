@@ -1,118 +1,178 @@
+// frontend/app/(auth)/onboarding/page.tsx
 'use client';
 
 import React, { useState } from 'react';
-import OnboardingLayout from './OnboardingLayout';
-import WelcomeStep from './WelcomeStep';
-import GoalSelection from './GoalSelection';
-import DietaryPreferences from './DietaryPreferences';
-import PersonaSelection from './PersonaSelection';
-import SummaryStep from './SummaryStep';
+import OnboardingStep1 from './OnboardingStep1';
+import OnboardingStep2 from './OnboardingStep2';
+import OnboardingStep3 from './OnboardingStep3';
+import OnboardingStep4 from './OnboardingStep4';
+import OnboardingStep5 from './OnboardingStep5';
+import { useRouter } from 'next/navigation';
+import { supabase, updateUserPreferences } from '@/lib/supabase';
+import { useToast } from '@/components/ui/Toast'; // Import useToast
 
-const totalSteps = 5;
-
-const OnboardingPage: React.FC = () => {
+export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [fitnessGoal, setFitnessGoal] = useState<string | null>(null);
-  const [dietaryPreferences, setDietaryPreferences] = useState<string[]>([]);
-  const [fitnessPersona, setFitnessPersona] = useState<string | null>(null);
+  const router = useRouter();
+  const { showSuccess, showError } = useToast(); // Use the toast hook
+  const [preferences, setPreferences] = useState<{
+    fitnessGoal: string;
+    dietaryPreferences: string[];
+    fitnessPersona: string;
+  }>({
+    fitnessGoal: '',
+    dietaryPreferences: [],
+    fitnessPersona: '',
+  });
+  const [validationErrors, setValidationErrors] = useState<Record<number, string | null>>({});
 
-  // Determine if the user can proceed from the current step
-  const canProceed = () => {
-    switch (currentStep) {
-      case 1: // WelcomeStep - always can proceed
-        return true;
-      case 2: // GoalSelection - requires a goal to be selected
-        return !!fitnessGoal;
-      case 3: // DietaryPreferences - always can proceed (can select 'None' or leave empty)
-        return true;
-      case 4: // PersonaSelection - requires a persona to be selected
-        return !!fitnessPersona;
-      case 5: // SummaryStep - always can proceed (finish)
-        return true;
+  const validateStep = (step: number): boolean => {
+    let isValid = true;
+    let errorMessage: string | null = null;
+
+    switch (step) {
+      case 1:
+        // No specific validation for step 1 yet, as it's just a welcome screen.
+        // If we add inputs to step 1, validation would go here.
+        break;
+      case 2:
+        if (!preferences.fitnessGoal) {
+          isValid = false;
+          errorMessage = 'Please select your primary fitness goal.';
+        }
+        break;
+      case 3:
+        // Allow no selection for dietary preferences if user has none.
+        // If we wanted to enforce selection, logic would go here.
+        break;
+      case 4:
+        if (!preferences.fitnessPersona) {
+          isValid = false;
+          errorMessage = 'Please select your fitness persona.';
+        }
+        break;
+      case 5:
+        // Step 5 is review, validation happens on previous steps
+        break;
       default:
-        return false;
+        break;
     }
+
+    setValidationErrors((prev) => ({ ...prev, [step]: errorMessage }));
+    return isValid;
   };
 
-  const handleNext = async () => {
-    if (canProceed() && currentStep < totalSteps) {
-      setCurrentStep((prev) => prev + 1);
-    } else if (currentStep === totalSteps) {
-      // Submit data to the backend
-      console.log('Onboarding complete! Submitting data...', { fitnessGoal, dietaryPreferences, fitnessPersona });
-      
-      const payload = {
-        fitness_goal: fitnessGoal,
-        dietary_preferences: dietaryPreferences,
-        fitness_persona: fitnessPersona,
-      };
-
-      try {
-        const response = await fetch('/api/v1/users/preferences', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            // In a real app, you'd include an Authorization header with a JWT
-            // 'Authorization': `Bearer ${userToken}`,
-          },
-          body: JSON.stringify(payload),
-        });
-
-        if (response.ok) {
-          console.log('User preferences saved successfully!');
-          // TODO: Redirect user to dashboard or show success message
-        } else {
-          const errorData = await response.json();
-          console.error('Failed to save user preferences:', errorData);
-          // TODO: Display error feedback to the user
-        }
-      } catch (error) {
-        console.error('Error submitting preferences:', error);
-        // TODO: Display error feedback to the user
-      }
+  const handleNext = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep((prevStep) => prevStep + 1);
     }
   };
 
   const handleBack = () => {
-    if (currentStep > 1) {
-      setCurrentStep((prev) => prev - 1);
+    setCurrentStep((prevStep) => prevStep - 1);
+    setValidationErrors((prev) => ({ ...prev, [currentStep]: null })); // Clear error when going back
+  };
+
+  const handlePreferenceChange = (key: string, value: any) => {
+    setPreferences((prev) => ({ ...prev, [key]: value }));
+    // Clear validation error for the current step as soon as a change is made
+    setValidationErrors((prev) => ({ ...prev, [currentStep]: null }));
+  };
+
+  const handleSubmit = async () => {
+    // Re-validate all steps before final submission
+    let allStepsValid = true;
+    for (let i = 2; i <= 4; i++) { // Steps 2, 3, 4 require validation
+        if (!validateStep(i)) {
+            allStepsValid = false;
+            // Optionally, navigate back to the first invalid step or show a general error
+            // For now, we'll just show the error on the current step if it's invalid.
+        }
+    }
+    if (!allStepsValid) {
+        showError('Please complete all required fields in previous steps.');
+        return;
+    }
+
+
+    // Get the current user session
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+    if (sessionError || !session) {
+      console.error('No active session found or error getting session:', sessionError?.message);
+      showError('Please log in again to save your preferences.');
+      router.push('/login'); // Redirect to login page
+      return;
+    }
+
+    try {
+      await updateUserPreferences(session.user.id, preferences);
+      console.log('Preferences submitted:', preferences);
+      showSuccess('Onboarding complete! Preferences saved successfully.');
+      router.push('/dashboard');
+    } catch (error: any) {
+      console.error('Error saving preferences:', error.message);
+      showError(`Error saving preferences: ${error.message}`);
     }
   };
 
-  const renderStepContent = () => {
+  const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <WelcomeStep />;
+        return <OnboardingStep1 onNext={handleNext} />;
       case 2:
-        return <GoalSelection onGoalSelect={setFitnessGoal} selectedGoal={fitnessGoal} />;
+        return (
+          <OnboardingStep2
+            onNext={handleNext}
+            onBack={handleBack}
+            currentGoal={preferences.fitnessGoal}
+            onGoalChange={(goal) => handlePreferenceChange('fitnessGoal', goal)}
+            validationError={validationErrors[2]}
+          />
+        );
       case 3:
-        return <DietaryPreferences onPreferenceChange={setDietaryPreferences} selectedPreferences={dietaryPreferences} />;
+        return (
+          <OnboardingStep3
+            onNext={handleNext}
+            onBack={handleBack}
+            currentDietaryPreferences={preferences.dietaryPreferences}
+            onDietaryPreferenceChange={(prefs) => handlePreferenceChange('dietaryPreferences', prefs)}
+            validationError={validationErrors[3]}
+          />
+        );
       case 4:
-        return <PersonaSelection onPersonaSelect={setFitnessPersona} selectedPersona={fitnessPersona} />;
+        return (
+          <OnboardingStep4
+            onNext={handleNext}
+            onBack={handleBack}
+            currentPersona={preferences.fitnessPersona}
+            onPersonaChange={(persona) => handlePreferenceChange('fitnessPersona', persona)}
+            validationError={validationErrors[4]}
+          />
+        );
       case 5:
         return (
-          <SummaryStep
-            fitnessGoal={fitnessGoal}
-            dietaryPreferences={dietaryPreferences}
-            fitnessPersona={fitnessPersona}
+          <OnboardingStep5
+            onSubmit={handleSubmit}
+            onBack={handleBack}
+            preferences={preferences}
+            validationError={validationErrors[5]}
           />
         );
       default:
-        return <WelcomeStep />;
+        return <OnboardingStep1 onNext={handleNext} />;
     }
   };
 
   return (
-    <OnboardingLayout
-      currentStep={currentStep}
-      totalSteps={totalSteps}
-      onNext={handleNext}
-      onBack={handleBack}
-      canProceed={canProceed()}
-    >
-      {renderStepContent()}
-    </OnboardingLayout>
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="w-full max-w-md">
+        {renderStep()}
+        {validationErrors[currentStep] && (
+          <p className="text-red-500 text-center mt-4">{validationErrors[currentStep]}</p>
+        )}
+      </div>
+      <div className="mt-4 text-gray-400">Step {currentStep} of 5</div>
+    </div>
   );
-};
-
-export default OnboardingPage;
+}

@@ -4,6 +4,8 @@ from fastapi import Depends, HTTPException, status
 from supabase import create_client, Client
 from typing import Dict, Any
 
+from app.core.db import get_db_session # Import get_db_session
+
 # Load environment variables from .env file (for local development)
 load_dotenv()
 

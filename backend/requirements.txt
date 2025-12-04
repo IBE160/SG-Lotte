@@ -6,4 +6,6 @@ alembic
 python-dotenv
 supabase
 pytest
+pytest-asyncio # Added
 pydantic[email]
+google-generativeai

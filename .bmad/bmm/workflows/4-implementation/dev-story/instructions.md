@@ -30,7 +30,7 @@
     <action>Find the FIRST story (by reading in order from top to bottom) where:
       - Key matches pattern: number-number-name (e.g., "1-2-user-auth")
       - NOT an epic key (epic-X) or retrospective (epic-X-retrospective)
-      - Status value equals "ready-for-dev"
+      - Status value equals "ready-for-dev" OR "in-progress"
     </action>
 
     <check if="no ready-for-dev or in-progress story found">

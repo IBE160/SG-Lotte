@@ -1,16 +1,17 @@
-from pydantic import BaseModel, Field
+# backend/app/schemas/user_preferences.py
 from typing import List, Optional
+from pydantic import BaseModel
 
 class UserPreferences(BaseModel):
-    fitness_goal: Optional[str] = Field(None, description="Primary fitness goal (e.g., 'Lose Weight', 'Build Muscle')")
-    dietary_preferences: List[str] = Field([], description="List of dietary preferences (e.g., 'Vegetarian', 'Keto')")
-    fitness_persona: Optional[str] = Field(None, description="Fitness persona (e.g., 'Beginner', 'Advanced')")
+    fitness_goal: Optional[str] = None
+    dietary_preferences: Optional[List[str]] = None
+    fitness_persona: Optional[str] = None
 
     class Config:
         json_schema_extra = {
             "example": {
-                "fitness_goal": "Build Muscle",
-                "dietary_preferences": ["Vegetarian"],
-                "fitness_persona": "Intermediate"
+                "fitness_goal": "loseWeight",
+                "dietary_preferences": ["vegetarian", "glutenFree"],
+                "fitness_persona": "dedicated",
             }
         }

@@ -1,0 +1,164 @@
+# backend/tests/test_plans.py
+import pytest
+from fastapi.testclient import TestClient
+from unittest.mock import AsyncMock, MagicMock, patch
+from sqlalchemy.orm import Session
+from fastapi import HTTPException, status
+import json
+
+from app.main import app
+from app.core.dependencies import get_current_user, get_db_session
+from app.services.ai_plan_generator import AIPlanGeneratorService
+from app.models.plan import WorkoutPlanModel, MealPlanModel # For mocking query results
+
+# Create a test client for the FastAPI application
+client = TestClient(app)
+
+# Mock get_current_user dependency
+mock_authenticated_user = {"id": "test_user_id", "email": "test@example.com"}
+
+def override_get_current_user():
+    return mock_authenticated_user
+
+# Mock get_db_session dependency
+mock_db_session = MagicMock(spec=Session)
+
+def override_get_db_session():
+    yield mock_db_session
+
+# Mock AIPlanGeneratorService
+mock_ai_plan_generator_service = MagicMock(spec=AIPlanGeneratorService)
+
+
+# --- Fixture to set up and tear down dependencies for each test ---
+@pytest.fixture(autouse=True)
+def setup_test_environment():
+    # Store original dependencies
+    original_get_current_user = app.dependency_overrides.get(get_current_user)
+    original_get_db_session = app.dependency_overrides.get(get_db_session)
+
+    # Set test overrides
+    app.dependency_overrides[get_current_user] = override_get_current_user
+    app.dependency_overrides[get_db_session] = override_get_db_session
+
+    # Configure the chained mocks for Supabase client interactions that AIPlanGeneratorService uses
+    # Default: no existing plans
+    mock_db_session.query.return_value.filter_by.return_value.first.return_value = None 
+    mock_ai_plan_generator_service.reset_mock() # Reset AI service mock too
+
+    yield # Run the test
+
+    # Restore original dependencies after the test
+    if original_get_current_user:
+        app.dependency_overrides[get_current_user] = original_get_current_user
+    else:
+        app.dependency_overrides.pop(get_current_user, None)
+    
+    if original_get_db_session:
+        app.dependency_overrides[get_db_session] = original_get_db_session
+    else:
+        app.dependency_overrides.pop(get_db_session, None)
+    
+    # Clear all mocks after test
+    mock_db_session.reset_mock()
+    mock_ai_plan_generator_service.reset_mock()
+
+
+
+# Sample data for successful plan generation
+mock_ai_plan_response = {
+    "workout_plan": {
+        "plan_name": "Generated Workout",
+        "sessions": [],
+        "duration_days": 7
+    },
+    "meal_plan": {
+        "plan_name": "Generated Meal",
+        "daily_plans": [],
+        "duration_days": 7
+    },
+    "user_id": "test_user_id",
+    "generated_at": "2025-12-04T12:00:00Z"
+}
+
+@pytest.mark.asyncio
+async def test_generate_plan_success(setup_test_environment):
+    # Mock the AIPlanGeneratorService within the test function's scope
+    with patch('app.api.v1.endpoints.plans.AIPlanGeneratorService') as MockServiceClass:
+        MockServiceClass.return_value = mock_ai_plan_generator_service
+        mock_ai_plan_generator_service.generate_and_store_plan.return_value = AsyncMock(return_value=mock_ai_plan_response)
+        
+        response = client.post("/api/v1/plans/generate")
+
+        assert response.status_code == status.HTTP_201_CREATED
+        assert response.json() == {"message": "AI plans generated and stored successfully."}
+        mock_ai_plan_generator_service.generate_and_store_plan.assert_called_once()
+        mock_db_session.commit.assert_called_once()
+
+
+@pytest.mark.asyncio
+async def test_generate_plan_conflict_existing_plans(setup_test_environment):
+    with patch('app.api.v1.endpoints.plans.AIPlanGeneratorService') as MockServiceClass:
+        MockServiceClass.return_value = mock_ai_plan_generator_service
+
+        # Mock existing plans in the database
+        mock_db_session.query.return_value.filter_by.return_value.first.side_effect = [
+            WorkoutPlanModel(), # Simulate existing workout plan
+            MealPlanModel() # Simulate existing meal plan
+        ]
+
+        response = client.post("/api/v1/plans/generate")
+
+        assert response.status_code == status.HTTP_409_CONFLICT
+        assert "User already has generated plans" in response.json()["detail"]
+        mock_ai_plan_generator_service.generate_and_store_plan.assert_not_called()
+        mock_db_session.rollback.assert_called_once()
+
+
+def test_generate_plan_unauthorized(setup_test_environment):
+    # Override get_current_user to raise HTTPException for unauthorized access
+    def override_get_current_user_unauthorized():
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
+
+    # Save original to restore later
+    original_get_current_user = app.dependency_overrides.get(get_current_user)
+    app.dependency_overrides[get_current_user] = override_get_current_user_unauthorized
+
+    response = client.post("/api/v1/plans/generate")
+
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert "Not authenticated" in response.json()["detail"]
+
+    # Restore the original dependency (handled by the fixture teardown)
+    app.dependency_overrides[get_current_user] = original_get_current_user
+
+
+@pytest.mark.asyncio
+async def test_generate_plan_ai_generation_error(setup_test_environment):
+    with patch('app.api.v1.endpoints.plans.AIPlanGeneratorService') as MockServiceClass:
+        MockServiceClass.return_value = mock_ai_plan_generator_service
+        mock_ai_plan_generator_service.generate_and_store_plan.side_effect = ValueError("AI failed to generate plan")
+        
+        response = client.post("/api/v1/plans/generate")
+
+        assert response.status_code == status.HTTP_500_INTERNAL_SERVER_ERROR
+        # Corrected assertion: check for exact string equality
+        assert response.json()["detail"] == "Internal Server Error"
+        mock_db_session.rollback.assert_called_once()
+
+
+@pytest.mark.asyncio
+async def test_generate_plan_db_storage_error(setup_test_environment):
+    with patch('app.api.v1.endpoints.plans.AIPlanGeneratorService') as MockServiceClass:
+        MockServiceClass.return_value = mock_ai_plan_generator_service
+        mock_ai_plan_generator_service.generate_and_store_plan.return_value = AsyncMock(return_value=mock_ai_plan_response)
+        
+        # Simulate a database error during commit
+        mock_db_session.commit.side_effect = Exception("Database write error")
+
+        response = client.post("/api/v1/plans/generate")
+
+        assert response.status_code == status.HTTP_500_INTERNAL_SERVER_ERROR
+        # Corrected assertion: check for exact string equality
+        assert response.json()["detail"] == "Internal Server Error"
+        mock_db_session.rollback.assert_called_once()

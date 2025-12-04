@@ -1,6 +1,6 @@
 # Story 1.5: Initial AI Plan Generation & Display
 
-Status: drafted
+Status: review
 
 ## Story
 
@@ -45,26 +45,26 @@ Previous story file (`1-4-guided-onboarding-flow.md`) was not found. No learning
 
 ## Tasks / Subtasks
 
--   [ ] **Backend: Database Schema** (AC: #3)
-    -   [ ] Define the schema for storing workout and meal plans.
-    -   [ ] Create an Alembic migration script for the new tables.
--   [ ] **Backend: AI Service** (AC: #1)
-    -   [ ] Implement the `ai_plan_generator.py` service.
-    -   [ ] Connect to the AI provider (Pydantic AI with Gemini 2.5).
-    -   [ ] Construct the prompt for the AI based on user onboarding data.
-    -   [ ] Validate the AI response and parse it into the database schema.
--   [ ] **Backend: API Endpoint** (AC: #1)
-    -   [ ] Create a new endpoint in `/api/v1/plans/` to trigger plan generation.
-    -   [ ] Secure the endpoint to ensure only the authenticated user can generate their plan.
-    -   [ ] Store the generated plan in the database.
--   [ ] **Frontend: Dashboard Integration** (AC: #2)
-    -   [ ] Create a data fetching hook to call the new backend endpoint.
-    -   [ ] Update the dashboard component to display the generated plan for the current day.
-    -   [ ] Implement loading and error states for the dashboard.
--   [ ] **Testing**
-    -   [ ] Write unit tests for the `ai_plan_generator.py` service.
-    -   [ ] Write integration tests for the new API endpoint.
-    -   [ ] Write frontend component tests for the updated dashboard.
+-   [x] **Backend: Database Schema** (AC: #3)
+    -   [x] Define the schema for storing workout and meal plans.
+    -   [x] Create an Alembic migration script for the new tables.
+-   [x] **Backend: AI Service** (AC: #1)
+    -   [x] Implement the `ai_plan_generator.py` service.
+    -   [x] Connect to the AI provider (Pydantic AI with Gemini 2.5).
+    -   [x] Construct the prompt for the AI based on user onboarding data.
+    -   [x] Validate the AI response and parse it into the database schema.
+-   [x] **Backend: API Endpoint** (AC: #1)
+    -   [x] Create a new endpoint in `/api/v1/plans/` to trigger plan generation.
+    -   [x] Secure the endpoint to ensure only the authenticated user can generate their plan.
+    -   [x] Store the generated plan in the database.
+-   [x] **Frontend: Dashboard Integration** (AC: #2)
+    -   [x] Create a data fetching hook to call the new backend endpoint.
+    -   [x] Update the dashboard component to display the generated plan for the current day.
+    -   [x] Implement loading and error states for the dashboard.
+-   [x] **Testing**
+    -   [x] Write unit tests for the `ai_plan_generator.py` service.
+    -   [x] Write integration tests for the new API endpoint.
+    -   [x] Write frontend component tests for the updated dashboard.
 
 ## Dev Notes
 

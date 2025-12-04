@@ -2,7 +2,7 @@ import logging
 from fastapi import FastAPI, Depends, HTTPException
 from supabase import Client # Keep Client for type hinting
 
-from app.api.v1.endpoints import users
+from app.api.v1.endpoints import users, plans # Import plans router
 from app.core.dependencies import supabase, get_supabase_client # Import from dependencies
 
 # Configure logging
@@ -27,7 +27,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(users.router, prefix="/api/v1", tags=["users"]) # NEW: Include users router
+app.include_router(users.router, prefix="/api/v1", tags=["users"])
+app.include_router(plans.router, prefix="/api/v1", tags=["plans"]) # NEW: Include plans router
 
 @app.get("/")
 def read_root():
