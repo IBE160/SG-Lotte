@@ -1,27 +1,12 @@
-import os
 import logging
-from dotenv import load_dotenv
 from fastapi import FastAPI, Depends, HTTPException
-from supabase import create_client, Client
+from supabase import Client # Keep Client for type hinting
 
 from app.api.v1.endpoints import users
+from app.core.dependencies import supabase, get_supabase_client # Import from dependencies
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Supabase configuration
-SUPABASE_URL = os.environ.get("SUPABASE_URL")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
-
-if not SUPABASE_URL or not SUPABASE_KEY:
-    raise ValueError("Supabase URL and Key must be set in environment variables")
-
-from fastapi.middleware.cors import CORSMiddleware
-
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 app = FastAPI()
 
@@ -32,6 +17,8 @@ origins = [
     "http://127.0.0.1:3000",
 ]
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -39,9 +26,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-def get_supabase_client():
-    return supabase
 
 app.include_router(users.router, prefix="/api/v1", tags=["users"]) # NEW: Include users router
 
