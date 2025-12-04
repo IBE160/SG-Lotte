@@ -36,3 +36,4 @@ class UserModel(Base):
 
     workout_plans = relationship("WorkoutPlanModel", back_populates="owner")
     meal_plans = relationship("MealPlanModel", back_populates="owner")
+    workout_logs = relationship("WorkoutLogModel", back_populates="owner")
