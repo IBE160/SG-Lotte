@@ -16,17 +16,20 @@ export const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
 
 // Utility function to update user preferences in Supabase
 export async function updateUserPreferences(userId: string, preferences: any) {
-  // In a real application, you might update a 'profiles' table.
-  // For simplicity and initial setup, we'll update the user_metadata in auth.users.
-  // The backend will define the definitive schema and update method.
-  const { data, error } = await supabase.auth.admin.updateUserById(userId, {
-    user_metadata: preferences,
+  const response = await fetch('/api/v1/users/preferences', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      // The backend will handle authentication using the session cookie
+    },
+    body: JSON.stringify(preferences),
   });
 
-  if (error) {
-    console.error('Error updating user preferences:', error.message);
-    throw new Error('Failed to update user preferences');
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error('Error updating user preferences:', errorData);
+    throw new Error(errorData.detail || 'Failed to update user preferences');
   }
 
-  return data;
+  return response.json();
 }

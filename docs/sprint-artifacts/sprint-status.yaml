@@ -41,8 +41,8 @@ development_status:
   1-2-core-frontend-setup: done
   1-3-user-registration-email-verification: done
   1-4-guided-onboarding-flow: done
-  1-5-initial-ai-plan-generation-display: review
-  epic-1-retrospective: optional
+  1-5-initial-ai-plan-generation-display: done
+  epic-1-retrospective: completed
 
   epic-2: backlog
   2-1-workout-logging-ui: backlog
