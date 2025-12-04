@@ -1,6 +1,6 @@
 # Story 2.1: Workout Logging UI
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -66,7 +66,7 @@ So the AI can track my progress.
 
 ### Context Reference
 
-<!-- Path(s) to story context XML will be added here by context workflow -->
+- `docs/sprint-artifacts/2-1-workout-logging-ui.context.xml`
 
 ### Agent Model Used
 

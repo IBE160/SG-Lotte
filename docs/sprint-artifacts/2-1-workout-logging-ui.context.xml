@@ -1,0 +1,134 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>2.1</storyId>
+    <title>Workout Logging UI</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-04</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-1-workout-logging-ui.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>an active user</asA>
+    <iWant>to easily log the completion status and perceived difficulty of my planned workouts</iWant>
+    <soThat>the AI can track my progress</soThat>
+    <tasks>
+-   [ ] **Backend: API Endpoint** (AC: #1, #2, #3)
+    -   [ ] Create a new endpoint in `app/api/v1/endpoints/plans.py` to handle workout logging.
+    -   [ ] The endpoint should accept the workout ID, status ("Completed" or "Skipped"), and difficulty rating.
+    -   [ ] The endpoint should validate the input and store the data in the `workout_log` table.
+-   [ ] **Frontend: UI Implementation** (AC: #1, #2)
+    -   [ ] Implement the UI for logging workouts in `src/app/(dashboard)/workouts/`.
+    -   [ ] The UI should be based on the `workoutplan_dark.html` wireframe.
+    -   [ ] Add buttons or controls to mark a workout as "Completed" or "Skipped".
+    -   [ ] Implement a 1-5 rating system for completed workouts.
+-   [ ] **Frontend: State Management** (AC: #1, #2)
+    -   [ ] Create a data fetching hook to call the new logging endpoint.
+    -   [ ] Update the UI optimistically and handle loading/error states.
+-   [ ] **Testing**
+    -   [ ] Write unit tests for the new backend endpoint.
+    -   [ ] Write integration tests for the logging functionality.
+    -   [ ] Write frontend component tests for the logging UI.
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1.  **Given** I am viewing my daily workout plan, **when** I interact with a workout, **then** I can mark it as "Completed" or "Skipped".
+2.  **Given** a workout is "Completed", **when** I provide feedback, **then** I can rate the difficulty on a 1-5 scale.
+3.  **Given** a workout is logged, **when** the data is saved, **then** the feedback is stored in the database.
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+        <doc>
+            <path>docs/epics.md</path>
+            <title>Epics</title>
+            <section>Story 2.1: Workout Logging UI</section>
+            <snippet>As an active user, I want to easily log the completion status and perceived difficulty of my planned workouts, so the AI can track my progress.</snippet>
+        </doc>
+        <doc>
+            <path>docs/architecture-2025-11-30.md</path>
+            <title>Architecture</title>
+            <section>Epic to Architecture Mapping</section>
+            <snippet>Epic 2: Adaptive Planning & Progress Logging - **Backend:** `app/api/v1/endpoints/plans.py` (Logging & Adaptation Logic), **Frontend:** `src/app/(dashboard)/workouts/` (Logging UI)</snippet>
+        </doc>
+        <doc>
+            <path>docs/ux-design-specification.md</path>
+            <title>UX Design Specification</title>
+            <section>Flow 3 & 4: Log Workouts, Meals & Provide Feedback</section>
+            <snippet>The UI for logging workouts is defined in `workoutplan_dark.html`.</snippet>
+        </doc>
+        <doc>
+            <path>docs/PRD.md</path>
+            <title>Product Requirements Document</title>
+            <section>FR-004: Workout Logging</section>
+            <snippet>The system shall allow users to easily log the completion status and perceived difficulty of their planned workouts.</snippet>
+        </doc>
+    </docs>
+    <code>
+        <code>
+            <path>backend/app/api/v1/endpoints/plans.py</path>
+            <kind>endpoint</kind>
+            <symbol>router</symbol>
+            <lines>N/A</lines>
+            <reason>A new endpoint needs to be added to this file to handle POST requests for logging workout status.</reason>
+        </code>
+        <code>
+            <path>frontend/src/app/(dashboard)/workouts/</path>
+            <kind>directory</kind>
+            <symbol>N/A</symbol>
+            <lines>N/A</lines>
+            <reason>This directory needs to be created to contain the new UI components for workout logging, as specified in the architecture.</reason>
+        </code>
+    </code>
+    <dependencies>
+        <dependency>
+            <ecosystem>node</ecosystem>
+            <path>frontend/package.json</path>
+            <packages>
+                {
+                  "@supabase/ssr": "^0.8.0",
+                  "@supabase/supabase-js": "^2.43.4",
+                  "next": "16.0.7",
+                  "react": "19.2.0",
+                  "react-dom": "19.2.0"
+                }
+            </packages>
+        </dependency>
+        <dependency>
+            <ecosystem>python</ecosystem>
+            <path>backend/requirements.txt</path>
+            <packages>
+                FastAPI, uvicorn, SQLAlchemy, psycopg2-binary, alembic, python-dotenv, supabase, pytest, pytest-asyncio, pydantic[email], google-generativeai
+            </packages>
+        </dependency>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>The new API endpoint must be secured and require user authentication.</constraint>
+    <constraint>The UI must adhere to the dark theme specified in the UX design.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+        <name>Log Workout</name>
+        <kind>REST endpoint</kind>
+        <signature>POST /api/v1/plans/log-workout</signature>
+        <path>backend/app/api/v1/endpoints/plans.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Backend tests are written with Pytest. Frontend tests use React Testing Library with Jest.</standards>
+    <locations>
+        - backend/tests/
+        - frontend/src/app/(dashboard)/workouts/__tests__/
+    </locations>
+    <ideas>
+        - Test that the log-workout endpoint correctly stores data for "Completed" and "Skipped" statuses.
+        - Test that the endpoint requires authentication.
+        - Test the UI components for logging workouts.
+        - Test that the UI correctly updates after a workout is logged.
+    </ideas>
+  </tests>
+</story-context>
