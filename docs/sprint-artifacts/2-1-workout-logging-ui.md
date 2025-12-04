@@ -1,6 +1,6 @@
 # Story 2.1: Workout Logging UI
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -172,7 +172,7 @@ This section outlines how Story 2.1 aligns with existing project structures and 
 
 ### Context Reference
 
-<!-- Path(s) to story context XML will be added here by context workflow -->
+- [Context File: 2-1-workout-logging-ui.context.xml]
 
 ### Agent Model Used
 

@@ -1,0 +1,401 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>1</storyId>
+    <title>Workout Logging UI</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-04</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs/sprint-artifacts/2-1-workout-logging-ui.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As an active user,</asA>
+    <iWant>I want to easily log the completion status and perceived difficulty of my planned workouts,</iWant>
+    <soThat>So the AI can track my progress.</soThat>
+    <tasks>
+-   [ ] **Backend: Database Schema** (AC: #3)
+    -   [ ] Define `workout_logs` table schema (e.g., `user_id`, `workout_id`, `status`, `difficulty_rating`, `logged_at`).
+        -   [Source: `docs/architecture-2025-11-30.md#Project-Structure`]
+        -   [Source: Previous Story Learnings: Database Structure]
+    -   [ ] Create an Alembic migration script for the new `workout_logs` table.
+-   [ ] **Backend: API Endpoint** (AC: #1, #2, #3)
+    -   [ ] Create a new API endpoint (e.g., `POST /api/v1/logs/workout`) to receive workout logging data.
+        -   [Source: `docs/architecture-2025-11-30.md#Epic-to-Architecture-Mapping`]
+        -   [Source: `docs/architecture-2025-11-30.md#API-Contracts`]
+    -   [ ] Implement logic to validate incoming data using Pydantic schemas.
+        -   [Source: Previous Story Learnings: AI Interaction Best Practices (general validation principle)]
+    -   [ ] Secure the endpoint to ensure only authenticated users can log their workouts.
+        -   [Source: `docs/architecture-2025-11-30.md#Security-Architecture`]
+    -   [ ] Store the workout log feedback in the `workout_logs` table.
+-   [ ] **Frontend: Workout Logging UI** (AC: #1, #2)
+    -   [ ] Develop UI components for marking a workout as "Completed" or "Skipped" within the daily workout plan view.
+        -   [Source: `docs/ux-design-specification.md#Flow-3-&-4:-Log-Workouts,-Meals-&-Provide-Feedback`]
+        -   [Source: `docs/architecture-2025-11-30.md#Project-Structure`]
+    -   [ ] Implement a UI component for rating workout difficulty (1-5 scale) for completed workouts.
+        -   [Source: `docs/ux-design-specification.md#Flow-3-&-4:-Log-Workouts,-Meals-&-Provide-Feedback`]
+    -   [ ] Integrate the logging UI into the `frontend/src/app/(dashboard)/workouts/` route.
+        -   [Source: `docs/architecture-2025-11-30.md#Epic-to-Architecture-Mapping`]
+    -   [ ] Implement client-side logic to send logging data to the backend API endpoint.
+    -   [ ] Display loading states and handle errors gracefully during API calls.
+        -   [Source: Previous Story Learnings: Frontend Responsiveness]
+        -   [Source: `docs/architecture-2025-11-30.md#Consistency-Rules`]
+-   [ ] **Testing**
+    -   [ ] Write unit tests for the backend API endpoint logic (FastAPI).
+        -   [Source: `docs/architecture-2025-11-30.md#Testing-Strategy`]
+    -   [ ] Write integration tests for the backend endpoint, including database interaction.
+    -   [ ] Write component tests for the new frontend UI components (React Testing Library with Jest).
+        -   [Source: `docs/architecture-2025-11-30.md#Testing-Strategy`]
+    -   [ ] Write integration tests for the frontend UI to API interaction.
+        -   [Source: Previous Story Learnings: Testing Strategy (mocking API calls)]
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+1.  **Given** I am viewing my daily workout plan, **when** I interact with a workout, **then** I can mark it as "Completed" or "Skipped".
+2.  **Given** I mark a workout as "Completed", **then** I can rate its difficulty on a 1-5 scale.
+3.  **Given** I mark a workout as "Completed" or "Skipped" and (if completed) rate its difficulty, **then** this feedback is stored in the database.
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <artifact>
+        <path>docs/PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-004: Workout Logging</section>
+        <snippet>
+          <![CDATA[
+            ### FR-004: Workout Logging
+            *   **Description:** The system shall allow users to easily log the completion status and perceived difficulty of their planned workouts.
+            *   **User Value:** Provides essential feedback to the AI for adaptation and a sense of accomplishment for the user.
+            *   **Acceptance Criteria:**
+                *   Users can mark a planned workout as "Completed" or "Skipped".
+                *   Users can rate the difficulty of a completed workout (e.g., 1-5 scale).
+            *   **Magic Thread:** Simple, effective feedback loop for continuous AI learning and plan refinement.
+          ]]>
+        </snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Epic to Architecture Mapping</section>
+        <snippet>
+          <![CDATA[
+            | Epic 2: Adaptive Planning & Progress Logging | -**Backend:** `app/api/v1/endpoints/plans.py` (Logging & Adaptation Logic) `<br>` - **Frontend:** `src/app/(dashboard)/workouts/`, `src/app/(dashboard)/meals/` (Logging UI) |
+          ]]>
+        </snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Structure</section>
+        <snippet>
+          <![CDATA[
+            ├── backend/
+            │   ├── app/
+            │   │   ├── api/
+            │   │   │   ├── v1/
+            │   │   │   │   ├── endpoints/
+            │   │   │   │   │   └── plans.py
+            ├── frontend/
+            │   ├── src/
+            │   │   ├── app/
+            │   │   │   ├── (dashboard)/
+            │   │   │   │   ├── workouts/
+          ]]>
+        </snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Technology Stack Details</section>
+        <snippet>
+          <![CDATA[
+            ### Core Technologies
+            * **Frontend:** Next.js v16.0.5 (React) with TypeScript.
+            * **Backend:** FastAPI v0.122.0 with Python 3.14.
+            * **Database:** Supabase (PostgreSQL).
+            * **Authentication:** Supabase Auth (using `@supabase/supabase-js` v2.86.0).
+            * **Styling:** Tailwind CSS.
+            * **State Management:** Zustand for client-side, SWR/React Query for server-side.
+          ]]>
+        </snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Naming Patterns</section>
+        <snippet>
+          <![CDATA[
+            ### Naming Patterns
+            * **API Endpoints:** Plural nouns and kebab-case (e.g., `/api/v1/workout-plans`).
+            * **Database Tables:** Plural nouns and snake_case (e.g., `users`, `workout_plans`).
+            * **Database Columns:** Snake_case (e.g., `user_id`, `created_at`).
+            * **Frontend Components (React):** PascalCase (e.g., `UserCard.tsx`).
+            * **Frontend Component Files:** Kebab-case (e.g., `user-card.tsx`).
+            * **Frontend Hooks/Utilities:** CamelCase (e.g., `useUserData.ts`).
+          ]]>
+        </snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Structure Patterns</section>
+        <snippet>
+          <![CDATA[
+            ### Structure Patterns
+            * **Testing (Frontend):** Test files will be co-located with the components they are testing in a `__tests__` subdirectory.
+            * **Testing (Backend):** All tests will reside in the root `tests/` directory.
+            * **Component Organization:** Components will be organized by feature or route (e.g., `components/dashboard/`, `components/auth/`).
+          ]]>
+        </snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>API Contracts</section>
+        <snippet>
+          <![CDATA[
+            ### API Contracts
+            * `/log/`: For logging completed workouts and meals.
+          ]]>
+        </snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Security Architecture</section>
+        <snippet>
+          <![CDATA[
+            ### Security Architecture
+            * **Authentication:** Handled by Supabase Auth, using JWTs for secure sessions.
+            * **Authorization:** Supabase's Row Level Security (RLS) will be enabled to ensure users can only access their own data.
+          ]]>
+        </snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Testing Strategy</section>
+        <snippet>
+          <![CDATA[
+            ### Testing Strategy
+            * **Backend (FastAPI):** Unit and integration tests will be written using `Pytest`.
+            * **Frontend (Next.js):** Component and integration tests will be written using `React Testing Library` with `Jest`.
+          ]]>
+        </snippet>
+      </artifact>
+      <artifact>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness & Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Flow 3 & 4: Log Workouts, Meals & Provide Feedback</section>
+        <snippet>
+          <![CDATA[
+            ### Flow 3 & 4: Log Workouts, Meals & Provide Feedback
+            - **Description:** Tracking completed activities and providing feedback to the AI.
+            - **Supporting Wireframes:**
+              - `workoutplan_dark.html`: Enables detailed logging of sets, reps, and weights.
+          ]]>
+        </snippet>
+      </artifact>
+      <artifact>
+        <path>docs/epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Epic 2: Adaptive Planning & Progress Logging</section>
+        <snippet>
+          <![CDATA[
+            ## Epic 2: Adaptive Planning & Progress Logging
+            *   **Value Statement:** As an active user, I can log my progress with simple clicks, and the app will automatically adapt my next week's plan to my performance, so my plan evolves with me.
+            *   **High-level scope:** Detailed logging for workouts and meals, the core AI logic for automatic weekly replanning, in-app notifications for new plans, and a view to see historical progress.
+          ]]>
+        </snippet>
+      </artifact>
+    </docs>
+    <code>
+        <artifact>
+          <path>backend/app/api/v1/endpoints/plans.py</path>
+          <kind>FastAPI Endpoint</kind>
+          <symbol>generate_plan</symbol>
+          <lines>20-70</lines>
+          <reason>Provides an example of an existing API endpoint for plan generation, demonstrating patterns for dependency injection (current_user, db_session, db), error handling, and logging. The new workout logging endpoint should follow this structure.</reason>
+        </artifact>
+        <artifact>
+          <path>frontend/hooks/usePlan.ts</path>
+          <kind>React Hook</kind>
+          <symbol>usePlan</symbol>
+          <lines>10-40</lines>
+          <reason>Demonstrates patterns for frontend-backend communication using SWR and Supabase authentication. A similar hook will be needed for fetching and updating workout log data.</reason>
+        </artifact>
+        <artifact>
+          <path>backend/app/models/plan.py</path>
+          <kind>SQLAlchemy Model</kind>
+          <symbol>WorkoutPlanModel, MealPlanModel, UserModel</symbol>
+          <lines>5-40</lines>
+          <reason>Establishes the pattern for SQLAlchemy models, including data types (String, JSONB), foreign key relationships (to users.id), and naming conventions for tables and columns. This will be a direct reference for creating the 'WorkoutLogModel'.</reason>
+        </artifact>
+        <artifact>
+          <path>backend/alembic/versions/2025_12_04_1100_create_plan_tables.py</path>
+          <kind>Alembic Migration Script</kind>
+          <symbol>upgrade, downgrade</symbol>
+          <lines>15-55</lines>
+          <reason>Provides the structure and syntax for creating and dropping database tables using Alembic, including column definitions, data types, and foreign key constraints. This will be a direct reference for creating the 'workout_logs' table migration.</reason>
+        </artifact>
+        <artifact>
+          <path>backend/app/services/ai_plan_generator.py</path>
+          <kind>AI Service</kind>
+          <symbol>AIPlanGeneratorService, _construct_prompt, generate_and_store_plan</symbol>
+          <lines>20-100</lines>
+          <reason>Demonstrates how to interact with the Gemini API, construct prompts, parse AI responses, and store data in the database using SQLAlchemy models. This provides a pattern for services that interact with AI and persist data, and could be a reference for any future AI-driven feedback for logging.</reason>
+        </artifact>
+        <artifact>
+          <path>frontend/app/(dashboard)/dashboard/page.tsx</path>
+          <kind>Next.js Page Component</kind>
+          <symbol>DashboardPage</symbol>
+          <lines>10-100</lines>
+          <reason>Demonstrates how to fetch and display data using a custom hook (usePlan), handle loading/error states, and structure a dashboard page. This provides context for where new workout logging UI components will reside and how they might interact with data and existing layout.</reason>
+        </artifact>
+      </code>
+    <dependencies>
+      <ecosystem name="Node.js/npm">
+        <package name="@supabase/ssr" version="^0.8.0" type="dependency" />
+        <package name="@supabase/supabase-js" version="^2.43.4" type="dependency" />
+        <package name="next" version="16.0.7" type="dependency" />
+        <package name="react" version="19.2.0" type="dependency" />
+        <package name="react-dom" version="19.2.0" type="dependency" />
+        <package name="@tailwindcss/postcss" version="^4" type="devDependency" />
+        <package name="@testing-library/jest-dom" version="^6.9.1" type="devDependency" />
+        <package name="@testing-library/react" version="^16.3.0" type="devDependency" />
+        <package name="@types/node" version="^20" type="devDependency" />
+        <package name="@types/react" version="^19" type="devDependency" />
+        <package name="@types/react-dom" version="^19" type="devDependency" />
+        <package name="eslint" version="^9" type="devDependency" />
+        <package name="eslint-config-next" version="16.0.7" type="devDependency" />
+        <package name="jest" version="^30.2.0" type="devDependency" />
+        <package name="jest-environment-jsdom" version="^30.2.0" type="devDependency" />
+        <package name="tailwindcss" version="^4" type="devDependency" />
+        <package name="typescript" version="^5" type="devDependency" />
+      </ecosystem>
+      <ecosystem name="Python/pip">
+        <package name="FastAPI" type="dependency" />
+        <package name="uvicorn" type="dependency" />
+        <package name="SQLAlchemy" type="dependency" />
+        <package name="psycopg2-binary" type="dependency" />
+        <package name="alembic" type="dependency" />
+        <package name="python-dotenv" type="dependency" />
+        <package name="supabase" type="dependency" />
+        <package name="pytest" type="dependency" />
+        <package name="pytest-asyncio" type="dependency" />
+        <package name="pydantic" type="dependency" />
+        <package name="google-generativeai" type="dependency" />
+      </ecosystem>
+    </dependencies>
+
+  </artifacts>
+
+  <constraints>
+      <constraint>
+        <description>Database table names should be plural nouns and snake_case (e.g., workout_logs).</description>
+        <source>docs/architecture-2025-11-30.md (Naming Patterns)</source>
+      </constraint>
+      <constraint>
+        <description>Database column names should be snake_case (e.g., user_id, status, difficulty_rating).</description>
+        <source>docs/architecture-2025-11-30.md (Naming Patterns)</source>
+      </constraint>
+      <constraint>
+        <description>Frontend components should use PascalCase (e.g., WorkoutLogCard.tsx).</description>
+        <source>docs/architecture-2025-11-30.md (Naming Patterns)</source>
+      </constraint>
+      <constraint>
+        <description>Frontend component files should use Kebab-case (e.g., workout-log-card.tsx).</description>
+        <source>docs/architecture-2025-11-30.md (Naming Patterns)</source>
+      </constraint>
+      <constraint>
+        <description>Backend API requests and responses will be validated using Pydantic schemas.</description>
+        <source>docs/architecture-2025-11-30.md (API Contracts)</source>
+      </constraint>
+      <constraint>
+        <description>Backend API endpoints will be protected and will require a valid JWT from an authenticated user.</description>
+        <source>docs/architecture-2025-11-30.md (Security Architecture)</source>
+      </constraint>
+      <constraint>
+        <description>Dates and times in API requests and responses will be ISO 8601 UTC.</description>
+        <source>docs/architecture-2025-11-30.md (Format Patterns)</source>
+      </constraint>
+      <constraint>
+        <description>Frontend uses Zustand for client-side state and SWR/React Query for server-side state.</description>
+        <source>docs/architecture-2025-11-30.md (Communication Patterns)</source>
+      </constraint>
+      <constraint>
+        <description>Backend unit and integration tests use Pytest.</description>
+        <source>docs/architecture-2025-11-30.md (Testing Strategy)</source>
+      </constraint>
+      <constraint>
+        <description>Frontend component and integration tests use React Testing Library with Jest.</description>
+        <source>docs/architecture-2025-11-30.md (Testing Strategy)</source>
+      </constraint>
+      <constraint>
+        <description>UI implementation based on `workoutplan_dark.html` from UX Design Specification.</description>
+        <source>docs/ux-design-specification.md (Flow 3 & 4)</source>
+      </constraint>
+    </constraints>
+    <interfaces>
+      <interface>
+        <name>Workout Logging API Endpoint</name>
+        <kind>REST endpoint</kind>
+        <signature>POST /api/v1/logs/workout</signature>
+        <path>backend/app/api/v1/endpoints/plans.py</path>
+        <reason>New API endpoint required to receive workout logging data, following existing FastAPI endpoint patterns.</reason>
+      </interface>
+      <interface>
+        <name>Supabase Authentication</name>
+        <kind>Auth API</kind>
+        <signature>supabase.auth.getSession(), supabase.auth.api.signInWithOtp()</signature>
+        <path>frontend/hooks/usePlan.ts (example usage)</path>
+        <reason>Frontend will need to use Supabase for authenticating requests to the backend for logging.</reason>
+      </interface>
+    </interfaces>
+
+  <tests>
+    <standards>
+        <![CDATA[
+          Backend testing will utilize Pytest for both unit and integration tests. Frontend testing will be performed using React Testing Library with Jest for component and integration tests. Testing should cover happy paths and edge cases, ensuring robust validation and error handling. Mock data will be used for frontend testing to accurately reflect expected API responses.
+        ]]>
+      </standards>
+    <locations>
+        <![CDATA[
+          Backend tests: `backend/tests/`
+          Frontend tests: `frontend/src/app/(dashboard)/workouts/__tests__/` (co-located with components)
+        ]]>
+      </locations>
+    <ideas>
+        <idea>
+          <ac_id>1</ac_id>
+          <description>Test marking a workout as "Completed" or "Skipped" via the UI.</description>
+        </idea>
+        <idea>
+          <ac_id>2</ac_id>
+          <description>Test rating the difficulty of a completed workout (1-5 scale) via the UI.</description>
+        </idea>
+        <idea>
+          <ac_id>3</ac_id>
+          <description>Test that workout logging data is correctly stored in the database after API submission.</description>
+        </idea>
+        <idea>
+          <ac_id>3</ac_id>
+          <description>Test API endpoint validation for invalid workout logging data.</description>
+        </idea>
+        <idea>
+          <ac_id>3</ac_id>
+          <description>Test API endpoint security, ensuring only authenticated users can log workouts.</description>
+        </idea>
+        <idea>
+          <ac_id>1, 2, 3</ac_id>
+          <description>Test frontend loading and error states during API calls for workout logging.</description>
+        </idea>
+        <idea>
+          <ac_id>1, 2, 3</ac_id>
+          <description>Integration test the frontend UI to backend API interaction for workout logging.</description>
+        </idea>
+      </ideas>
+  </tests>
+</story-context>
