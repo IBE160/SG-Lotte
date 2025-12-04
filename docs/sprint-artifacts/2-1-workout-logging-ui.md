@@ -37,7 +37,7 @@ So the AI can track my progress.
 
 -   **Backend:** The API endpoint should be secured and require user authentication. The data should be stored in the `workout_log` table as defined in the data architecture.
 -   **Frontend:** The UI should be intuitive and provide immediate feedback to the user upon logging a workout. Follow the design specified in `workoutplan_dark.html`.
--   **Testing:** Ensure that tests cover both "Completed" and "Skipped" statuses, as well as different difficulty ratings.
+-   **Testing:** Adhere to the overall testing strategy outlined in the architecture document for backend (Pytest) and frontend (React Testing Library with Jest). Ensure that tests cover both "Completed" and "Skipped" statuses, as well as different difficulty ratings. [Source: `docs/architecture-2025-11-30.md#Testing-Strategy`]
 
 ### Learnings from Previous Story
 
