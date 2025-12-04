@@ -65,6 +65,12 @@
             <section>FR-004: Workout Logging</section>
             <snippet>The system shall allow users to easily log the completion status and perceived difficulty of their planned workouts.</snippet>
         </doc>
+        <doc>
+            <path>docs/test-design-epic-2.md</path>
+            <title>Test Design: Epic 2 - Adaptive Planning &amp; Progress Logging</title>
+            <section>Executive Summary</section>
+            <snippet>Full test design for Epic 2. Risk Summary: Total risks identified: 4, High-priority risks (≥6): 1, Critical categories: BUS (Business Impact). Total effort: 27 hours (~3.5 days).</snippet>
+        </doc>
     </docs>
     <code>
         <code>
