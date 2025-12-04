@@ -1,155 +1,89 @@
 # Validation Report
 
-**Document:** C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/sprint-artifacts/1-4-guided-onboarding-flow.context.xml
-**Checklist:** .bmad/bmm/workflows/4-implementation/story-context/checklist.md
+**Document:** `docs/sprint-artifacts/tech-spec-epic-epic-2.md`
+**Checklist:** `.bmad/bmm/workflows/4-implementation/epic-tech-context/checklist.md`
 **Date:** 2025-12-04
 
 ## Summary
-- Overall: 10/10 passed (100%)
-- Critical Issues: 0
+- Overall: 2/11 passed (18%)
+- Critical Issues: 8
 
 ## Section Results
 
-### Story fields (asA/iWant/soThat) captured
-✓ PASS - The `story` section in the XML clearly captures `asA`, `iWant`, and `soThat` elements.
-Evidence:
-```xml
-  <story>
-    <asA>a new user who has just verified my email</asA>
-    <iWant>complete a guided 5-step onboarding process</iWant>
-    <soThat>the AI can gather my preferences and generate my first personalized plan</soThat>
-    <tasks>
-```
+### General
+Pass Rate: 2/2 (100%)
 
-### Acceptance criteria list matches story draft exactly (no invention)
-✓ PASS - The `acceptanceCriteria` section in the XML is an exact match to the Acceptance Criteria section in the original story markdown file.
-Evidence: The content within the `<acceptanceCriteria>` tags in `1-4-guided-onboarding-flow.context.xml` is identical to the "Acceptance Criteria" section in `1-4-guided-onboarding-flow.md`.
-```xml
-  <acceptanceCriteria>
-1.  **Guided Onboarding UI Presentation:**
-    *   **Given** a user has verified their email and initiates the onboarding process
-    *   **When** they navigate through the onboarding flow
-    *   **Then** they are presented with five distinct UI screens, visually consistent with `onboarding1_dark.html` through `onboarding5_dark.html`.
-    ... (rest of the ACs are identical)
-  </acceptanceCriteria>
-```
+✓ Overview clearly ties to PRD goals
+Evidence: "The core objective of Epic 2 is to empower active users to log their progress effortlessly and enable the application's AI to automatically adapt subsequent weekly plans based on this logged data." (Lines 7-9)
 
-### Tasks/subtasks captured as task list
-✓ PASS - The `<tasks>` section in the XML contains a detailed task list, categorized into Frontend, Backend, Database/Supabase, and General tasks, with subtasks explicitly listed. These tasks and subtasks are directly derived from the "Tasks / Subtasks" section of the original story markdown.
-Evidence: The `<tasks>` content in `1-4-guided-onboarding-flow.context.xml` directly reflects the "Tasks / Subtasks" section in `1-4-guided-onboarding-flow.md`.
-```xml
-  <tasks>
-### Frontend Tasks
+✓ Scope explicitly lists in-scope and out-of-scope
+Evidence: "**In-Scope:** *   Implementation of user interfaces for detailed logging of completed/skipped workouts (FR-004) and meals (FR-005)." (Lines 16-18) and "**Out-of-Scope (for this Epic):** *   Initial user registration, login, and the 5-step guided onboarding process (covered in Epic 1)." (Lines 26-28)
 
--   **Task: Implement Onboarding UI Flow**
-    -   Create `OnboardingLayout` component(s) to manage the 5-step flow within `frontend/app/(auth)/onboarding/` (AC: 1).
-    ... (rest of the tasks are identical)
-  </tasks>
-```
+### Detailed Design
+Pass Rate: 0/3 (0%)
 
-### Relevant docs (5-15) included with path and snippets
-✓ PASS - The `<artifacts><docs>` section lists 13 relevant documents, which is within the 5-15 range. Each document includes its path, title, relevant section, and a snippet of content demonstrating its relevance.
-Evidence:
-```xml
-  <artifacts>
-    <docs>
-      <doc>
-        <path>docs/PRD.md</path>
-        <title>Product Requirements Document</title>
-        <section>FR-001: User Authentication &amp; Profile Management</section>
-        <snippet>The system shall allow users to securely register, log in, and manage their core profile information. This includes signing up with email/password, email verification, login/logout, password reset, and editing primary fitness goals and core dietary preferences, which directly relates to the onboarding process of collecting user preferences.</snippet>
-      </doc>
-      ... (12 more doc entries with path, title, section, and snippet)
-    </docs>
-```
+✗ Design lists all services/modules with responsibilities
+Evidence: "### Services and Modules {{services_modules}}" (Lines 44-45). The `{{services_modules}}` placeholder indicates a critical lack of detailed design for services and modules. The existing architecture alignment provides some high-level component mentions but lacks the required granularity for responsibilities.
 
-### Relevant code references included with reason and line hints
-✓ PASS - The `<artifacts><code>` section includes 6 code artifacts, each with a path, kind, symbol (or N/A), lines (or N/A), and a clear reason for its relevance as a reference.
-Evidence:
-```xml
-    <code>
-      <artifact>
-        <path>backend/app/api/v1/endpoints/users.py</path>
-        <kind>API Endpoint</kind>
-        <symbol>N/A</symbol>
-        <lines>N/A</lines>
-        <reason>Existing module for user-related API endpoints; will need new POST/PUT endpoint for user preferences.</reason>
-      </artifact>
-      ... (5 more artifact entries with path, kind, symbol/lines, and reason)
-    </code>
-```
+✗ Data models include entities, fields, and relationships
+Evidence: "### Data Models and Contracts {{data_models}}" (Lines 47-48). The `{{data_models}}` placeholder indicates a critical lack of detailed data models, entities, fields, and relationships.
 
-### Interfaces/API contracts extracted if applicable
-✓ PASS - The `<interfaces>` section details 4 interfaces, including a REST API Endpoint and various Supabase client interfaces. Each interface specifies its name, kind, signature, and path (if applicable).
-Evidence:
-```xml
-  <interfaces>
-    <interface>
-      <name>User Preferences API Endpoint</name>
-      <kind>REST Endpoint</kind>
-      <signature>POST /api/v1/users/preferences</signature>
-      <path>backend/app/v1/endpoints/users.py</path>
-    </interface>
-    ... (3 more interface entries)
-  </interfaces>
-```
+✗ APIs/interfaces are specified with methods and schemas
+Evidence: "### APIs and Interfaces {{apis_interfaces}}" (Lines 50-51). The `{{apis_interfaces}}` placeholder indicates a critical lack of detailed API specifications with methods and schemas.
 
-### Constraints include applicable dev rules and patterns
-✓ PASS - The `<constraints>` section lists 8 specific constraints, covering frontend and backend component location, API naming conventions, testing frameworks, and Supabase security rules. These clearly define applicable development rules and patterns for the story.
-Evidence:
-```xml
-  <constraints>
-    <constraint>Frontend components for onboarding should be located in `frontend/app/(auth)/onboarding/` or a similar logical grouping within `frontend/app/(auth)/`.</constraint>
-    ... (7 more constraint entries)
-  </constraints>
-```
+### Non-Functional Requirements
+Pass Rate: 0/4 (0%)
 
-### Dependencies detected from manifests and frameworks
-✓ PASS - The `<dependencies>` section provides detailed lists of packages for both Node.js (Frontend) and Python (Backend) ecosystems, including package names and versions (or N/A if not specified). This accurately reflects the dependencies derived from project manifests and frameworks.
-Evidence:
-```xml
-  <dependencies>
-    <ecosystem name="Node.js (Frontend)">
-      <package name="@supabase/ssr" version="^0.8.0"/>
-      ... (more Node.js packages)
-    </ecosystem>
-    <ecosystem name="Python (Backend)">
-      <package name="FastAPI" version="N/A"/>
-      ... (more Python packages)
-    </ecosystem>
-  </dependencies>
-```
+✗ NFRs: performance, security, reliability, observability addressed
+Evidence: "### Performance {{nfr_performance}}" (Lines 57-58), "### Security {{nfr_security}}" (Lines 60-61), "### Reliability/Availability {{nfr_reliability}}" (Lines 63-64), "### Observability {{nfr_observability}}" (Lines 66-67). The NFR sections contain placeholders, meaning the actual non-functional requirements are not addressed.
 
-### Testing standards and locations populated
-✓ PASS - The `<tests>` section clearly defines testing standards, specifies test locations, and provides several detailed test ideas linked to acceptance criteria.
-Evidence:
-```xml
-  <tests>
-    <standards>Frontend testing will utilize Jest and React Testing Library for component and integration tests. Backend testing will employ Pytest for integration tests of API endpoints. All tests should adhere to the established project testing strategy outlined in the architecture document.</standards>
-    <locations>
-      <location>frontend/app/(auth)/onboarding/__tests__/</location>
-      <location>backend/tests/</location>
-    </locations>
-    <ideas>
-      <idea ac_id="AC1">
-        <description>Component tests for each individual onboarding step (e.g., GoalSelection.tsx) covering UI rendering, user interaction, and visual consistency with wireframes (`onboardingX_dark.html`).</description>
-      </idea>
-      ... (more test ideas)
-    </ideas>
-  </tests>
-```
+### Other
+Pass Rate: 0/2 (0%)
 
-### XML structure follows story-context template format
-✓ PASS - The overall XML structure of the document adheres to the expected `story-context` template, with all major sections (metadata, story, acceptanceCriteria, artifacts, constraints, interfaces, tests) present and correctly nested.
-Evidence: The entire `1-4-guided-onboarding-flow.context.xml` document's structure.
+⚠ Dependencies/integrations enumerated with versions where known
+Evidence: "## Dependencies and Integrations {{dependencies_integrations}}" (Lines 69-70). The document mentions Supabase and Vercel Cron Jobs implicitly as dependencies in the "System Architecture Alignment" section (Lines 40-43), but the dedicated "Dependencies and Integrations" section is empty (placeholder), and versions are not specified.
+
+✗ Acceptance criteria are atomic and testable
+Evidence: "## Acceptance Criteria (Authoritative) {{acceptance_criteria}}" (Lines 72-73). The `{{acceptance_criteria}}` placeholder indicates a critical lack of acceptance criteria.
+
+✗ Traceability maps AC → Spec → Components → Tests
+Evidence: "## Traceability Mapping {{traceability_mapping}}" (Lines 75-76). The `{{traceability_mapping}}` placeholder indicates a critical lack of traceability mapping.
+
+✗ Risks/assumptions/questions listed with mitigation/next steps
+Evidence: "## Risks, Assumptions, Open Questions {{risks_assumptions_questions}}" (Lines 78-79). The `{{risks_assumptions_questions}}` placeholder indicates a critical lack of risks, assumptions, and open questions.
+
+✗ Test strategy covers all ACs and critical paths
+Evidence: "## Test Strategy Summary {{test_strategy}}" (Lines 81-82). The `{{test_strategy}}` placeholder indicates a critical lack of a test strategy.
 
 ## Failed Items
-(None)
+- **Design lists all services/modules with responsibilities:** The `{{services_modules}}` placeholder means the document lacks a detailed design of services and their responsibilities.
+  Impact: Without this, developers lack clear guidance on how to implement the system components, leading to potential inconsistencies, rework, and delays.
+
+- **Data models include entities, fields, and relationships:** The `{{data_models}}` placeholder means the document lacks detailed data models.
+  Impact: This will lead to ambiguity in database design, potential data integrity issues, and rework during implementation.
+
+- **APIs/interfaces are specified with methods and schemas:** The `{{apis_interfaces}}` placeholder means the document lacks detailed API specifications.
+  Impact: Frontend and backend teams will struggle to integrate their components, leading to miscommunications, integration bugs, and delays.
+
+- **NFRs: performance, security, reliability, observability addressed:** All NFR sections are placeholders.
+  Impact: Non-functional aspects, critical for the system's success, are not defined, leading to a system that might not meet user expectations or operational requirements.
+
+- **Acceptance criteria are atomic and testable:** The `{{acceptance_criteria}}` placeholder means the document lacks acceptance criteria.
+  Impact: Without clear acceptance criteria, testing efforts will be unfocused, and there will be no objective way to determine if the epic is successfully implemented.
+
+- **Traceability maps AC → Spec → Components → Tests:** The `{{traceability_mapping}}` placeholder means the document lacks traceability.
+  Impact: It's impossible to verify that all requirements are covered and tested, increasing the risk of missing critical functionality or defects.
+
+- **Risks/assumptions/questions listed with mitigation/next steps:** The `{{risks_assumptions_questions}}` placeholder means the document lacks this critical information.
+  Impact: Unidentified risks can lead to project delays, cost overruns, or failure. Unaddressed assumptions can lead to incorrect design decisions.
+
+- **Test strategy covers all ACs and critical paths:** The `{{test_strategy}}` placeholder means the document lacks a test strategy.
+  Impact: Testing will be ad-hoc, potentially missing critical test cases and leading to a lower quality product.
 
 ## Partial Items
-(None)
+- **Dependencies/integrations enumerated with versions where known:** The document mentions Supabase and Vercel Cron Jobs but lacks a comprehensive list in the dedicated section and does not specify versions.
+  What's missing: A complete list of all external dependencies and integrations, along with their specific versions.
 
 ## Recommendations
-1. Must Fix: (None)
-2. Should Improve: (None)
-3. Consider: (None)
+1. Must Fix: All sections marked with '✗ FAIL' must be completed with detailed information regarding design, data models, APIs, NFRs, acceptance criteria, traceability, risks/assumptions/questions, and test strategy.
+2. Should Improve: The "Dependencies and Integrations" section should be fully enumerated with all dependencies and their known versions.
