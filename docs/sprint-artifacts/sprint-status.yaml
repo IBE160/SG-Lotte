@@ -45,7 +45,7 @@ development_status:
   epic-1-retrospective: completed
 
   epic-2: backlog
-  2-1-workout-logging-ui: ready-for-dev
+  2-1-workout-logging-ui: backlog
   2-2-meal-logging-ui: backlog
   2-3-ai-driven-weekly-plan-adaptation-logic: backlog
   2-4-dashboard-progress-visualization: backlog
