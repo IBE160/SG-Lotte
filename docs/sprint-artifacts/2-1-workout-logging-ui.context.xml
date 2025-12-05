@@ -107,6 +107,7 @@
         <kind>API Endpoint</kind>
         <symbol>generate_plan</symbol>
         <reason>Existing endpoint in the relevant file, demonstrating API structure.</reason>
+        <line_hint>50</line_hint>
       </entry>
       <entry>
         <path>frontend/src/app/(dashboard)/workouts/</path>
