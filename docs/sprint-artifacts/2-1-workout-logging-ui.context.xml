@@ -1,0 +1,187 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>1</storyId>
+    <title>Workout Logging UI</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-05</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-1-workout-logging-ui.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>an active user</asA>
+    <iWant>to easily log the completion status and perceived difficulty of my planned workouts</iWant>
+    <soThat>the AI can track my progress</soThat>
+    <tasks>
+    <task>
+      <description>Frontend: Workout Logging UI</description>
+      <acceptance_criteria_refs>AC: #1, #2</acceptance_criteria_refs>
+      <subtask>Implement UI components in `frontend/src/app/(dashboard)/workouts/` to display daily workouts.</subtask>
+      <subtask>Add functionality to mark a workout as "Completed" or "Skipped".</subtask>
+      <subtask>Implement a 1-5 scale rating input for completed workouts.</subtask>
+      <subtask>Integrate with backend API to send logging data.</subtask>
+    </task>
+    <task>
+      <description>Backend: API Endpoint for Workout Logging</description>
+      <acceptance_criteria_refs>AC: #3</acceptance_criteria_refs>
+      <subtask>Extend `backend/app/api/v1/endpoints/plans.py` with a `POST /api/v1/plans/log-workout` endpoint.</subtask>
+      <subtask>Define Pydantic schemas for request body.</subtask>
+      <subtask>Implement logic to save workout log to the database.</subtask>
+    </task>
+    <task>
+      <description>Backend: Database Schema Extension</description>
+      <acceptance_criteria_refs>AC: #3</acceptance_criteria_refs>
+      <subtask>Define `workout_log` table schema (id, user_id, workout_plan_id, day_of_week, status, difficulty_rating, logged_at).</subtask>
+      <subtask>Create Alembic migration script for the new `workout_log` table.</subtask>
+    </task>
+    <task>
+      <description>Testing</description>
+      <subtask>Write unit tests for the new backend API endpoint.</subtask>
+      <subtask>Write integration tests for the full logging flow (Frontend to Backend to Database).</subtask>
+      <subtask>Write component tests for the new frontend UI components.</subtask>
+    </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+      <criterion id="1">Given I am viewing my daily workout plan, when I interact with a workout, then I can mark it as "Completed" or "Skipped".</criterion>
+      <criterion id="2">And I can rate the difficulty on a 1-5 scale for completed workouts.</criterion>
+      <criterion id="3">And this feedback is stored in the database.</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <entry>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-004: Workout Logging</section>
+        <snippet>The system shall allow users to easily log the completion status and perceived difficulty of their planned workouts. Users can mark a planned workout as "Completed" or "Skipped" and rate its difficulty on a 1-5 scale. This provides essential feedback to the AI for continuous learning and plan refinement.</snippet>
+      </entry>
+      <entry>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Epic to Architecture Mapping</section>
+        <snippet>Epic 2 (Adaptive Planning &amp; Progress Logging) involves backend logging and adaptation logic in `app/api/v1/endpoints/plans.py` and frontend logging UI in `src/app/(dashboard)/workouts/` and `src/app/(dashboard)/meals/`.</snippet>
+      </entry>
+      <entry>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Structure</section>
+        <snippet>Frontend UI components for workout logging will reside in `frontend/src/app/(dashboard)/workouts/`. Backend API endpoints for logging will be in `backend/app/api/v1/endpoints/plans.py`.</snippet>
+      </entry>
+      <entry>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Technology Stack Details</section>
+        <snippet>The core technologies include Next.js for the frontend, FastAPI for the backend, and Supabase for the database and authentication, all integrating via REST API endpoints and `supabase-js`.</snippet>
+      </entry>
+      <entry>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Implementation Patterns</section>
+        <snippet>API endpoints use plural nouns and kebab-case (e.g., `/api/v1/workout-plans`). Frontend components are PascalCase, and their files are kebab-case. Testing for frontend uses `__tests__` subdirectories, and backend tests are in the root `tests/` directory.</snippet>
+      </entry>
+      <entry>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>ADR-001: Background Job/Async Processing Strategy</section>
+        <snippet>Vercel Cron Jobs will trigger backend API endpoints for AI plan generation. This supports Epic 2: Adaptive Planning &amp; Progress Logging, particularly Story 2.4, ensuring proper error handling and logging.</snippet>
+      </entry>
+      <entry>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification</title>
+        <section>Flow 3 &amp; 4: Log Workouts, Meals &amp; Provide Feedback</section>
+        <snippet>This flow covers tracking completed activities and providing feedback to the AI. Wireframes like `workoutplan_dark.html` enable detailed logging of sets, reps, and weights, ensuring a flexible and low-friction user experience.</snippet>
+      </entry>
+      <entry>
+        <path>docs/epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Epic 2: Adaptive Planning &amp; Progress Logging - Story 2.1: Workout Logging UI</section>
+        <snippet>As an active user, I want to easily log the completion status and perceived difficulty of my planned workouts so the AI can track my progress. Frontend UI based on `workoutplan_dark.html`, API endpoint for logging workout status.</snippet>
+      </entry>
+    </docs>
+    <code>
+      <entry>
+        <path>backend/app/api/v1/endpoints/plans.py</path>
+        <kind>API Endpoint</kind>
+        <symbol>generate_plan</symbol>
+        <reason>Existing endpoint in the relevant file, demonstrating API structure.</reason>
+      </entry>
+      <entry>
+        <path>frontend/src/app/(dashboard)/workouts/</path>
+        <kind>Frontend Module</kind>
+        <symbol>(New UI components for workout logging)</symbol>
+        <reason>Planned location for workout logging UI components.</reason>
+      </entry>
+    </code>
+    <dependencies>
+      <ecosystem name="npm">
+        <package name="@supabase/ssr" version="^0.8.0" />
+        <package name="@supabase/supabase-js" version="^2.43.4" />
+        <package name="next" version="16.0.7" />
+        <package name="react" version="19.2.0" />
+        <package name="react-dom" version="19.2.0" />
+        <package name="recharts" version="^2.12.7" />
+        <package name="@tailwindcss/postcss" version="^4" dev="true" />
+        <package name="@testing-library/jest-dom" version="^6.9.1" dev="true" />
+        <package name="@testing-library/react" version="^16.3.0" dev="true" />
+        <package name="@types/node" version="^20" dev="true" />
+        <package name="@types/react" version="^19" dev="true" />
+        <package name="@types/react-dom" version="^19" dev="true" />
+        <package name="eslint" version="^9" dev="true" />
+        <package name="eslint-config-next" version="16.0.7" dev="true" />
+        <package name="jest" version="^30.2.0" dev="true" />
+        <package name="jest-environment-jsdom" version="^30.2.0" dev="true" />
+        <package name="tailwindcss" version="^4" dev="true" />
+        <package name="typescript" version="^5" dev="true" />
+      </ecosystem>
+      <ecosystem name="pip">
+        <package name="FastAPI" />
+        <package name="uvicorn" />
+        <package name="SQLAlchemy" />
+        <package name="psycopg2-binary" />
+        <package name="alembic" />
+        <package name="python-dotenv" />
+        <package name="supabase" />
+        <package name="pytest" />
+        <package name="pytest-asyncio" />
+        <package name="pydantic[email]" />
+        <package name="google-generativeai" />
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Frontend UI for logging should be intuitive and low-friction, using checkboxes/toggle buttons for completion and simple slider/radio buttons for difficulty rating.</constraint>
+    <constraint>Backend must ensure robust validation for incoming logging data.</constraint>
+    <constraint>Backend should implement idempotency for logging endpoints to prevent duplicate entries.</constraint>
+    <constraint>Database should use appropriate data types for `workout_log` table and consider indexing `user_id` and `logged_at` for efficient querying.</constraint>
+    <constraint>Security: RLS policies must be correctly applied to the `workout_log` table.</constraint>
+    <constraint>API Responses: Standard FastAPI format, with `{ "detail": "..." }` for errors.</constraint>
+    <constraint>Data Handling: All dates and times in API requests and responses will be ISO 8601 strings in UTC.</constraint>
+    <constraint>Naming Patterns: API Endpoints will use plural nouns and kebab-case (e.g., `/api/v1/workout-plans`). Frontend components will use PascalCase, and their files will use kebab-case.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Workout Logging API</name>
+      <kind>REST endpoint</kind>
+      <signature>POST /api/v1/plans/log-workout</signature>
+      <path>backend/app/api/v1/endpoints/plans.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Backend unit and integration tests will be written using Pytest. Frontend component tests will use React Testing Library with Jest. Frontend test files will be co-located with the components they are testing in a `__tests__` subdirectory. Backend tests will reside in the root `tests/` directory.
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+      <location>frontend/src/app/(dashboard)/workouts/__tests__/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="1">Test marking workout as "Completed" or "Skipped" in the UI and verify corresponding API call.</idea>
+      <idea ac_id="2">Test rating difficulty on a 1-5 scale for completed workouts in the UI and verify corresponding API call.</idea>
+      <idea ac_id="3">Test that feedback (completion status, difficulty rating) is correctly stored in the database. Test the Alembic migration for `workout_log` table and verify RLS policies.</idea>
+    </ideas>
+  </tests>
+</story-context>

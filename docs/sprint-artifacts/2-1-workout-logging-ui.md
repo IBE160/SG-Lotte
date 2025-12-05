@@ -1,6 +1,6 @@
 # Story 2.1: Workout Logging UI
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -40,6 +40,9 @@ This story focuses on providing a user interface for logging workout completion 
 - **Review Findings**: All previously identified Medium and Low severity findings (including security concern about `supabase.auth.admin.updateUserById`) are now RESOLVED. Implementation aligns with best practices for security and fully integrates user preferences for AI plan generation.
 
 [Source: stories/1-5-initial-ai-plan-generation-display.md#Dev-Agent-Record]
+
+## Dev Agent Record
+- Context Reference: docs/sprint-artifacts/2-1-workout-logging-ui.context.xml
 
 ## Acceptance Criteria
 
