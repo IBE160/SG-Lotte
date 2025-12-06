@@ -38,3 +38,4 @@ global.fetch = jest.fn((url, options) => {
   }
   return Promise.reject(new Error(`Unhandled fetch request to ${url}`));
 }); // Removed as jest.Mock;
+

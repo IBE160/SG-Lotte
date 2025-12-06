@@ -35,6 +35,9 @@ export default function WorkoutLogPage() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null);
   
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
   useEffect(() => {
     const fetchWorkout = async () => {
       try {
@@ -60,6 +63,7 @@ export default function WorkoutLogPage() {
         }
       } catch (error) {
         console.error("Could not fetch workout data:", error);
+        setError("Failed to load workout data.");
       }
     };
 
@@ -91,23 +95,40 @@ export default function WorkoutLogPage() {
     
   };
 
-  const handleSaveWorkout = () => {
+  const handleSaveWorkout = async () => {
     if (selectedExercise && todaysWorkout) {
+      setIsLoading(true);
+      setError(null);
       const payload = {
-        workout_plan_id: todaysWorkout.plan_id, 
-        day_of_week: todaysWorkout.session.day_of_week,
+        workout_plan_id: todaysWorkout.plan_id,
+        day_of_week: new Date(todaysWorkout.session.day_of_week).getDay() + 1, // Assuming day_of_week is a string date
         status: selectedExercise.status,
         difficulty_rating: selectedExercise.difficulty,
       };
       console.log('Sending API call to log workout:', payload);
       
-      // Mocking the API call
-      new Promise((resolve) => {
-        setTimeout(() => {
-            console.log('Workout logged successfully (mocked)');
-            resolve({ message: 'Workout logged successfully.' });
-        }, 500);
-      });
+      try {
+        const response = await fetch('/api/v1/plans/log-workout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+        }
+
+        console.log('Workout logged successfully');
+        // Optionally, show a success message to the user
+      } catch (err: any) {
+        console.error('Failed to log workout:', err);
+        setError(err.message || 'Failed to save workout. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
 
     } else {
       console.warn('No exercise selected to save.');
@@ -191,12 +212,16 @@ export default function WorkoutLogPage() {
                 <p className="text-gray-500 dark:text-text-secondary-dark text-base font-normal leading-normal">{todaysWorkout?.session.day_of_week}</p>
               </div>
               <button
-                className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90"
+                className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 disabled:opacity-50"
                 onClick={handleSaveWorkout}
+                disabled={isLoading}
               >
-                <span className="truncate">Save Workout</span>
+                <span className="truncate">{isLoading ? "Saving..." : "Save Workout"}</span>
               </button>
             </header>
+
+            {error && <div className="text-red-500 my-2">{error}</div>}
+            {/* You could add a success message state as well if desired */}
 
             <div className="flex-grow flex flex-col gap-4">
               {exercises.map((exercise) => (

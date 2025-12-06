@@ -193,3 +193,12 @@ This section lists the specific, testable acceptance criteria for each story in 
 *   **End-to-End (E2E):**
     *   A manual E2E test will be performed for the first iteration of this epic: 1) Log activities for a week. 2) Manually trigger the adaptation endpoint. 3) Verify the new plan is generated and a notification appears.
 
+## Post-Review Follow-ups
+
+### From Story 2.1: Workout Logging UI
+
+*   **[ ] [High] Resolve persistent database connection issue for Alembic:** This issue blocked the database migration for `workout_log` table. It's crucial for any data-persistence related stories in Epic 2. (Story 2.1)
+*   **[ ] [Medium] Enhance Frontend Integration Testing for all Epic 2 stories:** Ensure frontend-to-backend communication is properly tested, not just mocked, for all relevant features in this epic. (Story 2.1)
+*   **[ ] [Advisory] Implement E2E tests for core Epic 2 flows:** Proactively implement E2E tests to catch integration issues early for upcoming stories in this epic. (Story 2.1)
+*   **[ ] [Advisory] Verify Supabase RLS policies for new tables:** For `workout_log` and `meal_log`, ensure RLS policies are correctly applied for all Epic 2 stories that introduce new data tables. (Story 2.1)
+
