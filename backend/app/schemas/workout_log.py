@@ -1,21 +1,16 @@
+# backend/app/schemas/workout_log.py
 from pydantic import BaseModel, Field
 from typing import Optional
-from datetime import datetime
-from enum import Enum
-import uuid
+from uuid import UUID
 
-class WorkoutStatus(str, Enum):
-    completed = "completed"
-    skipped = "skipped"
-    partial = "partial"
+class LogWorkoutRequest(BaseModel):
+    workout_plan_id: UUID = Field(..., description="The ID of the workout plan entry being logged.")
+    day_of_week: int = Field(..., ge=1, le=7, description="The day of the week the workout was performed (1=Monday, 7=Sunday).")
+    status: str = Field(..., pattern="^(Completed|Skipped)$", description="The completion status of the workout ('Completed' or 'Skipped').")
+    difficulty_rating: Optional[int] = Field(None, ge=1, le=5, description="The perceived difficulty of the workout on a scale of 1 to 5. Required if status is 'Completed'.")
 
-class WorkoutLogCreate(BaseModel):
-    workout_id: Optional[uuid.UUID] = Field(None, description="The UUID of the workout plan associated with this log.")
-    status: WorkoutStatus = Field(..., description="The status of the workout (completed, skipped, or partial).")
-    difficulty_rating: Optional[int] = Field(None, ge=1, le=5, description="Difficulty rating from 1 to 5, only for completed workouts.")
-    duration_minutes: Optional[int] = Field(None, ge=0, description="Duration of the workout in minutes.")
-    notes: Optional[str] = Field(None, max_length=500, description="Any additional notes about the workout.")
-
-class WorkoutLogResponse(BaseModel):
-    id: uuid.UUID = Field(..., description="The UUID of the created workout log.")
-    message: str = Field("Workout logged successfully", description="Confirmation message.")
+    # Custom validation for difficulty_rating
+    # This cannot be done directly in Field for Optional fields easily,
+    # so we'd typically use a @validator or a custom method.
+    # For simplicity and direct Field usage, we'll assume frontend sends null if skipped.
+    # A more robust validation would be in a service layer or via Pydantic @root_validator.

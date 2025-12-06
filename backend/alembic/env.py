@@ -10,7 +10,7 @@ from alembic import context
 # Import Base from your project's database configuration
 from app.core.db import Base # Import Base
 # Import your models here so Alembic can discover them
-from app.models import plan # Import your models
+from app.models import plan, workout_log, user_profile
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

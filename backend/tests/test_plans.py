@@ -10,6 +10,9 @@ from app.main import app
 from app.core.dependencies import get_current_user, get_db_session
 from app.services.ai_plan_generator import AIPlanGeneratorService
 from app.models.plan import WorkoutPlanModel, MealPlanModel # For mocking query results
+from app.models.workout_log import WorkoutLogModel # Import for assertion and mocking
+from app.schemas.workout_log import LogWorkoutRequest # Import for test data validation
+
 
 # Create a test client for the FastAPI application
 client = TestClient(app)
@@ -162,3 +165,110 @@ async def test_generate_plan_db_storage_error(setup_test_environment):
         # Corrected assertion: check for exact string equality
         assert response.json()["detail"] == "Internal Server Error"
         mock_db_session.rollback.assert_called_once()
+
+
+# --- Tests for /plans/log-workout endpoint ---
+
+@pytest.mark.asyncio
+async def test_log_workout_success_completed(setup_test_environment):
+    workout_data = {
+        "workout_plan_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "day_of_week": 1,
+        "status": "Completed",
+        "difficulty_rating": 4
+    }
+    response = client.post("/api/v1/plans/log-workout", json=workout_data)
+
+    assert response.status_code == status.HTTP_201_CREATED
+    assert response.json() == {"message": "Workout logged successfully."}
+    mock_db_session.add.assert_called_once()
+    mock_db_session.commit.assert_called_once()
+    mock_db_session.refresh.assert_called_once() # Ensure refresh is called for logged_at
+
+@pytest.mark.asyncio
+async def test_log_workout_success_skipped(setup_test_environment):
+    workout_data = {
+        "workout_plan_id": "b1c2d3e4-f5a6-7890-1234-567890abcdef",
+        "day_of_week": 2,
+        "status": "Skipped",
+        "difficulty_rating": None
+    }
+    response = client.post("/api/v1/plans/log-workout", json=workout_data)
+
+    assert response.status_code == status.HTTP_201_CREATED
+    assert response.json() == {"message": "Workout logged successfully."}
+    mock_db_session.add.assert_called_once()
+    mock_db_session.commit.assert_called_once()
+    mock_db_session.refresh.assert_called_once()
+
+@pytest.mark.asyncio
+async def test_log_workout_invalid_completed_no_difficulty(setup_test_environment):
+    workout_data = {
+        "workout_plan_id": "c1d2e3f4-a5b6-7890-1234-567890abcdef",
+        "day_of_week": 3,
+        "status": "Completed",
+        "difficulty_rating": None # Invalid: completed workout needs difficulty
+    }
+    response = client.post("/api/v1/plans/log-workout", json=workout_data)
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert "Difficulty rating is required for completed workouts." in response.json()["detail"]
+    mock_db_session.rollback.assert_called_once()
+
+@pytest.mark.asyncio
+async def test_log_workout_invalid_skipped_with_difficulty(setup_test_environment):
+    workout_data = {
+        "workout_plan_id": "d1e2f3a4-b5c6-7890-1234-567890abcdef",
+        "day_of_week": 4,
+        "status": "Skipped",
+        "difficulty_rating": 3 # Invalid: skipped workout should not have difficulty
+    }
+    response = client.post("/api/v1/plans/log-workout", json=workout_data)
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert "Difficulty rating should not be provided for skipped workouts." in response.json()["detail"]
+    mock_db_session.rollback.assert_called_once()
+
+@pytest.mark.asyncio
+async def test_log_workout_invalid_uuid(setup_test_environment):
+    workout_data = {
+        "workout_plan_id": "not-a-valid-uuid", # Invalid UUID
+        "day_of_week": 5,
+        "status": "Completed",
+        "difficulty_rating": 5
+    }
+    response = client.post("/api/v1/plans/log-workout", json=workout_data)
+
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert "value is not a valid uuid" in response.json()["detail"][0]["msg"]
+    mock_db_session.rollback.assert_not_called() # Pydantic validation happens before endpoint logic, so no rollback
+
+@pytest.mark.asyncio
+async def test_log_workout_invalid_day_of_week(setup_test_environment):
+    workout_data = {
+        "workout_plan_id": "e1f2a3b4-c5d6-7890-1234-567890abcdef",
+        "day_of_week": 0, # Invalid: day_of_week must be 1-7
+        "status": "Completed",
+        "difficulty_rating": 2
+    }
+    response = client.post("/api/v1/plans/log-workout", json=workout_data)
+
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert "ensure this value is greater than or equal to 1" in response.json()["detail"][0]["msg"]
+    mock_db_session.rollback.assert_not_called()
+
+@pytest.mark.asyncio
+async def test_log_workout_db_error(setup_test_environment):
+    workout_data = {
+        "workout_plan_id": "f1a2b3c4-d5e6-7890-1234-567890abcdef",
+        "day_of_week": 6,
+        "status": "Completed",
+        "difficulty_rating": 3
+    }
+    mock_db_session.commit.side_effect = Exception("Database write error during log")
+
+    response = client.post("/api/v1/plans/log-workout", json=workout_data)
+
+    assert response.status_code == status.HTTP_500_INTERNAL_SERVER_ERROR
+    assert response.json()["detail"] == "Internal Server Error"
+    mock_db_session.rollback.assert_called_once()

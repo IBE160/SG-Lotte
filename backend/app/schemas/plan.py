@@ -23,6 +23,11 @@ class WorkoutPlan(BaseModel):
     duration_days: int = Field(7, example=7)
     notes: Optional[str] = Field(None, example="Focus on form over weight.")
 
+# Schema for the response for today's workout
+class TodaysWorkoutResponse(BaseModel):
+    plan_id: str
+    session: WorkoutSession
+
 # Schema for a single meal item
 class MealItem(BaseModel):
     name: str = Field(..., example="Grilled Chicken Breast")
