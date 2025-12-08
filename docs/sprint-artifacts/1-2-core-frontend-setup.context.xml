@@ -75,6 +75,24 @@
         <section>Story 1.2: Core Frontend Setup</section>
         <snippet>As a developer, I want the Next.js frontend to be set up and connected to a Vercel deployment pipeline, so that I can build UI components and have continuous deployment.</snippet>
       </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>Executive Summary</section>
+        <snippet>To develop a comprehensive, AI-assisted web application that automatically generates and adjusts personalized workout and meal plans, promoting long-term health habits and consistency.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness & Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Introduction</section>
+        <snippet>This document outlines the User Experience (UX) and User Interface (UI) design for the AI Fitness & Meal Planner application. It serves as the single source of truth for the application's visual and interactive design.</snippet>
+      </doc>
+      <doc>
+        <path>docs/design-system-spec.md</path>
+        <title>AI Fitness Coach - Design System Specification</title>
+        <section>Introduction</section>
+        <snippet>This document provides detailed specifications for the visual and interactive elements of the AI Fitness Coach application. It is the single source of truth for developers implementing the front end.</snippet>
+      </doc>
     </docs>
     <code>
       <artifact>
