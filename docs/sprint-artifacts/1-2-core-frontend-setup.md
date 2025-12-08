@@ -1,6 +1,6 @@
 # Story 1.2: Core Frontend Setup
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -77,7 +77,7 @@ So that I can build UI components and have continuous deployment.
 
 ### Context Reference
 
-<!-- Path(s) to story context XML will be added here by context workflow -->
+- docs/sprint-artifacts/1-2-core-frontend-setup.context.xml
 
 ### Agent Model Used
 
