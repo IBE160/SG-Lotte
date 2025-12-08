@@ -50,8 +50,8 @@
 
 - [ ] Implementation
 
-  - [ ] /run-agent-task sm *sprint-planning {prompt / user-input-file}
-    - [ ] File: sprint-artifacts/sprint-status.yaml
+  - [X] /run-agent-task sm *sprint-planning {prompt / user-input-file}
+    - [X] File: sprint-artifacts/sprint-status.yaml
 
   - foreach epic in sprint planning:
 
