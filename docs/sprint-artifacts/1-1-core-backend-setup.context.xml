@@ -1,0 +1,197 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1</storyId>
+    <title>Core Backend Setup</title>
+    <status>drafted</status>
+    <generatedAt>mandag 8. desember 2025</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-1-core-backend-setup.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a developer</asA>
+    <iWant>the FastAPI backend and Supabase database to be set up and connected</iWant>
+    <soThat>I can build API endpoints and data models</soThat>
+    <tasks>
+*   [ ] **Setup:** Initialize `backend/` directory structure.
+    *   [ ] Create `backend/` folder.
+    *   [ ] Create `backend/app/`, `backend/app/api/`, `backend/app/api/v1/`, `backend/app/api/v1/endpoints/`, `backend/app/core/`, `backend/crud/`, `backend/models/`, `backend/schemas/`, `backend/services/` directories.
+    *   [ ] Create empty `__init__.py` files in all `app/` subdirectories.
+*   [ ] **FastAPI Application (AC: #1):**
+    *   [ ] Create `backend/requirements.txt` with `fastapi`, `uvicorn`, `sqlalchemy`, `asyncpg`, `alembic`, `psycopg2-binary`, `pytest`.
+    *   [ ] Create `backend/app/main.py` with a basic FastAPI app instance.
+    *   [ ] Implement a basic health check endpoint (e.g., `/health`) in `backend/app/api/v1/endpoints/health.py` and include it in `main.py`.
+    *   [ ] **Testing:** Create a test for the `/health` endpoint in `backend/tests/api/v1/test_health.py`.
+*   [ ] **Supabase Configuration (AC: #2):**
+    *   [ ] Add Supabase connection details to `backend/app/core/config.py`.
+    *   [ ] Implement a Supabase client or a SQLAlchemy database connection utility.
+    *   [ ] **Testing:** Write a test to verify the database connection can be established.
+*   [ ] **Alembic Configuration (AC: #3):**
+    *   [ ] Initialize Alembic in `backend/` directory (`alembic init alembic`).
+    *   [ ] Configure `alembic.ini` and `env.py` to connect to the Supabase PostgreSQL database.
+    *   [ ] Create a basic initial migration script (e.g., for a `users` table).
+    *   [ ] **Testing:** Write a test to check the Alembic configuration and current revision.
+*   [ ] **User Endpoint Placeholder:**
+    *   [ ] Create `backend/app/api/v1/endpoints/users.py` with an initial placeholder for future user-related endpoints.
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+**Given** the project is initialized
+**When** I set up the backend
+**Then** a FastAPI app is created and running (Source: Epics Story 1.1)
+**And** a Supabase project is connected and configured (Source: Epics Story 1.1)
+**And** Alembic migrations are configured for database schema management (Source: Epics Story 1.1)
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-1.md</path>
+        <title>Epic Technical Specification: First Plan & Foundation</title>
+        <section>System Architecture Alignment</section>
+        <snippet>Epic 1 aligns directly with the established decoupled frontend (Next.js) and backend (FastAPI) architecture, leveraging Supabase for database and authentication services. The core backend setup (Story 1.1) establishes the FastAPI application...</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Structure</section>
+        <snippet>Defines the backend directory structure, including `app/api/v1/endpoints`, `app/core`, `app/crud`, `app/models`, `app/schemas`, and `app/services`.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>ADR-001: Background Job/Async Processing Strategy</section>
+        <snippet>Decision: Vercel Cron Jobs. The FastAPI backend will require a dedicated, secure API endpoint to be triggered by the Vercel Cron Job.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>ADR-002: Caching Strategy</section>
+        <snippet>Decision: Implement a multi-layered caching strategy using both Backend Caching (e.g., using `fastapi-cache2`) and Frontend Caching.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Non-Functional Requirements</section>
+        <snippet>Security: All data in transit (HTTPS) and at rest (database encryption) shall be encrypted. Access to user data shall be restricted by Row Level Security (RLS) policies.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 1.1: Core Backend Setup</section>
+        <snippet>As a developer, I want the FastAPI backend and Supabase database to be set up and connected, So that I can build API endpoints and data models.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <!-- This story is foundational; it creates the initial backend structure. -->
+      <!-- The following files are expected to be created. -->
+      <artifact>
+        <path>backend/app/main.py</path>
+        <kind>application</kind>
+        <symbol>app</symbol>
+        <lines>N/A</lines>
+        <reason>Main FastAPI application entry point.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/core/config.py</path>
+        <kind>configuration</kind>
+        <symbol>Settings</symbol>
+        <lines>N/A</lines>
+        <reason>Handles application settings and Supabase connection details.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/health.py</path>
+        <kind>endpoint</kind>
+        <symbol>router</symbol>
+        <lines>N/A</lines>
+        <reason>Creates the initial /health check endpoint.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/requirements.txt</path>
+        <kind>dependency-manifest</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Defines all Python dependencies for the backend.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/alembic.ini</path>
+        <kind>migration-config</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Configuration for Alembic database migrations.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Python">
+        <package name="fastapi" version="~0.122.0"/>
+        <package name="uvicorn"/>
+        <package name="sqlalchemy"/>
+        <package name="asyncpg"/>
+        <package name="alembic"/>
+        <package name="psycopg2-binary"/>
+        <package name="pytest"/>
+        <package name="fastapi-cache2"/>
+        <package name="pydantic-ai"/>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>
+      <type>Naming Pattern (API)</type>
+      <rule>Endpoints must be plural nouns in kebab-case (e.g., /api/v1/workout-plans).</rule>
+      <source>docs/architecture-2025-11-30.md</source>
+    </constraint>
+    <constraint>
+      <type>Naming Pattern (DB)</type>
+      <rule>Database tables must be plural nouns in snake_case (e.g., workout_plans). Columns must be snake_case.</rule>
+      <source>docs/architecture-2025-11-30.md</source>
+    </constraint>
+    <constraint>
+      <type>Structure Pattern (Testing)</type>
+      <rule>All backend tests must reside in the root backend/tests/ directory.</rule>
+      <source>docs/architecture-2025-11-30.md</source>
+    </constraint>
+    <constraint>
+      <type>Security</type>
+      <rule>Row Level Security (RLS) must be used for data access. API endpoints must be protected with JWTs where appropriate.</rule>
+      <source>docs/architecture-2025-11-30.md</source>
+    </constraint>
+    <constraint>
+      <type>Format Pattern (Logging)</type>
+      <rule>Logs must be structured JSON output to the console (stdout/stderr).</rule>
+      <source>docs/architecture-2025-11-30.md</source>
+    </constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Health Check</name>
+      <kind>REST endpoint</kind>
+      <signature>GET /api/v1/health</signature>
+      <path>backend/app/api/v1/endpoints/health.py</path>
+    </interface>
+    <interface>
+      <name>Update User Profile</name>
+      <kind>REST endpoint</kind>
+      <signature>PUT /api/v1/users/profile</signature>
+      <path>backend/app/api/v1/endpoints/users.py</path>
+    </interface>
+    <interface>
+      <name>Generate Plan</name>
+      <kind>REST endpoint</kind>
+      <signature>POST /api/v1/plans/generate</signature>
+      <path>backend/app/api/v1/endpoints/plans.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Backend unit and integration tests will be written using `Pytest`. Tests should cover API endpoints, service logic, and database interactions (with mocking where appropriate).</standards>
+    <locations>All backend tests will reside in the `backend/tests/` directory, mirroring the structure of the `backend/app/` modules.</locations>
+    <ideas>
+      <idea for="AC #1">Create a test for the `/health` endpoint in `backend/tests/api/v1/test_health.py` to ensure it returns a 200 OK status.</idea>
+      <idea for="AC #2">Write a test to verify that a database connection can be successfully established using the configuration from `app/core/config.py`.</idea>
+      <idea for="AC #3">Write a test to check the Alembic configuration can be read and that `alembic current` does not produce an error.</idea>
+    </ideas>
+  </tests>
+</story-context>

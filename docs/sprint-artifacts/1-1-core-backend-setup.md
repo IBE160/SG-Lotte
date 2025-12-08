@@ -1,7 +1,7 @@
 
 # Story 1.1: Core Backend Setup
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -154,6 +154,7 @@ Refer to the "Project Structure Alignment and Lessons Learned" section above for
 ## Dev Agent Record
 
 *   **Context Reference:**
+    *   `docs/sprint-artifacts/1-1-core-backend-setup.context.xml`
 *   **Agent Model Used:**
 *   **Debug Log References:**
 *   **Completion Notes List:**
