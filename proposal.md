@@ -203,7 +203,7 @@ The objective of this project is to develop a comprehensive, AI-assisted web app
 - **Authentication:** Supabase Auth (JWT + email verification)
 - **Authorization:** Row Level Security (RLS) policies in Supabase  
 - **ORM:** SQLAlchemy with Alembic migrations  
-- **AI Integration:** OpenAI GPT-4 API for structured plan generation  
+- **AI Integration:** Pydantic AI framework with Gemini 2.5 for structured plan generation  
 - **API Documentation:** Auto-generated with Swagger/OpenAPI  
 - **Testing:** Pytest for backend logic  
 - **Deployment:** Vercel (FastAPI adapter)  
@@ -240,7 +240,7 @@ The objective of this project is to develop a comprehensive, AI-assisted web app
 5. **Performance Analysis:** Generate insights on user consistency, progress trends, and overall goal achievement.  
 
 **Implementation:**
-- **Model:** OpenAI GPT-4 (or newer) API for plan generation, personalization, and content creation.  
+- **Model:** Pydantic AI framework with Gemini 2.5 for plan generation, personalization, and content creation.  
 - **Prompt Design:**  
   - Workout generator receives user metrics (age, weight, goal, activity level) and current progress data.  
   - Meal generator receives dietary preferences, calorie targets, and meal history.  
@@ -364,7 +364,7 @@ This timeline follows the 4-phase model of the BMAD-methodology, where phases 1 
 - Database schema design (users, workouts, meals, progress, rewards)  
 - API endpoint specification (authentication, AI generation, data retrieval)  
 - System architecture diagram (frontend, backend, Supabase, AI service)  
-- Technology stack validation (Next.js, FastAPI, Supabase, GPT-4 API)  
+- Technology stack validation (Next.js, FastAPI, Supabase, Pydantic AI framework with Gemini 2.5)  
 - AI integration design (prompt structure and JSON response validation)  
 - Authentication and authorization flow setup  
 - Security planning (JWT, RLS, encryption, GDPR compliance)  
@@ -518,7 +518,7 @@ This timeline follows the 4-phase model of the BMAD-methodology, where phases 1 
 **Technical Risks:**
 - **AI Output Accuracy:** The AI may produce inconsistent or unrealistic workout or meal plans.  
   - *Mitigation:* Define strict JSON schemas for AI output, implement validation checks, and allow human override through manual editing.  
-- **API Reliability:** The OpenAI API could experience downtime or rate limiting.  
+- **API Reliability:** The Pydantic AI framework with Gemini 2.5 could experience downtime or rate limiting.  
   - *Mitigation:* Use request caching, fallback templates, and retry logic with exponential backoff.  
 - **Performance and Scalability:** Increased user activity could affect response times or database performance.  
   - *Mitigation:* Optimize database queries, use indexes, and enable Supabase Realtime selectively.  
@@ -542,7 +542,7 @@ This timeline follows the 4-phase model of the BMAD-methodology, where phases 1 
 **Assumptions:**
 - AI-assisted development increases productivity by 40–50% for standard coding tasks.  
 - Supabase and PostgreSQL can handle the expected workload (100 concurrent users).  
-- OpenAI’s API remains available and stable during the project.  
+- The Pydantic AI framework with Gemini 2.5 remains available and stable during the project.  
 - Users are willing to adopt an AI-driven fitness and meal planning solution.  
 - The 5-week BMAD timeline is sufficient for delivering a complete MVP with core functionality.
 

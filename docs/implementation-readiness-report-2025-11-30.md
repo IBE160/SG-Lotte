@@ -42,7 +42,7 @@ A deep analysis of the core planning documents reveals the following:
     *   **NFRs:** Performance (<500ms), Security (encryption, RLS, JWT, GDPR), Scalability (PostgreSQL, FastAPI horizontal), Reliability (AI retries, caching, fallback).
     *   **Success Criteria:** High retention (>40% 3mo), consistent use (>4 activities/week), positive feedback (>4.5/5 stars), >80% plan acceptance, <5% AI fallback.
     *   **Scope:** Clear MVP (core loop) vs. Growth Features vs. Vision.
-    *   **Technical Constraints:** Next.js, FastAPI, Supabase, OpenAI GPT-4.
+    *   **Technical Constraints:** Next.js, FastAPI, Supabase, Pydantic AI framework with Gemini 2.5.
 
 *   **Epics (`docs/epics.md`)**:
     *   **Epic Structure:** 3 epics (First Plan & Foundation, Adaptive Planning & Progress Logging, User Control & Personalization).
@@ -52,7 +52,7 @@ A deep analysis of the core planning documents reveals the following:
     *   **Dependencies:** Stories within epics have documented prerequisites.
 
 *   **Architecture (`docs/architecture-2025-11-30.md`)**:
-    *   **Tech Stack:** Confirmed Next.js (v16.0.5), FastAPI (v0.122.0), Python (v3.14), Supabase (PostgreSQL, JS lib v2.86.0), Tailwind CSS, Zustand, SWR/React Query, OpenAI GPT-4.
+    *   **Tech Stack:** Confirmed Next.js (v16.0.5), FastAPI (v0.122.0), Python (v3.14), Supabase (PostgreSQL, JS lib v2.86.0), Tailwind CSS, Zustand, SWR/React Query, Pydantic AI framework with Gemini 2.5.
     *   **Key Decisions:** Vercel Cron Jobs for background processing, Backend + Frontend caching strategy.
     *   **Cross-Cutting Concerns:** Defined patterns for API response/error handling, logging, date/time, and testing strategy (Pytest, React Testing Library/Jest).
     *   **Security:** Supabase Auth/RLS emphasized.
@@ -149,7 +149,7 @@ No low priority notes.
 *   **Strong Alignment Across Documents:** The PRD, Architecture, Epics, and UX Design documents are highly consistent and mutually supportive, demonstrating a clear and unified vision for the project.
 *   **Comprehensive Story Coverage:** All Functional Requirements from the PRD are fully decomposed into actionable stories with detailed acceptance criteria, ensuring complete coverage and traceability.
 *   **Proactive Risk Management:** High-priority risks, particularly concerning AI predictability and data security, have been identified in the test design documents, and concrete mitigation strategies (e.g., schema validation, fallback plans, RLS testing) are integrated into the implementation approach.
-*   **Clear Technical Direction:** A robust and validated technology stack (Next.js, FastAPI, Supabase, OpenAI GPT-4) is explicitly defined, reducing technical ambiguity and providing a stable platform for development.
+*   **Clear Technical Direction:** A robust and validated technology stack (Next.js, FastAPI, Supabase, Pydantic AI framework with Gemini 2.5) is explicitly defined, reducing technical ambiguity and providing a stable platform for development.
 *   **Detailed UX Guidance:** The UX Design Specification, with its high-fidelity wireframes and accessibility targets, provides exceptional clarity for frontend development, ensuring a user-centric implementation.
 
 ---

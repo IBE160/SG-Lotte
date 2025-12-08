@@ -166,9 +166,9 @@ This is a greenfield project, building a new web application in the general fitn
 ### Reliability (AI Integration)
 *   **Why it matters:** To ensure consistent and dependable generation of workout and meal plans, which is core to the product's value proposition.
 *   **Measurable Criteria:**
-    *   The system shall implement retry mechanisms with exponential backoff for OpenAI API calls.
-    *   The system shall utilize caching for OpenAI API responses to reduce latency and dependency.
-    *   The system shall have fallback mechanisms (e.g., default plan templates) in case of OpenAI API unavailability.
+    *   The system shall implement retry mechanisms with exponential backoff for AI API calls.
+    *   The system shall utilize caching for AI API responses to reduce latency and dependency.
+    *   The system shall have fallback mechanisms (e.g., default plan templates) in case of AI API unavailability.
 
 ---
 

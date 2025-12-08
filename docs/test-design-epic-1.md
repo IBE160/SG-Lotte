@@ -168,7 +168,7 @@
 ## Mitigation Plans
 
 ### R-001: AI plan generation fails (Score: 9)
-**Mitigation Strategy:** Implement a robust validation layer for all OpenAI API responses against a strict Pydantic schema. If validation fails or the API call times out, the system will fall back to serving a pre-defined default plan from the database. All failures will be logged with high priority for immediate review.
+**Mitigation Strategy:** Implement a robust validation layer for all Pydantic AI framework with Gemini 2.5 responses against a strict Pydantic schema. If validation fails or the API call times out, the system will fall back to serving a pre-defined default plan from the database. All failures will be logged with high priority for immediate review.
 **Owner:** DEV
 **Timeline:** Sprint 1
 **Status:** Planned
@@ -188,7 +188,7 @@
 2. The core technology stack (Next.js, FastAPI, Supabase) is stable and suitable for the project.
 
 ### Dependencies
-1. Access to a Supabase project and OpenAI API keys for development and testing.
+1. Access to a Supabase project and AI API keys for development and testing.
 
 ### Risks to Plan
 - **Risk**: Underestimation of test development effort.

@@ -11,7 +11,7 @@ The proposed technology stack consists of the following components:
 *   **Frontend:** Next.js
 *   **Backend:** FastAPI
 *   **Backend-as-a-Service (BaaS):** Supabase
-*   **AI Integration:** OpenAI GPT-4 API
+*   **AI Integration:** Pydantic AI framework with Gemini 2.5
 
 ## 3. Deep Dive Research
 
@@ -115,7 +115,7 @@ The proposed technology stack consists of the following components:
     *   **Paid Plans:** Pro starts at $25/month, offering more resources and features. Overage charges apply.
     *   **Transparency:** Aims for transparent and predictable pricing.
 
-### 3.4. OpenAI GPT-4 API (AI Integration)
+### 3.4. Pydantic AI framework with Gemini 2.5 (AI Integration)
 
 *   **Overview:** A powerful, multimodal language model that can accept both image and text inputs and generate text outputs. It demonstrates human-level performance across various benchmarks.
 *   **Technical Characteristics:**
@@ -142,7 +142,7 @@ The proposed technology stack consists of the following components:
 
 ## 4. Comparative Analysis
 
-| Dimension                 | Next.js (Frontend)                                                                                             | FastAPI (Backend)                                                                                               | Supabase (BaaS)                                                                                                   | OpenAI GPT-4 (AI)                                                                                                |
+| Dimension                 | Next.js (Frontend)                                                                                             | FastAPI (Backend)                                                                                               | Supabase (BaaS)                                                                                                   | Pydantic AI framework with Gemini 2.5 (AI)                                                                                                |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | **1. Meets Requirements** | **High:** Excellent for building the UI, dashboard, and user flows. Integrates well with Supabase for auth and real-time data. | **High:** Ideal for creating the API layer to communicate with the AI, and for any custom backend logic.          | **High:** Provides the core database, authentication, storage, and real-time capabilities required by the project. | **High:** Directly addresses the core requirement for AI-powered workout and meal plan generation.                 |
 | **2. Performance**        | **High:** Offers performance optimizations like SSR, SSG, and automatic code splitting.                         | **High:** One of the fastest Python frameworks available, with asynchronous support for handling concurrent requests. | **Medium:** Performance is generally good, but can be impacted by complex queries and the limitations of the free/pro tiers. | **Medium:** API response times can vary. Caching and prompt optimization will be crucial.                         |
@@ -150,10 +150,10 @@ The proposed technology stack consists of the following components:
 | **4. Complexity**         | **Medium:** React and Next.js have a learning curve, especially with advanced features like Server Components.   | **Low:** Known for its simplicity and ease of use. Python's gentle learning curve is a plus.                     | **Low:** Designed for ease of use, with a user-friendly dashboard and client libraries that simplify backend tasks. | **Low:** The API is well-documented and easy to integrate. The main complexity lies in prompt engineering.         |
 | **5. Ecosystem**          | **High:** Huge ecosystem of libraries, tools, and community support.                                            | **High:** Growing ecosystem with many plugins and integrations. Leverages the vast Python ecosystem.              | **High:** Strong and growing open-source ecosystem. Integrates well with many frontend and backend tools.         | **High:** Massive ecosystem of tools, libraries, and community resources.                                          |
 | **6. Cost**               | **Low:** Open-source. Hosting on Vercel has a generous free tier.                                               | **Low:** Open-source. Hosting on Vercel (with FastAPI adapter) is cost-effective.                                 | **Medium:** Free tier is generous, but costs can increase with usage (database size, storage, MAUs).              | **High:** Can be a significant cost factor, depending on API usage. Requires careful monitoring and optimization. |
-| **7. Risk**               | **Low:** Backed by Vercel, with a large community and strong adoption.                                           | **Low:** Strong community and adoption.                                                                         | **Low:** Open-source nature mitigates vendor lock-in. Backed by significant funding and a strong community.       | **Medium:** Vendor lock-in with OpenAI. API changes or downtime could impact the service.                        |
+| **7. Risk**               | **Low:** Backed by Vercel, with a large community and strong adoption.                                           | **Low:** Strong community and adoption.                                                                         | **Low:** Open-source nature mitigates vendor lock-in. Backed by significant funding and a strong community.       | **Medium:** Vendor lock-in with the AI provider. API changes or downtime could impact the service.                        |
 | **8. Developer Experience** | **High:** Excellent developer experience with features like fast refresh and a clear project structure.         | **High:** Designed for developer productivity, with great editor support and automatic documentation.             | **High:** Praised for its ease of use, clear documentation, and intuitive dashboard.                               | **High:** Simple and well-documented API.                                                                         |
 | **9. Operations**         | **Low:** Vercel simplifies deployment and operations.                                                          | **Low:** Can be deployed easily to Vercel or other platforms.                                                     | **Low:** As a managed service, Supabase handles most of the operational overhead (database maintenance, backups).   | **Low:** As a managed API, there are no operational concerns.                                                      |
-| **10. Future-Proofing**   | **High:** Continuously evolving with new features and improvements.                                              | **High:** Actively maintained and growing in popularity.                                                          | **High:** Continuously adding new features. The use of PostgreSQL provides a solid foundation for the future.     | **High:** At the forefront of AI innovation. OpenAI is constantly releasing more powerful models.                 |
+| **10. Future-Proofing**   | **High:** Continuously evolving with new features and improvements.                                              | **High:** Actively maintained and growing in popularity.                                                          | **High:** Continuously adding new features. The use of PostgreSQL provides a solid foundation for the future.     | **High:** At the forefront of AI innovation. The provider is constantly releasing more powerful models.                 |
 
 ## 5. Trade-offs and Decision Factors
 
@@ -173,7 +173,7 @@ The proposed technology stack consists of the following components:
         *   **Next.js** is a powerful framework that can evolve with your application's needs.
         *   **FastAPI** is a modern, high-performance framework that can be extended with the vast Python ecosystem.
         *   **Supabase**, being open-source and based on PostgreSQL, offers great flexibility. You can self-host it if needed, and you have access to the full power of PostgreSQL, including its extensive ecosystem of extensions. This mitigates vendor lock-in.
-        *   **OpenAI GPT-4** is at the forefront of AI, and the API-based approach allows you to easily switch to newer models as they become available.
+        *   **Pydantic AI framework with Gemini 2.5** is at the forefront of AI, and the API-based approach allows you to easily switch to newer models as they become available.
     *   **Sacrifice:** The main trade-off for future flexibility is the potential for increased complexity as you add more custom features and integrations.
 
 ### Weighted Analysis
@@ -185,21 +185,21 @@ Here's the weighted analysis, focusing on your priorities:
 | **Next.js**     | **High:** Vercel provides a seamless, zero-config deployment experience.                                           | **High:** Continuously evolving with new features. Can be extended with a vast ecosystem of React libraries.         |
 | **FastAPI**     | **High:** Can be easily deployed to Vercel. Its simplicity reduces operational complexity.                           | **High:** A modern, fast-growing framework with a strong community. Can be extended with the entire Python ecosystem. |
 | **Supabase**    | **High:** As a managed BaaS, it handles most of the operational burden of database management, auth, and storage.    | **High:** Open-source and based on PostgreSQL, which provides a solid, extensible foundation for the future.         |
-| **OpenAI GPT-4**| **High:** As a managed API, there are no operational concerns.                                                      | **High:** OpenAI is a leader in AI research, ensuring access to state-of-the-art models.                            |
+| **Pydantic AI framework with Gemini 2.5**| **High:** As a managed API, there are no operational concerns.                                                      | **High:** The provider is a leader in AI research, ensuring access to state-of-the-art models.                            |
 
 **Conclusion:**
 
-*   **AI Model Drift:** The behavior of the OpenAI model could change over time, leading to a degradation in the quality or structure of the generated plans.
+*   **AI Model Drift:** The behavior of the AI model could change over time, leading to a degradation in the quality or structure of the generated plans.
     *   **Mitigation:** Implement a continuous monitoring and evaluation process for the AI-generated plans. Maintain a "golden dataset" of prompts and expected outputs to test against new model versions and ensure consistency.
 
 The proposed technology stack strongly aligns with your priorities of **operational simplicity** and **future flexibility**. The combination of Vercel and Supabase provides a highly automated and low-maintenance operational environment, while the choice of modern, popular, and extensible frameworks and services ensures that the application can evolve and adapt to future requirements.
 
 ## 6. What If Scenarios
 
-**Scenario 1: What if the OpenAI API becomes significantly more expensive or its use is restricted?**
+**Scenario 1: What if the AI API becomes significantly more expensive or its use is restricted?**
 
 *   **Implications:** This would directly threaten the project's core value proposition and financial viability.
-*   **Insights:** This highlights the importance of not being locked into a single AI provider. The architecture should be designed to be "AI-agnostic." By creating a clear abstraction layer for the AI service in your FastAPI backend, you can design the system to be able to swap out the OpenAI API for another provider (like Google Gemini or Anthropic's Claude) with minimal effort. This is a key strategy for future-proofing the application.
+*   **Insights:** This highlights the importance of not being locked into a single AI provider. The architecture should be designed to be "AI-agnostic." By creating a clear abstraction layer for the AI service in your FastAPI backend, you can design the system to be able to swap out the AI provider (like another large language model provider) with minimal effort. This is a key strategy for future-proofing the application.
 
 **Scenario 2: What if the user base grows much faster than anticipated, putting a strain on the infrastructure?**
 
@@ -224,7 +224,7 @@ The proposed technology stack strongly aligns with your priorities of **operatio
 
 1.  **Users didn't trust the AI-generated plans.** The plans were perceived as generic, repetitive, or in some cases, unsafe. This led to a lack of engagement and a high churn rate.
 2.  **The application was too slow and buggy.** The AI plan generation took too long, and the dashboard was often slow to load. Users also encountered frequent bugs, which led to frustration and a loss of confidence in the application.
-3.  **The costs of running the application were too high.** The OpenAI API and Supabase costs spiraled out of control as the user base grew, making the business model unsustainable.
+3.  **The costs of running the application were too high.** The AI API and Supabase costs spiraled out of control as the user base grew, making the business model unsustainable.
 4.  **A major competitor launched a similar, but better, application.** The competitor's application had a more polished UI, more advanced features, and a stronger community, which made it difficult for us to compete.
 
 **How can we prevent these causes? (Prevention Plan)**
