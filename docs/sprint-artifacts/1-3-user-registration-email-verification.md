@@ -1,6 +1,6 @@
 # Story 1.3: User Registration & Email Verification
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -125,8 +125,7 @@ The PRD states: "Users can sign up with email and password, and must verify thei
 ## Dev Agent Record
 
 ### Context Reference
-
-<!-- Path(s) to story context XML will be added here by context workflow -->
+- docs/sprint-artifacts/1-3-user-registration-email-verification.context.xml
 
 ### Agent Model Used
 gemini-cli-agent
