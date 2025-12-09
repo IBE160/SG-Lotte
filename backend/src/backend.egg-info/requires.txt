@@ -4,3 +4,6 @@ supabase
 python-dotenv
 uvicorn
 alembic
+pytest
+pytest-asyncio
+httpx

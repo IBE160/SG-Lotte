@@ -1,5 +1,5 @@
 // __tests__/signup.test.tsx
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SignupPage from '../signup/page';
 import * as SupabaseClientModule from '../../../../lib/supabaseClient';
@@ -33,25 +33,26 @@ describe('SignupPage', () => {
   beforeEach(() => {
     mockSignUp.mockClear();
     mockPush.mockClear();
-    // Reset location.origin for consistent testing
-    Object.defineProperty(window, 'location', {
-      writable: true,
-      value: { origin: 'http://localhost' },
-    });
+    // JSDOM's window.location is not writable, so we have to replace it.
+    delete (window as any).location;
+    window.location = new URL('http://localhost') as any;
   });
 
   it('renders the signup form with all fields', () => {
     render(<SignupPage />);
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/password \(min 6 characters\)/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Email address')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/password \(min 6 characters\)/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument();
   });
 
   it('displays validation error for invalid email', async () => {
     render(<SignupPage />);
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'invalid-email' } });
-    fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+    
+    await act(async () => {
+      fireEvent.change(screen.getByPlaceholderText('Email address'), { target: { value: 'invalid-email' } });
+      fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+    });
 
     expect(await screen.findByText(/please enter a valid email address/i)).toBeInTheDocument();
     expect(mockSignUp).not.toHaveBeenCalled();
@@ -59,8 +60,8 @@ describe('SignupPage', () => {
 
   it('displays validation error for password less than 6 characters', async () => {
     render(<SignupPage />);
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByLabelText(/password \(min 6 characters\)/i), { target: { value: 'short' } });
+    fireEvent.change(screen.getByPlaceholderText('Email address'), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText(/password \(min 6 characters\)/i), { target: { value: 'short' } });
     fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: 'short' } });
     fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
 
@@ -70,8 +71,8 @@ describe('SignupPage', () => {
 
   it('displays validation error for mismatched passwords', async () => {
     render(<SignupPage />);
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByLabelText(/password \(min 6 characters\)/i), { target: { value: 'password123' } });
+    fireEvent.change(screen.getByPlaceholderText('Email address'), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText(/password \(min 6 characters\)/i), { target: { value: 'password123' } });
     fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: 'passwordABC' } });
     fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
 
@@ -83,8 +84,8 @@ describe('SignupPage', () => {
     mockSignUp.mockResolvedValueOnce({ data: { user: { id: '123' } }, error: null });
 
     render(<SignupPage />);
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByLabelText(/password \(min 6 characters\)/i), { target: { value: 'password123' } });
+    fireEvent.change(screen.getByPlaceholderText('Email address'), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText(/password \(min 6 characters\)/i), { target: { value: 'password123' } });
     fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: 'password123' } });
     fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
 
@@ -106,8 +107,8 @@ describe('SignupPage', () => {
     mockSignUp.mockResolvedValueOnce({ data: { user: null }, error: { message: errorMessage } });
 
     render(<SignupPage />);
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'existing@example.com' } });
-    fireEvent.change(screen.getByLabelText(/password \(min 6 characters\)/i), { target: { value: 'password123' } });
+    fireEvent.change(screen.getByPlaceholderText('Email address'), { target: { value: 'existing@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText(/password \(min 6 characters\)/i), { target: { value: 'password123' } });
     fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: 'password123' } });
     fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
 

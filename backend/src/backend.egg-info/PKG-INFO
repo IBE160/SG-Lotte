@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: backend
+Version: 0.1.0
+Requires-Dist: fastapi
+Requires-Dist: pydantic
+Requires-Dist: supabase
+Requires-Dist: python-dotenv
+Requires-Dist: uvicorn
+Requires-Dist: alembic
+Requires-Dist: pytest
+Requires-Dist: pytest-asyncio
+Requires-Dist: httpx

@@ -1,0 +1,17 @@
+[project]
+name = "backend"
+version = "0.1.0"
+dependencies = [
+    "fastapi",
+    "pydantic",
+    "supabase",
+    "python-dotenv",
+    "uvicorn",
+    "alembic",
+    "pytest",
+    "pytest-asyncio",
+    "httpx"
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

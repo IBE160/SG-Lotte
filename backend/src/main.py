@@ -1,7 +1,13 @@
-from fastapi import FastAPI
-from .supabase_client import supabase # Import the Supabase client
+from fastapi import FastAPI, HTTPException
+from supabase_client import supabase # Import the Supabase client
+from app.api.v1.endpoints import users, onboarding # Import the new onboarding router
 
 app = FastAPI()
+
+# Include API routers
+app.include_router(users.router, prefix="/api/v1/users", tags=["users"])
+app.include_router(onboarding.router, prefix="/api/v1/onboarding", tags=["onboarding"])
+
 
 @app.get("/")
 async def read_root():

@@ -1,0 +1,12 @@
+pyproject.toml
+src/main.py
+src/supabase_client.py
+src/app/__init__.py
+src/app/api/v1/endpoints/onboarding.py
+src/app/schemas/user_preferences.py
+src/app/services/user_profile_service.py
+src/backend.egg-info/PKG-INFO
+src/backend.egg-info/SOURCES.txt
+src/backend.egg-info/dependency_links.txt
+src/backend.egg-info/requires.txt
+src/backend.egg-info/top_level.txt
