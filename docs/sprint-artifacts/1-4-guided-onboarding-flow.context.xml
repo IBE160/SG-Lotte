@@ -1,0 +1,170 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>4</storyId>
+    <title>Guided Onboarding Flow</title>
+    <status>drafted</status>
+    <generatedAt>tirsdag 9. desember 2025</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/epics.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a new user who has just verified my email</asA>
+    <iWant>to complete a guided 5-step onboarding process</iWant>
+    <soThat>the AI can gather my preferences and generate my first personalized plan</soThat>
+    <tasks>
+*   [ ] **Frontend Development:**
+    *   [ ] Design and implement 5 distinct UI screens for the onboarding flow, referencing `onboarding1_dark.html` to `onboarding5_dark.html` as a basis.
+    *   [ ] Implement client-side routing and navigation logic to transition smoothly between the 5 onboarding screens.
+    *   [ ] Develop interactive UI elements (e.g., radio buttons, dropdowns, input fields) for users to select their primary fitness goal, dietary preferences, and fitness persona.
+    *   [ ] Implement client-side validation for user input on each onboarding screen.
+*   [ ] **Backend Development:**
+    *   [ ] Create API endpoints (e.g., `POST /api/v1/onboarding/preferences`) to securely receive and persist user preferences (fitness goal, dietary preferences, fitness persona) to the user's profile in the database.
+    *   [ ] Ensure data integrity and security for storing sensitive user preference data.
+*   [ ] **Integration:**
+    *   [ ] Integrate the frontend onboarding screens with the backend API endpoints to send user selections and save preferences to the database upon completion of each step or the entire flow.
+    *   [ ] Handle loading states and error feedback during API calls.
+*   [ ] **Testing:**
+    *   [ ] **Unit Tests (Frontend):** Develop unit tests for each onboarding UI component and the navigation logic.
+    *   [ ] **API Tests (Backend):** Write integration tests for the API endpoints responsible for saving user preferences to ensure data is correctly processed and stored.
+    *   [ ] **End-to-End Tests:** Implement end-to-end tests that simulate a user completing the entire 5-step onboarding process and verify that preferences are saved correctly and the user is redirected to the appropriate next screen (e.g., dashboard).
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+**Given** I have verified my email
+**When** I start the onboarding
+**Then** I am presented with a sequence of 5 UI screens (`onboarding1_dark.html` to `onboarding5_dark.html`)
+**And** I can select my primary fitness goal, dietary preferences, and fitness persona
+**And** all my preferences are securely saved to my user profile
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 1.4: Guided Onboarding Flow</section>
+        <snippet>As a new user who has just verified my email, I want to complete a guided 5-step onboarding process, So the AI can gather my preferences and generate my first personalized plan.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>Onboarding Flow</section>
+        <snippet>Detailed specifications for the 5-step onboarding screens, including wireframes and interaction design.</snippet>
+      </doc>
+      <doc>
+        <path>docs/design-system-spec.md</path>
+        <title>Design System Specification</title>
+        <section>UI Components</section>
+        <snippet>Defines reusable UI components to be used in the onboarding flow (e.g., buttons, input fields, selection controls).</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>frontend/src/app/onboarding/page.tsx</path>
+        <kind>UI page</kind>
+        <symbol>OnboardingPage</symbol>
+        <lines>N/A</lines>
+        <reason>Main entry point for the onboarding flow.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/app/onboarding/components/Step1.tsx</path>
+        <kind>UI component</kind>
+        <symbol>OnboardingStep1</symbol>
+        <lines>N/A</lines>
+        <reason>Component for the first onboarding screen (fitness goal selection).</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/app/onboarding/components/Step2.tsx</path>
+        <kind>UI component</kind>
+        <symbol>OnboardingStep2</symbol>
+        <lines>N/A</lines>
+        <reason>Component for the second onboarding screen (dietary preferences).</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/app/onboarding/components/Step3.tsx</path>
+        <kind>UI component</kind>
+        <symbol>OnboardingStep3</symbol>
+        <lines>N/A</lines>
+        <reason>Component for the third onboarding screen (fitness persona).</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/app/onboarding/components/Step4.tsx</path>
+        <kind>UI component</kind>
+        <symbol>OnboardingStep4</symbol>
+        <lines>N/A</lines>
+        <reason>Component for the fourth onboarding screen.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/app/onboarding/components/Step5.tsx</path>
+        <kind>UI component</kind>
+        <symbol>OnboardingStep5</symbol>
+        <lines>N/A</lines>
+        <reason>Component for the fifth onboarding screen.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/src/app/api/v1/endpoints/onboarding.py</path>
+        <kind>API endpoint</kind>
+        <symbol>router</symbol>
+        <lines>N/A</lines>
+        <reason>Handles saving user preferences during onboarding.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/src/app/services/user_profile_service.py</path>
+        <kind>backend service</kind>
+        <symbol>UserProfileService</symbol>
+        <lines>N/A</lines>
+        <reason>Service layer for managing user profile data, including preferences.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Frontend">
+        <package name="next" version="^14.0.0"/>
+        <package name="react" version="^18.2.0"/>
+        <package name="react-dom" version="^18.2.0"/>
+      </ecosystem>
+      <ecosystem name="Backend">
+        <package name="fastapi" version="~0.122.0"/>
+        <package name="sqlalchemy"/>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>
+      <type>UI/UX Consistency</type>
+      <rule>All onboarding screens must adhere to the design principles and components outlined in `docs/design-system-spec.md` and utilize dark mode theme.</rule>
+      <source>docs/ux-design-specification.md</source>
+    </constraint>
+    <constraint>
+      <type>Data Security</type>
+      <rule>User preferences collected during onboarding must be stored securely, utilizing Supabase Row Level Security (RLS) and appropriate API authentication.</rule>
+      <source>docs/architecture-2025-11-30.md</source>
+    </constraint>
+    <constraint>
+      <type>Performance</type>
+      <rule>Each step of the onboarding flow should load quickly, with API responses for saving preferences returning within 500ms.</rule>
+      <source>docs/PRD.md</source>
+    </constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Save Onboarding Preferences</name>
+      <kind>REST endpoint</kind>
+      <signature>POST /api/v1/onboarding/preferences</signature>
+      <path>backend/src/app/api/v1/endpoints/onboarding.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Frontend unit tests will use React Testing Library/Jest. Backend API tests will use Pytest.</standards>
+    <locations>Frontend tests in `frontend/src/app/onboarding/__tests__/`. Backend tests in `backend/tests/api/v1/`.</locations>
+    <ideas>
+      <idea for="AC #1">Verify all 5 onboarding screens render correctly and contain the expected input fields/selection controls.</idea>
+      <idea for="AC #2">Simulate user interaction to select preferences and verify that the data is correctly prepared for submission.</idea>
+      <idea for="AC #3">Write an integration test to send a POST request to `/api/v1/onboarding/preferences` with valid data and assert that the user's profile in the database is updated accordingly.</idea>
+      <idea>Develop end-to-end tests using Playwright or Cypress to simulate a full onboarding journey and verify data persistence.</idea>
+    </ideas>
+  </tests>
+</story-context>
