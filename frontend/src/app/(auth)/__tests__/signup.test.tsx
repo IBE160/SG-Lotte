@@ -5,14 +5,20 @@ import SignupPage from '../signup/page';
 import * as SupabaseClientModule from '../../../../lib/supabaseClient';
 
 // Mock the Supabase client
-const mockSignUp = jest.fn();
-const mockCreateClient = jest.spyOn(SupabaseClientModule, 'createClient').mockReturnValue({
-  auth: {
-    signUp: mockSignUp,
-    // Add other auth methods if needed by components
+jest.mock('../../../../lib/supabaseClient', () => ({
+  supabase: {
+    auth: {
+      signUp: jest.fn(),
+      // Add other auth methods if needed by components
+    },
+    // Add other Supabase client properties if needed by components
   },
-  // Add other Supabase client properties if needed by components
-} as any); // Use 'as any' for simpler mocking, or define full mock type
+}));
+
+import { supabase } from '../../../../lib/supabaseClient'; // Import the mocked supabase
+
+// In your test file, you can now access the mocked functions directly
+const mockSignUp = supabase.auth.signUp as jest.Mock;
 
 // Mock Next.js router
 const mockPush = jest.fn();

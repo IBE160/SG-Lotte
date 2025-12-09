@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { createClient } from '../../../../lib/supabaseClient';
+import { supabase } from '../../../../lib/supabaseClient';
+import { OtpType } from '@supabase/supabase-js';
 
 export default function VerifyEmailPage() {
   const [message, setMessage] = useState<string>('Verifying your email...');
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const supabase = createClient();
+  const Supabase = supabase;
 
   useEffect(() => {
     const handleVerification = async () => {
@@ -17,9 +18,9 @@ export default function VerifyEmailPage() {
       const type = searchParams.get('type');
 
       if (token_hash && type) {
-        const { error } = await supabase.auth.verifyOtp({
+        const { error } = await Supabase.auth.verifyOtp({
           token_hash,
-          type: type as 'signup', // Assuming it's always a signup verification
+          type: type as OtpType,
         });
 
         if (!error) {

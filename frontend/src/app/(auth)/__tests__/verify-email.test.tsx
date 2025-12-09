@@ -5,12 +5,20 @@ import VerifyEmailPage from '../verify-email/page';
 import * as SupabaseClientModule from '../../../../lib/supabaseClient';
 
 // Mock the Supabase client
-const mockVerifyOtp = jest.fn();
-jest.spyOn(SupabaseClientModule, 'createClient').mockReturnValue({
-  auth: {
-    verifyOtp: mockVerifyOtp,
+jest.mock('../../../../lib/supabaseClient', () => ({
+  supabase: {
+    auth: {
+      verifyOtp: jest.fn(),
+      // Add other auth methods if needed by components
+    },
+    // Add other Supabase client properties if needed by components
   },
-} as any);
+}));
+
+import { supabase } from '../../../../lib/supabaseClient'; // Import the mocked supabase
+
+// In your test file, you can now access the mocked functions directly
+const mockVerifyOtp = supabase.auth.verifyOtp as jest.Mock;
 
 // Mock Next.js router and useSearchParams
 const mockPush = jest.fn();

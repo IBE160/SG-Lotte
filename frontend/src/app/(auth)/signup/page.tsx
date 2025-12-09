@@ -1,6 +1,6 @@
 "use client";
 
-import { createClient } from '../../../../lib/supabaseClient';
+import { supabase } from '../../../../lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -11,7 +11,7 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
-  const supabase = createClient();
+  const Supabase = supabase;
 
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
