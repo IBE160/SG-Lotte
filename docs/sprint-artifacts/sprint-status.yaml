@@ -39,7 +39,7 @@ development_status:
   1-1-core-backend-setup: done
   1-2-core-frontend-setup: done
   1-3-user-registration-email-verification: done
-  1-4-guided-onboarding-flow: backlog
+  1-4-guided-onboarding-flow: drafted
   1-5-initial-ai-plan-generation-display: backlog
   epic-1-retrospective: optional
   epic-2: backlog
