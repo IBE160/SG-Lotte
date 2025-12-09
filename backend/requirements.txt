@@ -4,3 +4,4 @@ supabase
 python-dotenv
 uvicorn
 alembic
+google-generativeai

@@ -65,6 +65,22 @@ export default function OnboardingPage() {
       }
 
       console.log('Preferences saved successfully!');
+
+      // Step 2: Trigger AI Plan Generation
+      const generatePlanResponse = await fetch('/api/v1/plans/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (!generatePlanResponse.ok) {
+        const errorData = await generatePlanResponse.json();
+        throw new Error(errorData.detail || 'Failed to generate plan.');
+      }
+
+      console.log('Plan generated successfully!');
       router.push('/dashboard'); // Redirect to dashboard on success
 
     } catch (err: unknown) {
