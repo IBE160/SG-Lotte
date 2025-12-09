@@ -1,6 +1,6 @@
 # Story 1.5: Initial AI Plan Generation & Display
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -114,7 +114,7 @@ So I can begin my health journey.
 
 ### Context Reference
 
-<!-- Path(s) to story context XML will be added here by context workflow -->
+- docs/sprint-artifacts/1-5-initial-ai-plan-generation-display.context.xml
 
 ### Agent Model Used
 
