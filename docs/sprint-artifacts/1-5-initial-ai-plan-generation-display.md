@@ -107,6 +107,7 @@ So I can begin my health journey.
 - [Source: docs/architecture-2025-11-30.md#Epic to Architecture Mapping]
 - [Source: docs/architecture-2025-11-30.md#Project Structure]
 - [Source: docs/architecture-2025-11-30.md#Testing Strategy]
+- [Source: docs/coding-standards.md#Overview]
 - [Source: docs/sprint-artifacts/tech-spec-epic-1.md#Story 1.5: Initial AI Plan Generation & Display]
 
 ## Dev Agent Record
@@ -141,3 +142,7 @@ Gemini CLI
 -   **Review Findings**: The previous story lacked a dedicated `tech-spec-epic-1.md` at its time of drafting, which has now been provided.
 
 [Source: docs/sprint-artifacts/1-4-guided-onboarding-flow.md#Dev-Agent-Record]
+
+## Change Log
+
+
