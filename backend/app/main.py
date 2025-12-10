@@ -17,3 +17,8 @@ app = FastAPI()
 async def root():
     logger.info("Root endpoint accessed")
     return {"message": "Hello World"}
+
+@app.get("/api/v1/health")
+async def health_check():
+    logger.info("Health check endpoint accessed")
+    return {"status": "ok"}
