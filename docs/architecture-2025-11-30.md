@@ -13,7 +13,7 @@ Based on a review of the Product Requirements Document (PRD), epics, UX specific
 * **Defined Technology Stack:** The technical direction is explicitly defined and validated:
   * **Frontend:** Next.js 14+ (App Router) with TypeScript, Tailwind CSS, and Recharts.
   * **Backend:** FastAPI (Python).
-  * **Database & BaaS:** Supabase (PostgreSQL) for the database, authentication, RLS, and storage.
+  *   **Database & BaaS:** Supabase (PostgreSQL) for the database, authentication, RLS, and storage. **This is a remote, managed service, not a local database.**
 * **User Experience:** The UX is defined by high-fidelity dark-themed wireframes, requiring a rich, component-based architecture to implement the 5-step onboarding, detailed logging, charts, and modals.
 * **Project Scale:** The project is classified as "Medium" complexity, with an initial MVP defined by 3 epics and 18 user stories.
 * **Non-Functional Requirements:** Critical NFRs include performance, security, scalability, and AI service reliability.
@@ -279,7 +279,7 @@ API requests and responses will be validated using Pydantic schemas to ensure da
 
 ## Security Architecture
 
-* **Authentication:** Handled by Supabase Auth, using JWTs for secure sessions.
+*   **Authentication:** Handled by Supabase Auth, a remote managed service, using JWTs for secure sessions.
 * **Authorization:** Supabase's Row Level Security (RLS) will be enabled to ensure users can only access their own data.
 * **Data Security:** All data will be encrypted in transit (HTTPS/SSL) and at rest (managed by Supabase).
 * **API Security:** Backend API endpoints will be protected and will require a valid JWT from an authenticated user.
