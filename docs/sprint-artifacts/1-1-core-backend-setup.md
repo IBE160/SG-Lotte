@@ -1,6 +1,6 @@
 # Story 1.1: Core Backend Setup
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -94,7 +94,7 @@ The tasks "Initial AI Integration Setup" and "Logging Configuration" are foundat
 
 ### Context Reference
 
-<!-- Path(s) to story context XML will be added here by context workflow -->
+- C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte/docs/sprint-artifacts/1-1-core-backend-setup.context.xml
 
 ### Agent Model Used
 

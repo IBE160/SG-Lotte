@@ -1,0 +1,262 @@
+<story-context id="{bmad_folder}/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1</storyId>
+    <title>core-backend-setup</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-10</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte/docs/sprint-artifacts</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As a developer</asA>
+    <iWant>I want the FastAPI backend and Supabase database to be set up and connected</iWant>
+    <soThat>so that I can build API endpoints and data models.</soThat>
+    <tasks>
+      &lt;ul&gt;
+        &lt;li&gt;&lt;strong&gt;Backend Project Setup:&lt;/strong&gt;
+          &lt;ul&gt;
+            &lt;li&gt;Create a `backend/` directory in the project root.&lt;/li&gt;
+            &lt;li&gt;Initialize a Python virtual environment within `backend/` using `uv` (e.g., `uv venv`).&lt;/li&gt;
+            &lt;li&gt;Create `backend/requirements.txt` and add `fastapi`, `uvicorn`, `supabase`, `alembic`, `pydantic-settings`, `pydantic-ai`.&lt;/li&gt;
+            &lt;li&gt;Install dependencies using `uv pip install -r backend/requirements.txt`.&lt;/li&gt;
+            &lt;li&gt;Create a basic FastAPI application in `backend/app/main.py` that includes basic logging configuration.&lt;/li&gt;
+            &lt;li&gt;Run the FastAPI application with `uvicorn backend.app.main:app --reload` and verify it starts successfully. (AC: 1.1.1)&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Supabase Integration:&lt;/strong&gt;
+          &lt;ul&gt;
+            &lt;li&gt;Set up a new Supabase project (if not already done).&lt;/li&gt;
+            &lt;li&gt;Configure Supabase client in the FastAPI application (e.g., in `backend/app/core/config.py` for API keys and project URL).&lt;/li&gt;
+            &lt;li&gt;Add environment variables for `SUPABASE_URL` and `SUPABASE_KEY` to a `.env` file in `backend/` (and ensure `.env` is in `.gitignore`).&lt;/li&gt;
+            &lt;li&gt;Verify the FastAPI app can connect to Supabase. (AC: 1.1.2)&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Alembic Migration Setup:&lt;/strong&gt;
+          &lt;ul&gt;
+            &lt;li&gt;Initialize Alembic within the `backend/` directory (e.g., `alembic init alembic`).&lt;/li&gt;
+            &lt;li&gt;Configure `alembic.ini` to point to the Supabase PostgreSQL database connection string.&lt;/li&gt;
+            &lt;li&gt;Create a simple initial migration (e.g., for a basic `users` table).&lt;/li&gt;
+            &lt;li&gt;Run the migration to verify Alembic is configured correctly. (AC: 1.1.3)&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Initial AI Integration Setup:&lt;/strong&gt;
+          &lt;ul&gt;
+            &lt;li&gt;Create `backend/app/services/ai_plan_generator.py`.&lt;/li&gt;
+            &lt;li&gt;Add environment variable for `GEMINI_API_KEY` to the `.env` file in `backend/`.&lt;/li&gt;
+            &lt;li&gt;Implement a placeholder Pydantic AI framework integration (e.g., a simple function that takes a prompt and returns a dummy response, using the API key).&lt;/li&gt;
+            &lt;li&gt;Ensure the API key is loaded securely via Pydantic Settings.&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Logging Configuration:&lt;/strong&gt;
+          &lt;ul&gt;
+            &lt;li&gt;Implement structured JSON logging to `stdout`/`stderr` as per architecture.&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li&gt;&lt;strong&gt;Testing Strategy (Unit/Integration):&lt;/strong&gt;
+          &lt;ul&gt;
+            &lt;li&gt;Set up `pytest` in the `backend/tests/` directory.&lt;/li&gt>
+            &lt;li&gt;Write a unit test to ensure the FastAPI app instance is created.&lt;/li&gt;
+            &lt;li&gt;Write an integration test to confirm connection to Supabase.&lt;/li&gt;
+            &lt;li&gt;Write an integration test to confirm Alembic migrations can run.&lt;/li&gt;
+            &lt;li&gt;Write a unit test for the `ai_plan_generator.py` service (using a mocked AI response).&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    &lt;ul&gt;
+      &lt;li&gt;&lt;strong&gt;Given&lt;/strong&gt; the project is initialized &lt;strong&gt;When&lt;/strong&gt; I set up the backend &lt;strong&gt;Then&lt;/strong&gt; a FastAPI app is created and running.&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Given&lt;/strong&gt; the project is initialized &lt;strong&gt;When&lt;/strong&gt; I set up the backend &lt;strong&gt;Then&lt;/strong&gt; a Supabase project is connected and configured.&lt;/li&gt;
+      &lt;li&gt;&lt;strong&gt;Given&lt;/strong&gt; the project is initialized &lt;strong&gt;When&lt;/strong&gt; I set up the backend &lt;strong&gt;Then&lt;/strong&gt; Alembic migrations are configured for database schema management.&lt;/li&gt;
+    &lt;/ul&gt;
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Executive Summary</section>
+        <snippet>Comprehensive, AI-assisted web application that automatically generates and adjusts personalized workout and meal plans.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Product Scope - MVP</section>
+        <snippet>Core User Profile, AI Workout/Meal Planner, Weekly Replanning, Basic Progress Logging, Core Dashboard, Structured AI Output (JSON).</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Functional Requirements</section>
+        <snippet>Details on User Authentication, AI Plan Generation, Logging, Dashboard, and Notifications, which the backend needs to support.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Non-Functional Requirements</section>
+        <snippet>Performance, Security, Scalability, and AI service Reliability are critical for backend implementation.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Executive Summary</section>
+        <snippet>Outlines decoupled frontend/backend system using Next.js, FastAPI, and Supabase for scalability and clear separation of concerns.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Context</section>
+        <snippet>Establishes core objective, key AI features, and explicitly defined technology stack including FastAPI and Supabase for backend.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Structure</section>
+        <snippet>Detailed folder structure for the `backend/` directory, crucial for initial setup and organization.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Technology Stack Details</section>
+        <snippet>Specifies FastAPI with Python 3.14, Supabase (PostgreSQL), and Pydantic AI framework with Gemini 2.5.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Implementation Patterns</section>
+        <snippet>Naming conventions, backend folder structure (tests, core, services), and API/date formatting.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Testing Strategy</section>
+        <snippet>Defines Pytest for backend unit and integration tests, aligning with the story's need for backend setup.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Development Environment</section>
+        <snippet>Includes setup commands for backend dependencies using `uv pip install -r requirements.txt`.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>User Flow and Wireframe Specification</section>
+        <snippet>References user flows for onboarding, plan management, and logging, which require backend support.</snippet>
+      </doc>
+      <doc>
+        <path>docs/test-design-epic-1.md</path>
+        <title>Test Design: Epic 1 - First Plan & Foundation</title>
+        <section>Testing Strategy & Scope</section>
+        <snippet>Highlights integration tests between frontend and backend, and backend to Supabase/AI, crucial for foundational setup.</snippet>
+      </doc>
+      <doc>
+        <path>docs/test-design-epic-1.md</path>
+        <title>Test Design: Epic 1 - First Plan & Foundation</title>
+        <section>Test Scenarios & Stories Coverage</section>
+        <snippet>Mentions Scenario 1.1.1 (Backend health-check) directly relevant to Story 1.1's backend setup.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <code-ref>
+        <path>backend/requirements.txt</path>
+        <reason>Core dependencies for FastAPI, Supabase, Alembic, and Pydantic AI.</reason>
+        <snippet>
+          fastapi
+          uvicorn
+          supabase
+          alembic
+          pydantic-settings
+          pydantic-ai
+        </snippet>
+      </code-ref>
+      <code-ref>
+        <path>backend/app/main.py</path>
+        <reason>Basic FastAPI application entry point with logging.</reason>
+        <snippet>
+          from fastapi import FastAPI
+          import logging
+
+          logging.basicConfig(level=logging.INFO)
+          logger = logging.getLogger(__name__)
+
+          app = FastAPI()
+
+          @app.get("/")
+          async def root():
+              logger.info("Root endpoint accessed")
+              return {"message": "Hello World"}
+        </snippet>
+      </code-ref>
+      <code-ref>
+        <path>backend/app/core/config.py</path>
+        <reason>Configuration for Supabase and Gemini API keys.</reason>
+        <snippet>
+          from pydantic_settings import BaseSettings, SettingsConfigDict
+
+          class Settings(BaseSettings):
+              SUPABASE_URL: str
+              SUPABASE_KEY: str
+              GEMINI_API_KEY: str
+
+              model_config = SettingsConfigDict(env_file=".env")
+
+          settings = Settings()
+        </snippet>
+      </code-ref>
+    </code>
+    <dependencies>
+      <python>
+        <package name="fastapi"/>
+        <package name="uvicorn"/>
+        <package name="supabase"/>
+        <package name="alembic"/>
+        <package name="pydantic-settings"/>
+        <package name="pydantic-ai"/>
+        <tool name="uv" description="Python package manager"/>
+      </python>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <ul>
+      <li>Backend Framework: FastAPI (Python 3.14)</li>
+      <li>Database &amp; BaaS: Supabase (PostgreSQL), a remote, managed service.</li>
+      <li>Package Management (Backend): `uv`</li>
+      <li>AI Integration: Pydantic AI framework with Gemini 2.5 flash.</li>
+      <li>Project Structure (Backend): Reside in `backend/` directory, with `app/`, `main.py`, `api/`, `core/`, `services/`, `alembic/`, and `requirements.txt`.</li>
+      <li>Logging: Structured JSON format logs to `stdout`/`stderr`.</li>
+      <li>Development Environment: Use `uv pip install -r backend/requirements.txt` and `uvicorn app.main:app --reload`.</li>
+      <li>API Keys: Stored as environment variables and loaded securely (e.g., using Pydantic Settings).</li>
+      <li>Testing: Backend unit and integration tests with `Pytest` in `backend/tests/`.</li>
+    </ul>
+  </constraints>
+  <interfaces>
+    <ul>
+      <li>FastAPI Endpoints: Expected in `/api/v1/`.</li>
+      <li>Supabase Client Configuration: Requires `SUPABASE_URL` and `SUPABASE_KEY`.</li>
+      <li>Alembic: Initial setup for database schema management.</li>
+      <li>AI Integration: Placeholder Pydantic AI framework integration, using `GEMINI_API_KEY`.</li>
+    </ul>
+  </interfaces>
+  <tests>
+    <standards>
+      Backend (FastAPI) unit and integration tests will be written using Pytest. The strategy is weighted towards integration and E2E tests to ensure all new, interconnected pieces work together as a cohesive whole, covering critical business logic in backend services.
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="1.1.1">Write a unit test to ensure the FastAPI app instance is created.</idea>
+      <idea ac_id="1.1.2">Write an integration test to confirm connection to Supabase.</idea>
+      <idea ac_id="1.1.3">Write an integration test to confirm Alembic migrations can run.</idea>
+      <idea>Write a unit test for the `ai_plan_generator.py` service (using a mocked AI response).</idea>
+      <idea>Implement a smoke test to ensure the deployed FastAPI backend is reachable and returns a healthy status from a health-check endpoint.</idea>
+    </ideas>
+  </tests>
+</story-context>
