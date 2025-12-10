@@ -1,6 +1,6 @@
 # Story 1.2: Core Frontend Setup
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -137,7 +137,7 @@ This story will initiate the `frontend/` directory with its own structure, ensur
 
 ## Dev Agent Record
 
-- **Context Reference**: 
+- **Context Reference**: docs/sprint-artifacts/1-2-core-frontend-setup.context.xml
 - **Agent Model Used**: 
 - **Debug Log References**: 
 - **Completion Notes List**: 
