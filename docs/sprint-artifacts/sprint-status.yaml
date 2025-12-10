@@ -2,7 +2,7 @@
 # project: ibe160
 # project_key: ibe160
 # tracking_system: file-system
-# story_location: C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte/docs/sprint-artifacts
+# story_location: C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/sprint-artifacts
 
 # STATUS DEFINITIONS:
 # ==================
@@ -33,7 +33,7 @@ generated: 2025-12-10
 project: ibe160
 project_key: ibe160
 tracking_system: file-system
-story_location: C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte/docs/sprint-artifacts
+story_location: C:/IT_studier/IBE160_Programmering_med_KI/Prosjektmappe/Prosjekt/SG-Lotte/docs/sprint-artifacts
 
 development_status:
   epic-1: contexted
@@ -43,7 +43,7 @@ development_status:
   1-4-guided-onboarding-flow: backlog
   1-5-initial-ai-plan-generation-display: backlog
   epic-1-retrospective: optional
-  epic-2: backlog
+  epic-2: contexted
   2-1-workout-logging-ui: backlog
   2-2-meal-logging-ui: backlog
   2-3-ai-driven-weekly-plan-adaptation-logic: backlog
