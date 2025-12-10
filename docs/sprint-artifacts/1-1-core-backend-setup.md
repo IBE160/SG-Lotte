@@ -74,12 +74,21 @@ No existing files were created or modified by a previous story in this epic. The
 
 *   Backend (FastAPI): Unit and integration tests will be written using `Pytest` in the `backend/tests/` directory.
 
+### Foundational Tasks Without Direct AC Mapping
+
+The tasks "Initial AI Integration Setup" and "Logging Configuration" are foundational setup tasks for the backend. While critical for the overall project and enabling future stories, they do not directly map to an Acceptance Criterion within Story 1.1. These tasks establish necessary infrastructure and preliminary integrations that will be directly validated by ACs in subsequent stories (e.g., Story 1.5 for AI plan generation).
+
+
 ## References
 
 - [Source: docs/epics.md#story-11-core-backend-setup]
-- [Source: docs/architecture-2025-11-30.md]
-- [Source: docs/sprint-artifacts/tech-spec-epic-1.md]
-- [Source: docs/PRD.md]
+- [Source: docs/architecture-2025-11-30.md#project-context]
+- [Source: docs/sprint-artifacts/tech-spec-epic-1.md#acceptance-criteria-authoritative]
+- [Source: docs/PRD.md#product-scope]
+
+## Change Log
+
+- 2025-12-10: Initial draft.
 
 ## Dev Agent Record
 
