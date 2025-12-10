@@ -1,3 +1,4 @@
 # Logs
 .logging/requests/
 backend/.env
+frontend/
