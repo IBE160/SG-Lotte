@@ -21,7 +21,7 @@
 #   - {file-path}: File created/found (e.g., "docs/product-brief.md")
 #   - skipped: Optional/conditional workflow that was skipped
 
-generated: "2025-11-16"
+generated: "2025-12-10"
 project: "ibe160"
 project_type: "software"
 selected_track: "method"
@@ -47,3 +47,10 @@ workflow_status:
 
   # Phase 3: Implementation
   sprint-planning: required
+  quality-and-testing-progress:
+    - workflow: "test-design"
+      epic: "1"
+      scope: "full"
+      status: "completed"
+      output_file: "docs/test-design-epic-1.md"
+      timestamp: "2025-12-10T12:00:00Z"

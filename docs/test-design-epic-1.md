@@ -1,228 +1,109 @@
 # Test Design: Epic 1 - First Plan & Foundation
 
-**Date:** 2025-11-30
-**Author:** BIP
-**Status:** Draft
+**Author:** Murat (Master Test Architect)
+**Date:** 2025-12-10
+**Epic:** Epic 1: First Plan & Foundation
+**Risk Assessment:** Critical. This epic lays the foundation for the entire application. Any failure in the core infrastructure, user registration, or initial plan generation will prevent any user from successfully using the product. The risk of failure is the highest in this epic.
 
 ---
 
-## Executive Summary
+## 1. Testing Strategy & Scope
 
-**Scope:** Full test design for Epic 1.
+This test design outlines the quality validation strategy for the foundational Epic 1. The primary goals are to verify the stability of the core technical stack, the security of the authentication flow, and the reliability of the crucial first-time user experience.
 
-**Risk Summary:**
+### 1.1. Testing Pyramid
 
-- Total risks identified: 5
-- High-priority risks (≥6): 2
-- Critical categories: SEC (Security), BUS (Business Impact)
+The test strategy for this foundational epic is heavily weighted towards integration and E2E tests to ensure all the new, interconnected pieces work together as a cohesive whole.
 
-**Coverage Summary:**
+*   **Unit Tests (40%):** While important, the focus is less on isolated UI components and more on critical business logic in backend services (e.g., plan generation logic, user preference validation) and frontend state management.
+*   **Integration Tests (40%):** This is the most critical layer for Epic 1. We will rigorously test the integration points:
+    *   Frontend (Next.js) to Backend (FastAPI) API calls.
+    *   Backend to Supabase database (data model integrity).
+    *   Backend to Supabase Auth for user registration and verification.
+    *   Backend service for AI plan generation to the underlying AI framework.
+*   **End-to-End (E2E) Tests (20%):** A comprehensive E2E test will cover the entire "golden path" for a new user: from the landing page, through signup, email verification, the 5-step onboarding, and finally landing on the dashboard to see their first plan.
+*   **Infrastructure & Deployment Testing:** We will validate the Vercel deployment pipeline for the frontend and the hosting configuration for the backend, ensuring they are stable, scalable, and connected. This includes "smoke tests" that run immediately after deployment.
+*   **Security Testing:** The authentication and registration flow will be a primary focus. We will test for common vulnerabilities, ensure email verification is enforced, and validate password strength policies.
 
-- P0 scenarios: 8 (16 hours)
-- P1 scenarios: 10 (10 hours)
-- P2/P3 scenarios: 12 (6 hours)
-- **Total effort**: 32 hours (~4 days)
+### 1.2. Tools & Frameworks
 
----
-
-## Risk Assessment
-
-### High-Priority Risks (Score ≥6)
-
-| Risk ID | Category | Description | Probability | Impact | Score | Mitigation | Owner | Timeline |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| R-001 | BUS | AI plan generation fails or produces nonsensical plans. | 3 | 3 | 9 | Implement strict schema validation on AI output, have a fallback to a default plan, and implement robust error handling and logging. | DEV | Sprint 1 |
-| R-002 | SEC | User registration is insecure, allowing for account takeover. | 2 | 3 | 6 | Enforce email verification, use Supabase's built-in security features, test for common vulnerabilities (e.g., insecure password reset). | DEV | Sprint 1 |
-
-### Medium-Priority Risks (Score 3-4)
-
-| Risk ID | Category | Description | Probability | Impact | Score | Mitigation | Owner |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| R-003 | BUS | Onboarding flow is confusing or buggy, leading to high user drop-off. | 2 | 2 | 4 | E2E testing of the full onboarding flow, component testing for each step. | QA |
-| R-004 | OPS | Backend/Frontend setup is misconfigured, causing deployment or integration issues. | 2 | 2 | 4 | Implement CI/CD pipeline early, have a simple "hello world" API call to verify connection. | DEVOPS |
-| R-005 | SEC | Sensitive user preferences (dietary, goals) are not stored securely. | 1 | 3 | 3 | Implement and test Supabase Row Level Security policies to ensure users can only access their own data. | DEV |
-
-### Risk Category Legend
-
-- **TECH**: Technical/Architecture (flaws, integration, scalability)
-- **SEC**: Security (access controls, auth, data exposure)
-- **PERF**: Performance (SLA violations, degradation, resource limits)
-- **DATA**: Data Integrity (loss, corruption, inconsistency)
-- **BUS**: Business Impact (UX harm, logic errors, revenue)
-- **OPS**: Operations (deployment, config, monitoring)
+*   **Unit/Integration (Frontend):** Jest & React Testing Library
+*   **Unit/Integration (Backend):** Pytest
+*   **E2E Testing:** Playwright
+*   **API Contract Testing:** Pact
+*   **CI/CD & Deployment:** Vercel, GitHub Actions
 
 ---
 
-## Test Coverage Plan
+## 2. Test Scenarios & Stories Coverage
 
-### P0 (Critical) - Run on every commit
+### Story 1.1 & 1.2: Core Backend & Frontend Setup
 
-**Criteria**: Blocks core journey + High risk (≥6) + No workaround
+*   **Scenario 1.1.1 (Smoke Test):** The deployed FastAPI backend is reachable and returns a healthy status from a health-check endpoint.
+*   **Scenario 1.2.1 (Smoke Test):** The deployed Next.js frontend loads successfully in a browser.
+*   **Scenario 1.2.2 (Integration):** The frontend can make a successful authenticated API call to the backend.
 
-| Requirement | Test Level | Risk Link | Test Count | Owner | Notes |
-| --- | --- | --- | --- | --- | --- |
-| User can register and verify email | E2E | R-002 | 3 | QA | Happy path, invalid email, already registered email. |
-| AI generates a valid plan | API | R-001 | 5 | DEV | Test AI output against schema, test fallback mechanism. |
+### Story 1.3: User Registration & Email Verification
 
-**Total P0**: 8 tests, 16 hours
+*   **Scenario 1.3.1:** A new user can successfully sign up with a valid email and a strong password.
+*   **Scenario 1.3.2:** The system rejects registrations with invalid email formats or weak passwords.
+*   **Scenario 1.3.3:** The system prevents a user from logging in before they have verified their email address.
+*   **Scenario 1.3.4:** A user can successfully verify their account by clicking the link in the verification email.
+*   **Scenario 1.3.5:** The system handles attempts to register with an already existing email address gracefully.
 
-### P1 (High) - Run on PR to main
+### Story 1.4: Guided Onboarding Flow
 
-**Criteria**: Important features + Medium risk (3-4) + Common workflows
+*   **Scenario 1.4.1:** A newly verified user is correctly redirected to the start of the 5-step onboarding flow.
+*   **Scenario 1.4.2:** A user can navigate forwards and backwards through the onboarding steps.
+*   **Scenario 1.4.3:** The user's selections (goals, preferences, persona) are correctly saved to the database upon completion of the flow.
+*   **Scenario 1.4.4:** The system validates user input at each step where necessary.
 
-| Requirement | Test Level | Risk Link | Test Count | Owner | Notes |
-| --- | --- | --- | --- | --- | --- |
-| Onboarding flow is completable | E2E | R-003 | 2 | QA | Test the full 5-step onboarding flow. |
-| Backend/Frontend are connected | Integration | R-004 | 2 | DEV | Simple API call from frontend to backend. |
-| User preferences are saved securely | API | R-005 | 6 | DEV | Test API endpoints for saving user data with auth. |
+### Story 1.5: Initial AI Plan Generation & Display
 
-**Total P1**: 10 tests, 10 hours
-
-### P2 (Medium) - Run nightly/weekly
-
-**Criteria**: Secondary features + Low risk (1-2) + Edge cases
-
-| Requirement | Test Level | Risk Link | Test Count | Owner | Notes |
-| --- | --- | --- | --- | --- | --- |
-| UI components in onboarding | Component | R-003 | 12 | DEV | Test individual components for each step. |
-
-**Total P2**: 12 tests, 6 hours
-
-### P3 (Low) - Run on-demand
-
-**Criteria**: Nice-to-have + Exploratory + Performance benchmarks
-
-**Total P3**: 0 tests, 0 hours
+*   **Scenario 1.5.1:** A user who completes onboarding is immediately shown a 7-day workout and meal plan on their dashboard.
+*   **Scenario 1.5.2:** The generated plan is consistent with the preferences selected during onboarding.
+*   **Scenario 1.5.3:** The complete plan is successfully stored in the database and associated with the correct user.
+*   **Scenario 1.5.4:** The system gracefully handles potential errors or delays from the AI generation service and displays a user-friendly message.
 
 ---
 
-## Execution Order
+## 3. Detailed Test Cases (Examples)
 
-### Smoke Tests (<5 min)
-- [ ] User can load the login page
-- [ ] Backend health check endpoint returns 200 OK
+### **Story 1.3: User Registration & Email Verification**
 
-### P0 Tests (<10 min)
-- [ ] User can register with a valid email and password
-- [ ] User receives a verification email
-- [ ] AI plan generation endpoint returns a valid plan structure
+| Test Case ID | Type | Description | Steps | Expected Result |
+| :--- | :--- | :--- | :--- | :--- |
+| TC-1.3.1 | E2E | Golden Path: Successful user registration and verification. | 1. Navigate to signup page. 2. Enter new valid credentials. 3. Submit form. 4. Check email inbox for verification link. 5. Click link. 6. Attempt to log in with credentials. | Signup succeeds. Verification email is received. Link correctly marks account as verified. Login is successful. |
+| TC-1.3.2 | E2E | Verify login is blocked before email verification. | 1. Navigate to signup page. 2. Enter new valid credentials. 3. Submit form. 4. Attempt to log in immediately. | Login fails with a message indicating the email must be verified. |
+| TC-1.3.3 | Integration | API rejects registration with existing email. | 1. Send a POST request to the registration endpoint with an email that already exists in the database. | The API returns a 409 Conflict error. |
 
-### P1 Tests (<30 min)
-- [ ] User can complete the entire onboarding flow
-- [ ] Frontend can successfully fetch data from the backend API
-- [ ] User preferences are correctly saved and retrieved
+### **Story 1.5: Initial AI Plan Generation & Display**
 
-### P2/P3 Tests (<60 min)
-- [ ] All individual UI components in the onboarding flow render correctly
-
----
-
-## Resource Estimates
-
-### Test Development Effort
-
-| Priority | Count | Hours/Test | Total Hours | Notes |
-| --- | --- | --- | --- | --- |
-| P0 | 8 | 2.0 | 16 | Complex setup for E2E and AI validation |
-| P1 | 10 | 1.0 | 10 | Standard integration and E2E tests |
-| P2 | 12 | 0.5 | 6 | Component tests |
-| P3 | 0 | 0.25 | 0 | None for this epic |
-| **Total** | **30** | **-** | **32** | **~4 days** |
-
-### Prerequisites
-
-**Test Data:**
-- User data factory for creating test users with different profiles.
-- Mock AI responses for testing plan generation logic without hitting the actual AI API.
-
-**Tooling:**
-- `Pytest` for backend testing.
-- `React Testing Library` and `Jest` for frontend component testing.
-- `Playwright` for E2E tests.
-
-**Environment:**
-- A staging environment with a separate Supabase project for running E2E tests.
-- CI/CD pipeline (Vercel) configured to run tests automatically.
+| Test Case ID | Type | Description | Steps | Expected Result |
+| :--- | :--- | :--- | :--- | :--- |
+| TC-1.5.1 | E2E | Verify plan is displayed after onboarding. | 1. Complete the entire registration and onboarding flow. 2. Upon reaching the dashboard... | The dashboard displays a populated 7-day workout and meal plan. No "empty" state is visible. |
+| TC-1.5.2 | Integration | Verify AI plan generation service call. | 1. Set up a user who has just completed onboarding. 2. Trigger the API endpoint that generates the initial plan. | The backend service makes a call to the Pydantic AI/Gemini 2.5 service with a prompt containing the user's onboarding preferences. The resulting plan is saved to the database. |
+| TC-1.5.3 | Integration | Handle AI service failure. | 1. Mock the AI generation service to return a 500 error. 2. Run the initial plan generation flow. | The backend API returns a user-friendly error. The frontend dashboard displays a message like "Could not generate your plan, please try again later." instead of crashing. |
 
 ---
 
-## Quality Gate Criteria
+## 4. Test Data & Environment Requirements
 
-### Pass/Fail Thresholds
-- **P0 pass rate**: 100% (no exceptions)
-- **P1 pass rate**: ≥95%
-- **P2/P3 pass rate**: ≥90%
-- **High-risk mitigations**: 100% complete
-
-### Coverage Targets
-- **Critical paths**: ≥80%
-- **Security scenarios**: 100%
-
-### Non-Negotiable Requirements
-- [ ] All P0 tests pass
-- [ ] No high-risk (≥6) items unmitigated
-- [ ] Security tests (SEC category) pass 100%
+*   **Email Testing Service:** An email sandbox service (like MailHog or a development-focused provider) is required to programmatically inspect verification emails during automated E2E tests.
+*   **Test Users:** E2E tests must be fully automated, including the creation of a new, unique user for each test run to ensure test independence and avoid conflicts.
+*   **AI Model Mocking:** For predictable and fast integration tests, the AI service will be mocked to return a static, valid plan structure. E2E tests will use the live service but may be subject to flakiness if not handled correctly; these tests should be designed to be resilient to variations in the generated plan content.
+*   **Clean Database State:** Each test run, especially for E2E, must start with a clean database state to ensure consistency. This can be achieved via programmatic database resets.
 
 ---
 
-## Mitigation Plans
+## 5. Exit Criteria
 
-### R-001: AI plan generation fails (Score: 9)
-**Mitigation Strategy:** Implement a robust validation layer for all OpenAI API responses against a strict Pydantic schema. If validation fails or the API call times out, the system will fall back to serving a pre-defined default plan from the database. All failures will be logged with high priority for immediate review.
-**Owner:** DEV
-**Timeline:** Sprint 1
-**Status:** Planned
+Epic 1 is the most critical and has the strictest exit criteria. It is "Done" when:
 
-### R-002: Insecure user registration (Score: 6)
-**Mitigation Strategy:** All authentication will be handled by Supabase Auth, which includes email verification. A security review of the frontend and backend integration with Supabase will be conducted. E2E tests will cover negative paths, such as attempting to log in without verification.
-**Owner:** DEV
-**Timeline:** Sprint 1
-**Status:** Planned
+1.  The full E2E "golden path" test (Signup -> Verify -> Onboard -> View Plan) is stable and passes consistently in the CI pipeline.
+2.  All integration points (FE-BE, BE-DB, BE-Auth) have passing contract or integration tests.
+3.  Unit test coverage for new backend logic is >= 85%.
+4.  The Vercel deployment pipeline is green, and post-deployment smoke tests are passing.
+5.  No "Critical" or "High" priority bugs related to authentication, data persistence, or the core user flow exist.
 
----
-
-## Assumptions and Dependencies
-
-### Assumptions
-1. The `epics.md` document accurately reflects the scope of Epic 1.
-2. The core technology stack (Next.js, FastAPI, Supabase) is stable and suitable for the project.
-
-### Dependencies
-1. Access to a Supabase project and OpenAI API keys for development and testing.
-
-### Risks to Plan
-- **Risk**: Underestimation of test development effort.
-  - **Impact**: Delays in delivery.
-  - **Contingency**: Re-prioritize P2/P3 tests to focus on P0/P1 coverage if time is short.
-
----
-
-## Approval
-
-**Test Design Approved By:**
-- [ ] Product Manager: BIP Date: {date}
-- [ ] Tech Lead: {name} Date: {date}
-- [ ] QA Lead: {name} Date: {date}
-
-**Comments:**
-
----
-
-## Appendix
-
-### Knowledge Base References
-- `risk-governance.md`
-- `probability-impact.md`
-- `test-levels-framework.md`
-- `test-priorities-matrix.md`
-
-### Related Documents
-- PRD: `docs/PRD.md`
-- Epic: `docs/epics.md`
-- Architecture: `docs/architecture-2025-11-30.md`
-
----
-
-**Generated by**: BMad TEA Agent - Test Architect Module
-**Workflow**: `.bmad/bmm/testarch/test-design`
-**Version**: 4.0 (BMad v6)
+**Next Steps:** This document will be the blueprint for implementing the critical E2E tests using Playwright. The highest priority is a stable test for the entire new user journey.

@@ -1,198 +1,111 @@
 # Test Design: Epic 3 - User Control & Personalization
 
-**Date:** 2025-11-30
-**Author:** BIP
-**Status:** Draft
+**Author:** Murat (Master Test Architect)
+**Date:** 2025-12-10
+**Epic:** Epic 3: User Control & Personalization
+**Risk Assessment:** Medium. While not as central as the core planning loop, these features are critical for user trust, long-term engagement, and regulatory compliance (e.g., account deletion). Failures here can cause significant user frustration and data privacy issues.
 
 ---
 
-## Executive Summary
+## 1. Testing Strategy & Scope
 
-**Scope:** Full test design for Epic 3.
+This test design covers the quality validation for all features within Epic 3. The strategy prioritizes security, data integrity, and usability, ensuring that users have full and reliable control over their account and experience.
 
-**Risk Summary:**
+### 1.1. Testing Pyramid
 
-- Total risks identified: 4
-- High-priority risks (≥6): 2
-- Critical categories: DATA (Data Integrity), SEC (Security)
+The testing approach remains consistent with the established pyramid model.
 
-**Coverage Summary:**
+*   **Unit Tests (60%):** All new UI components (profile forms, settings toggles), state management logic, and backend API endpoints will be thoroughly unit tested.
+*   **Integration Tests (30%):** We will focus on testing the contracts between the frontend and the backend APIs for profile and settings management. A key focus will be on the integration with Supabase Auth for security-sensitive operations like password changes and account deletion.
+*   **End-to-End (E2E) Tests (10%):** A lean set of E2E tests will validate the complete user flows for updating a profile, changing a password, deleting an account, and pausing a plan. These tests are vital for confirming the real-world user experience and ensuring data integrity.
+*   **Security Testing:** Manual and automated security checks will be performed on the account management functionalities. This includes checks for common vulnerabilities (e.g., improper access control, insecure direct object references) related to user data.
+*   **Manual & Exploratory Testing:** The settings and profile pages will undergo rigorous exploratory testing to identify usability issues, visual bugs across different viewports, and edge cases in the user flows.
 
-- P0 scenarios: 8 (16 hours)
-- P1 scenarios: 10 (10 hours)
-- P2/P3 scenarios: 6 (3 hours)
-- **Total effort**: 29 hours (~3.6 days)
+### 1.2. Tools & Frameworks
 
----
-
-## Risk Assessment
-
-### High-Priority Risks (Score ≥6)
-
-| Risk ID | Category | Description | Probability | Impact | Score | Mitigation | Owner | Timeline |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| R-301 | DATA | Account deletion process fails or leaves residual user data. | 2 | 3 | 6 | Unit tests for data deletion logic. Integration tests to verify data removal from all relevant tables. Manual verification during UAT. | DEV | Sprint 3 |
-| R-302 | SEC | Sensitive user profile data (e.g., goals, preferences) is exposed or modified by unauthorized users. | 2 | 3 | 6 | Thorough testing of RLS policies. API tests to ensure only authenticated and authorized users can access/modify their own profile. | DEV | Sprint 3 |
-
-### Medium-Priority Risks (Score 3-4)
-
-| Risk ID | Category | Description | Probability | Impact | Score | Mitigation | Owner |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| R-303 | BUS | Plan interruption feature (pause/unwell) misbehaves, leading to incorrect plan generation. | 2 | 2 | 4 | Unit tests for pause/unwell logic. Integration tests with AI plan generation to verify correct adaptation during/after interruption. | QA |
-| R-304 | SEC | Password change functionality has vulnerabilities (e.g., easily bypassable, no old password check). | 1 | 3 | 3 | Rely on Supabase Auth's robustness. E2E tests for the password change flow. | DEV |
-
-### Low-Priority Risks (Score 1-2)
-
-### Risk Category Legend
-
-- **TECH**: Technical/Architecture (flaws, integration, scalability)
-- **SEC**: Security (access controls, auth, data exposure)
-- **PERF**: Performance (SLA violations, degradation, resource limits)
-- **DATA**: Data Integrity (loss, corruption, inconsistency)
-- **BUS**: Business Impact (UX harm, logic errors, revenue)
-- **OPS**: Operations (deployment, config, monitoring)
+*   **Unit/Integration (Frontend):** Jest & React Testing Library
+*   **Unit/Integration (Backend):** Pytest
+*   **E2E Testing:** Playwright
+*   **API Contract Testing:** Pact
+*   **CI/CD:** GitHub Actions
 
 ---
 
-## Test Coverage Plan
+## 2. Test Scenarios & Stories Coverage
 
-### P0 (Critical) - Run on every commit
+This section maps high-level test scenarios to the user stories within Epic 3.
 
-**Criteria**: Blocks core journey + High risk (≥6) + No workaround
+### Story 3.1: User Profile Page
 
-| Requirement | Test Level | Risk Link | Test Count | Owner | Notes |
-| --- | --- | --- | --- | --- | --- |
-| User profile data is secure and private | API | R-302 | 3 | DEV | Test RLS with various user roles, test direct API access attempts. |
-| Account deletion removes all user data | Integration | R-301 | 5 | DEV | Test full data deletion across all tables, including associated logs. |
+*   **Scenario 3.1.1:** A user can successfully view their current profile information.
+*   **Scenario 3.1.2:** A user can successfully edit and save their profile information (e.g., name).
+*   **Scenario 3.1.3:** The system prevents users from editing read-only fields (e.g., email address).
+*   **Scenario 3.1.4:** The system validates input and rejects invalid data (e.g., an empty name).
 
-**Total P0**: 8 tests, 16 hours
+### Story 3.2: Application Settings
 
-### P1 (High) - Run on PR to main
+*   **Scenario 3.2.1:** A user can successfully toggle dark mode, and the theme is applied instantly and persists across sessions.
+*   **Scenario 3.2.2:** A user can successfully enable or disable notification preferences, and the changes are saved correctly.
 
-**Criteria**: Important features + Medium risk (3-4) + Common workflows
+### Story 3.3: Account Management
 
-| Requirement | Test Level | Risk Link | Test Count | Owner | Notes |
-| --- | --- | --- | --- | --- | --- |
-| User can change password securely | E2E | R-304 | 2 | QA | Test password change flow, including edge cases like invalid current password. |
-| User can manage plan interruptions | E2E | R-303 | 4 | QA | Test pausing plan for a duration, and indicating 'unwell' status. |
-| User can update profile information | E2E | R-302 | 4 | QA | Test happy path for updating profile data, verify persistence. |
+*   **Scenario 3.3.1:** A user can successfully change their password with the correct old password.
+*   **Scenario 3.3.2:** The system prevents a password change if the old password is incorrect.
+*   **Scenario 3.3.3:** A user can successfully and permanently delete their account after confirming their choice.
+*   **Scenario 3.3.4:** After account deletion, the user is logged out and can no longer access the application with their old credentials.
+*   **Scenario 3.3.5 (Security):** A logged-in user cannot view or modify the profile or settings of another user.
 
-**Total P1**: 10 tests, 10 hours
+### Story 3.4: Plan Interruption Management
 
-### P2 (Medium) - Run nightly/weekly
-
-**Criteria**: Secondary features + Low risk (1-2) + Edge cases
-
-| Requirement | Test Level | Risk Link | Test Count | Owner | Notes |
-| --- | --- | --- | --- | --- | --- |
-| Application settings (dark mode, notifications) persist | Component | N/A | 6 | DEV | Test setting changes and persistence across sessions. |
-
-**Total P2**: 6 tests, 3 hours
-
-### P3 (Low) - Run on-demand
-
-**Total P3**: 0 tests, 0 hours
+*   **Scenario 3.4.1:** A user can successfully pause their plan for a future date range.
+*   **Scenario 3.4.2:** No new plans are generated for a user whose plan is currently paused.
+*   **Scenario 3.4.3:** The AI correctly adjusts plan intensity downwards when a user signals they are "Feeling Unwell".
+*   **Scenario 3.4.4:** The system correctly resumes plan generation after the pause period ends.
 
 ---
 
-## Execution Order
+## 3. Detailed Test Cases (Examples)
 
-### Smoke Tests (<5 min)
-- [ ] User can load the profile page
-- [ ] User can load the settings page
+This is not an exhaustive list but provides examples of specific, automatable test cases for each story.
 
-### P0 Tests (<10 min)
-- [ ] User can successfully delete their account
-- [ ] User's profile data is not accessible by other users
+### **Story 3.1: User Profile Page**
 
-### P1 Tests (<30 min)
-- [ ] User can change their password
-- [ ] User can pause their plan for a specified duration
-- [ ] User can update their profile details
+| Test Case ID | Type | Description | Steps | Expected Result |
+| :--- | :--- | :--- | :--- | :--- |
+| TC-3.1.1 | E2E | Verify successful profile name change | 1. Log in. 2. Navigate to Profile page. 3. Edit the "Name" field to "Test User New". 4. Click "Save". 5. Reload the page. | The name "Test User New" is displayed. A success notification is shown. The database reflects the change. |
+| TC-3.1.2 | Integration | API rejects update to email field | 1. Send a PATCH request to `/users/me` with a new email address. | The API returns a 400 Bad Request or 403 Forbidden error, and the email address is not changed. |
 
-### P2/P3 Tests (<60 min)
-- [ ] Dark mode setting toggles correctly and persists
+### **Story 3.3: Account Management**
 
----
+| Test Case ID | Type | Description | Steps | Expected Result |
+| :--- | :--- | :--- | :--- | :--- |
+| TC-3.3.1 | E2E | Verify successful account deletion | 1. Create a new user `todelete@test.com`. 2. Log in as `todelete@test.com`. 3. Navigate to Settings. 4. Click "Delete Account". 5. Confirm deletion in the modal. | The user is redirected to the login page. An attempt to log in with `todelete@test.com` fails. The user's data is removed from the `users` table in Supabase. |
+| TC-3.3.2 | Integration | API rejects password change with wrong old password | 1. Log in as `testuser@test.com`. 2. Send a POST request to `/auth/change-password` with an incorrect `old_password`. | The API returns a 401 Unauthorized error. |
 
-## Resource Estimates
+### **Story 3.4: Plan Interruption Management**
 
-### Test Development Effort
-
-| Priority | Count | Hours/Test | Total Hours | Notes |
-| --- | --- | --- | --- | --- |
-| P0 | 8 | 2.0 | 16 | Security and data integrity tests. |
-| P1 | 10 | 1.0 | 10 | User interaction and feature tests. |
-| P2 | 6 | 0.5 | 3 | Component-level UI tests. |
-| P3 | 0 | 0.25 | 0 | None for this epic |
-| **Total** | **24** | **-** | **29** | **~3.6 days** |
-
-### Prerequisites
-
-**Test Data:**
-- User data for various scenarios (e.g., active user, user with existing plans, user with specific preferences).
-- Pre-existing mock plans for interruption testing.
-
-**Tooling:**
-- `Pytest` for backend testing.
-- `React Testing Library` and `Jest` for frontend component testing.
-- `Playwright` for E2E tests.
-
-**Environment:**
-- Staging environment with a separate Supabase project.
+| Test Case ID | Type | Description | Steps | Expected Result |
+| :--- | :--- | :--- | :--- | :--- |
+| TC-3.4.1 | E2E | Verify successful plan pause | 1. Log in. 2. Navigate to Settings -> Plan Interruptions. 3. Select "Pause Plan". 4. Choose a start and end date for next week. 5. Click "Save". | A confirmation message is shown. A record of the pause is created in the database. |
+| TC-3.4.2 | Integration | AI plan generation skips paused users | 1. Set a user's plan to be paused for the upcoming week. 2. Trigger the weekly plan generation background job. | The AI service is not called for this user. No new plan is created in the database for the user for the paused week. |
 
 ---
 
-## Quality Gate Criteria
+## 4. Test Data & Environment Requirements
 
-### Pass/Fail Thresholds
-- **P0 pass rate**: 100%
-- **P1 pass rate**: ≥95%
-- **High-risk mitigations**: 100% complete
-
-### Coverage Targets
-- **Critical paths**: ≥80%
-- **Security scenarios**: 100%
-- **Account management**: 100%
-
-### Non-Negotiable Requirements
-- [ ] All P0 tests pass
-- [ ] No high-risk (≥6) items unmitigated
-- [ ] Security tests (SEC category) pass 100%
+*   **Test Users:** In addition to the users from Epic 2, a specific user for deletion tests (`deletable_user`) should be created and torn down as part of the test run to ensure idempotency.
+*   **Security Configuration:** The staging environment's Supabase instance must have Row Level Security (RLS) policies enabled and configured identically to production. This is critical for validating security test cases.
+*   **Time-based Testing:** E2E tests for plan pausing (Story 3.4) will require mocking or manipulating the system clock to simulate the passage of time (e.g., `cy.clock()` in Cypress or equivalent in Playwright).
 
 ---
 
-## Mitigation Plans
+## 5. Exit Criteria
 
-### R-301: Account deletion fails or leaves residual data (Score: 6)
-**Mitigation Strategy:** Implement database-level cascade deletes where appropriate. Develop a dedicated backend service for hard deletion, ensuring all related records (plans, logs, preferences) are removed. Automated integration tests will verify the complete removal of data.
-**Owner:** DEV
-**Timeline:** Sprint 3
-**Status:** Planned
+Epic 3 can be considered "Done" and ready for release when:
 
-### R-302: Sensitive user profile data exposed (Score: 6)
-**Mitigation Strategy:** Conduct a security review of all API endpoints handling user profile data. Implement strict input validation and output sanitization. RLS policies will be thoroughly tested to prevent unauthorized access or modification. E2E tests will include scenarios attempting to access another user's profile.
-**Owner:** DEV
-**Timeline:** Sprint 3
-**Status:** Planned
+1.  All new code has a unit test coverage of >= 80%.
+2.  All E2E tests for Scenarios 3.1 through 3.4 are passing, with a special focus on the account deletion and password change flows.
+3.  A security review of the account management APIs has been completed with no outstanding "Critical" or "High" vulnerabilities.
+4.  No "Critical" or "High" priority bugs have been found during the final round of exploratory testing on the profile and settings pages.
 
----
-
-## Appendix
-
-### Knowledge Base References
-- `risk-governance.md`
-- `probability-impact.md`
-- `test-levels-framework.md`
-- `test-priorities-matrix.md`
-
-### Related Documents
-- PRD: `docs/PRD.md`
-- Epic: `docs/epics.md`
-- Architecture: `docs/architecture-2025-11-30.md`
-
----
-
-**Generated by**: BMad TEA Agent - Test Architect Module
-**Workflow**: `.bmad/bmm/testarch/test-design`
-**Version**: 4.0 (BMad v6)
+**Next Steps:** I will use this document to guide the creation of Playwright E2E test stubs for the critical user flows defined in these scenarios.
