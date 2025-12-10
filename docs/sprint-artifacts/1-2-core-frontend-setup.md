@@ -48,11 +48,17 @@ This story focuses on establishing the foundational frontend environment for the
 
 *   **Epic 1: First Plan & Foundation** outlines the need for core technical setup.
 *   **Story 1.2: Core Frontend Setup** specifically details the setup of the Next.js frontend and its connection to the Vercel deployment pipeline.
+
+**Derived from Tech Spec (`tech-spec-epic-1.md`):**
+
+*   **Authoritative Acceptance Criteria:** The tech spec provides the authoritative acceptance criteria for this story.
+*   **Technical Design:** The tech spec details the high-level technical design for the frontend, including the choice of Next.js, TypeScript, and Tailwind CSS.
+
 ### Project Structure Alignment and Lessons Learned
 
 **Learnings from Previous Story (1.1: Core Backend Setup)**
 
-The successful completion of Story 1.1 establishes the foundational backend infrastructure, which is a direct prerequisite for this frontend setup story.
+The successful completion of Story 1.1 establishes the foundational backend infrastructure, which is a direct prerequisite for this frontend setup story. As Story 1.1 has not yet undergone a senior developer review, there are no unresolved review items to address. The key learnings are based on the established backend architecture and configuration.
 
 *   **Backend Availability:** A FastAPI backend is now running, connected to Supabase, and includes a placeholder for AI plan generation. This means the frontend can now establish a basic API connection to this backend.
 *   **Architectural Consistency:** The backend leverages `uv` for package management, uses Pydantic Settings for secure API key loading, and implements structured JSON logging. While these are backend-specific, the principles of secure configuration and clear logging should be extended to the frontend where applicable (e.g., environment variable management for API keys, structured console logging).
@@ -120,12 +126,26 @@ This story will initiate the `frontend/` directory with its own structure, ensur
   
   *   **Frontend (Next.js):** Component and integration tests will be written using `React Testing Library` with `Jest`. Test files will be co-located with the components they are testing in a `__tests__` subdirectory.
 
+### Missing Document References
+
+*   **`testing-strategy.md`, `coding-standards.md`, `unified-project-structure.md`, `backend-architecture.md`, `frontend-architecture.md`, `data-models.md`, `tech-stack.md`**: These specific documents are not yet available. This story relies on the information provided in `docs/architecture-2025-11-30.md` for guidance on testing, coding standards, and project structure.
+
+
 ## Change Log
 
 - 2025-12-10: Initial draft.
 
+## Dev Agent Record
+
+- **Context Reference**: 
+- **Agent Model Used**: 
+- **Debug Log References**: 
+- **Completion Notes List**: 
+- **File List**: 
+
 ## References
 
+- [Source: docs/sprint-artifacts/tech-spec-epic-1.md#acceptance-criteria-authoritative]
 - [Source: docs/epics.md#story-12-core-frontend-setup]
 - [Source: docs/architecture-2025-11-30.md#project-initialization]
 - [Source: docs/architecture-2025-11-30.md#architectural-decisions-provided-by-starter]
