@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+supabase
+pydantic-settings
+pydantic-ai
+python-json-logger
+pytest
+pytest-asyncio
