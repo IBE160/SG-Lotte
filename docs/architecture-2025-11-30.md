@@ -321,7 +321,9 @@ npm install
 
 # Install backend dependencies
 cd ../backend
-pip install -r requirements.txt
+# Use uv as the preferred package manager for the backend
+# Install uv if not already installed: curl -LsSf https://astral.sh/uv/install.sh | sh
+uv pip install -r requirements.txt
 
 # Run the development servers
 # (in separate terminals)
