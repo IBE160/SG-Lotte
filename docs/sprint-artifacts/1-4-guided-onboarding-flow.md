@@ -1,3 +1,12 @@
+
+---
+id: 1-4
+epic: 1
+title: Guided Onboarding Flow
+status: drafted
+author: sm
+created: 2025-12-11
+---
 # Story 1.4: Guided Onboarding Flow
 
 Status: drafted
@@ -10,54 +19,78 @@ so that the AI can gather my preferences and generate my first personalized plan
 
 ## Acceptance Criteria
 
-1.  **Given** I have verified my email and logged in, **When** I start the onboarding process, **Then** I am presented with a sequence of 5 distinct UI screens for collecting my preferences.
-2.  **And** I can select my primary fitness goal, dietary preferences, and a "fitness persona" from the provided options on these screens.
-3.  **And** upon completing the final step, all my selected preferences are securely saved to my user profile in the Supabase database.
+1. **Given** I have verified my email and logged in, **When** I start the onboarding process, **Then** I am presented with a sequence of five distinct UI screens for collecting preferences.
+2. **And** I can select my primary fitness goal, dietary preferences, and a “fitness persona.”
+3. **And** when I complete the final step, all selected preferences are securely saved to my user profile in the Supabase database.
 
 ## Tasks / Subtasks
 
-- [ ] **Frontend**: Implement the 5-step UI flow within `src/app/(auth)/onboarding/`. (AC: #1, #2)
-  - [ ] Create reusable components for onboarding questions and selection controls.
-  - [ ] Manage the state of the onboarding process, including user selections.
-  - [ ] On completion, call the backend API to submit the user's preferences.
-- [ ] **Backend**: Implement the API endpoint to handle profile updates. (AC: #3)
-  - [ ] Create a `PUT` endpoint at `/api/v1/users/profile/`.
-  - [ ] The endpoint must be secure, requiring a valid JWT from the authenticated user.
-  - [ ] It should accept the user's onboarding preferences and update the corresponding fields in the `users` table via the Supabase client.
-- [ ] **Database**: Verify the `users` table schema can store the onboarding data (e.g., `fitness_goal`, `dietary_preference`, `fitness_persona`). (AC: #3)
-- [ ] **Testing**:
-  - [ ] Write integration tests for the `/api/v1/users/profile/` endpoint to ensure it correctly validates input and updates the database.
-  - [ ] Write E2E tests (e.g., using Playwright) to simulate a user completing the entire onboarding flow, verifying that the preferences are saved correctly.
+### Frontend (AC #1, #2)
+
+- [ ] Implement the 5-step onboarding flow under `frontend/src/app/(auth)/onboarding/`.
+- [ ] Create reusable components for question prompts and selection controls.
+- [ ] Maintain onboarding state across all 5 steps (goal → diet → persona, etc.).
+- [ ] Ensure that only authenticated and email-verified users can access onboarding.
+- [ ] On completion, send collected preferences to the backend using the authenticated user's JWT.
+
+### Backend (AC #3)
+
+- [ ] Implement a `PUT /api/v1/users/profile/` endpoint for storing onboarding preferences.
+- [ ] Require a valid Supabase JWT (user must be authenticated).
+- [ ] Update the corresponding fields in the Supabase `user_profile` table.
+
+### Database (AC #3)
+
+- [ ] Confirm that fields exist to store:
+  - `fitness_goal`
+  - `dietary_preference`
+  - `fitness_persona`
+- [ ] Add fields if missing.
+
+### Testing
+
+- [ ] Write integration tests for `/api/v1/users/profile/`.
+- [ ] Write Playwright E2E tests simulating the full 5-step onboarding flow and verifying stored preferences.
+
+---
 
 ## Dev Notes
 
-- **IMPORTANT:** Supabase user management functionality is a remote DB, NOT local. All interactions with user data should go through the Supabase client libraries.
-- The AI integration noted in the prompt (Pydantic AI with Gemini 2.5 Flash) is primarily for Story 1.5, which will consume the preferences gathered in this story.
-- This story focuses on UI implementation and saving user data.
+### Learnings from Previous Story (1.3: User Registration & Email Verification)
 
-### Learnings from Previous Story (1.3)
+- Story 1.3 successfully implemented registration, login, and email verification using Supabase Auth.
+- **Important unresolved issue from Story 1.3:**There is a **known high-priority technical issue** involving Jest + JSDOM + React Hook Form that causes certain unit/integration tests to fail (`signup` and `login` test suites).These issues do **not** impact functional behavior but remain unresolved and represent a test-infrastructure limitation.
+- This risk is acknowledged and carried into Story 1.4.
+  Onboarding implementation will follow the same architectural patterns but will avoid unnecessary complexity in Jest-based unit tests.
 
-- **From Story 1.3-user-registration-email-verification (Status: done)**
-- **Authentication Client**: The Supabase client for handling user authentication was initialized in Story 1.3. Reuse this existing client instance for all interactions with Supabase in this story to maintain consistency and efficiency.
-- **User Session**: Story 1.3 established the pattern for managing user sessions with JWTs. The frontend should already have access to the authenticated user's session and token, which must be included in the `Authorization` header for the API call to `/api/v1/users/profile/`.
+### Architecture & Structure Notes
 
-### Project Structure Notes
+- **Frontend:** Story 1.3 established authenticated-user session handling. Onboarding must reuse this pattern.
+- Implement onboarding under `src/app/(auth)/onboarding/` to maintain auth route grouping.
+- A single page with internal state or a sub-route structure (`step-1`, `step-2`, etc.) may be used depending on UX needs.
+- **Backend:** Update logic belongs in `backend/app/api/v1/endpoints/users.py`.
+- All user data interactions must go through Supabase — no local auth or local DB storage.
 
-- **Frontend**: The onboarding flow should be implemented within the `frontend/src/app/(auth)/` route group to align with the existing authentication structure. A new sub-path like `onboarding/[step]` is recommended.
-- **Backend**: The logic for updating user preferences belongs in the `backend/app/api/v1/endpoints/users.py` module.
+### Supabase Notes
+
+- Supabase user management is remote and authoritative.
+- The Supabase JWT must be supplied when saving onboarding preferences.
+- AI features (Gemini + Pydantic AI) will consume onboarding preferences in Story 1.5, not in this story.
 
 ### References
 
-- **Architecture:** `docs/architecture-2025-11-30.md`
-- **Tech Spec:** `docs/sprint-artifacts/tech-spec-epic-1.md`
-- **Epics/Source Story:** `docs/epics.md#story-14-guided-onboarding-flow`
-- **PRD:** `docs/PRD.md`
+- Architecture: `docs/architecture-2025-11-30.md`
+- Tech Spec: `docs/sprint-artifacts/tech-spec-epic-1.md`
+- Epics: `docs/epics.md#story-14-guided-onboarding-flow`
+- PRD: `docs/PRD.md`
+
+---
 
 ## Dev Agent Record
 
 ### Context Reference
 
-<!-- Path(s) to story context XML will be added here by context workflow -->
+(To be filled by automation)
 
 ### Agent Model Used
 
@@ -65,6 +98,20 @@ so that the AI can gather my preferences and generate my first personalized plan
 
 ### Debug Log References
 
+(to be filled by automation)
+
 ### Completion Notes List
 
+(To be completed during implementation)
+
 ### File List
+
+(To be populated after implementation)
+
+---
+
+## Change Log
+
+- **2025-12-11** — Initial draft created.
+- **2025-12-11** — Updated *Learnings from Previous Story* to explicitly acknowledge unresolved Jest/JSDOM test issues from Story 1.3.
+- **2025-12-11** — Added required Change Log section for validator compliance.
