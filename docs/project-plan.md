@@ -60,10 +60,8 @@
     - [ ] /run-agent-task sm validate-epic-tech-context {prompt / user-input-file}
 
     - foreach story in epic:
-      - [ ] /run-agent-task sm *create-story {story 1-2-core-frontend-setup. Please read and update c:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\sprint-status.yaml for status, and next story is 1-2.
-        read c:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\tech-spec-epic-1.md and
-        c:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\epics.md and
-        c:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\architecture-2025-11-30.md and other relevant files. IMPORTANT: Supabase user management functionality is remote DB, NOT local. AI Integration: Pydantic AI framework with Gemini 2.5.flash. I need response on when to put in api key etc in the .local.env file}}
+      - [ ] /run-agent-task sm *create-story {story 1-2-core-frontend-setup. Please read and update c:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\sprint-status.yaml for status,
+        read all relevant files. IMPORTANT: Supabase user management functionality is remote DB, NOT local. AI Integration: Pydantic AI framework with Gemini 2.5.flash. I need response on when to put in api key etc}
         - [ ] File: sprint-artifacts/{{story_key}}.md
       - [ ] /run-agent-task sm *validate-create-story {IMPORTANT: Supabase user management functionality is remote DB, NOT local. AI Integration: Pydantic AI framework with Gemini 2.5.flash.}
       - [ ] /run-agent-task sm *create-story-context {prompt / user-input-file}
@@ -71,7 +69,7 @@
       - [ ] /run-agent-task sm *validate-story-context {prompt / user-input-file}
       - [ ] /run-agent-task sm *story-ready-for-dev {prompt / user-input-file}
         while code-review != approved:
-        - [ ] /run-agent-task dev *develop-story {prompt / user-input-file}
+        - [ ] /run-agent-task dev *develop-story {story 1-2-core-frontend-setup. Please read and update c:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\sprint-status.yaml for status,read all relevant files. IMPORTANT: Supabase user management functionality is remote DB, NOT local. AI Integration: Pydantic AI framework with Gemini 2.5.flash. I need response on when to put in api key etc}
         - [ ] /run-agent-task dev *code-review {prompt / user-input-file}
       - [ ] /run-agent-task dev *story-done {prompt / user-input-file}
       - [ ] /run-agent-task sm *test-review {prompt / user-input-file}
