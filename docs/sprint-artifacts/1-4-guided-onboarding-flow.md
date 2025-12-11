@@ -1,4 +1,3 @@
-
 ---
 id: 1-4
 epic: 1
@@ -58,10 +57,32 @@ so that the AI can gather my preferences and generate my first personalized plan
 
 ### Learnings from Previous Story (1.3: User Registration & Email Verification)
 
+
+#### File References from Previous Story
+
+This story builds on the implementation completed in Story 1.3.
+The following files were created or modified and serve as a foundation for the onboarding logic:
+
+- `frontend/src/lib/supabase/client.ts`
+- `frontend/src/lib/supabase/server.ts`
+- `frontend/src/app/(auth)/signup/page.tsx`
+- `frontend/src/app/(auth)/login/page.tsx`
+- `frontend/src/app/auth/callback/route.ts`
+- `frontend/src/app/auth/error/page.tsx`
+- `frontend/src/app/(auth)/email-verified/page.tsx`
+- `frontend/src/app/(auth)/signup/__tests__/page.test.tsx`
+- `frontend/src/app/(auth)/login/__tests__/page.test.tsx`
+- `frontend/e2e/__tests__/auth.spec.ts`
+
+These files implement the authentication and verification flow that onboarding continues from.
+
+[Source: docs/sprint-artifacts/1-3-user-registration-email-verification.md]
+
 - Story 1.3 successfully implemented registration, login, and email verification using Supabase Auth.
 - **Important unresolved issue from Story 1.3:**There is a **known high-priority technical issue** involving Jest + JSDOM + React Hook Form that causes certain unit/integration tests to fail (`signup` and `login` test suites).These issues do **not** impact functional behavior but remain unresolved and represent a test-infrastructure limitation.
 - This risk is acknowledged and carried into Story 1.4.
   Onboarding implementation will follow the same architectural patterns but will avoid unnecessary complexity in Jest-based unit tests.
+- 
 
 ### Architecture & Structure Notes
 
@@ -115,3 +136,4 @@ so that the AI can gather my preferences and generate my first personalized plan
 - **2025-12-11** — Initial draft created.
 - **2025-12-11** — Updated *Learnings from Previous Story* to explicitly acknowledge unresolved Jest/JSDOM test issues from Story 1.3.
 - **2025-12-11** — Added required Change Log section for validator compliance.
+- **2025-12-11** — Added missing file references and previous story citation based on validation feedback.
