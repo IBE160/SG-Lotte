@@ -46,17 +46,32 @@ so that the AI can gather my preferences and generate my first personalized plan
   - `fitness_persona`
 - [ ] Add fields if missing.
 
-### Testing
-
-- [ ] Write integration tests for `/api/v1/users/profile/`.
-- [ ] Write Playwright E2E tests simulating the full 5-step onboarding flow and verifying stored preferences.
-
 ---
+
+### **Testing (AC #1–#3)**
+
+* [ ] **Frontend Integration Test** (AC #1, AC #2)
+
+  Write integration tests that verify the 5-step onboarding UI flow renders correctly and that user selections (fitness goal, dietary preference, fitness persona) persist across steps.
+* [ ] **Backend API Integration Test** (AC #3)
+
+  Write integration tests for the `PUT /api/v1/users/profile/` endpoint to ensure it:
+
+  * requires a valid Supabase JWT
+  * validates incoming payloads
+  * correctly updates the user profile fields in the database
+* [ ] **End-to-End Test (Playwright)** (AC #1–#3)
+
+  Simulate the full onboarding flow:
+
+  1. Log in with a verified user
+  2. Complete all 5 onboarding steps
+  3. Submit preferences
+  4. Verify in Supabase that the user profile is updated with `fitness_goal`, `dietary_preference`, and `fitness_persona`
 
 ## Dev Notes
 
 ### Learnings from Previous Story (1.3: User Registration & Email Verification)
-
 
 #### File References from Previous Story
 
