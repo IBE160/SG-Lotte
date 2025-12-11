@@ -60,7 +60,7 @@
     - [ ] /run-agent-task sm validate-epic-tech-context {prompt / user-input-file}
 
     - foreach story in epic:
-      - [ ] /run-agent-task sm *create-story {story 1-2-core-frontend-setup. Please read and update c:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\sprint-status.yaml for status,
+      - [ ] /run-agent-task sm *create-story {1-3-user-registration-email-verification. Please read and update c:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\sprint-status.yaml for status,
         read all relevant files. IMPORTANT: Supabase user management functionality is remote DB, NOT local. AI Integration: Pydantic AI framework with Gemini 2.5.flash. I need response on when to put in api key etc}
         - [ ] File: sprint-artifacts/{{story_key}}.md
       - [ ] /run-agent-task sm *validate-create-story {IMPORTANT: Supabase user management functionality is remote DB, NOT local. AI Integration: Pydantic AI framework with Gemini 2.5.flash.}
