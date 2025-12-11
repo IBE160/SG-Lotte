@@ -2,7 +2,7 @@
 id: 1-4
 epic: 1
 title: Guided Onboarding Flow
-status: drafted
+status: ready-for-dev
 author: sm
 created: 2025-12-11
 ---
@@ -127,6 +127,8 @@ These files implement the authentication and verification flow that onboarding c
 ### Context Reference
 
 (To be filled by automation)
+
+- `docs/sprint-artifacts/1-4-guided-onboarding-flow.context.xml`
 
 ### Agent Model Used
 
