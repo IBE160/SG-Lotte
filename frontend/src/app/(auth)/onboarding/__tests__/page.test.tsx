@@ -104,9 +104,11 @@ describe('OnboardingPage', () => {
     await waitFor(() => {
       expect(screen.getByText('Review your choices.')).toBeInTheDocument();
     });
-    expect(screen.getByText(/Fitness goal: Lose weight/i)).toBeInTheDocument();
-    expect(screen.getByText(/Dietary preference: Vegetarian/i)).toBeInTheDocument();
-    expect(screen.getByText(/Fitness persona: Athlete/i)).toBeInTheDocument();
+    // Find the list items and assert their text content
+    const reviewListItems = screen.getAllByRole('listitem');
+    expect(reviewListItems[0]).toHaveTextContent(/Fitness goal:\s*lose weight/i);
+    expect(reviewListItems[1]).toHaveTextContent(/Dietary preference:\s*vegetarian/i);
+    expect(reviewListItems[2]).toHaveTextContent(/Fitness persona:\s*athlete/i);
     fireEvent.click(screen.getByRole('button', { name: /Next/i }));
 
     // Step 5 (Finish)
