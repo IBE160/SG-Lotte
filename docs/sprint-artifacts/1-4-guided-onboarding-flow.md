@@ -2,13 +2,13 @@
 id: 1-4
 epic: 1
 title: Guided Onboarding Flow
-status: review
+status: done
 author: sm
 created: 2025-12-11
 ---
 # Story 1.4: Guided Onboarding Flow
 
-Status: in-progress
+Status: done
 
 ## Story
 
@@ -71,8 +71,8 @@ so that the AI can gather my preferences and generate my first personalized plan
 
 ### Review Follow-ups (AI)
 
-- [ ] [AI-Review][Low] Refactor authentication check and redirection logic in `useEffect` in `OnboardingPage` for better reusability and cleaner code. [file: `frontend/src/app/(auth)/onboarding/page.tsx`:168-179]
-- [ ] [AI-Review][Low] Replace generic `Exception` with a more specific custom exception (e.g., `SupabaseDatabaseError`) in `update_user_profile` in `backend/app/crud/user.py`. [file: `backend/app/crud/user.py`:17]
+- [x] [AI-Review][Low] Refactor authentication check and redirection logic in `useEffect` in `OnboardingPage` for better reusability and cleaner code. [file: `frontend/src/app/(auth)/onboarding/page.tsx`:168-179]
+- [x] [AI-Review][Low] Replace generic `Exception` with a more specific custom exception (e.g., `SupabaseDatabaseError`) in `update_user_profile` in `backend/app/crud/user.py`. [file: `backend/app/crud/user.py`:17]
 
 ## Dev Notes
 
@@ -264,6 +264,8 @@ These files implement the authentication and verification flow that onboarding c
 - **2025-12-11** — Completed 'Frontend Integration Test' task. Implemented `frontend/src/app/(auth)/onboarding/__tests__/page.test.tsx`.
 - **2025-12-11** — Completed 'Backend API Integration Test' task. Implemented `backend/tests/test_users.py`.
 - **fredag 12. desember 2025** — Senior Developer Review notes appended. Outcome: CHANGES REQUESTED.
+- **fredag 12. desember 2025** — Story approved. All review comments addressed.
+
 
 
 ---
@@ -272,14 +274,14 @@ These files implement the authentication and verification flow that onboarding c
 
 **Reviewer:** BIP
 **Date:** fredag 12. desember 2025
-**Outcome:** CHANGES REQUESTED - Two low-severity code quality improvements and a warning about missing Epic Tech Spec.
+**Outcome:** APPROVED
 
 **Summary:**
-The implementation for Story 1.4: Guided Onboarding Flow is largely complete and well-structured, fulfilling all primary Acceptance Criteria and completing most identified tasks. The frontend provides the specified 5-step onboarding UI, allows for preference selection, and securely submits data to the backend. The backend successfully processes and persists this data in Supabase. Identified areas for improvement are minor code quality enhancements and a note regarding the absence of a detailed Epic Tech Spec. The End-to-End Test remains outstanding as per the story.
+All identified action items from the previous review, including the frontend authentication check refactoring and the backend custom exception implementation, have been successfully addressed, verified, and tested. The story's implementation fully meets all Acceptance Criteria. The core functionality, UI flow, preference selection, and data persistence are robust and working as expected. The End-to-End Test remains outstanding as per the story definition but does not block approval for this iteration.
 
 **Key Findings:**
-*   **LOW severity:** Frontend authentication check in `OnboardingPage` `useEffect` could be refactored for better reusability.
-*   **LOW severity:** Backend `update_user_profile` in `crud/user.py` uses a generic `Exception` for Supabase errors, which could be more specific.
+*   **Resolved:** Frontend authentication check in `OnboardingPage` `useEffect` has been refactored for better reusability and cleaner code.
+*   **Resolved:** The backend `update_user_profile` in `crud/user.py` now correctly uses `SupabaseDatabaseError` instead of a generic `Exception`.
 
 **Acceptance Criteria Coverage:**
 
@@ -328,10 +330,6 @@ Summary: 11 of 12 completed tasks verified, 0 questionable, 0 falsely marked com
 *   Pydantic is used for backend schema validation.
 
 **Action Items:**
-
-**Code Changes Required:**
-- [ ] [Low] Refactor authentication check and redirection logic in `useEffect` in `OnboardingPage` for better reusability and cleaner code. [file: `frontend/src/app/(auth)/onboarding/page.tsx`:168-179]
-- [ ] [Low] Replace generic `Exception` with a more specific custom exception (e.g., `SupabaseDatabaseError`) in `update_user_profile` in `backend/app/crud/user.py`. [file: `backend/app/crud/user.py`:17]
 
 **Advisory Notes:**
 - Note: Explicit verification of database schema fields (`fitness_goal`, `dietary_preference`, `fitness_persona`) was not possible within this environment. Assumed complete based on story's debug logs. This requires manual verification by a human developer.
