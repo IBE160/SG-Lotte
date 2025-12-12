@@ -1,0 +1,318 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>5</storyId>
+    <title>Initial AI Plan Generation &amp; Display</title>
+    <status>drafted</status>
+    <generatedAt>fredag 12. desember 2025</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\1-5-initial-ai-plan-generation-display.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a new user who has completed onboarding</asA>
+    <iWant>to immediately see my first AI-generated "diagnostic" workout and meal plan on my dashboard</iWant>
+    <soThat>I can begin my health journey.</soThat>
+    <tasks>
+    ### Backend (`ai_plan_generator.py`, API, Database)
+
+    *   **Implement AI Plan Generation Service (`ai_plan_generator.py`)** (AC: #1)
+        *   [ ] Define Pydantic models for input (user preferences from onboarding) and output (7-day workout and meal plan structure). (AC: #1)
+        *   [ ] Implement logic to construct a detailed prompt for the Pydantic AI framework with Gemini 2.5, incorporating user's fitness goals, dietary preferences, and fitness persona. (AC: #1)
+        *   [ ] Integrate with the Gemini 2.5 API to send prompts and receive structured JSON responses. (AC: #1)
+        *   [ ] Add retry mechanisms with exponential backoff for AI API calls to enhance reliability (NFR: Reliability - AI Integration). (AC: #1)
+        *   [ ] Implement basic validation for the received AI-generated plan to ensure it conforms to expected structure. (AC: #1)
+        *   [ ] Define and implement CRUD operations for storing the generated workout and meal plans in the Supabase database. (AC: #5)
+            *   [ ] Create necessary database tables/models if not already existing (manual task due to environment limitations, as per previous story's learnings). (AC: #5)
+    *   **Create API Endpoint for Plan Generation** (AC: #1, #3)
+        *   [ ] Design and implement a `POST /api/v1/plans/generate-initial` endpoint. (AC: #1, #3)
+        *   [ ] This endpoint should accept the user's ID or session token (via JWT) and trigger the `ai_plan_generator.py` service. (AC: #1)
+        *   [ ] Secure the endpoint using FastAPI's dependency injection for authenticated users (`Depends(get_current_user)` from `backend/app/api/v1/deps.py` - reuse from Story 1.4). (AC: #1)
+        *   [ ] Ensure the endpoint returns the generated plan or a confirmation of successful generation/storage. (AC: #3, #5)
+
+    ### Frontend (Dashboard Integration)
+
+    *   **Integrate Dashboard with Plan Data** (AC: #2)
+        *   [ ] Modify `frontend/src/app/(dashboard)/dashboard/page.tsx` to fetch the user's initial plan upon dashboard load. (AC: #2)
+        *   [ ] Call the `POST /api/v1/plans/generate-initial` endpoint if no plan exists for the current user. (AC: #2)
+        *   [ ] Implement UI components to display the 7-day workout and meal plan. (AC: #2)
+            *   [ ] Follow UX design specifications (e.g., `dashboard_dark.html` for layout guidance). (AC: #2)
+        *   [ ] Handle loading states and error display during API calls. (AC: #2)
+        *   [ ] Ensure data is fetched and displayed for authenticated users. (AC: #2)
+
+    ### Testing
+
+    *   **Backend Unit/Integration Tests** (using `Pytest`) (AC: #1, #3)
+        *   [ ] Test `ai_plan_generator.py` for correct prompt construction and response parsing (using mocked AI API responses). (AC: #1)
+        *   [ ] Test the `POST /api/v1/plans/generate-initial` endpoint: (AC: #1, #3)
+            *   [ ] Verify authentication is enforced (expect 401 for unauthenticated requests). (AC: #1)
+            *   [ ] Verify correct handling of valid requests (plan generation and storage). (AC: #1, #3)
+            *   [ ] Verify error handling (e.g., AI API failures, database errors). (AC: #1)
+            *   [ ] Mock database interactions to ensure plan storage logic is correct. (AC: #3)
+    *   **Frontend Integration Tests** (using `React Testing Library` with `Jest`) (AC: #2)
+        *   [ ] Test `frontend/src/app/(dashboard)/dashboard/page.tsx` for correct rendering of plan data. (AC: #2)
+        *   [ ] Mock API calls to simulate successful plan generation and display. (AC: #2)
+        *   [ ] Verify loading indicators and error messages are displayed appropriately. (AC: #2)
+        *   [ ] Focus on the display logic, avoiding complex E2E scenarios for now. (AC: #2)
+    *   **Manual Testing / User Acceptance Testing** (AC: #1, #2, #3)
+        *   [ ] Verify that after completing the onboarding flow, a new user sees their personalized plan on the dashboard. (AC: #1, #2)
+        *   [ ] Confirm that the displayed plan is coherent and aligns with the preferences selected during onboarding. (AC: #1, #2)
+        *   [ ] Check network requests to ensure API calls for plan generation and display are correctly made and data is stored. (AC: #1, #3)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    1.  **Given** I have completed the onboarding flow **When** my dashboard loads **Then** a 7-day personalized workout and meal plan is generated by the AI (Pydantic AI framework with Gemini 2.5 flash)
+    4.  **And** the generated plan is displayed on the dashboard, similar to `dashboard_dark.html` (showing today's plan)
+    5.  **And** the plan details are stored in the database
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <artifact>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-002: AI-Driven Workout Plan Generation &amp; Adaptation</section>
+        <snippet>The system shall automatically generate and adapt weekly workout plans based on user goals, logged progress, and difficulty ratings. This provides personalized, evolving workout guidance without manual effort. AI generates a "diagnostic" first-week plan during onboarding.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-003: AI-Driven Meal Plan Generation &amp; Adaptation</section>
+        <snippet>The system shall automatically generate and adapt weekly meal plans based on user goals, dietary preferences, and logged meal consumption. This provides personalized, evolving meal guidance without manual effort. AI generates a "diagnostic" first-week plan during onboarding.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-006: Dashboard Overview</section>
+        <snippet>The system shall provide a clear, minimalist dashboard displaying the user's current weekly workout and meal plans. This provides a centralized, easy-to-understand view of the current week's plan and immediate progress.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>Reliability (AI Integration)</section>
+        <snippet>To ensure consistent and dependable generation of workout and meal plans, which is core to the product's value proposition. The system shall implement retry mechanisms with exponential backoff for OpenAI API calls.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Context</section>
+        <snippet>The project, "ibe160", is a greenfield web application to create an AI-driven fitness and meal planner. The central value is the AI's ability to generate and dynamically adapt personalized plans using Pydantic AI framework with Gemini 2.5 pro/flash.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Epic to Architecture Mapping</section>
+        <snippet>Epic 1: First Plan &amp; Foundation - Backend: `app/services/ai_plan_generator.py` (Initial Plan Generation); Frontend: `src/app/(dashboard)/dashboard/` (Dashboard UI).</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Technology Stack Details</section>
+        <snippet>AI Integration: Pydantic AI framework with Gemini 2.5.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Novel Pattern Designs</section>
+        <snippet>The core AI-driven functionality for plan generation and adaptation can be successfully implemented using the established "AI Application" pattern. This pattern involves collecting user data, constructing a detailed prompt, receiving/validating/storing the structured JSON response, and using user feedback.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>ADR-001: Background Job/Async Processing Strategy</section>
+        <snippet>The application requires weekly AI-driven plan generation and adaptation to occur automatically without blocking the user interface. Vercel Cron Jobs are chosen for simplicity and efficiency.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>ADR-002: Caching Strategy</section>
+        <snippet>A multi-layered caching strategy using both Backend Caching and Frontend Caching to meet the Non-Functional Requirement for high performance.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>Flow 1 &amp; 2: Plan Workouts &amp; Meals</section>
+        <snippet>AI-powered generation and display of weekly workout and meal plans. Supporting wireframes: `workoutplan_dark.html`, `mealplan_dark.html`.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>Flow 0: New User Onboarding</section>
+        <snippet>A 5-step guided setup process for new users, preceding plan generation. Supporting wireframes: `onboarding1_dark.html` to `onboarding5_dark.html`.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Epic 1: First Plan &amp; Foundation</section>
+        <snippet>As a new user, I can sign up, set my core goals, and get my first personalized workout and meal plan within minutes, so I can start my health journey immediately. High-level scope includes generation of the initial "diagnostic" plan and a basic dashboard.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 1.5: Initial AI Plan Generation &amp; Display</section>
+        <snippet>As a new user who has completed onboarding, I want to immediately see my first AI-generated "diagnostic" workout and meal plan on my dashboard, so I can begin my health journey.</snippet>
+      </artifact>
+      <artifact>
+        <path>docs/test-design-epic-1.md</path>
+        <title>Test Design: Epic 1 - First Plan &amp; Foundation</title>
+        <section>Story 1.5: Initial AI Plan Generation &amp; Display</section>
+        <snippet>Test scenarios for Story 1.5 include verifying plan display after onboarding, AI plan generation service calls, and handling AI service failures.</snippet>
+      </artifact>
+    </docs>
+    <code>
+      <artifact>
+        <path>backend/app/services/ai_plan_generator.py</path>
+        <kind>service</kind>
+        <symbol>get_ai_plan, WorkoutPlan, MealPlan, FullPlan</symbol>
+        <reason>Contains the core AI plan generation logic and Pydantic models for plan structure.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/app/(dashboard)/dashboard/page.tsx</path>
+        <kind>component</kind>
+        <reason>Target file for displaying the AI-generated plan on the dashboard.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/plans.py</path>
+        <kind>API endpoint</kind>
+        <reason>Target file for the new API endpoint to trigger AI plan generation.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+        <kind>API endpoint</kind>
+        <symbol>update_profile</symbol>
+        <reason>Example of a secured API endpoint for user profile updates, using `get_current_user` for authentication and `update_user_profile` from CRUD operations.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/deps.py</path>
+        <kind>dependency</kind>
+        <symbol>get_current_user</symbol>
+        <reason>Provides dependency injection for authenticating the current user via JWT and Supabase, essential for securing API endpoints.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/schemas/user.py</path>
+        <kind>Pydantic schema</kind>
+        <symbol>User, UserProfileUpdate</symbol>
+        <reason>Examples of Pydantic models used for user data, applicable for defining AI plan request/response schemas.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/crud/user.py</path>
+        <kind>CRUD operation</kind>
+        <symbol>update_user_profile</symbol>
+        <reason>Demonstrates how to interact with Supabase for updating user data, providing a pattern for saving AI-generated plans.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/core/supabase.py</path>
+        <kind>configuration</kind>
+        <symbol>get_supabase_client, supabase</symbol>
+        <reason>Initializes and provides the Supabase client, essential for all database and authentication interactions.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <python>
+        <package>fastapi</package>
+        <package>uvicorn</package>
+        <package>supabase</package>
+        <package>pydantic-settings</package>
+        <package>pydantic-ai</package>
+        <package>python-json-logger</package>
+        <package>pytest</package>
+        <package>pytest-asyncio</package>
+      </python>
+      <javascript>
+        <package name="@hookform/resolvers" version="^5.2.2"/>
+        <package name="@supabase/ssr" version="^0.8.0"/>
+        <package name="@supabase/supabase-js" version="^2.87.1"/>
+        <package name="next" version="16.0.8"/>
+        <package name="react" version="19.2.1"/>
+        <package name="react-dom" version="19.2.1"/>
+        <package name="react-hook-form" version="^7.68.0"/>
+        <package name="zod" version="^4.1.13"/>
+      </javascript>
+      <javascript-dev>
+        <package name="@tailwindcss/postcss" version="^4"/>
+        <package name="@testing-library/jest-dom" version="^6.9.1"/>
+        <package name="@testing-library/react" version="^16.3.0"/>
+        <package name="@testing-library/user-event" version="^14.6.1"/>
+        <package name="@types/jest" version="^30.0.0"/>
+        <package name="@types/node" version="^20"/>
+        <package name="@types/react" version="^19"/>
+        <package name="@types/react-dom" version="^19"/>
+        <package name="eslint" version="^9"/>
+        <package name="eslint-config-next" version="16.0.8"/>
+        <package name="jest" version="^30.2.0"/>
+        <package name="jest-environment-jsdom" version="^30.2.0"/>
+        <package name="tailwindcss" version="^4"/>
+        <package name="ts-jest" version="^29.4.6"/>
+        <package name="typescript" version="^5"/>
+      </javascript-dev>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>AI Integration: Utilizes Pydantic AI framework with Gemini 2.5.</constraint>
+    <constraint>Authentication: API endpoints must be secured using JWT via FastAPI's `Depends(get_current_user)`.</constraint>
+    <constraint>Database: Supabase (PostgreSQL) is the primary database. Manual schema management for new tables/fields is expected.</constraint>
+    <constraint>Frontend Framework: Next.js with React Testing Library and Jest for tests.</constraint>
+    <constraint>Backend Framework: FastAPI with Pytest for tests.</constraint>
+    <constraint>API Contracts: All API requests and responses should use Pydantic schemas for validation.</constraint>
+    <constraint>Performance: Consider caching for AI responses.</constraint>
+    <constraint>Project Structure: Adhere to established project structure for AI logic (backend/app/services), API endpoints (backend/app/api/v1/endpoints), and dashboard components (frontend/src/app/(dashboard)/dashboard).</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Generate Initial Plan API</name>
+      <kind>REST endpoint</kind>
+      <signature>POST /api/v1/plans/generate-initial</signature>
+      <path>backend/app/api/v1/endpoints/plans.py</path>
+    </interface>
+    <interface>
+      <name>Get Current User Dependency</name>
+      <kind>dependency injection</kind>
+      <signature>async def get_current_user(...) -> User</signature>
+      <path>backend/app/api/v1/deps.py</path>
+    </interface>
+    <interface>
+      <name>AI Plan Generation Service</name>
+      <kind>internal service function</kind>
+      <signature>def get_ai_plan(user_preferences: str) -> FullPlan</signature>
+      <path>backend/app/services/ai_plan_generator.py</path>
+    </interface>
+    <interface>
+      <name>WorkoutPlan Pydantic Model</name>
+      <kind>Pydantic model</kind>
+      <signature>class WorkoutPlan(BaseModel): ...</signature>
+      <path>backend/app/services/ai_plan_generator.py</path>
+    </interface>
+    <interface>
+      <name>MealPlan Pydantic Model</name>
+      <kind>Pydantic model</kind>
+      <signature>class MealPlan(BaseModel): ...</signature>
+      <path>backend/app/services/ai_plan_generator.py</path>
+    </interface>
+    <interface>
+      <name>FullPlan Pydantic Model</name>
+      <kind>Pydantic model</kind>
+      <signature>class FullPlan(BaseModel): ...</signature>
+      <path>backend/app/services/ai_plan_generator.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      <standard>Frontend Unit/Integration: Jest &amp; React Testing Library</standard>
+      <standard>Backend Unit/Integration: Pytest</standard>
+      <standard>E2E Testing: Playwright</standard>
+      <standard>API Contract Testing: Pact</standard>
+      <standard>CI/CD &amp; Deployment: Vercel, GitHub Actions</standard>
+    </standards>
+    <locations>
+      <location>Frontend Unit/Integration: Co-located with components in `__tests__` subdirectory.</location>
+      <location>Backend Unit/Integration: `backend/tests/` directory.</location>
+    </locations>
+    <ideas>
+      <idea>TC-1.5.1 E2E: Verify plan is displayed after onboarding.</idea>
+      <idea>TC-1.5.2 Integration: Verify AI plan generation service call.</idea>
+      <idea>TC-1.5.3 Integration: Handle AI service failure.</idea>
+    </ideas>
+  </tests>
+</story-context>
