@@ -32,10 +32,8 @@ def test_generate_initial_plan_unauthenticated(client):
         
     app.dependency_overrides[get_current_user] = override_get_current_user_is_none
     response = client.post("/api/v1/plans/generate-initial")
-    print(repr(response.json()["detail"]))
-    print(len(response.json()["detail"]))
-    print(type(response.json()["detail"]))
-    # assert "Could not validate credentials" in response.json()["detail"]
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert response.json()["detail"] == "Could not validate credentials"
     app.dependency_overrides = {}
 
 def test_generate_initial_plan_success(client, authorized_user, mock_full_plan_instance):
