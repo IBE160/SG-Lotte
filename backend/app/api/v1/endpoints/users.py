@@ -3,6 +3,7 @@ from app.schemas.user import UserProfileUpdate
 from app.crud.user import update_user_profile
 from app.api.v1.deps import get_current_user
 from app.schemas.user import User
+from app.core.exceptions import SupabaseDatabaseError
 
 router = APIRouter()
 
@@ -15,7 +16,10 @@ async def update_profile(
     Update the authenticated user's profile with provided data.
     """
     user_id = current_user.id
-    updated_profile = await update_user_profile(user_id, profile_data)
+    try:
+        updated_profile = await update_user_profile(user_id, profile_data)
+    except SupabaseDatabaseError as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.detail)
 
     if updated_profile is None:
         # This case might mean the user_profile entry didn't exist,

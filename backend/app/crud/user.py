@@ -1,5 +1,6 @@
 from app.core.supabase import supabase
 from app.schemas.user import UserProfileUpdate
+from app.core.exceptions import SupabaseDatabaseError
 
 async def update_user_profile(user_id: str, profile_data: UserProfileUpdate):
     """
@@ -22,4 +23,4 @@ async def update_user_profile(user_id: str, profile_data: UserProfileUpdate):
         return None
     else:
         # Handle other potential errors from Supabase
-        raise Exception(response.error.message)
+        raise SupabaseDatabaseError(detail=response.error.message)

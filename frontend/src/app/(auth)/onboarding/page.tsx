@@ -161,7 +161,7 @@ export default function OnboardingPage() {
   const supabase = createClient();
 
   useEffect(() => {
-    const checkUser = async () => {
+    const checkAndRedirect = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         router.push('/login');
@@ -173,8 +173,10 @@ export default function OnboardingPage() {
       }
     };
 
-    checkUser();
-  }, [router, supabase]);
+    checkAndRedirect();
+  }, [router, supabase, setUser, setLoading]); // Added setUser and setLoading for exhaustive-deps
+
+
 
   const handleNext = (data: any) => {
     setOnboardingData((prev: any) => ({ ...prev, ...data }));
