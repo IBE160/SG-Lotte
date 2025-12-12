@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from app.schemas.user import UserProfileUpdate
 from app.crud.user import update_user_profile
 from app.api.v1.deps import get_current_user
-from supabase.lib.client_options import User
+from app.schemas.user import User
 
 router = APIRouter()
 
