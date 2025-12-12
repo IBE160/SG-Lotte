@@ -6,3 +6,4 @@ pydantic-ai
 python-json-logger
 pytest
 pytest-asyncio
+google-generativeai

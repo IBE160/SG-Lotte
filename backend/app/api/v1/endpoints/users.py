@@ -15,6 +15,11 @@ async def update_profile(
     """
     Update the authenticated user's profile with provided data.
     """
+    if not current_user or not current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+        )
     user_id = current_user.id
     try:
         updated_profile = await update_user_profile(user_id, profile_data)
