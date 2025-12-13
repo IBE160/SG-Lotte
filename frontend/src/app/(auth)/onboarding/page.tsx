@@ -208,8 +208,8 @@ export default function OnboardingPage() {
         fitness_persona: finalData.fitnessPersona,
       };
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '') : '';
-      const fullUrl = `${apiUrl}/api/v1/users/profile/`;
+      const backendBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+      const fullUrl = `${backendBaseUrl.replace(/\/$/, '')}/api/v1/users/profile`;
 
       const response = await fetch(fullUrl, {
         method: 'PUT',
