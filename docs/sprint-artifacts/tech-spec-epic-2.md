@@ -1,6 +1,6 @@
 # Epic Technical Specification: Adaptive Planning & Progress Logging
 
-Date: 2025-12-10
+Date: 2025-12-14
 Author: BIP
 Epic ID: 2
 Status: Draft
@@ -9,281 +9,228 @@ Status: Draft
 
 ## Overview
 
-Epic 2, "Adaptive Planning & Progress Logging," is central to the AI Fitness & Meal Planner, enabling active users to log their progress and receive automatically adapted plans. This ensures the plan evolves with the user's performance and needs, promoting long-term engagement and adherence. The core "magic" of AI-driven personalization and dynamic adaptation is delivered through detailed logging for workouts and meals, AI logic for weekly replanning, in-app notifications, and historical progress views.
+As an active user, I can log my progress with simple clicks, and the app will automatically adapt my next week's plan to my performance, so my plan evolves with me. This epic focuses on building the core feedback loop of the application, enabling the AI to learn from user actions and personalize the experience over time. It introduces workout and meal logging, the backend logic for weekly plan adaptation, and the necessary UI to visualize progress and notify users.
 
 ## Objectives and Scope
 
-**In-Scope:**
-- Detailed logging for workouts (completion status, perceived difficulty)
-- Detailed logging for meals (consumption status)
-- Core AI logic for automatic weekly replanning based on logged progress and feedback
-- In-app notifications for new weekly plans
-- Dashboard view to see historical progress (e.g., workout streak, weight trend)
+### In Scope:
+- **Story 2.1: Workout Logging UI:** Implement the user interface for logging workout completion and perceived difficulty.
+- **Story 2.2: Meal Logging UI:** Implement the user interface for logging meal consumption.
+- **Story 2.3: AI-Driven Weekly Plan Adaptation Logic:** Develop the backend service that processes user feedback and generates a new, adapted plan for the following week.
+- **Story 2.4: Dashboard Progress Visualization:** Create dashboard components to visualize user progress, such as streaks and trends.
+- **Story 2.5: New Plan Notification:** Implement in-app notifications to inform users when their new weekly plan is ready.
 
-**Out-of-Scope (for this epic):**
-- Real-time plan adjustments (focus is on weekly adaptation)
-- Social features or community sharing of progress
-- Advanced analytics beyond basic progress visualization on the dashboard
+### Out of Scope:
+- Advanced real-time plan adjustments within the current week.
+- Social sharing of progress or achievements.
+- Detailed food item nutritional analysis (macros, calories, etc.). The focus is on meal adherence.
 
 ## System Architecture Alignment
 
-This epic aligns directly with the established architectural decision for **Background Job/Async Processing Strategy** using **Vercel Cron Jobs** (ADR-001) to trigger the weekly AI plan generation. The features will leverage the existing FastAPI backend (`app/api/v1/endpoints/plans.py` for logging and adaptation logic) and Next.js frontend (`src/app/(dashboard)/workouts/`, `src/app/(dashboard)/meals/` for logging UI) and Supabase for data persistence.
+This epic directly engages with both frontend and backend components defined in the architecture.
+
+- **Backend:** The core adaptation logic will be implemented within the `app/services/ai_plan_generator.py` and exposed via new endpoints in `app/api/v1/endpoints/plans.py`. This work will be triggered by a Vercel Cron Job as decided in ADR-001.
+- **Frontend:** New UI components for logging will be created within `src/app/(dashboard)/workouts/` and `src/app/(dashboard)/meals/`. The progress visualization will be a new component on the main dashboard page (`src/app/(dashboard)/dashboard/page.tsx`), leveraging the Recharts library.
+- **Database:** The `workout_log` and `meal_log` tables will be heavily utilized to store the data required for the AI adaptation logic.
+
+## Detailed Design
 
 ### Services and Modules
 
-**Backend Services:**
-*   **AI Plan Generator Service (`backend/app/services/ai_plan_generator.py`):**
-    *   **Responsibility:** Interacts with the Pydantic AI framework (Gemini 2.5) to generate and adapt workout and meal plans. Processes user data (goals, logged activities, difficulty ratings) and constructs prompts for the AI. Stores generated plans in the database.
-    *   **Inputs:** User ID, current plan data, logged workout/meal data, difficulty ratings.
-    *   **Outputs:** New weekly workout and meal plans (structured JSON).
-    *   **Owner:** Backend Team
-*   **Logging Service (within FastAPI endpoints):**
-    *   **Responsibility:** Handles persistence of user-logged workout and meal data to the Supabase database.
-    *   **Inputs:** User ID, workout/meal ID, status (completed/skipped), difficulty rating (for workouts).
-    *   **Outputs:** Confirmation of successful log.
-    *   **Owner:** Backend Team
-
-**Frontend Modules:**
-*   **Workout Logging UI (`frontend/src/app/(dashboard)/workouts/`):**
-    *   **Responsibility:** Provides user interface for logging workout completion status and perceived difficulty.
-    *   **Inputs:** User interaction (clicks, ratings).
-    *   **Outputs:** API calls to backend logging endpoints.
-    *   **Owner:** Frontend Team
-*   **Meal Logging UI (`frontend/src/app/(dashboard)/meals/`):**
-    *   **Responsibility:** Provides user interface for logging meal consumption status.
-    *   **Inputs:** User interaction (clicks).
-    *   **Outputs:** API calls to backend logging endpoints.
-    *   **Owner:** Frontend Team
-*   **Dashboard Progress Visualization (`frontend/src/app/(dashboard)/dashboard/`):**
-    *   **Responsibility:** Displays aggregated progress data (workout streak, weight trend) using charting libraries.
-    *   **Inputs:** Aggregated progress data from backend API.
-    *   **Outputs:** Visual representation of user progress.
-    *   **Owner:** Frontend Team
-*   **Notification Module (Frontend, potentially integrated with `feedback_patterns_dark.html`):**
-    *   **Responsibility:** Displays in-app notifications for events like new plan generation.
-    *   **Inputs:** Notification trigger from backend.
-    *   **Outputs:** User alert.
-    *   **Owner:** Frontend Team
+| Service/Module | Responsibilities | Inputs | Outputs | Owner |
+|---|---|---|---|---|
+| **PlanAdaptationService** | Orchestrates the weekly plan adaptation. Fetches user logs, constructs AI prompts, calls the AI service, and saves the new plan. | `user_id` | New `workout_plan` and `meal_plan` | Backend Team |
+| **LoggingService** | Handles the creation and updating of workout and meal log entries. | `user_id`, log data (workout/meal details) | Saved log entry | Backend Team |
+| **NotificationService** | Creates and manages in-app notifications. | `user_id`, notification content | `notification` object | Backend Team |
+| **ProgressDataService** | Aggregates and calculates progress metrics for the dashboard. | `user_id` | Progress data (streak, trends) | Backend Team |
+| **WorkoutLoggingCard** | (Frontend Component) Displays a single workout and allows user to log completion and difficulty. | `workout` object | Log event | Frontend Team |
+| **MealLoggingCard** | (Frontend Component) Displays a single meal and allows user to log consumption. | `meal` object | Log event | Frontend Team |
+| **ProgressChart** | (Frontend Component) Renders progress visualization using Recharts. | `progress_data` | Chart UI | Frontend Team |
 
 ### Data Models and Contracts
 
-*   **`workout_plans` table:**
-    *   `id` (PK, UUID)
-    *   `user_id` (FK to `users.id`)
-    *   `plan_data` (JSONB, stores full AI-generated workout plan details)
-    *   `start_date` (Date)
-    *   `end_date` (Date)
-    *   `created_at` (Timestamp, UTC)
-    *   `adapted_from_plan_id` (FK to `workout_plans.id`, nullable, for tracking adaptations)
-*   **`meal_plans` table:**
-    *   `id` (PK, UUID)
-    *   `user_id` (FK to `users.id`)
-    *   `plan_data` (JSONB, stores full AI-generated meal plan details)
-    *   `start_date` (Date)
-    *   `end_date` (Date)
-    *   `created_at` (Timestamp, UTC)
-    *   `adapted_from_plan_id` (FK to `meal_plans.id`, nullable, for tracking adaptations)
-*   **`workout_log` table:**
-    *   `id` (PK, UUID)
-    *   `user_id` (FK to `users.id`)
-    *   `workout_plan_id` (FK to `workout_plans.id`, tracks which plan this log belongs to)
-    *   `logged_date` (Date)
-    *   `status` (Enum: 'completed', 'skipped')
-    *   `difficulty_rating` (Integer, 1-5, nullable for skipped)
-    *   `created_at` (Timestamp, UTC)
-*   **`meal_log` table:**
-    *   `id` (PK, UUID)
-    *   `user_id` (FK to `users.id`)
-    *   `meal_plan_id` (FK to `meal_plans.id`, tracks which plan this log belongs to)
-    *   `logged_date` (Date)
-    *   `status` (Enum: 'eaten', 'skipped')
-    *   `created_at` (Timestamp, UTC)
-*   **`user_progress_summary` (Materialized View or computed):**
-    *   Aggregates data for dashboard visualization (e.g., `workout_streak`, `weight_trend`). This would likely be derived on-demand or through background jobs rather than a persistent table for MVP.
+**`workout_logs` Table**
+```sql
+CREATE TABLE workout_logs (
+    id SERIAL PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    workout_plan_id INT REFERENCES workout_plans(id),
+    exercise_name VARCHAR(255),
+    sets_completed INT,
+    reps_completed INT,
+    weight_lifted FLOAT,
+    difficulty_rating INT CHECK (difficulty_rating BETWEEN 1 AND 5),
+    logged_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+**`meal_logs` Table**
+```sql
+CREATE TABLE meal_logs (
+    id SERIAL PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    meal_plan_id INT REFERENCES meal_plans(id),
+    meal_name VARCHAR(255),
+    status VARCHAR(50) CHECK (status IN ('Eaten', 'Skipped')),
+    logged_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
 
 ### APIs and Interfaces
 
-**Backend API (`/api/v1/`):**
+**POST `/api/v1/log/workout`**
+- **Description:** Logs a completed workout.
+- **Request Body:**
+  ```json
+  {
+    "workout_plan_id": 1,
+    "exercise_name": "Push-ups",
+    "sets_completed": 3,
+    "reps_completed": 15,
+    "weight_lifted": 0,
+    "difficulty_rating": 3
+  }
+  ```
+- **Response:** `201 Created`
 
-*   **`POST /plans/generate-weekly`:**
-    *   **Description:** Endpoint triggered by Vercel Cron Job to generate/adapt weekly plans for users.
-    *   **Request:** `{ "user_id": UUID, "week_start_date": Date }` (or similar for cron job internal use)
-    *   **Response:** `200 OK`
-*   **`POST /log/workout`:**
-    *   **Description:** Logs a user's workout status and difficulty.
-    *   **Request:** `{ "workout_plan_id": UUID, "logged_date": Date, "status": "completed" | "skipped", "difficulty_rating": int (optional) }`
-    *   **Response:** `200 OK`
-    *   **Errors:** `400 Bad Request` (invalid input), `404 Not Found` (plan/workout not found).
-*   **`POST /log/meal`:**
-    *   **Description:** Logs a user's meal status.
-    *   **Request:** `{ "meal_plan_id": UUID, "logged_date": Date, "status": "eaten" | "skipped" }`
-    *   **Response:** `200 OK`
-    *   **Errors:** `400 Bad Request` (invalid input), `404 Not Found` (plan/meal not found).
-*   **`GET /progress/summary`:**
-    *   **Description:** Retrieves aggregated progress data for dashboard visualization.
-    *   **Request:** (Optional) Query parameters for date range, `user_id` (inferred from JWT).
-    *   **Response:** `{ "workout_streak": int, "weight_trend": [{"date": Date, "weight": float}, ...], "other_metrics": ... }`
-*   **Notifications Endpoint (TBD):**
-    *   **Description:** API for managing and fetching in-app notifications.
+**POST `/api/v1/log/meal`**
+- **Description:** Logs a consumed meal.
+- **Request Body:**
+  ```json
+  {
+    "meal_plan_id": 1,
+    "meal_name": "Oatmeal with Berries",
+    "status": "Eaten"
+  }
+  ```
+- **Response:** `201 Created`
+
+**GET `/api/v1/progress`**
+- **Description:** Retrieves aggregated progress data for the dashboard.
+- **Response Body:**
+  ```json
+  {
+    "workout_streak": 5,
+    "weight_trend": [
+      {"date": "2025-12-01", "weight": 70.5},
+      {"date": "2025-12-08", "weight": 70.2},
+      {"date": "2025-12-15", "weight": 69.8}
+    ]
+  }
+  ```
+
+**POST `/api/v1/plans/adapt` (Internal, triggered by Cron)**
+- **Description:** Triggers the weekly plan adaptation for a user.
+- **Request Body:**
+  ```json
+  {
+    "user_id": "..."
+  }
+  ```
+- **Response:** `200 OK`
 
 ### Workflows and Sequencing
 
-1.  **Weekly Plan Generation & Adaptation:**
-    *   **Trigger:** Vercel Cron Job (`ADR-001`) at the end of each week.
-    *   **Sequence:**
-        *   Cron Job triggers `POST /plans/generate-weekly` endpoint in FastAPI backend.
-        *   Backend: `ai_plan_generator.py` retrieves user's previous week's logged `workout_log` and `meal_log` data.
-        *   `ai_plan_generator.py` constructs a prompt with user preferences, goals, and performance data.
-        *   `ai_plan_generator.py` calls Pydantic AI framework (Gemini 2.5) to generate new workout and meal plans.
-        *   Backend stores new `workout_plans` and `meal_plans` in Supabase.
-        *   Backend triggers in-app notification for the user.
-2.  **Workout Logging:**
-    *   **Trigger:** User interacts with `Workout Logging UI` (`workoutplan_dark.html`).
-    *   **Sequence:**
-        *   Frontend captures workout ID, status, and difficulty rating.
-        *   Frontend calls `POST /log/workout` API.
-        *   Backend saves new entry to `workout_log` table.
-        *   Frontend displays success/error feedback.
-3.  **Meal Logging:**
-    *   **Trigger:** User interacts with `Meal Logging UI` (`mealplan_dark.html`).
-    *   **Sequence:**
-        *   Frontend captures meal ID and status.
-        *   Frontend calls `POST /log/meal` API.
-        *   Backend saves new entry to `meal_log` table.
-        *   Frontend displays success/error feedback.
-4.  **Dashboard Progress Visualization:**
-    *   **Trigger:** User navigates to Dashboard.
-    *   **Sequence:**
-        *   Frontend calls `GET /progress/summary` API.
-        *   Backend aggregates data from `workout_log`, `meal_log`, and potentially `users` table.
-        *   Backend returns aggregated progress data.
-        *   Frontend uses `Recharts` to display workout streak, weight trend, etc.
+**Weekly Plan Adaptation Workflow:**
+1. **Trigger:** A Vercel Cron Job runs every Sunday at midnight (user's timezone).
+2. **Fetch Users:** The job fetches all active users who are due for a new plan.
+3. **For each user, the `PlanAdaptationService` is invoked:**
+    a. **Fetch Logs:** Gathers all `workout_logs` and `meal_logs` from the past week.
+    b. **Construct Prompt:** Creates a detailed prompt for the Pydantic AI framework with Gemini 2.5, summarizing the user's goals, previous plan, and logged adherence and difficulty ratings.
+    c. **Generate Plan:** Calls the AI service to get the new, adapted workout and meal plan for the upcoming week.
+    d. **Save Plan:** Stores the newly generated plan in the `workout_plans` and `meal_plans` tables.
+    e. **Notify User:** Calls the `NotificationService` to create an in-app notification that a new plan is ready.
 
 ## Non-Functional Requirements
 
 ### Performance
 
-*   **Rationale:** Ensures a responsive and smooth user experience, especially for core interactions like plan generation, logging, and dashboard visualization.
-*   **Measurable Criteria:**
-    *   Response time for non-AI queries (logging, progress retrieval) shall be less than 500ms.
-    *   The system shall support at least 100 concurrent active users without degradation in performance.
-    *   Next.js code splitting and Vercel CDN will optimize frontend loading.
-    *   Backend caching for common database queries.
+- **Logging API:** Response times for `POST /api/v1/log/workout` and `POST /api/v1/log/meal` must be < 300ms.
+- **Progress API:** Response time for `GET /api/v1/progress` must be < 500ms, even with a year's worth of log data. Caching will be critical here.
+- **AI Adaptation Job:** The weekly adaptation job for a single user should complete in under 60 seconds to avoid timeouts.
 
 ### Security
 
-*   **Rationale:** The system handles sensitive personal and health-related data, requiring robust protection against unauthorized access and data breaches.
-*   **Measurable Criteria:**
-    *   All data in transit (HTTPS) and at rest (database encryption managed by Supabase) shall be encrypted.
-    *   Access to user data shall be restricted by Row Level Security (RLS) policies.
-    *   User authentication shall be handled by Supabase Auth using JWT tokens for secure sessions.
-    *   Backend API endpoints will be protected and will require a valid JWT.
-    *   The system shall comply with GDPR principles for data privacy and retention.
+- **RLS Policies:** Row Level Security policies must be implemented for the `workout_logs` and `meal_logs` tables to ensure a user can only access their own log data.
+- **Endpoint Protection:** All new API endpoints must be protected and require a valid JWT from an authenticated user.
 
 ### Reliability/Availability
 
-*   **Rationale:** To ensure consistent and dependable generation of workout and meal plans, which is core to the product's value proposition.
-*   **Measurable Criteria:**
-    *   The system shall implement retry mechanisms with exponential backoff for Pydantic AI framework (Gemini 2.5) API calls in `ai_plan_generator.py`.
-    *   The system shall utilize caching for AI API responses to reduce latency and dependency.
-    *   The system shall have fallback mechanisms (e.g., default plan templates) in case of AI API unavailability.
-    *   Vercel Cron Jobs will ensure scheduled plan generation is reliable.
+- **AI Service Failure:** The `PlanAdaptationService` must implement retry logic with exponential backoff when calling the Gemini API. If the AI service fails permanently, the job should be marked as failed and re-run automatically on the next scheduled interval.
+- **Idempotency:** Logging endpoints should be designed to be idempotent where possible to prevent duplicate entries on client-side retries.
 
 ### Observability
 
-*   **Rationale:** To enable effective monitoring, debugging, and understanding of application behavior, especially for critical AI plan generation and adaptation processes.
-*   **Measurable Criteria:**
-    *   Structured logging will be implemented with JSON format, including timestamp, log level (INFO, WARNING, ERROR), and a message.
-    *   Logs will be output to `stdout`/`stderr`, compatible with Vercel's logging infrastructure.
-    *   Key metrics related to plan generation (e.g., success rate, latency of AI calls) and logging (e.g., volume, error rates) will be captured and made available for monitoring.
+- **Structured Logging:** The weekly `PlanAdaptationService` cron job must have detailed structured logging (JSON format) at each step (start, fetch logs, construct prompt, call AI, save plan, end/error).
+- **Monitoring:** Key metrics for the adaptation job, such as duration, success rate, and AI token usage, should be logged and available for monitoring in the Vercel dashboard.
 
 ## Dependencies and Integrations
 
-### Frontend Dependencies:
-*   **Next.js (v16.0.5):** Core framework for frontend application.
-*   **React (with Next.js):** UI library.
-*   **TypeScript:** Language for frontend development.
-*   **Tailwind CSS:** Styling framework.
-*   **Recharts:** Charting library for progress visualization (`Story 2.4`).
-*   **Zustand:** Client-side state management.
-*   **SWR/React Query:** Server-side state and data fetching for efficient data retrieval for logging and dashboard.
-*   **`@supabase/supabase-js` (v2.86.0):** Integration with Supabase for authentication and real-time data.
-*   **Vercel:** Deployment platform, integrates with GitHub Actions for CI/CD.
+## Dependencies and Integrations
 
-### Backend Dependencies:
-*   **FastAPI (v0.122.0):** Core framework for backend API.
-*   **Python 3.14:** Language for backend development.
-*   **Pydantic AI framework with Gemini 2.5:** AI model for plan generation and adaptation (`Story 2.3`).
-*   **Supabase (PostgreSQL):** Database and BaaS (Authentication, RLS, Storage).
-*   **uv:** Package and project manager.
-*   **Alembic:** Database migrations.
-
-### Integration Points:
-*   **Vercel Cron Jobs:** External trigger for the `POST /plans/generate-weekly` endpoint, enabling weekly plan generation (`Story 2.3`).
-*   **Pydantic AI framework with Gemini 2.5:** Integrated into `ai_plan_generator.py` for AI-driven plan generation and adaptation.
+| Dependency/Integration | Type | Purpose | Story |
+|---|---|---|---|
+| **recharts** | Frontend Library | For rendering progress charts and visualizations on the dashboard. | 2.4 |
+| **Vercel Cron Jobs** | Platform Service | To trigger the weekly `PlanAdaptationService` backend job. | 2.3 |
+| **Pydantic AI with Gemini** | External API | To generate the adapted workout and meal plans based on user progress. | 2.3 |
 
 ## Acceptance Criteria (Authoritative)
 
-**Story 2.1: Workout Logging UI**
-*   Users can mark a planned workout as "Completed" or "Skipped".
-*   Users can rate the difficulty of a completed workout (e.g., 1-5 scale).
-*   This feedback is stored in the database.
+### Story 2.1: Workout Logging UI
+1.  **Given** I am viewing my daily workout plan, **when** I interact with a workout, **then** I can mark it as "Completed" or "Skipped".
+2.  **Given** I have marked a workout as "Completed", **when** prompted, **then** I can rate its difficulty on a 1-5 scale.
+3.  **Given** I have logged a workout, **then** the data is successfully saved to the `workout_logs` table in the database via the `POST /api/v1/log/workout` endpoint.
 
-**Story 2.2: Meal Logging UI**
-*   Users can mark a planned meal as "Eaten" or "Skipped".
-*   This feedback is stored in the database.
+### Story 2.2: Meal Logging UI
+1.  **Given** I am viewing my daily meal plan, **when** I interact with a meal, **then** I can mark it as "Eaten" or "Skipped".
+2.  **Given** I have logged a meal, **then** the data is successfully saved to the `meal_logs` table in the database via the `POST /api/v1/log/meal` endpoint.
 
-**Story 2.3: AI-Driven Weekly Plan Adaptation Logic**
-*   The AI processes the user's logged workouts, meals, and difficulty ratings.
-*   The AI generates a new, adapted workout plan for the upcoming week based on this data.
-*   The AI generates a new, adapted meal plan for the upcoming week based on this data.
-*   The new plans are stored in the database.
+### Story 2.3: AI-Driven Weekly Plan Adaptation Logic
+1.  **Given** it is the end of the week, **when** the weekly cron job runs, **then** it correctly identifies all users due for a new plan.
+2.  **Given** the adaptation service is running for a user, **then** it successfully fetches all workout and meal logs for that user from the past 7 days.
+3.  **Given** the service has the user's logs, **then** it constructs a valid, detailed prompt for the Gemini API.
+4.  **Given** a successful AI response, **then** a new `workout_plan` and `meal_plan` are created and saved to the database for the upcoming week.
 
-**Story 2.4: Dashboard Progress Visualization**
-*   I see a summary of my workout streak.
-*   I see a visualization of my weight trend over the last 30 days.
-*   This visualization uses data from my logs.
+### Story 2.4: Dashboard Progress Visualization
+1.  **Given** I am on the dashboard, **when** my data loads, **then** the `GET /api/v1/progress` endpoint is called.
+2.  **Given** I have logged workouts for consecutive days, **then** the dashboard correctly displays my current workout streak.
+3.  **Given** I have logged my weight multiple times, **then** a trend chart is rendered on the dashboard showing my weight changes over time.
 
-**Story 2.5: New Plan Notification**
-*   I receive an in-app notification confirming the new plan.
-*   I can easily navigate to the new plan from the notification.
+### Story 2.5: New Plan Notification
+1.  **Given** a new weekly plan has been successfully generated for me, **then** a notification record is created in the database.
+2.  **Given** I have an unread notification, **when** I open the application, **then** an in-app notification is displayed (as per `feedback_patterns_dark.html`).
+3.  **Given** I click on the notification, **then** I am navigated directly to my new weekly plan.
 
 ## Traceability Mapping
 
-| Acceptance Criteria | Spec Section(s) | Component(s)/API(s) | Test Idea |
-| :----------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Story 2.1: Users can mark a planned workout as "Completed" or "Skipped". | Detailed Design: Workout Logging UI, APIs: `POST /log/workout` | `frontend/src/app/(dashboard)/workouts/`, `POST /log/workout` | E2E: Verify successful logging of a completed workout. Unit: Test `difficulty-rating` component. Integration: API rejects out-of-range difficulty. |
-| Story 2.1: Users can rate the difficulty of a completed workout (e.g., 1-5 scale). | Detailed Design: Workout Logging UI, APIs: `POST /log/workout` | `frontend/src/app/(dashboard)/workouts/`, `POST /log/workout` | E2E: Verify successful logging of a completed workout. Unit: Test `difficulty-rating` component. Integration: API rejects out-of-range difficulty. |
-| Story 2.1: This feedback is stored in the database. | Detailed Design: Data Models: `workout_log` | `workout_log` table, `POST /log/workout` | E2E: Verify successful logging of a completed workout. |
-| Story 2.2: Users can mark a planned meal as "Eaten" or "Skipped". | Detailed Design: Meal Logging UI, APIs: `POST /log/meal` | `frontend/src/app/(dashboard)/meals/`, `POST /log/meal` | E2E: Verify successful logging of an eaten/skipped meal. |
-| Story 2.2: This feedback is stored in the database. | Detailed Design: Data Models: `meal_log` | `meal_log` table, `POST /log/meal` | E2E: Verify successful logging of an eaten/skipped meal. |
-| Story 2.3: The AI processes the user's logged workouts, meals, and difficulty ratings. | Detailed Design: AI Plan Generator Service, Workflows: Weekly Plan Gen. | `ai_plan_generator.py` | Integration: AI increases intensity for high performers, AI decreases intensity for low performers. Unit: Test `calculate_performance_score`. |
-| Story 2.3: The AI generates a new, adapted workout plan for the upcoming week based on this data. | Detailed Design: AI Plan Generator Service, Workflows: Weekly Plan Gen. | `ai_plan_generator.py` | Integration: AI increases intensity for high performers, AI decreases intensity for low performers. |
-| Story 2.3: The AI generates a new, adapted meal plan for the upcoming week based on this data. | Detailed Design: AI Plan Generator Service, Workflows: Weekly Plan Gen. | `ai_plan_generator.py` | Integration: AI increases intensity for high performers, AI decreases intensity for low performers. |
-| Story 2.3: The new plans are stored in the database. | Detailed Design: Data Models: `workout_plans`, `meal_plans` | `workout_plans` table, `meal_plans` table | Integration: AI increases intensity for high performers, AI decreases intensity for low performers. |
-| Story 2.4: I see a summary of my workout streak. | Detailed Design: Dashboard Progress Visualization, APIs: `GET /progress/summary` | `frontend/src/app/(dashboard)/dashboard/`, `GET /progress/summary` | E2E: Verify workout streak updates correctly. Integration: API endpoint for progress data. |
-| Story 2.4: I see a visualization of my weight trend over the last 30 days. | Detailed Design: Dashboard Progress Visualization, APIs: `GET /progress/summary` | `frontend/src/app/(dashboard)/dashboard/`, `GET /progress/summary` | E2E: Verify workout streak updates correctly. Integration: API endpoint for progress data. |
-| Story 2.4: This visualization uses data from my logs. | Detailed Design: Dashboard Progress Visualization, APIs: `GET /progress/summary` | `frontend/src/app/(dashboard)/dashboard/`, `GET /progress/summary` | E2E: Verify workout streak updates correctly. Integration: API endpoint for progress data. |
-| Story 2.5: I receive an in-app notification confirming the new plan. | Detailed Design: Notification Module | Frontend Notification UI | E2E: Verify new plan notification appears. |
-| Story 2.5: I can easily navigate to the new plan from the notification. | Detailed Design: Notification Module | Frontend Notification UI | E2E: Verify clicking notification navigates to new plan. |
+| Story ID | Acceptance Criteria | Spec Section(s) | Component(s)/API(s) | Test Idea |
+|---|---|---|---|---|
+| 2.1 | 2.1.1, 2.1.2, 2.1.3 | Detailed Design | `WorkoutLoggingCard`, `POST /api/v1/log/workout` | Unit test the component's state changes. Integration test the API endpoint. |
+| 2.2 | 2.2.1, 2.2.2 | Detailed Design | `MealLoggingCard`, `POST /api/v1/log/meal` | Unit test the component's state changes. Integration test the API endpoint. |
+| 2.3 | 2.3.1, 2.3.2, 2.3.3, 2.3.4 | Detailed Design, NFRs | `PlanAdaptationService`, Vercel Cron, Gemini API | End-to-end test the cron job trigger and plan generation. Mock the Gemini API for unit tests. |
+| 2.4 | 2.4.1, 2.4.2, 2.4.3 | Detailed Design | `ProgressChart`, `GET /api/v1/progress` | Unit test the chart component with mock data. Integration test the progress data aggregation API. |
+| 2.5 | 2.5.1, 2.5.2, 2.5.3 | Detailed Design | `NotificationService`, Frontend notification UI | Integration test the notification creation and display flow. |
 
 ## Risks, Assumptions, Open Questions
 
-*   **Risk:** The core feedback loop and AI adaptation are critical for user retention and product value. Failure here means the app is static and non-responsive to user needs.
-    *   **Mitigation:** Robust unit, integration, and E2E testing for AI adaptation logic. Performance testing of AI-related API endpoints.
-*   **Assumption:** The Pydantic AI framework (Gemini 2.5) provides reliable and consistent outputs based on prompts for plan generation and adaptation.
-    *   **Open Question:** What is the cost per AI generation call, and how will this scale with user growth?
-*   **Assumption:** Vercel Cron Jobs will reliably trigger the weekly plan generation process.
-*   **Risk:** Potential for "cold start" issues or long response times from the AI service impacting user experience during plan generation.
-    *   **Mitigation:** Implement caching for AI responses, retry mechanisms, and fallback to default templates.
+| Type | Description | Mitigation / Next Step |
+|---|---|---|
+| **Risk** | The quality of the AI-generated adapted plan is highly dependent on the quality of the prompt constructed from user logs. Poor prompts could lead to nonsensical plans. | **Mitigation:** Implement a robust prompt engineering process. Log all prompts and AI responses for analysis and fine-tuning. Create a "golden dataset" of user logs and expected plan adaptations for testing. |
+| **Risk** | The volume of log data could grow significantly, impacting the performance of the `GET /api/v1/progress` endpoint and the weekly adaptation job. | **Mitigation:** Implement aggressive caching on the progress endpoint. Ensure database queries for the adaptation job are highly optimized and indexed. Consider archiving older log data. |
+| **Assumption** | Users will consistently and accurately log their workouts and meals. | **Next Step:** The UI must be as low-friction as possible to encourage logging. If engagement with logging is low, we may need to introduce reminders or gamification elements. |
+| **Question** | What is the ideal format for summarizing a week's worth of logs to the AI? Should we send raw logs, or a pre-processed summary? | **Next Step:** Experiment with different prompt formats during development. Start with a detailed summary and see if the AI can effectively use it. |
 
 ## Test Strategy Summary
 
-*   **Strategy:** Multi-layered approach employing a testing pyramid, emphasizing early and continuous testing.
-*   **Test Pyramid:**
-    *   **Unit Tests (60%):** Extensive unit tests for each new function in frontend (React components, state management) and backend (FastAPI services, data models).
-    *   **Integration Tests (30%):** Focus on connections between frontend UI, backend APIs, and Supabase database. API contract testing (Pact) to ensure frontend and backend are in sync.
-    *   **End-to-End (E2E) Tests (10%):** A small, critical set of E2E tests (Playwright) simulating the full user journey from logging a workout to receiving an adapted plan.
-*   **Performance Tests:** Backend API endpoints related to logging and plan generation will be benchmarked using Locust to meet latency requirements (<500ms p95).
-*   **Manual & Exploratory Testing:** Performed on new UI components to catch issues not covered by automated tests, focusing on usability and edge cases.
-*   **CI/CD:** GitHub Actions to run all automated test suites on every commit/PR.
+- **Unit Testing:**
+  - **Frontend:** Each new React component (`WorkoutLoggingCard`, `MealLoggingCard`, `ProgressChart`) will have unit tests using Jest and React Testing Library to verify rendering and state changes.
+  - **Backend:** Core business logic in the `PlanAdaptationService` and `ProgressDataService` will be unit-tested. AI and database interactions will be mocked.
+- **Integration Testing:**
+  - **API:** Each new API endpoint will have integration tests using `Pytest` to validate request/response contracts, authentication/authorization, and database interactions.
+  - **Frontend-Backend:** Test the full flow of logging data from the UI to the database.
+- **End-to-End (E2E) Testing:**
+  - A full E2E test will be created to simulate the weekly adaptation process:
+    1. Seed the database with a user and a week of log data.
+    2. Manually trigger the adaptation cron job.
+    3. Verify that a new, adapted plan is correctly generated and stored in the database.
+    4. Verify that a notification is created.
