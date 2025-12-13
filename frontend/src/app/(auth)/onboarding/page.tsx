@@ -194,8 +194,8 @@ export default function OnboardingPage() {
     try {
       const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
-      if (sessionError || !session) {
-        console.error('Failed to get Supabase session:', sessionError?.message);
+      if (sessionError || !session || !session.access_token) {
+        console.error('Failed to get Supabase session or access token:', sessionError?.message);
         alert('Authentication error. Please log in again.');
         router.push('/login');
         return;
@@ -208,7 +208,10 @@ export default function OnboardingPage() {
         fitness_persona: finalData.fitnessPersona,
       };
 
-      const response = await fetch('/api/v1/users/profile/', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '') : '';
+      const fullUrl = `${apiUrl}/api/v1/users/profile/`;
+
+      const response = await fetch(fullUrl, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -218,17 +221,18 @@ export default function OnboardingPage() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Backend API error:', errorData);
-        throw new Error(errorData.detail || 'Failed to save onboarding preferences.');
+        const errorText = await response.text();
+        console.error(`Backend API error (Status: ${response.status}):`, errorText);
+        throw new Error(`Failed to save onboarding preferences. Server responded with ${response.status}: ${errorText}`);
       }
 
       console.log('Onboarding preferences saved successfully!', finalData);
       alert('Onboarding complete! Your preferences have been saved.');
       router.push('/dashboard');
     } catch (error: any) {
-      console.error('Error during onboarding submission:', error.message);
-      alert(`Error: ${error.message}`);
+      console.error('Error during onboarding submission:', error);
+      const errorMessage = error.message || 'An unknown error occurred. Please try again.';
+      alert(`Error: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }
