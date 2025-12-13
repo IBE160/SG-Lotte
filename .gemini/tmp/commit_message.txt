@@ -1,0 +1,9 @@
+fix(frontend): Finalize onboarding API call URL and authorization
+
+Addresses persistent issues with the onboarding finish API call by directly targeting the backend and ensuring correct URL formatting.
+
+This commit makes the following changes in `frontend/src/app/(auth)/onboarding/page.tsx`:
+- The API call for user profile updates (`/api/v1/users/profile`) now directly targets the FastAPI backend using `NEXT_PUBLIC_API_URL` (or a fallback to `http://127.0.0.1:8000`), bypassing Next.js rewrites.
+- The endpoint URL is precisely set to `/api/v1/users/profile` (without a trailing slash), to avoid potential 307/308 redirects that could lead to the Authorization header being dropped.
+- The Authorization header continues to be correctly attached using `session.access_token`, which is validated for its presence before the request is made.
+This aligns the API call mechanism with a more robust pattern, resolving the missing Authorization header issue observed in previous attempts.

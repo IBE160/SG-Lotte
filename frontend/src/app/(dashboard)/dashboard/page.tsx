@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@/lib/supabase/client';
 
 // Define the FullPlan structure (should match backend Pydantic model)
+// ... (interface definitions remain the same) ...
 interface WorkoutExercise {
   name: string;
   description?: string;
@@ -50,34 +51,18 @@ interface FullPlan {
   meal_plan: MealPlan;
 }
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export default function DashboardPage() {
   const [plan, setPlan] = useState<FullPlan | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const supabase = createClient();
 
   useEffect(() => {
-    const fetchOrCreatePlan = async () => {
+    const fetchOrCreatePlan = async (accessToken: string) => {
       setLoading(true);
       setError(null);
       try {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-        if (sessionError || !session) {
-          throw new Error('User not authenticated.');
-        }
-
-        const accessToken = session.access_token;
-
-        // Check if a plan already exists for the user (simplified check, would involve a GET endpoint in a real app)
-        // For now, we'll assume if we call generate-initial, it will return the existing one or create a new one.
-        // A more robust solution would involve a separate endpoint to fetch current plan.
-
         const response = await fetch('/api/v1/plans/generate-initial', {
           method: 'POST',
           headers: {
@@ -101,8 +86,25 @@ export default function DashboardPage() {
       }
     };
 
-    fetchOrCreatePlan();
-  }, []);
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === 'SIGNED_IN' && session) {
+          fetchOrCreatePlan(session.access_token);
+        } else if (event === 'INITIAL_SESSION' && session) {
+          // Handle case where session is already available on mount
+          fetchOrCreatePlan(session.access_token);
+        } else if (!session) {
+          setError('User not authenticated.');
+          setLoading(false);
+        }
+      }
+    );
+
+    // Cleanup the listener on component unmount
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
+  }, [supabase.auth]);
 
   if (loading) {
     return (

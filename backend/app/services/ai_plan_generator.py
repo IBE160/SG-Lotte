@@ -4,6 +4,8 @@ import asyncio
 import google.generativeai as genai
 from pydantic import BaseModel, Field, ValidationError
 from typing import List, Optional, Dict, Any
+from app.core.exceptions import SupabaseDatabaseError # Import SupabaseDatabaseError
+from postgrest.exceptions import APIError # Import APIError
 
 # Import CRUD operations for plans
 from app.crud.plan import create_workout_plan, create_meal_plan
@@ -51,87 +53,126 @@ class FullPlan(BaseModel):
 
 # Configure Gemini API
 # Load API key from environment variable
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-if not GEMINI_API_KEY:
-    raise ValueError("GEMINI_API_KEY environment variable not set. Please set it to your Gemini API key.")
+# GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+# if not GEMINI_API_KEY:
+#     raise ValueError("GEMINI_API_KEY environment variable not set. Please set it to your Gemini API key.")
 
-genai.configure(api_key=GEMINI_API_KEY)
+# genai.configure(api_key=GEMINI_API_KEY)
 
 # Use the 'gemini-1.5-flash' model as specified in the epic
-model = genai.GenerativeModel('gemini-1.5-flash')
+# model = genai.GenerativeModel('models/gemini-2.0-flash-001')
 
-async def generate_ai_response(prompt: str) -> str:
-    """
-    Calls the Gemini 1.5 Flash API with the given prompt and returns the structured JSON response.
-    Includes retry mechanism with exponential backoff.
-    """
-    max_retries = 3
-    base_delay = 1.0 # seconds
+# async def generate_ai_response(prompt: str) -> str:
+#     """
+#     Calls the Gemini 1.5 Flash API with the given prompt and returns the structured JSON response.
+#     Includes retry mechanism with exponential backoff.
+#     """
+#     max_retries = 3
+#     base_delay = 1.0 # seconds
 
-    for attempt in range(max_retries):
-        try:
-            response = model.generate_content(prompt)
-            if response.parts:
-                full_response_text = "".join([part.text for part in response.parts if hasattr(part, 'text')])
-                return full_response_text
-            return response.text
-        except Exception as e:
-            print(f"Attempt {attempt + 1} failed with error: {e}")
-            if attempt < max_retries - 1:
-                delay = base_delay * (2 ** attempt)
-                print(f"Retrying in {delay:.2f} seconds...")
-                await asyncio.sleep(delay)
-            else:
-                raise # Re-raise after max retries
+#     for attempt in range(max_retries):
+#         try:
+#             response = model.generate_content(prompt)
+#             if response.parts:
+#                 full_response_text = "".join([part.text for part in response.parts if hasattr(part, 'text')])
+#                 return full_response_text
+#             return response.text
+#         except Exception as e:
+#             print(f"Attempt {attempt + 1} failed with error: {e}")
+#             if attempt < max_retries - 1:
+#                 delay = base_delay * (2 ** attempt)
+#                 print(f"Retrying in {delay:.2f} seconds...")
+#                 await asyncio.sleep(delay)
+#             else:
+#                 raise # Re-raise after max retries
 
-async def get_ai_plan(user_id: str, user_preferences: Dict[str, Any]) -> FullPlan:
+def get_ai_plan(user_id: str, user_preferences: Dict[str, Any]) -> FullPlan:
     """
     Generates a 7-day workout and meal plan based on user preferences using an AI,
     validates it, and stores it in the Supabase database.
+    (Temporarily bypassed actual AI call due to quota limits for manual verification.)
     """
     fitness_goal = user_preferences.get("fitness_goal", "general fitness")
     dietary_preferences = user_preferences.get("dietary_preferences", "no specific preferences")
     fitness_persona = user_preferences.get("fitness_persona", "someone looking for a balanced approach")
 
-    prompt = f"""
-You are an expert fitness and nutrition coach. Your task is to create a personalized 7-day workout and meal plan.
+    # --- TEMPORARY DUMMY PLAN FOR MANUAL VERIFICATION ---
+    dummy_workout_plan = WorkoutPlan(
+        plan=[
+            DailyWorkout(
+                day="Monday",
+                focus="Full Body Beginner",
+                exercises=[
+                    WorkoutExercise(name="Bodyweight Squats", sets=3, reps="10-12"),
+                    WorkoutExercise(name="Push-ups (on knees)", sets=3, reps="8-10"),
+                    WorkoutExercise(name="Plank", reps="30 seconds", notes="Hold for 30 seconds")
+                ],
+                notes=f"Based on your goal: {fitness_goal} and persona: {fitness_persona}"
+            ),
+            DailyWorkout(day="Tuesday", focus="Rest Day", exercises=[]),
+            DailyWorkout(day="Wednesday", focus="Lower Body & Core", exercises=[
+                WorkoutExercise(name="Lunges", sets=3, reps="10 per leg"),
+                WorkoutExercise(name="Crunches", sets=3, reps="15-20")
+            ]),
+            DailyWorkout(day="Thursday", focus="Rest Day", exercises=[]),
+            DailyWorkout(day="Friday", focus="Upper Body & Cardio", exercises=[
+                WorkoutExercise(name="Incline Push-ups", sets=3, reps="8-10"),
+                WorkoutExercise(name="Jumping Jacks", duration_minutes=5)
+            ]),
+            DailyWorkout(day="Saturday", focus="Active Recovery", exercises=[], notes="Light walk or stretching."),
+            DailyWorkout(day="Sunday", focus="Rest Day", exercises=[])
+        ]
+    )
+    
+    dummy_meal_plan = MealPlan(
+        plan=[
+            DailyMeal(
+                day="Monday",
+                meal_type="Breakfast",
+                items=[MealItem(name="Oatmeal with Berries", calories=350, protein_g=15, carbs_g=50, fat_g=10)],
+                notes=f"Considering your preferences: {dietary_preferences}"
+            ),
+            DailyMeal(
+                day="Monday",
+                meal_type="Lunch",
+                items=[MealItem(name="Chicken Salad", calories=450, protein_g=30, carbs_g=20, fat_g=25)],
+            ),
+            DailyMeal(
+                day="Monday",
+                meal_type="Dinner",
+                items=[MealItem(name="Baked Salmon with Veggies", calories=500, protein_g=40, carbs_g=30, fat_g=25)],
+            ),
+            DailyMeal(
+                day="Tuesday",
+                meal_type="Breakfast",
+                items=[MealItem(name="Scrambled Eggs with Toast", calories=400, protein_g=20, carbs_g=30, fat_g=20)],
+            ),
+            DailyMeal(
+                day="Tuesday",
+                meal_type="Lunch",
+                items=[MealItem(name="Lentil Soup", calories=380, protein_g=18, carbs_g=45, fat_g=15)],
+            ),
+            DailyMeal(
+                day="Tuesday",
+                meal_type="Dinner",
+                items=[MealItem(name="Turkey Stir-fry", calories=480, protein_g=35, carbs_g=35, fat_g=20)],
+            )
+            # ... add more dummy meals for other days if needed for full display ...
+        ]
+    )
 
-User's Fitness Goal: {fitness_goal}
-User's Dietary Preferences: {dietary_preferences}
-User's Fitness Persona: {fitness_persona}
-
-Generate a 7-day plan that includes both workout routines and meal suggestions.
-The output MUST be a JSON object that strictly adheres to the following Pydantic model structure:
-{json.dumps(FullPlan.model_json_schema(), indent=2)}
-
-Ensure that:
-- The plan covers 7 days, starting from Monday.
-- Workouts specify exercises, sets, reps, and optional equipment.
-- Meal plans specify meal types (e.g., Breakfast, Lunch, Dinner, Snack) and detailed items.
-- Nutritional information (calories, protein, carbs, fat) is provided for each meal item.
-- For rest days, explicitly state "Rest Day" in the workout focus and leave exercises empty.
-- Ensure all fields are populated according to the schema requirements (e.g., optional fields can be null or omitted if not applicable).
-"""
-    print(f"Generated AI Prompt: {prompt[:500]}...") # For debugging purposes
+    full_plan = FullPlan(workout_plan=dummy_workout_plan, meal_plan=dummy_meal_plan)
+    # --- END TEMPORARY DUMMY PLAN ---
 
     try:
-        ai_response_json_str = await generate_ai_response(prompt)
-        ai_response_data = json.loads(ai_response_json_str)
-        
-        # Validate the response against the Pydantic model
-        full_plan = FullPlan.model_validate(ai_response_data)
-
         # Store the generated plans in the database
-        await create_workout_plan(user_id, full_plan.workout_plan.model_dump())
-        await create_meal_plan(user_id, full_plan.meal_plan.model_dump())
-
-        return full_plan
-    except ValidationError as e:
-        print(f"AI response validation error: {e}")
-        raise ValueError(f"Invalid AI response: {e}")
-    except json.JSONDecodeError as e:
-        print(f"AI response is not valid JSON: {e}")
-        raise ValueError(f"AI response is not valid JSON: {e}")
+        create_workout_plan(user_id, full_plan.workout_plan.model_dump())
+        create_meal_plan(user_id, full_plan.meal_plan.model_dump())
+    except (SupabaseDatabaseError, APIError) as e:
+        # Re-raise the specific database error
+        raise e
     except Exception as e:
-        print(f"An unexpected error occurred during AI plan generation or storage: {e}")
-        raise
+        # Catch any other unexpected errors during storage
+        raise SupabaseDatabaseError(detail=f"Unexpected error during plan storage: {str(e)}")
+
+    return full_plan

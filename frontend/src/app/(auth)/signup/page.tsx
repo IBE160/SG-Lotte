@@ -57,11 +57,15 @@ export default function SignUpPage() {
         return
       }
 
-      if (data.user) {
-        setMessage('Registration successful! Please check your email to verify your account.')
+      // If no error, signup was technically successful.
+      // Now handle redirection based on whether email verification is pending.
+      // If data.user is null, it means verification is pending.
+      if (!data.user) {
+        setMessage('Registration successful! Please check your email to verify your account.');
+        router.push('/login?message=Please check your email to verify your account.');
       } else {
-        setIsError(true)
-        setMessage('Something went wrong during registration. Please try again.')
+        // If data.user is present, they can proceed directly to onboarding.
+        router.push('/onboarding');
       }
     } catch (error: any) {
       setIsError(true)
@@ -122,9 +126,13 @@ export default function SignUpPage() {
         )}
         <p className="mt-6 text-center text-sm text-gray-400">
           Already have an account?{' '}
-          <Link href="/auth/login" className="text-blue-400 hover:underline">
+          <button
+            onClick={() => router.push('/login')}
+            className="text-blue-400 hover:underline cursor-pointer"
+            type="button" // Important for button inside a form
+          >
             Log In
-          </Link>
+          </button>
         </p>
       </div>
     </div>
