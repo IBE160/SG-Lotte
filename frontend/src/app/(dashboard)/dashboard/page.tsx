@@ -56,6 +56,8 @@ export default function DashboardPage() {
   const [plan, setPlan] = useState<FullPlan | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [workoutStatus, setWorkoutStatus] = useState<'pending' | 'completed' | 'skipped'>('pending');
+  const [difficulty, setDifficulty] = useState<number>(0);
   const supabase = createClient();
 
   useEffect(() => {
@@ -143,6 +145,21 @@ export default function DashboardPage() {
   const todayWorkout = plan.workout_plan.plan.find(dw => dw.day === todayDayName);
   const todayMeals = plan.meal_plan.plan.filter(dm => dm.day === todayDayName);
 
+  // ... (rest of the component code remains the same)
+  const handleCompleteWorkout = () => {
+    setWorkoutStatus('completed');
+  };
+
+  const handleSkipWorkout = () => {
+    setWorkoutStatus('skipped');
+  };
+
+  const handleSetDifficulty = (rating: number) => {
+    setDifficulty(rating);
+    // Here you would typically save the rating to the backend
+    console.log(`Workout completed with difficulty: ${rating}`);
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-3xl font-bold mb-6 text-center">Your Daily Plan - {todayDayName}</h2>
@@ -154,7 +171,7 @@ export default function DashboardPage() {
           <div>
             <p className="text-lg font-medium mb-2">Focus: {todayWorkout.focus}</p>
             {todayWorkout.exercises.length > 0 ? (
-              <ul className="list-disc list-inside space-y-2">
+              <ul className="list-disc list-inside space-y-2 mb-6">
                 {todayWorkout.exercises.map((exercise, index) => (
                   <li key={index}>
                     <span className="font-semibold">{exercise.name}</span>
@@ -162,15 +179,64 @@ export default function DashboardPage() {
                     {exercise.sets && <span> - {exercise.sets} sets</span>}
                     {exercise.reps && <span> of {exercise.reps} reps</span>}
                     {exercise.duration_minutes && <span> for {exercise.duration_minutes} min</span>}
-                    {exercise.equipment && exercise.equipment.length > 0 && (
-                      <span className="text-sm text-gray-500"> (Equipment: {exercise.equipment.join(', ')})</span>
-                    )}
                   </li>
                 ))}
               </ul>
             ) : (
               <p className="text-gray-400">{todayWorkout.notes || "No specific workout planned for today."}</p>
             )}
+
+            {/* --- WORKOUT COMPLETION UI --- */}
+            <div className="mt-6 pt-6 border-t border-gray-700">
+              {workoutStatus === 'pending' && (
+                <div className="flex items-center justify-center gap-4">
+                  <button
+                    onClick={handleCompleteWorkout}
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+                  >
+                    Mark as Completed
+                  </button>
+                  <button
+                    onClick={handleSkipWorkout}
+                    className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+                  >
+                    Skip Workout
+                  </button>
+                </div>
+              )}
+
+              {workoutStatus === 'completed' && (
+                <div className="text-center">
+                  <p className="text-lg font-semibold text-green-400 mb-4">Workout Completed!</p>
+                  <p className="text-md mb-3">Rate the difficulty:</p>
+                  <div className="flex justify-center items-center gap-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        onClick={() => handleSetDifficulty(star)}
+                        className={`text-4xl transition-colors ${
+                          star <= difficulty ? 'text-yellow-400' : 'text-gray-500 hover:text-yellow-300'
+                        }`}
+                      >
+                        &#9733;
+                      </button>
+                    ))}
+                  </div>
+                  {difficulty > 0 && (
+                    <p className="mt-4 text-sm text-gray-400">Thanks for your feedback!</p>
+                  )}
+                </div>
+              )}
+
+              {workoutStatus === 'skipped' && (
+                <div className="text-center">
+                  <p className="text-lg font-semibold text-gray-400">Workout Skipped</p>
+                  <p className="text-sm text-gray-500">Remember, consistency is key. Try to catch the next one!</p>
+                </div>
+              )}
+            </div>
+             {/* --- END WORKOUT COMPLETION UI --- */}
+
           </div>
         ) : (
           <p className="text-gray-400">No workout plan found for today.</p>
