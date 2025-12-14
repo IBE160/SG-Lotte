@@ -1,7 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import MealLoggingCard from '../meals/MealLoggingCard'; // Import MealLoggingCard
 import { createClient } from '@/lib/supabase/client';
+
+// Helper to get today's day name (e.g., "Monday") - Moved outside the component
+const getTodayDayName = () => {
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const date = new Date();
+  return days[date.getDay()].toLowerCase(); // Return in lowercase for consistent comparison
+};
 
 // Define the FullPlan structure (should match backend Pydantic model)
 // ... (interface definitions remain the same) ...
@@ -56,6 +64,7 @@ export default function DashboardPage() {
   const [plan, setPlan] = useState<FullPlan | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null); // State to store accessToken
   const [workoutStatus, setWorkoutStatus] = useState<'pending' | 'completed' | 'skipped'>('pending');
   const [difficulty, setDifficulty] = useState<number>(0);
   const supabase = createClient();
@@ -80,6 +89,19 @@ export default function DashboardPage() {
 
         const data: FullPlan = await response.json();
         setPlan(data);
+
+        // Log debugging information after plan is successfully fetched and set
+        const todayDayName = getTodayDayName(); // Helper is now global (returns lowercase)
+        const todayWorkout = data.workout_plan.plan.find(dw => dw.day.toLowerCase() === todayDayName); // Normalize plan day
+        const todayMeals = data.meal_plan.plan.filter(dm => dm.day.toLowerCase() === todayDayName);
+        console.log("Dashboard Debug Info:");
+        console.log("  Today's actual date:", new Date().toString());
+        console.log("  Computed day key:", todayDayName);
+        console.log("  Available workout plan days:", data.workout_plan.plan.map(p => p.day));
+        console.log("  Available meal plan days:", data.meal_plan.plan.map(p => p.day));
+        console.log("  Filtered workout for today:", todayWorkout);
+        console.log("  Filtered meals for today:", todayMeals);
+
       } catch (e: any) {
         setError(e.message);
         console.error('Error fetching or creating plan:', e);
@@ -91,9 +113,11 @@ export default function DashboardPage() {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (event === 'SIGNED_IN' && session) {
+          setAccessToken(session.access_token); // Store accessToken
           fetchOrCreatePlan(session.access_token);
         } else if (event === 'INITIAL_SESSION' && session) {
           // Handle case where session is already available on mount
+          setAccessToken(session.access_token); // Store accessToken
           fetchOrCreatePlan(session.access_token);
         } else if (!session) {
           setError('User not authenticated.');
@@ -106,7 +130,7 @@ export default function DashboardPage() {
     return () => {
       authListener?.subscription.unsubscribe();
     };
-  }, [supabase.auth]);
+  }, [supabase.auth, setAccessToken]); // Add setAccessToken to dependencies
 
   if (loading) {
     return (
@@ -134,24 +158,91 @@ export default function DashboardPage() {
     );
   }
 
-  // Helper to get today's day name (e.g., "Monday")
-  const getTodayDayName = () => {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const date = new Date();
-    return days[date.getDay()];
+  const todayDayName = getTodayDayName(); // Now calls the global helper
+  const todayWorkout = plan.workout_plan.plan.find(dw => dw.day.toLowerCase() === todayDayName);
+  const todayMeals = plan.meal_plan.plan.filter(dm => dm.day.toLowerCase() === todayDayName);
+
+  const handleCompleteWorkout = async () => {
+    if (!plan || !accessToken) return;
+
+    // Assuming we are logging the first workout in the plan for the sake of simplicity
+    // In a real app, you would pass the specific workout ID
+    const todayDayName = getTodayDayName();
+    const todayWorkout = plan.workout_plan.plan.find(dw => dw.day.toLowerCase() === todayDayName);
+
+    if (!todayWorkout) {
+      console.error("No workout found for today to log.");
+      return;
+    }
+
+    const workoutLogData = {
+      workout_plan_id: 1, // Placeholder: This should come from the actual plan structure
+      exercise_name: todayWorkout.exercises[0]?.name || "Unspecified Workout", // Log the first exercise or a default
+      status: 'Completed',
+      difficulty_rating: difficulty, // Send the currently selected difficulty
+    };
+
+    try {
+      const response = await fetch('/api/v1/plans/log/workout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(workoutLogData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to log workout.');
+      }
+
+      setWorkoutStatus('completed');
+      console.log('Workout logged as completed:', workoutLogData);
+    } catch (e: any) {
+      console.error('Error logging workout:', e);
+      setError(e.message);
+    }
   };
 
-  const todayDayName = getTodayDayName();
-  const todayWorkout = plan.workout_plan.plan.find(dw => dw.day === todayDayName);
-  const todayMeals = plan.meal_plan.plan.filter(dm => dm.day === todayDayName);
+  const handleSkipWorkout = async () => {
+    if (!plan || !accessToken) return;
 
-  // ... (rest of the component code remains the same)
-  const handleCompleteWorkout = () => {
-    setWorkoutStatus('completed');
-  };
+    const todayDayName = getTodayDayName();
+    const todayWorkout = plan.workout_plan.plan.find(dw => dw.day.toLowerCase() === todayDayName);
 
-  const handleSkipWorkout = () => {
-    setWorkoutStatus('skipped');
+    if (!todayWorkout) {
+      console.error("No workout found for today to log.");
+      return;
+    }
+
+    const workoutLogData = {
+      workout_plan_id: 1, // Placeholder
+      exercise_name: todayWorkout.exercises[0]?.name || "Unspecified Workout",
+      status: 'Skipped',
+    };
+
+    try {
+      const response = await fetch('/api/v1/plans/log/workout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(workoutLogData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to log workout.');
+      }
+
+      setWorkoutStatus('skipped');
+      console.log('Workout logged as skipped:', workoutLogData);
+    } catch (e: any) {
+      console.error('Error logging workout:', e);
+      setError(e.message);
+    }
   };
 
   const handleSetDifficulty = (rating: number) => {
@@ -246,32 +337,21 @@ export default function DashboardPage() {
       {/* Meal Plan for Today */}
       <section className="p-6 bg-gray-800 rounded-lg shadow-lg">
         <h3 className="text-2xl font-semibold mb-4 border-b border-gray-700 pb-2">Meals</h3>
-        {todayMeals.length > 0 ? (
-          <div className="space-y-6">
-            {todayMeals.map((meal, mealIndex) => (
-              <div key={mealIndex} className="bg-gray-700 p-4 rounded-md shadow-inner">
-                <p className="text-lg font-medium mb-2">{meal.meal_type}</p>
-                <ul className="list-disc list-inside space-y-1 text-sm">
-                  {meal.items.map((item, itemIndex) => (
-                    <li key={itemIndex}>
-                      <span className="font-semibold">{item.name}</span>
-                      {item.description && <span className="text-gray-400"> ({item.description})</span>}
-                      {item.calories && <span> - {item.calories} kcal</span>}
-                      {item.protein_g && <span>, {item.protein_g}g protein</span>}
-                      {item.carbs_g && <span>, {item.carbs_g}g carbs</span>}
-                      {item.fat_g && <span>, {item.fat_g}g fat</span>}
-                    </li>
-                  ))}
-                </ul>
-                {meal.total_calories && <p className="text-sm text-gray-400 mt-2">Total Meal Calories: {meal.total_calories} kcal</p>}
-                {meal.notes && <p className="text-sm text-gray-400 mt-2">Notes: {meal.notes}</p>}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-400">No meal plan found for today.</p>
-        )}
-      </section>
+                                {todayMeals.length > 0 ? (
+                                  <div className="space-y-6">
+                                    {accessToken &&
+                                      todayMeals.map((meal, mealIndex) => (
+                                        <MealLoggingCard
+                                          key={mealIndex}
+                                          meal_plan_id={1} // Using a placeholder ID. This should ideally come from the backend.
+                                          meal_name={meal.meal_type} // Using meal_type as the meal_name for the card
+                                          accessToken={accessToken} // Pass accessToken as prop
+                                        />
+                                      ))}
+                                  </div>
+                                ) : (
+                                  <p className="text-gray-400">No meal plan found for today.</p>
+                                )}      </section>
     </div>
   );
 }

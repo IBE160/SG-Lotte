@@ -1,15 +1,19 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Response
+from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import ValidationError
 from typing import Dict, Any
-from supabase import Client # Import Client for type hinting
-
-from app.api.v1.deps import get_current_user, get_supabase_client # Import get_supabase_client
-from app.schemas.user import User  # Assuming a User schema exists
-from app.services.ai_plan_generator import get_ai_plan, FullPlan
-from app.schemas.meal import MealLogRequest, MealLogResponse # Import MealLogResponse
+from uuid import UUID
+from app.services.ai_plan_generator import FullPlan, get_ai_plan
+from app.schemas.user import User
+from app.api.v1.deps import get_current_user
 from app.core.exceptions import SupabaseDatabaseError
-from postgrest.exceptions import APIError # Import APIError
+from postgrest.exceptions import APIError
+from app.schemas.meal import MealLogRequest, MealLogResponse
+from app.schemas.workout import WorkoutLogRequest, WorkoutLogResponse
+from app.crud.meal import CRUDMealLog, get_crud_meal_log
+from app.crud.workout import CRUDWorkoutLog, get_crud_workout_log
 
 router = APIRouter()
+
 
 @router.post("/generate-initial", response_model=FullPlan, status_code=status.HTTP_201_CREATED)
 def generate_initial_plan(
@@ -64,10 +68,10 @@ def generate_initial_plan(
         )
 
 @router.post("/log/meal", status_code=status.HTTP_201_CREATED)
-def log_meal(
+async def log_meal( # Make function async
     meal_log_data: MealLogRequest,
     current_user: User = Depends(get_current_user),
-    supabase: Client = Depends(get_supabase_client) # Inject Supabase client
+    crud_meal_log_instance: CRUDMealLog = Depends(get_crud_meal_log) # Inject CRUDMealLog instance
 ) -> MealLogResponse: # Changed return type to MealLogResponse
     """
     Logs a meal as 'Eaten' or 'Skipped' for the authenticated user.
@@ -77,12 +81,12 @@ def log_meal(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate user ID.",
         )
-    
-    from app.crud.meal import crud_meal_log # Import crud_meal_log here
-    crud_meal_log.client = supabase # Set the client
 
+    # Log incoming /log/meal payload for debugging 500
+    print(f"\n[DEBUG] Incoming /log/meal payload: {meal_log_data.model_dump_json()}")
+    
     try:
-        created_log = crud_meal_log.create_meal_log(user_id=current_user.id, meal_log=meal_log_data)
+        created_log = await crud_meal_log_instance.create_meal_log(user_id=UUID(current_user.id), meal_log=meal_log_data) # Await the async function
         return created_log
     except SupabaseDatabaseError as e:
         raise HTTPException(
@@ -93,4 +97,36 @@ def log_meal(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An unexpected error occurred while logging meal: {str(e)}"
+        )
+
+@router.post("/log/workout", status_code=status.HTTP_201_CREATED)
+async def log_workout(
+    workout_log_data: WorkoutLogRequest,
+    current_user: User = Depends(get_current_user),
+    crud_workout_log_instance: CRUDWorkoutLog = Depends(get_crud_workout_log) # Inject CRUDWorkoutLog instance
+) -> WorkoutLogResponse:
+    """
+    Logs a workout as 'Completed' or 'Skipped' for the authenticated user.
+    """
+    if not current_user or not current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate user ID.",
+        )
+
+    # Log incoming /log/workout payload for debugging
+    print(f"\n[DEBUG] Incoming /log/workout payload: {workout_log_data.model_dump_json()}")
+
+    try:
+        created_log = await crud_workout_log_instance.create_workout_log(user_id=UUID(current_user.id), workout_log=workout_log_data)
+        return created_log
+    except SupabaseDatabaseError as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to log workout: {e.detail}"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"An unexpected error occurred while logging workout: {str(e)}"
         )

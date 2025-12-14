@@ -2,3 +2,10 @@
 .logging/requests/
 backend/.env
 
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Backup files
+*.backup.ts
