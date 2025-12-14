@@ -2,8 +2,14 @@
 
 **Epic:** [2: Adaptive Planning & Progress Logging](tech-spec-epic-2.md)
 **Author:** BIP
-**Status:** Draft
+**Status:** ready-for-dev
 **Date:** 2025-12-14
+
+---
+
+### Dev Agent Record
+
+- Context Reference: `docs/sprint-artifacts/2-2-meal-logging-ui.context.xml`
 
 ---
 

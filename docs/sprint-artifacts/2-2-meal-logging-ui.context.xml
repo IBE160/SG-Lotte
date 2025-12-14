@@ -1,0 +1,212 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>2.2</storyId>
+    <title>Meal Logging UI</title>
+    <status>Draft</status>
+    <generatedAt>2025-12-14</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-2-meal-logging-ui.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As a user</asA>
+    <iWant>log my meals as 'Eaten' or 'Skipped' directly from my daily plan</iWant>
+    <soThat>I can track my adherence to the nutrition guide.</soThat>
+    <tasks>
+      - Frontend Component: MealLoggingCard React component.
+      - Location: User's daily meal plan view, main dashboard.
+      - API Contract: POST request to /api/v1/log/meal with meal_plan_id, meal_name, status. Expected Response: 201 Created.
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    1. Given I am viewing my daily meal plan on the dashboard, When I interact with a specific meal card (MealLoggingCard), Then I am presented with options to mark the meal as "Eaten" or "Skipped".
+    2. Given I have selected either "Eaten" or "Skipped" for a meal, Then the frontend shall immediately call the POST /api/v1/log/meal endpoint with the correct meal_plan_id, meal_name, and status.
+    3. Given the API call is successful, Then the UI on the meal card should update to reflect the logged status (e.g., displaying a checkmark for "Eaten" or greying out for "Skipped").
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-003: AI-Driven Meal Plan Generation &amp; Adaptation</section>
+        <snippet>The system shall automatically generate and adapt weekly meal plans based on user goals, dietary preferences, and logged meal consumption. User Value: Provides personalized, evolving meal guidance without manual effort. Acceptance Criteria: AI generates a "diagnostic" first-week plan during onboarding. AI automatically generates new weekly plans based on previous week's logged meals and fitness goal progress. Users can request simple adjustments to their current plan (e.g., "more variety").</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-005: Meal Logging</section>
+        <snippet>The system shall allow users to easily log the consumption status of their planned meals. User Value: Provides essential feedback to the AI for adaptation and helps users track adherence to their meal plan. Acceptance Criteria: Users can mark a planned meal as "Eaten" or "Skipped".</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-006: Dashboard Overview</section>
+        <snippet>The system shall provide a clear, minimalist dashboard displaying the user's current weekly workout and meal plans. Acceptance Criteria: Dashboard displays the current week's meal plan. Dashboard visually indicates completed/skipped meals.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Epic to Architecture Mapping</section>
+        <snippet>Epic 2: Adaptive Planning &amp; Progress Logging - Frontend: `src/app/(dashboard)/meals/` (Logging UI)</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>API Contracts</section>
+        <snippet>Key endpoints will include: `/log/`: For logging completed workouts and meals.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Flow 3 &amp; 4: Log Workouts, Meals &amp; Provide Feedback</section>
+        <snippet>This flow covers "simple checkbox-based logging for meal adherence" and references `mealplan_dark.html` wireframe.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Design System and Implementation Guidelines</section>
+        <snippet>All visual and interactive aspects of the application MUST adhere to the detailed specifications outlined in the official Design System Specification. [-> Go to Design System Specification](./design-system-spec.md)</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Overview</section>
+        <snippet>This epic focuses on building the core feedback loop of the application, enabling the AI to learn from user actions and personalize the experience over time. It introduces workout and meal logging, the backend logic for weekly plan adaptation, and the necessary UI to visualize progress and notify users.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>In Scope</section>
+        <snippet>Story 2.2: Meal Logging UI: Implement the user interface for logging meal consumption.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>System Architecture Alignment</section>
+        <snippet>Frontend: New UI components for logging will be created within `src/app/(dashboard)/meals/`. Database: The `meal_log` table will be heavily utilized to store the data required for the AI adaptation logic.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design - Services and Modules</section>
+        <snippet>MealLoggingCard: (Frontend Component) Displays a single meal and allows user to log consumption. LoggingService: Handles the creation and updating of meal log entries.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design - Data Models and Contracts</section>
+        <snippet>meal_logs Table: Defines schema for meal log entries, including `user_id`, `meal_plan_id`, `meal_name`, `status` ('Eaten'/'Skipped').</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Detailed Design - APIs and Interfaces</section>
+        <snippet>POST `/api/v1/log/meal`: Description: Logs a consumed meal. Request Body: `meal_plan_id`, `meal_name`, `status` ("Eaten" | "Skipped"). Response: 201 Created.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning &amp; Progress Logging</title>
+        <section>Acceptance Criteria (Authoritative) - Story 2.2: Meal Logging UI</section>
+        <snippet>1. Given I am viewing my daily meal plan, when I interact with a meal, then I can mark it as "Eaten" or "Skipped". 2. Given I have logged a meal, then the data is successfully saved to the `meal_logs` table in the database via the `POST /api/v1/log/meal` endpoint.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <!-- No existing code artifacts found, this section will be populated during implementation -->
+    </code>
+    <dependencies>
+      <ecosystem name="npm">
+        <package name="@supabase/ssr" version="^0.8.0" />
+        <package name="@supabase/supabase-js" version="^2.87.1" />
+        <package name="next" version="16.0.8" />
+        <package name="react" version="19.2.1" />
+        <package name="react-dom" version="19.2.1" />
+        <package name="react-hook-form" version="^7.68.0" />
+        <package name="zod" version="^4.1.13" />
+        <package name="tailwindcss" version="^4" />
+        <package name="typescript" version="^5" />
+        <package name="eslint" version="^9" />
+        <package name="jest" version="^30.2.0" />
+        <package name="@testing-library/react" version="^16.3.0" />
+      </ecosystem>
+      <ecosystem name="pip">
+        <package name="fastapi" />
+        <package name="uvicorn" />
+        <package name="supabase" />
+        <package name="pydantic-settings" />
+        <package name="pydantic-ai" />
+        <package name="python-json-logger" />
+        <package name="pytest" />
+        <package name="pytest-asyncio" />
+        <package name="google-generativeai" />
+        <package name="pytest-dotenv" />
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>
+      <type>Data Model</type>
+      <description>meal_logs Table Schema:
+        CREATE TABLE meal_logs (
+            id SERIAL PRIMARY KEY,
+            user_id UUID REFERENCES users(id),
+            meal_plan_id INT REFERENCES meal_plans(id),
+            meal_name VARCHAR(255),
+            status VARCHAR(50) CHECK (status IN ('Eaten', 'Skipped')),
+            logged_at TIMESTAMPTZ DEFAULT NOW()
+        );</description>
+    </constraint>
+    <constraint>
+      <type>Performance</type>
+      <description>Logging API response times for POST /api/v1/log/meal must be &lt; 300ms.</description>
+    </constraint>
+    <constraint>
+      <type>Security</type>
+      <description>Row Level Security (RLS) policies must be implemented for the meal_logs table. All new API endpoints must be protected and require a valid JWT from an authenticated user.</description>
+    </constraint>
+    <constraint>
+      <type>Reliability</type>
+      <description>Logging endpoints should be designed to be idempotent where possible.</description>
+    </constraint>
+    <constraint>
+      <type>Observability</type>
+      <description>Detailed structured logging (JSON format) at each step of the API request/response cycle.</description>
+    </constraint>
+    <constraint>
+      <type>Testing</type>
+      <description>API integration tests using Pytest. Frontend component unit tests using Jest and React Testing Library.</description>
+    </constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Log Meal API</name>
+      <kind>REST endpoint</kind>
+      <signature>POST /api/v1/log/meal</signature>
+      <path>backend/app/api/v1/endpoints/plans.py (to be implemented)</path>
+      <description>Logs a consumed meal.
+        Request Body:
+          {
+            "meal_plan_id": &lt;integer&gt;,
+            "meal_name": "&lt;string&gt;",
+            "status": "Eaten" | "Skipped"
+          }
+        Expected Response: 201 Created</description>
+    </interface>
+  <tests>
+    <standards>
+      Backend (FastAPI) tests use Pytest. Frontend (Next.js) component and integration tests use React Testing Library with Jest. E2E testing with Playwright or Cypress is a future consideration. Unit tests for frontend components verify rendering and state changes. Integration tests for API endpoints validate request/response contracts, auth/auth, and database interactions.
+    </standards>
+    <locations>
+      <location>frontend/__tests__/</location>
+      <location>backend/tests/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="2.2.1">Unit test the MealLoggingCard component's state changes when marking a meal as "Eaten" or "Skipped".</idea>
+      <idea ac_id="2.2.2">Integration test the POST /api/v1/log/meal endpoint to ensure data is successfully saved to the meal_logs table.</idea>
+      <idea>Frontend-Backend integration test: Simulate marking a meal in the UI and verify the corresponding API call and database update.</idea>
+    </ideas>
+  </tests>
+</story-context>
