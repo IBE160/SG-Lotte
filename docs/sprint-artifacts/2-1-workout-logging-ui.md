@@ -1,6 +1,6 @@
 # Story 2.1: Workout Logging UI
 
-**Status:** drafted
+**Status:** ready-for-dev
 **Epic:** [Epic 2: Adaptive Planning & Progress Logging](../epics.md)
 **User:** Active User
 **Story Points:** 5
@@ -88,10 +88,12 @@ As an active user, I want to easily log the completion status and perceived diff
 
 ## Dev Agent Record
 
-*(Placeholder for agent to fill in during implementation)*
+**Context Reference:**
+- [2-1-workout-logging-ui.context.xml](./2-1-workout-logging-ui.context.xml)
 
 ---
 
 ## Change Log
 
 - Initial draft
+- 2025-12-14: Marked "ready-for-dev" and generated context file.
