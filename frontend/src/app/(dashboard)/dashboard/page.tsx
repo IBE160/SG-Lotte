@@ -165,22 +165,29 @@ export default function DashboardPage() {
   const handleCompleteWorkout = async () => {
     if (!plan || !accessToken) return;
 
-    // Assuming we are logging the first workout in the plan for the sake of simplicity
-    // In a real app, you would pass the specific workout ID
     const todayDayName = getTodayDayName();
     const todayWorkout = plan.workout_plan.plan.find(dw => dw.day.toLowerCase() === todayDayName);
-
-    if (!todayWorkout) {
-      console.error("No workout found for today to log.");
+    if (!todayWorkout || todayWorkout.exercises.length === 0) {
+      console.error("No workout or exercises found for today to log.");
       return;
     }
+    const exercise = todayWorkout.exercises[0];
 
-    const workoutLogData = {
-      workout_plan_id: 1, // Placeholder: This should come from the actual plan structure
-      exercise_name: todayWorkout.exercises[0]?.name || "Unspecified Workout", // Log the first exercise or a default
+    const workoutLogData: any = {
+      workout_plan_id: 1, // Placeholder
+      exercise_name: exercise.name,
+      sets_completed: exercise.sets || null,
+      reps_completed: exercise.reps || null,
+      weight_lifted: null, // Assuming not tracked yet
       status: 'Completed',
-      difficulty_rating: difficulty, // Send the currently selected difficulty
     };
+    
+    // Only include difficulty_rating if it has been set by the user
+    if (difficulty > 0) {
+      workoutLogData.difficulty_rating = difficulty;
+    }
+
+    console.log('Authorization header present:', !!accessToken);
 
     try {
       const response = await fetch('/api/v1/plans/log/workout', {
@@ -193,8 +200,17 @@ export default function DashboardPage() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Failed to log workout.');
+        const errorText = await response.text();
+        try {
+          const errorJson = JSON.parse(errorText);
+          const detail = errorJson.detail;
+          if (typeof detail === 'object' && detail !== null) {
+            throw new Error(JSON.stringify(detail));
+          }
+          throw new Error(detail || `Error logging workout: ${response.statusText}`);
+        } catch (e) {
+          throw new Error(errorText || `Error logging workout: ${response.statusText}`);
+        }
       }
 
       setWorkoutStatus('completed');
@@ -211,16 +227,34 @@ export default function DashboardPage() {
     const todayDayName = getTodayDayName();
     const todayWorkout = plan.workout_plan.plan.find(dw => dw.day.toLowerCase() === todayDayName);
 
-    if (!todayWorkout) {
-      console.error("No workout found for today to log.");
-      return;
+    let workoutLogData;
+
+    if (!todayWorkout || todayWorkout.exercises.length === 0) {
+      // This is a rest day, log it as a skipped workout with a specific name
+      workoutLogData = {
+        workout_plan_id: 1, // Placeholder
+        exercise_name: "Rest day",
+        sets_completed: null,
+        reps_completed: null,
+        weight_lifted: null,
+        difficulty_rating: null,
+        status: 'Skipped',
+      };
+    } else {
+      // This is a regular workout day
+      const exercise = todayWorkout.exercises[0];
+      workoutLogData = {
+        workout_plan_id: 1, // Placeholder
+        exercise_name: exercise.name,
+        sets_completed: null,
+        reps_completed: null,
+        weight_lifted: null,
+        difficulty_rating: null,
+        status: 'Skipped',
+      };
     }
 
-    const workoutLogData = {
-      workout_plan_id: 1, // Placeholder
-      exercise_name: todayWorkout.exercises[0]?.name || "Unspecified Workout",
-      status: 'Skipped',
-    };
+    console.log('Authorization header present:', !!accessToken);
 
     try {
       const response = await fetch('/api/v1/plans/log/workout', {
@@ -233,8 +267,17 @@ export default function DashboardPage() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Failed to log workout.');
+        const errorText = await response.text();
+        try {
+          const errorJson = JSON.parse(errorText);
+          const detail = errorJson.detail;
+          if (typeof detail === 'object' && detail !== null) {
+            throw new Error(JSON.stringify(detail));
+          }
+          throw new Error(detail || `Error logging workout: ${response.statusText}`);
+        } catch (e) {
+          throw new Error(errorText || `Error logging workout: ${response.statusText}`);
+        }
       }
 
       setWorkoutStatus('skipped');
@@ -279,11 +322,22 @@ export default function DashboardPage() {
 
             {/* --- WORKOUT COMPLETION UI --- */}
             <div className="mt-6 pt-6 border-t border-gray-700">
-              {workoutStatus === 'pending' && (
+              {workoutStatus === 'pending' && (!todayWorkout || todayWorkout.exercises.length === 0) && (
+                <div className="text-center">
+                  <p className="text-lg font-semibold text-gray-400 mb-4">Rest day — nothing to complete.</p>
+                  <button
+                    onClick={handleSkipWorkout}
+                    className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors w-full"
+                  >
+                    Skip Workout (Rest Day)
+                  </button>
+                </div>
+              )}
+              {workoutStatus === 'pending' && (todayWorkout && todayWorkout.exercises.length > 0) && (
                 <div className="flex items-center justify-center gap-4">
                   <button
                     onClick={handleCompleteWorkout}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Mark as Completed
                   </button>
@@ -330,7 +384,7 @@ export default function DashboardPage() {
 
           </div>
         ) : (
-          <p className="text-gray-400">No workout plan found for today.</p>
+          <p className="text-gray-400">Rest day — nothing to complete.</p>
         )}
       </section>
 

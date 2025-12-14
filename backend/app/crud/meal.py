@@ -1,8 +1,9 @@
 from uuid import UUID
-from postgrest.base_request_builder import BaseRequestBuilder
 from supabase import Client
+from fastapi import Depends # Import Depends
 from app.schemas.meal import MealLogRequest, MealLogResponse
 from app.core.exceptions import SupabaseDatabaseError
+from app.core.supabase import get_supabase_client # Import get_supabase_client
 
 class CRUDMealLog:
     def __init__(self, client: Client):
@@ -35,5 +36,9 @@ class CRUDMealLog:
         except Exception as e:
             raise SupabaseDatabaseError(f"Error creating meal log: {e}")
 
-# Instantiate CRUDMealLog for convenience
-crud_meal_log = CRUDMealLog(client=None) # Client will be set via dependency injection
+# Dependency
+async def get_crud_meal_log(supabase: Client = Depends(get_supabase_client)) -> CRUDMealLog:
+    return CRUDMealLog(client=supabase)
+
+# Instantiate CRUDMealLog for convenience (this line is no longer strictly necessary with dependency injection)
+# crud_meal_log = CRUDMealLog(client=None) # Client will be set via dependency injection

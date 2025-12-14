@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from pydantic import ValidationError
 from typing import Dict, Any
 from uuid import UUID
@@ -101,9 +101,9 @@ async def log_meal( # Make function async
 
 @router.post("/log/workout", status_code=status.HTTP_201_CREATED)
 async def log_workout(
-    workout_log_data: WorkoutLogRequest,
+    request: Request, # Add request to access raw body
     current_user: User = Depends(get_current_user),
-    crud_workout_log_instance: CRUDWorkoutLog = Depends(get_crud_workout_log) # Inject CRUDWorkoutLog instance
+    crud_workout_log_instance: CRUDWorkoutLog = Depends(get_crud_workout_log)
 ) -> WorkoutLogResponse:
     """
     Logs a workout as 'Completed' or 'Skipped' for the authenticated user.
@@ -114,8 +114,20 @@ async def log_workout(
             detail="Could not validate user ID.",
         )
 
-    # Log incoming /log/workout payload for debugging
-    print(f"\n[DEBUG] Incoming /log/workout payload: {workout_log_data.model_dump_json()}")
+    # --- Temporary Debugging ---
+    raw_body = await request.json()
+    print(f"\n[DEBUG] Raw /log/workout payload: {raw_body}")
+    
+    try:
+        workout_log_data = WorkoutLogRequest.model_validate(raw_body)
+        print(f"[DEBUG] Validated /log/workout payload: {workout_log_data.model_dump_json()}")
+    except ValidationError as e:
+        print(f"[DEBUG] Validation Error for /log/workout: {e.errors()}")
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=e.errors()
+        )
+    # --- End Temporary Debugging ---
 
     try:
         created_log = await crud_workout_log_instance.create_workout_log(user_id=UUID(current_user.id), workout_log=workout_log_data)

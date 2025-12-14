@@ -5,12 +5,14 @@ import React, { useState } from 'react';
 interface MealLoggingCardProps {
   meal_plan_id: number;
   meal_name: string;
+  accessToken: string; // Added accessToken
   initialStatus?: 'Eaten' | 'Skipped' | null;
 }
 
 const MealLoggingCard: React.FC<MealLoggingCardProps> = ({
   meal_plan_id,
   meal_name,
+  accessToken, // Destructure accessToken
   initialStatus = null,
 }) => {
   const [status, setStatus] = useState<"Eaten" | "Skipped" | null>(initialStatus);
@@ -20,12 +22,21 @@ const MealLoggingCard: React.FC<MealLoggingCardProps> = ({
   const logMeal = async (newStatus: "Eaten" | "Skipped") => {
     setLoading(true);
     setError(null);
+
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+    if (accessToken) {
+      headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+    
+    // Log if Authorization header is present
+    console.log('Authorization header present:', !!headers['Authorization']);
+
     try {
       const response = await fetch('/api/v1/plans/log/meal', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: headers,
         body: JSON.stringify({
           meal_plan_id,
           meal_name,
@@ -34,7 +45,17 @@ const MealLoggingCard: React.FC<MealLoggingCardProps> = ({
       });
 
       if (!response.ok) {
-        throw new Error(`Error logging meal: ${response.statusText}`);
+        const errorText = await response.text();
+        try {
+          const errorJson = JSON.parse(errorText);
+          const detail = errorJson.detail;
+          if (typeof detail === 'object' && detail !== null) {
+            throw new Error(JSON.stringify(detail));
+          }
+          throw new Error(detail || `Error logging meal: ${response.statusText}`);
+        } catch (e) {
+          throw new Error(errorText || `Error logging meal: ${response.statusText}`);
+        }
       }
 
       setStatus(newStatus);
