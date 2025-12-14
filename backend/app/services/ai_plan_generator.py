@@ -124,44 +124,106 @@ def get_ai_plan(user_id: str, user_preferences: Dict[str, Any]) -> FullPlan:
         ]
     )
     
-    dummy_meal_plan = MealPlan(
-        plan=[
-            DailyMeal(
-                day="Monday",
+    # Create a temporary dictionary to group meals by day,
+    # then flatten to ensure 7-day grouping conceptually without changing schema
+    meals_by_day: Dict[str, List[DailyMeal]] = {
+        day.lower(): [] for day in ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    }
+
+    # Populate meals_by_day dictionary with dummy data
+    meals_by_day["monday"].extend([
+        DailyMeal(
+                day="monday",
                 meal_type="Breakfast",
                 items=[MealItem(name="Oatmeal with Berries", calories=350, protein_g=15, carbs_g=50, fat_g=10)],
                 notes=f"Considering your preferences: {dietary_preferences}"
             ),
-            DailyMeal(
-                day="Monday",
+        DailyMeal(
+                day="monday",
                 meal_type="Lunch",
                 items=[MealItem(name="Chicken Salad", calories=450, protein_g=30, carbs_g=20, fat_g=25)],
             ),
-            DailyMeal(
-                day="Monday",
+        DailyMeal(
+                day="monday",
                 meal_type="Dinner",
                 items=[MealItem(name="Baked Salmon with Veggies", calories=500, protein_g=40, carbs_g=30, fat_g=25)],
             ),
-            DailyMeal(
-                day="Tuesday",
+    ])
+
+    meals_by_day["tuesday"].extend([
+        DailyMeal(
+                day="tuesday", # Keep current structure for frontend compatibility
                 meal_type="Breakfast",
                 items=[MealItem(name="Scrambled Eggs with Toast", calories=400, protein_g=20, carbs_g=30, fat_g=20)],
             ),
-            DailyMeal(
-                day="Tuesday",
+        DailyMeal(
+                day="tuesday",
                 meal_type="Lunch",
                 items=[MealItem(name="Lentil Soup", calories=380, protein_g=18, carbs_g=45, fat_g=15)],
             ),
-            DailyMeal(
-                day="Tuesday",
+        DailyMeal(
+                day="tuesday", # Keep current structure for frontend compatibility
                 meal_type="Dinner",
                 items=[MealItem(name="Turkey Stir-fry", calories=480, protein_g=35, carbs_g=35, fat_g=20)],
-            )
-            # ... add more dummy meals for other days if needed for full display ...
-        ]
-    )
+            ),
+    ])
 
+    meals_by_day["wednesday"].extend([ # Adding actual meals for Wednesday
+            DailyMeal(day="wednesday", meal_type="Breakfast", items=[MealItem(name="Yogurt with Granola")]),
+            DailyMeal(day="wednesday", meal_type="Lunch", items=[MealItem(name="Vegetable Soup")]),
+            DailyMeal(day="wednesday", meal_type="Dinner", items=[MealItem(name="Pasta Primavera")]),
+    ])
+
+    meals_by_day["thursday"].extend([ # Adding actual meals for Thursday
+            DailyMeal(day="thursday", meal_type="Breakfast", items=[MealItem(name="Smoothie")]),
+            DailyMeal(day="thursday", meal_type="Lunch", items=[MealItem(name="Leftover Pasta")]),
+            DailyMeal(day="thursday", meal_type="Dinner", items=[MealItem(name="Fish Tacos")]),
+    ])
+
+    meals_by_day["friday"].extend([ # Adding actual meals for Friday
+            DailyMeal(day="friday", meal_type="Breakfast", items=[MealItem(name="Pancakes")]),
+            DailyMeal(day="friday", meal_type="Lunch", items=[MealItem(name="Sandwich")]),
+            DailyMeal(day="friday", meal_type="Dinner", items=[MealItem(name="Pizza (homemade)")]),
+    ])
+
+    meals_by_day["saturday"].extend([ # Adding actual meals for Saturday
+        DailyMeal(
+                day="saturday", # Keep current structure for frontend compatibility
+                meal_type="Breakfast",
+                items=[MealItem(name="Big Weekend Breakfast")],
+                notes="Enjoy your weekend!"
+            ),
+        DailyMeal(
+                day="saturday", # Keep current structure for frontend compatibility
+                meal_type="Lunch",
+                items=[MealItem(name="Casual Lunch Out")],
+                notes="Optional"
+            ),
+        DailyMeal(
+                day="saturday", # Keep current structure for frontend compatibility
+                meal_type="Dinner",
+                items=[MealItem(name="Dinner with Friends")],
+                notes="Optional"
+            ),
+    ])
+
+    meals_by_day["sunday"].extend([ # Adding actual meals for Sunday
+            DailyMeal(day="sunday", meal_type="Breakfast", items=[MealItem(name="Brunch")]),
+            DailyMeal(day="sunday", meal_type="Lunch", items=[MealItem(name="Light Lunch")]),
+            DailyMeal(day="sunday", meal_type="Dinner", items=[MealItem(name="Family Dinner")]),
+    ])
+
+    # Flatten the dictionary back into a list in desired order
+    ordered_days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    dummy_meal_plan_list = []
+    for day_name in ordered_days:
+        dummy_meal_plan_list.extend(meals_by_day[day_name.lower()])
+
+    dummy_meal_plan = MealPlan(plan=dummy_meal_plan_list)
     full_plan = FullPlan(workout_plan=dummy_workout_plan, meal_plan=dummy_meal_plan)
+
+    # Add this print statement for debugging the generated meal plan structure
+    print(f"\n[DEBUG] Generated Meal Plan structure:\n{full_plan.meal_plan.model_dump_json(indent=2)}\n")
     # --- END TEMPORARY DUMMY PLAN ---
 
     try:
