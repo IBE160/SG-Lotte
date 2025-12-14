@@ -1,55 +1,47 @@
-# Validation Report
+# Story Quality Validation Report
 
-**Document:** C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\2-2-meal-logging-ui.context.xml
-**Checklist:** .bmad/bmm/workflows/4-implementation/story-context/checklist.md
-**Date:** 2025-12-14
+Story: 2-3 - AI-Driven Weekly Plan Adaptation Logic
+Outcome: FAIL (Critical: 3, Major: 4, Minor: 1)
 
-## Summary
-- Overall: 10/10 passed (100%)
-- Critical Issues: 0
+## Critical Issues (Blockers)
 
-## Section Results
+1.  **"Learnings from Previous Story" subsection missing**
+    Evidence: The story file `2-3-ai-driven-weekly-plan-adaptation-logic.md` does not contain a "Dev Notes" section, and therefore lacks the "Learnings from Previous Story" subsection. The previous story `2-2-meal-logging-ui.md` has completion notes and a file list, indicating content that should be carried forward.
+2.  **Tech spec exists but not cited**
+    Evidence: `tech-spec-epic-2.md` exists at `C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\tech-spec-epic-2.md`, but there are no citations to this document in the story.
+3.  **Epics exists but not cited**
+    Evidence: `epics.md` exists at `C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\epics.md`, but there are no citations to this document in the story.
 
-### Story Context Assembly Checklist
-Pass Rate: 10/10 (100%)
+## Major Issues (Should Fix)
 
-✓ Story fields (asA/iWant/soThat) captured
-Evidence: `<story><asA>As a user</asA><iWant>log my meals as 'Eaten' or 'Skipped' directly from my daily plan</iWant><soThat>I can track my adherence to the nutrition guide.</soThat>` (lines 14-16)
+1.  **Story ACs do not match tech spec ACs.**
+    Evidence: The Acceptance Criteria listed in the story `2-3-ai-driven-weekly-plan-adaptation-logic.md` are functionally oriented, while the authoritative ACs for Story 2.3 in `tech-spec-epic-2.md` are technically oriented and distinct. There is a clear mismatch between the two sets of criteria.
+2.  **No tasks defined in the story.**
+    Evidence: The story file `2-3-ai-driven-weekly-plan-adaptation-logic.md` does not contain an explicit "Tasks/Subtasks" section.
+3.  **Dev Notes section is missing.**
+    Evidence: The story file `2-3-ai-driven-weekly-plan-adaptation-logic.md` lacks a "Dev Notes" section, which should contain important subsections like "Architecture patterns and constraints" and "References (with citations)".
+4.  **Missing "Dev Agent Record" section.**
+    Evidence: The story file `2-3-ai-driven-weekly-plan-adaptation-logic.md` does not contain a "Dev Agent Record" section.
 
-✓ Acceptance criteria list matches story draft exactly (no invention)
-Evidence: The `<acceptanceCriteria>` section clearly lists three detailed criteria. (lines 24-34)
+## Minor Issues (Nice to Have)
 
-✓ Tasks/subtasks captured as task list
-Evidence: The `<tasks>` section contains a list of development tasks. (lines 17-21)
+1.  **Missing "Change Log" section.**
+    Evidence: The story file `2-3-ai-driven-weekly-adaptation-logic.md` does not contain a "Change Log" section.
 
-✓ Relevant docs (5-15) included with path and snippets
-Evidence: 14 relevant documents are included in the `<artifacts><docs>` section, each with path, title, section, and snippet. (lines 38-120)
+## Successes
 
-✓ Relevant code references included with reason and line hints
-Evidence: The `<code>` section is present, explicitly stating "No existing code artifacts found, this section will be populated during implementation." (lines 122-124)
+*   The user story statement follows the "As a / I want / so that" format.
+*   The story file is located in the correct directory.
 
-✓ Interfaces/API contracts extracted if applicable
-Evidence: A detailed API contract for `POST /api/v1/log/meal` is provided in the `<interfaces>` section. (lines 176-189)
+## User Alert and Remediation
 
-✓ Constraints include applicable dev rules and patterns
-Evidence: Multiple constraints covering data model, performance, security, reliability, observability, and testing are defined in the `<constraints>` section. (lines 160-173)
+Outcome: FAIL
+Summary of issues:
+1.  **Critical:** "Learnings from Previous Story" subsection is MISSING.
+2.  **Critical:** Tech spec exists but not cited.
+3.  **Critical:** Epics exists but not cited.
 
-✓ Dependencies detected from manifests and frameworks
-Evidence: Both `npm` and `pip` dependencies are listed with package names and versions in the `<dependencies>` section. (lines 127-157)
+I cannot proceed with auto-improving the story as this requires regeneration of affected sections which is beyond the scope of this validation task.
 
-✓ Testing standards and locations populated
-Evidence: The `<tests>` section specifies testing standards (Pytest, Jest, React Testing Library), locations (`frontend/__tests__/`, `backend/tests/`), and test ideas. (lines 191-204)
-
-✓ XML structure follows story-context template format
-Evidence: The document's structure successfully parses and aligns with the expected XML format of the story-context template.
-
-## Failed Items
-(None)
-
-## Partial Items
-(None)
-
-## Recommendations
-1. Must Fix: (None)
-2. Should Improve: (None)
-3. Consider: (None)
+Please review the detailed findings in the report.
+Report saved to: `C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\validation-report-2025-12-14.md`
