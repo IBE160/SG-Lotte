@@ -1,6 +1,6 @@
 # Story 2-3: AI-Driven Weekly Plan Adaptation Logic
 
-**Status:** drafted
+**Status:** ready-for-dev
 **Author:** BIP
 **Date:** 2025-12-14
 
@@ -63,6 +63,7 @@ The core logic for this story will be implemented in the backend as the `PlanAda
 ### Dev Agent Record
 
 -   **Context Reference:**
+    - C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\2-3-ai-driven-weekly-plan-adaptation-logic.context.xml
 -   **Agent Model Used:**
 -   **Debug Log References:**
 -   **Completion Notes List:**

@@ -1,0 +1,226 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>3</storyId>
+    <title>AI-Driven Weekly Plan Adaptation Logic</title>
+    <status>drafted</status>
+    <generatedAt>søndag 14. desember 2025</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\2-3-ai-driven-weekly-plan-adaptation-logic.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>the application to automatically adjust my workout and meal plan for the upcoming week based on my logged performance and feedback</iWant>
+    <soThat>my plan remains challenging and aligned with my goals</soThat>
+    <tasks>
+        - Backend:
+            - [ ] Create the `PlanAdaptationService` module in `app/services/` (AC: #2, #3, #4)
+            - [ ] Implement the logic to fetch workout and meal logs for a given user from the past 7 days (AC: #2)
+            - [ ] Implement the prompt engineering logic to construct a detailed prompt for the Gemini API (AC: #3)
+            - [ ] Implement the logic to call the Gemini API and handle the response (AC: #4)
+            - [ ] Implement the logic to save the new `workout_plan` and `meal_plan` to the database (AC: #4)
+            - [ ] Create the internal API endpoint `POST /api/v1/plans/adapt` to be called by the cron job (AC: #1)
+        - Infrastructure:
+            - [ ] Configure a Vercel Cron Job to trigger the `POST /api/v1/plans/adapt` endpoint weekly for all active users (AC: #1)
+        - Testing:
+            - [ ] Add unit tests for the `PlanAdaptationService`, mocking the database and AI service calls (AC: #2, #3, #4)
+            - [ ] Add integration tests for the `POST /api/v1/plans/adapt` endpoint (AC: #1)
+            - [ ] Add an end-to--end test to simulate the entire weekly adaptation workflow (AC: #1, #2, #3, #4)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+        1. Given it is the end of the week, when the weekly cron job runs, then it correctly identifies all users due for a new plan.
+        2. Given the adaptation service is running for a user, then it successfully fetches all workout and meal logs for that user from the past 7 days.
+        3. Given the service has the user's logs, then it constructs a valid, detailed prompt for the Gemini API.
+        4. Given a successful AI response, then a new `workout_plan` and `meal_plan` are created and saved to the database for the upcoming week.
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-002: AI-Driven Workout Plan Generation &amp; Adaptation</section>
+        <snippet>The system shall automatically generate and adapt weekly workout plans based on user goals, logged progress, and difficulty ratings.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>FR-003: AI-Driven Meal Plan Generation &amp; Adaptation</section>
+        <snippet>The system shall automatically generate and adapt weekly meal plans based on user goals, dietary preferences, and logged meal consumption.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Decision Summary</section>
+        <snippet>Background Processing: Vercel Cron Jobs - Simplest, integrates with existing Vercel deployment, efficient for weekly tasks.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Epic to Architecture Mapping</section>
+        <snippet>Epic 2: Adaptive Planning &amp; Progress Logging - Backend: `app/api/v1/endpoints/plans.py` (Logging &amp; Adaptation Logic)</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>ADR-001: Background Job/Async Processing Strategy</section>
+        <snippet>The application requires weekly AI-driven plan generation and adaptation to occur automatically without blocking the user interface. Decision: Vercel Cron Jobs.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Flow 3 &amp; 4: Log Workouts, Meals &amp; Provide Feedback</section>
+        <snippet>Tracking completed activities and providing feedback to the AI. The combination of structured and unstructured logging provides a flexible and low-friction user experience.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Epic 2: Adaptive Planning &amp; Progress Logging</section>
+        <snippet>As an active user, I can log my progress with simple clicks, and the app will automatically adapt my next week's plan to my performance, so my plan evolves with me.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Story 2.3: AI-Driven Weekly Plan Adaptation Logic</section>
+        <snippet>As an AI, I want to automatically adapt a user's next week's workout and meal plan based on their logged progress and feedback, So the plan evolves to better meet their goals.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <code-artifact>
+        <path>backend/app/api/v1/endpoints/plans.py</path>
+        <kind>endpoint</kind>
+        <symbol>POST /api/v1/plans/adapt</symbol>
+        <reason>New endpoint for triggering plan adaptation.</reason>
+      </code-artifact>
+      <code-artifact>
+        <path>backend/app/services/ai_plan_generator.py</path>
+        <kind>service</kind>
+        <symbol>generate_plan</symbol>
+        <reason>Core AI logic for plan generation and adaptation will reuse or extend this service.</reason>
+      </code-artifact>
+      <code-artifact>
+        <path>backend/app/crud/meal.py</path>
+        <kind>crud</kind>
+        <reason>Will be used to fetch meal logs and save new meal plans.</reason>
+      </code-artifact>
+      <code-artifact>
+        <path>backend/app/crud/workout.py</path>
+        <kind>crud</kind>
+        <reason>Will be used to fetch workout logs and save new workout plans.</reason>
+      </code-artifact>
+      <code-artifact>
+        <path>backend/app/schemas/meal.py</path>
+        <kind>schema</kind>
+        <reason>Pydantic schemas for meal data.</reason>
+      </code-artifact>
+      <code-artifact>
+        <path>backend/app/schemas/workout.py</path>
+        <kind>schema</kind>
+        <reason>Pydantic schemas for workout data.</reason>
+      </code-artifact>
+      <code-artifact>
+        <path>backend/app/main.py</path>
+        <kind>main application</kind>
+        <reason>Main FastAPI app, will include the plans router.</reason>
+      </code-artifact>
+      <code-artifact>
+        <path>backend/app/core/config.py</path>
+        <kind>configuration</kind>
+        <reason>Application configuration settings, potentially for AI API keys.</reason>
+      </code-artifact>
+      <code-artifact>
+        <path>backend/app/core/supabase.py</path>
+        <kind>Supabase client</kind>
+        <reason>Supabase client initialization for database interaction.</reason>
+      </code-artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package name="@hookform/resolvers" version="^5.2.2"/>
+        <package name="@supabase/ssr" version="^0.8.0"/>
+        <package name="@supabase/supabase-js" version="^2.87.1"/>
+        <package name="next" version="16.0.8"/>
+        <package name="react" version="19.2.1"/>
+        <package name="react-dom" version="19.2.1"/>
+        <package name="react-hook-form" version="^7.68.0"/>
+        <package name="zod" version="^4.1.13"/>
+      </ecosystem>
+      <ecosystem name="Python">
+        <package name="fastapi"/>
+        <package name="uvicorn"/>
+        <package name="supabase"/>
+        <package name="pydantic-settings"/>
+        <package name="pydantic-ai"/>
+        <package name="python-json-logger"/>
+        <package name="pytest"/>
+        <package name="pytest-asyncio"/>
+        <package name="google-generativeai"/>
+        <package name="pytest-dotenv"/>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>
+      <name>Vercel Cron Job Trigger</name>
+      <description>The adaptation logic must be triggered by a Vercel Cron Job.</description>
+    </constraint>
+    <constraint>
+      <name>AI Model</name>
+      <description>Utilize Pydantic AI framework with Gemini 2.5 for AI plan generation and adaptation.</description>
+    </constraint>
+    <constraint>
+      <name>Database</name>
+      <description>Supabase (PostgreSQL) for all data persistence.</description>
+    </constraint>
+    <constraint>
+      <name>Authentication</name>
+      <description>Supabase Auth and JWT tokens.</description>
+    </constraint>
+    <constraint>
+      <name>Authorization</name>
+      <description>Supabase Row Level Security (RLS) for data access control.</description>
+    </constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Plan Adaptation API</name>
+      <kind>REST endpoint</kind>
+      <signature>POST /api/v1/plans/adapt</signature>
+      <path>backend/app/api/v1/endpoints/plans.py</path>
+    </interface>
+    <interface>
+      <name>Gemini API</name>
+      <kind>AI service</kind>
+      <signature>Pydantic AI framework with Gemini 2.5</signature>
+      <path>backend/app/services/ai_plan_generator.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Backend tests: Pytest (unit and integration).
+      Frontend tests: React Testing Library with Jest (component and integration).
+      E2E tests: Playwright or Cypress (future consideration).
+    </standards>
+    <locations>
+      Backend tests: `backend/tests/`
+    </locations>
+    <ideas>
+      <idea>
+        <description>Unit tests for `PlanAdaptationService`, mocking database and AI service calls.</description>
+        <acceptance-criteria-id>AC: #2, #3, #4</acceptance-criteria-id>
+      </idea>
+      <idea>
+        <description>Integration tests for the `POST /api/v1/plans/adapt` endpoint.</description>
+        <acceptance-criteria-id>AC: #1</acceptance-criteria-id>
+      </idea>
+      <idea>
+        <description>End-to-end test to simulate the entire weekly adaptation workflow.</description>
+        <acceptance-criteria-id>AC: #1, #2, #3, #4</acceptance-criteria-id>
+      </idea>
+    </ideas>
+  </tests>
+</story-context>
