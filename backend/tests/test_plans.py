@@ -1,12 +1,14 @@
 import pytest
 from fastapi.testclient import TestClient
 from unittest.mock import AsyncMock, patch
+from unittest import mock # Import mock
 from fastapi import status
 from app.main import app
 from app.api.v1.deps import get_current_user
 from app.schemas.user import User
 from app.services.ai_plan_generator import FullPlan, WorkoutPlan, MealPlan, DailyWorkout, DailyMeal, WorkoutExercise, MealItem
 import uuid
+from app.schemas.meal import MealLogRequest, MealLogResponse # Import meal schemas
 
 @pytest.fixture
 def client():
@@ -86,4 +88,54 @@ def test_generate_initial_plan_db_failure(client, authorized_user):
         assert response.status_code == status.HTTP_500_INTERNAL_SERVER_ERROR
         assert "Failed to generate plan: DB is down" in response.json()["detail"]
         
+    app.dependency_overrides = {}
+
+def test_log_meal_unauthorized(client):
+    """
+    Test that an unauthenticated request to log a meal returns 401.
+    """
+    async def override_get_current_user_is_none():
+        return None
+        
+    app.dependency_overrides[get_current_user] = override_get_current_user_is_none
+    
+    meal_data = {
+        "meal_plan_id": 1,
+        "meal_name": "Test Meal",
+        "status": "Eaten"
+    }
+    
+    response = client.post("/api/v1/log/meal", json=meal_data)
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert response.json()["detail"] == "Could not validate user ID."
+    app.dependency_overrides = {}
+
+@mock.patch("app.crud.meal.crud_meal_log.create_meal_log", new_callable=AsyncMock)
+def test_log_meal_success(mock_create_meal_log, client, authorized_user):
+    """
+    Test successful meal logging for an authenticated user.
+    """
+    app.dependency_overrides[get_current_user] = lambda: authorized_user
+    
+    meal_data_request = MealLogRequest(
+        meal_plan_id=1,
+        meal_name="Breakfast Oats",
+        status="Eaten"
+    )
+    
+    mock_response = MealLogResponse(
+        id=1,
+        user_id=uuid.UUID(authorized_user.id), # Convert to UUID type
+        meal_plan_id=meal_data_request.meal_plan_id,
+        meal_name=meal_data_request.meal_name,
+        status=meal_data_request.status,
+        logged_at="2025-12-14T10:00:00Z" # Example datetime string
+    )
+    mock_create_meal_log.return_value = mock_response
+    
+    response = client.post("/api/v1/log/meal", json=meal_data_request.model_dump())
+    
+    assert response.status_code == status.HTTP_201_CREATED
+    assert response.json()["id"] == mock_response.id
+    mock_create_meal_log.assert_called_once_with(user_id=uuid.UUID(authorized_user.id), meal_log=meal_data_request) # Convert to UUID type
     app.dependency_overrides = {}

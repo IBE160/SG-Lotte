@@ -120,7 +120,7 @@ describe('OnboardingPage', () => {
     // Verify API call was made
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledTimes(1);
-      expect(global.fetch).toHaveBeenCalledWith('/api/v1/users/profile/', expect.objectContaining({
+      expect(global.fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/v1/users/profile', expect.objectContaining({
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

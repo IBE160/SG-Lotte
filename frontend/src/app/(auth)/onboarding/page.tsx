@@ -136,7 +136,7 @@ const Step4: React.FC<StepProps> = ({ onNext, onBack, initialData }) => (
   </div>
 );
 
-const Step5: React.FC<StepProps & { onFinish: (data: any) => void }> = ({ onFinish, onBack, initialData }) => (
+const Step5: React.FC<{ onFinish: (data: any) => void; onBack?: () => void; initialData: any }> = ({ onFinish, onBack, initialData }) => (
   <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-4">
     <QuestionPrompt question="Ready to finish?" />
     <p className="mb-8 text-center">Confirm your preferences to generate your personalized plan.</p>

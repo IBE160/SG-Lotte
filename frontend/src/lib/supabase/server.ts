@@ -2,19 +2,19 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-export function createClient() {
-  const cookieStore = cookies()
-
+export async function createClient() {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        get(name: string) {
+        async get(name: string) { // Make get async
+          const cookieStore = await cookies() // Await cookies() here
           return cookieStore.get(name)?.value
         },
-        set(name: string, value: string, options: any) {
+        async set(name: string, value: string, options: any) { // Make set async
           try {
+            const cookieStore = await cookies() // Await cookies() here
             cookieStore.set({ name, value, ...options })
           } catch (error) {
             // The `cookies()` function can only be called from a Server Component or Route Handler.
@@ -23,8 +23,9 @@ export function createClient() {
             // In that case, you can ignore this error.
           }
         },
-        remove(name: string, options: any) {
+        async remove(name: string, options: any) { // Make remove async
           try {
+            const cookieStore = await cookies() // Await cookies() here
             cookieStore.set({ name, value: '', ...options })
           } catch (error) {
             // The `cookies()` function can only be called from a Server Component or Route Handler.

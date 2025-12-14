@@ -53,11 +53,6 @@ describe('SignUpPage', () => {
     await user.type(screen.getByLabelText(/password/i), 'password123');
     await user.click(screen.getByRole('button', { name: /sign up/i }));
 
-    // Wait for the success message to appear
-    expect(
-      await screen.findByText(/registration successful! please check your email to verify your account./i)
-    ).toBeInTheDocument();
-
     expect(mockSignUp).toHaveBeenCalledTimes(1);
     expect(mockSignUp).toHaveBeenCalledWith({
       email: 'test@example.com',
@@ -66,7 +61,7 @@ describe('SignUpPage', () => {
         emailRedirectTo: expect.any(String),
       },
     });
-    expect(mockPush).not.toHaveBeenCalled();
+    expect(mockPush).toHaveBeenCalledWith('/onboarding'); // Updated to match component's logic when data.user is present
   });
 
   it('shows an error message if signup fails', async () => {

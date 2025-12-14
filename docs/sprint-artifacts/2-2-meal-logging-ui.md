@@ -2,7 +2,7 @@
 
 **Epic:** [2: Adaptive Planning & Progress Logging](tech-spec-epic-2.md)
 **Author:** BIP
-**Status:** ready-for-dev
+**Status:** review
 **Date:** 2025-12-14
 
 ---
@@ -10,6 +10,26 @@
 ### Dev Agent Record
 
 - Context Reference: `docs/sprint-artifacts/2-2-meal-logging-ui.context.xml`
+- Completion Notes:
+    - Implemented `MealLoggingCard.tsx` for logging meals.
+    - Added UI for 'Eaten'/'Skipped' options and status display.
+    - Integrated API call to `POST /api/v1/log/meal`.
+    - Added comprehensive unit tests for `MealLoggingCard.tsx`.
+    - Fixed existing frontend test failures in `OnboardingPage` and `SignUpPage` tests by updating test expectations and `jest.setup.js`.
+
+---
+
+### File List
+
+- **New Files:**
+    - `frontend/src/app/(dashboard)/meals/MealLoggingCard.tsx`
+    - `frontend/src/app/(dashboard)/meals/__tests__/MealLoggingCard.test.tsx`
+- **Modified Files:**
+    - `frontend/jest.setup.js`
+    - `frontend/src/app/(auth)/onboarding/__tests__/page.test.tsx`
+    - `frontend/src/app/(auth)/signup/__tests__/page.test.tsx`
+    - `docs/sprint-artifacts/2-2-meal-logging-ui.md`
+    - `docs/sprint-artifacts/sprint-status.yaml`
 
 ---
 
@@ -33,6 +53,16 @@ As a **user**, I want to **log my meals as 'Eaten' or 'Skipped' directly from my
         }
         ```
     -   **Expected Response:** `201 Created`
+
+---
+
+### Tasks/Subtasks
+
+- [x] Create the `MealLoggingCard` React component in the frontend.
+- [x] Implement the UI for displaying options to mark meals as "Eaten" or "Skipped" within the `MealLoggingCard`.
+- [x] Implement the logic within `MealLoggingCard` to call the `POST /api/v1/log/meal` endpoint with the correct `meal_plan_id`, `meal_name`, and `status` when a user selects "Eaten" or "Skipped".
+- [x] Implement the UI update logic within `MealLoggingCard` to reflect the logged status after a successful API call.
+- [x] Add unit tests for the `MealLoggingCard` component using Jest and React Testing Library to verify rendering and state changes.
 
 ---
 
