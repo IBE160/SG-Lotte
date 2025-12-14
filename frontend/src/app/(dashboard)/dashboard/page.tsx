@@ -67,6 +67,7 @@ export default function DashboardPage() {
   const [accessToken, setAccessToken] = useState<string | null>(null); // State to store accessToken
   const [workoutStatus, setWorkoutStatus] = useState<'pending' | 'completed' | 'skipped'>('pending');
   const [difficulty, setDifficulty] = useState<number>(0);
+  const [workoutLoading, setWorkoutLoading] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
@@ -164,13 +165,16 @@ export default function DashboardPage() {
 
   const handleCompleteWorkout = async () => {
     if (!plan || !accessToken) return;
+    setWorkoutLoading(true);
 
     const todayDayName = getTodayDayName();
     const todayWorkout = plan.workout_plan.plan.find(dw => dw.day.toLowerCase() === todayDayName);
     if (!todayWorkout || todayWorkout.exercises.length === 0) {
       console.error("No workout or exercises found for today to log.");
+      setWorkoutLoading(false);
       return;
     }
+    // TODO: Future enhancement: Log all exercises in the workout, not just the first.
     const exercise = todayWorkout.exercises[0];
 
     const workoutLogData: any = {
@@ -218,11 +222,14 @@ export default function DashboardPage() {
     } catch (e: any) {
       console.error('Error logging workout:', e);
       setError(e.message);
+    } finally {
+      setWorkoutLoading(false);
     }
   };
 
   const handleSkipWorkout = async () => {
     if (!plan || !accessToken) return;
+    setWorkoutLoading(true);
 
     const todayDayName = getTodayDayName();
     const todayWorkout = plan.workout_plan.plan.find(dw => dw.day.toLowerCase() === todayDayName);
@@ -242,6 +249,7 @@ export default function DashboardPage() {
       };
     } else {
       // This is a regular workout day
+      // TODO: Future enhancement: Log all exercises in the workout, not just the first.
       const exercise = todayWorkout.exercises[0];
       workoutLogData = {
         workout_plan_id: 1, // Placeholder
@@ -285,6 +293,8 @@ export default function DashboardPage() {
     } catch (e: any) {
       console.error('Error logging workout:', e);
       setError(e.message);
+    } finally {
+      setWorkoutLoading(false);
     }
   };
 
@@ -327,6 +337,7 @@ export default function DashboardPage() {
                   <p className="text-lg font-semibold text-gray-400 mb-4">Rest day — nothing to complete.</p>
                   <button
                     onClick={handleSkipWorkout}
+                    disabled={workoutLoading}
                     className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors w-full"
                   >
                     Skip Workout (Rest Day)
@@ -337,12 +348,14 @@ export default function DashboardPage() {
                 <div className="flex items-center justify-center gap-4">
                   <button
                     onClick={handleCompleteWorkout}
+                    disabled={workoutLoading}
                     className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Mark as Completed
                   </button>
                   <button
                     onClick={handleSkipWorkout}
+                    disabled={workoutLoading}
                     className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
                   >
                     Skip Workout
