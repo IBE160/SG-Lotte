@@ -56,8 +56,8 @@
   - foreach epic in sprint planning:
 
     - [X] /run-agent-task sm create-epic-tech-context {prompt / user-input-file}
-      - [ ] File: sprint-artifacts/tech-spec-epic-{{epic_id}}.md
-    - [ ] /run-agent-task sm validate-epic-tech-context {prompt / user-input-file}
+      - [X] File: sprint-artifacts/tech-spec-epic-{{epic_id}}.md
+    - [X] /run-agent-task sm validate-epic-tech-context {prompt / user-input-file}
 
     - foreach story in epic:
       - [ ] /run-agent-task sm *create-story {1-3-user-registration-email-verification. Please read and update c:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\sprint-status.yaml for status,
