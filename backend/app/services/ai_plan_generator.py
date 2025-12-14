@@ -4,11 +4,15 @@ import asyncio
 import google.generativeai as genai
 from pydantic import BaseModel, Field, ValidationError
 from typing import List, Optional, Dict, Any
-from app.core.exceptions import SupabaseDatabaseError # Import SupabaseDatabaseError
-from postgrest.exceptions import APIError # Import APIError
+from app.core.exceptions import SupabaseDatabaseError
+from postgrest.exceptions import APIError
 
 # Import CRUD operations for plans
-from app.crud.plan import create_workout_plan, create_meal_plan
+from app.crud.plan import create_workout_plan, create_meal_plan, get_latest_workout_plan, get_latest_meal_plan
+from app.crud.meal import CRUDMealLog
+from app.crud.workout import CRUDWorkoutLog
+from app.schemas.meal import MealLogResponse
+from app.schemas.workout import WorkoutLogResponse
 
 # Pydantic models for the AI-generated workout and meal plans
 
@@ -52,189 +56,105 @@ class FullPlan(BaseModel):
     meal_plan: MealPlan
 
 # Configure Gemini API
-# Load API key from environment variable
-# GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-# if not GEMINI_API_KEY:
-#     raise ValueError("GEMINI_API_KEY environment variable not set. Please set it to your Gemini API key.")
+GEMINI_MODEL_ID = os.getenv("GEMINI_MODEL", "models/gemini-2.5-flash") # Default to models/gemini-2.5-flash
 
-# genai.configure(api_key=GEMINI_API_KEY)
-
-# Use the 'gemini-1.5-flash' model as specified in the epic
-# model = genai.GenerativeModel('models/gemini-2.0-flash-001')
-
-# async def generate_ai_response(prompt: str) -> str:
-#     """
-#     Calls the Gemini 1.5 Flash API with the given prompt and returns the structured JSON response.
-#     Includes retry mechanism with exponential backoff.
-#     """
-#     max_retries = 3
-#     base_delay = 1.0 # seconds
-
-#     for attempt in range(max_retries):
-#         try:
-#             response = model.generate_content(prompt)
-#             if response.parts:
-#                 full_response_text = "".join([part.text for part in response.parts if hasattr(part, 'text')])
-#                 return full_response_text
-#             return response.text
-#         except Exception as e:
-#             print(f"Attempt {attempt + 1} failed with error: {e}")
-#             if attempt < max_retries - 1:
-#                 delay = base_delay * (2 ** attempt)
-#                 print(f"Retrying in {delay:.2f} seconds...")
-#                 await asyncio.sleep(delay)
-#             else:
-#                 raise # Re-raise after max retries
-
-def get_ai_plan(user_id: str, user_preferences: Dict[str, Any]) -> FullPlan:
+async def generate_ai_response(prompt: str) -> str:
     """
-    Generates a 7-day workout and meal plan based on user preferences using an AI,
-    validates it, and stores it in the Supabase database.
-    (Temporarily bypassed actual AI call due to quota limits for manual verification.)
+    Calls the Gemini API with the given prompt and returns the structured JSON response.
+    Includes retry mechanism with exponential backoff.
     """
-    fitness_goal = user_preferences.get("fitness_goal", "general fitness")
-    dietary_preferences = user_preferences.get("dietary_preferences", "no specific preferences")
-    fitness_persona = user_preferences.get("fitness_persona", "someone looking for a balanced approach")
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+    if not GEMINI_API_KEY:
+        raise ValueError("GEMINI_API_KEY environment variable not set. Please set it to your Gemini API key.")
 
-    # --- TEMPORARY DUMMY PLAN FOR MANUAL VERIFICATION ---
-    dummy_workout_plan = WorkoutPlan(
-        plan=[
-            DailyWorkout(
-                day="Monday",
-                focus="Full Body Beginner",
-                exercises=[
-                    WorkoutExercise(name="Bodyweight Squats", sets=3, reps="10-12"),
-                    WorkoutExercise(name="Push-ups (on knees)", sets=3, reps="8-10"),
-                    WorkoutExercise(name="Plank", reps="30 seconds", notes="Hold for 30 seconds")
-                ],
-                notes=f"Based on your goal: {fitness_goal} and persona: {fitness_persona}"
-            ),
-            DailyWorkout(day="Tuesday", focus="Rest Day", exercises=[]),
-            DailyWorkout(day="Wednesday", focus="Lower Body & Core", exercises=[
-                WorkoutExercise(name="Lunges", sets=3, reps="10 per leg"),
-                WorkoutExercise(name="Crunches", sets=3, reps="15-20")
-            ]),
-            DailyWorkout(day="Thursday", focus="Rest Day", exercises=[]),
-            DailyWorkout(day="Friday", focus="Upper Body & Cardio", exercises=[
-                WorkoutExercise(name="Incline Push-ups", sets=3, reps="8-10"),
-                WorkoutExercise(name="Jumping Jacks", duration_minutes=5)
-            ]),
-            DailyWorkout(day="Saturday", focus="Active Recovery", exercises=[], notes="Light walk or stretching."),
-            DailyWorkout(day="Sunday", focus="Rest Day", exercises=[])
-        ]
-    )
+    try:
+        genai.configure(api_key=GEMINI_API_KEY)
+        model = genai.GenerativeModel(GEMINI_MODEL_ID)
+    except Exception as e:
+        raise ValueError(f"Failed to configure Gemini model '{GEMINI_MODEL_ID}': {e}")
+
+    max_retries = 3
+    base_delay = 1.0 # seconds
+
+    for attempt in range(max_retries):
+        try:
+            response = await model.generate_content_async(prompt)
+            if response.parts:
+                full_response_text = "".join([part.text for part in response.parts if hasattr(part, 'text')])
+                return full_response_text
+            return response.text
+        except Exception as e:
+            print(f"Attempt {attempt + 1} failed with error: {e}")
+            if attempt < max_retries - 1:
+                delay = base_delay * (2 ** attempt)
+                print(f"Retrying in {delay:.2f} seconds...")
+                await asyncio.sleep(delay)
+            else:
+                raise # Re-raise after max retries
+
+async def adapt_ai_plan(user_id: str, user_preferences: Dict[str, Any], meal_logs: list[MealLogResponse], workout_logs: list[WorkoutLogResponse]) -> FullPlan:
+    """
+    Adapts the user's existing plan based on the last 7 days of logs.
+    """
+    current_workout_plan_data = await get_latest_workout_plan(user_id)
+    current_meal_plan_data = await get_latest_meal_plan(user_id)
+
+    current_workout_plan: Optional[WorkoutPlan] = None
+    if current_workout_plan_data:
+        current_workout_plan = WorkoutPlan.model_validate(current_workout_plan_data['plan'])
+
+    current_meal_plan: Optional[MealPlan] = None
+    if current_meal_plan_data:
+        current_meal_plan = MealPlan.model_validate(current_meal_plan_data['plan'])
+
+    prompt = f"""
+    Please adapt the following fitness and meal plan based on the user's recent activity and preferences.
+
+    User Preferences:
+    - Fitness Goal: {user_preferences.get("fitness_goal", "Not specified")}
+    - Dietary Preferences: {user_preferences.get("dietary_preferences", "Not specified")}
+    - Fitness Persona: {user_preferences.get("fitness_persona", "Not specified")}
+
+    Current Workout Plan:
+    {current_workout_plan.model_dump_json(indent=2) if current_workout_plan else "No current workout plan."}
+
+    Current Meal Plan:
+    {current_meal_plan.model_dump_json(indent=2) if current_meal_plan else "No current meal plan."}
+
+    Last 7 Days Meal Logs:
+    {json.dumps([log.model_dump() for log in meal_logs], indent=2)}
+
+    Last 7 Days Workout Logs:
+    {json.dumps([log.model_dump() for log in workout_logs], indent=2)}
+
+    Based on the logs, please generate a new 7-day workout and meal plan.
+    The new plan should be in the same JSON format as the original FullPlan.
+    - If the user consistently skipped a workout, consider replacing it or reducing its intensity.
+    - If the user logged meals that deviate from the plan, adjust the next week's meal plan to better match their preferences, while still aligning with their goals.
+    - If the user marked workouts as 'too easy' or 'too hard', adjust the difficulty accordingly.
+
+    Return a single JSON object containing the new 'workout_plan' and 'meal_plan'.
+    """
+
+    ai_response_str = await generate_ai_response(prompt)
     
-    # Create a temporary dictionary to group meals by day,
-    # then flatten to ensure 7-day grouping conceptually without changing schema
-    meals_by_day: Dict[str, List[DailyMeal]] = {
-        day.lower(): [] for day in ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    }
+    try:
+        # The AI response might be wrapped in markdown ```json ... ```
+        if ai_response_str.strip().startswith("```json"):
+            ai_response_str = ai_response_str.strip()[7:-4]
 
-    # Populate meals_by_day dictionary with dummy data
-    meals_by_day["monday"].extend([
-        DailyMeal(
-                day="monday",
-                meal_type="Breakfast",
-                items=[MealItem(name="Oatmeal with Berries", calories=350, protein_g=15, carbs_g=50, fat_g=10)],
-                notes=f"Considering your preferences: {dietary_preferences}"
-            ),
-        DailyMeal(
-                day="monday",
-                meal_type="Lunch",
-                items=[MealItem(name="Chicken Salad", calories=450, protein_g=30, carbs_g=20, fat_g=25)],
-            ),
-        DailyMeal(
-                day="monday",
-                meal_type="Dinner",
-                items=[MealItem(name="Baked Salmon with Veggies", calories=500, protein_g=40, carbs_g=30, fat_g=25)],
-            ),
-    ])
-
-    meals_by_day["tuesday"].extend([
-        DailyMeal(
-                day="tuesday", # Keep current structure for frontend compatibility
-                meal_type="Breakfast",
-                items=[MealItem(name="Scrambled Eggs with Toast", calories=400, protein_g=20, carbs_g=30, fat_g=20)],
-            ),
-        DailyMeal(
-                day="tuesday",
-                meal_type="Lunch",
-                items=[MealItem(name="Lentil Soup", calories=380, protein_g=18, carbs_g=45, fat_g=15)],
-            ),
-        DailyMeal(
-                day="tuesday", # Keep current structure for frontend compatibility
-                meal_type="Dinner",
-                items=[MealItem(name="Turkey Stir-fry", calories=480, protein_g=35, carbs_g=35, fat_g=20)],
-            ),
-    ])
-
-    meals_by_day["wednesday"].extend([ # Adding actual meals for Wednesday
-            DailyMeal(day="wednesday", meal_type="Breakfast", items=[MealItem(name="Yogurt with Granola")]),
-            DailyMeal(day="wednesday", meal_type="Lunch", items=[MealItem(name="Vegetable Soup")]),
-            DailyMeal(day="wednesday", meal_type="Dinner", items=[MealItem(name="Pasta Primavera")]),
-    ])
-
-    meals_by_day["thursday"].extend([ # Adding actual meals for Thursday
-            DailyMeal(day="thursday", meal_type="Breakfast", items=[MealItem(name="Smoothie")]),
-            DailyMeal(day="thursday", meal_type="Lunch", items=[MealItem(name="Leftover Pasta")]),
-            DailyMeal(day="thursday", meal_type="Dinner", items=[MealItem(name="Fish Tacos")]),
-    ])
-
-    meals_by_day["friday"].extend([ # Adding actual meals for Friday
-            DailyMeal(day="friday", meal_type="Breakfast", items=[MealItem(name="Pancakes")]),
-            DailyMeal(day="friday", meal_type="Lunch", items=[MealItem(name="Sandwich")]),
-            DailyMeal(day="friday", meal_type="Dinner", items=[MealItem(name="Pizza (homemade)")]),
-    ])
-
-    meals_by_day["saturday"].extend([ # Adding actual meals for Saturday
-        DailyMeal(
-                day="saturday", # Keep current structure for frontend compatibility
-                meal_type="Breakfast",
-                items=[MealItem(name="Big Weekend Breakfast")],
-                notes="Enjoy your weekend!"
-            ),
-        DailyMeal(
-                day="saturday", # Keep current structure for frontend compatibility
-                meal_type="Lunch",
-                items=[MealItem(name="Casual Lunch Out")],
-                notes="Optional"
-            ),
-        DailyMeal(
-                day="saturday", # Keep current structure for frontend compatibility
-                meal_type="Dinner",
-                items=[MealItem(name="Dinner with Friends")],
-                notes="Optional"
-            ),
-    ])
-
-    meals_by_day["sunday"].extend([ # Adding actual meals for Sunday
-            DailyMeal(day="sunday", meal_type="Breakfast", items=[MealItem(name="Brunch")]),
-            DailyMeal(day="sunday", meal_type="Lunch", items=[MealItem(name="Light Lunch")]),
-            DailyMeal(day="sunday", meal_type="Dinner", items=[MealItem(name="Family Dinner")]),
-    ])
-
-    # Flatten the dictionary back into a list in desired order
-    ordered_days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    dummy_meal_plan_list = []
-    for day_name in ordered_days:
-        dummy_meal_plan_list.extend(meals_by_day[day_name.lower()])
-
-    dummy_meal_plan = MealPlan(plan=dummy_meal_plan_list)
-    full_plan = FullPlan(workout_plan=dummy_workout_plan, meal_plan=dummy_meal_plan)
-
-    # Add this print statement for debugging the generated meal plan structure
-    print(f"\n[DEBUG] Generated Meal Plan structure:\n{full_plan.meal_plan.model_dump_json(indent=2)}\n")
-    # --- END TEMPORARY DUMMY PLAN ---
+        ai_response_json = json.loads(ai_response_str)
+        full_plan = FullPlan.model_validate(ai_response_json)
+    except (ValidationError, json.JSONDecodeError) as e:
+        raise ValueError(f"Failed to parse AI response into FullPlan: {e}")
 
     try:
         # Store the generated plans in the database
-        create_workout_plan(user_id, full_plan.workout_plan.model_dump())
-        create_meal_plan(user_id, full_plan.meal_plan.model_dump())
+        await create_workout_plan(user_id, full_plan.workout_plan.model_dump())
+        await create_meal_plan(user_id, full_plan.meal_plan.model_dump())
     except (SupabaseDatabaseError, APIError) as e:
-        # Re-raise the specific database error
         raise e
     except Exception as e:
-        # Catch any other unexpected errors during storage
         raise SupabaseDatabaseError(detail=f"Unexpected error during plan storage: {str(e)}")
 
     return full_plan

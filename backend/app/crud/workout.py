@@ -1,4 +1,5 @@
 from uuid import UUID
+from datetime import datetime, timedelta
 from supabase import Client
 from fastapi import Depends
 from app.api.v1.deps import get_supabase_client
@@ -8,6 +9,24 @@ from app.core.exceptions import SupabaseDatabaseError
 class CRUDWorkoutLog:
     def __init__(self, client: Client):
         self.client = client
+
+    async def get_workout_logs_last_7_days(self, user_id: UUID) -> list[WorkoutLogResponse]:
+        try:
+            # Calculate the timestamp for 7 days ago
+            seven_days_ago = datetime.utcnow() - timedelta(days=7)
+            
+            # Fetch workout logs from the last 7 days for the given user
+            response = self.client.from_("workout_logs").select("*").eq("user_id", str(user_id)).gte("created_at", seven_days_ago.isoformat()).execute()
+
+            # Check for errors in the response
+            if response.data is None:
+                raise SupabaseDatabaseError(f"Failed to fetch workout logs. Supabase response: {response}")
+
+            # Validate and return using the response schema
+            return [WorkoutLogResponse.model_validate(log) for log in response.data]
+
+        except Exception as e:
+            raise SupabaseDatabaseError(f"Error fetching workout logs: {e}")
 
     async def create_workout_log(self, user_id: UUID, workout_log: WorkoutLogRequest) -> WorkoutLogResponse:
         try:

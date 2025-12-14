@@ -69,3 +69,56 @@ def create_meal_plan(user_id: str, plan_data: Dict[str, Any]) -> Dict[str, Any]:
 
         print(f"Error saving meal plan to Supabase: {error_message}")
         raise SupabaseDatabaseError(detail=f"Unexpected error during meal plan storage: {error_message}")
+
+async def get_latest_workout_plan(user_id: str) -> Dict[str, Any]:
+    """
+    Retrieves the latest workout plan for a user from the Supabase database.
+    """
+    supabase: SupabaseClient = get_supabase_client()
+    try:
+        response = supabase.table("workout_plans").select("*").eq("user_id", user_id).order("created_at", desc=True).limit(1).execute()
+        if hasattr(response, 'error') and response.error:
+            raise SupabaseDatabaseError(detail=response.error.message)
+        if not response.data:
+            return None
+        return response.data[0]
+    except APIError as e:
+        raise SupabaseDatabaseError(detail=e.message)
+    except Exception as e:
+        error_message = f"An unexpected error occurred: {type(e).__name__}"
+        if hasattr(e, 'message'):
+            error_message = e.message
+        elif hasattr(e, 'detail'):
+            error_message = e.detail
+        elif str(e):
+            error_message = str(e)
+        
+        print(f"Error retrieving workout plan from Supabase: {error_message}")
+        raise SupabaseDatabaseError(detail=f"Unexpected error during workout plan retrieval: {error_message}")
+
+async def get_latest_meal_plan(user_id: str) -> Dict[str, Any]:
+    """
+    Retrieves the latest meal plan for a user from the Supabase database.
+    """
+    supabase: SupabaseClient = get_supabase_client()
+    try:
+        response = supabase.table("meal_plans").select("*").eq("user_id", user_id).order("created_at", desc=True).limit(1).execute()
+        if hasattr(response, 'error') and response.error:
+            raise SupabaseDatabaseError(detail=response.error.message)
+        if not response.data:
+            return None
+        return response.data[0]
+    except APIError as e:
+        raise SupabaseDatabaseError(detail=e.message)
+    except Exception as e:
+        error_message = f"An unexpected error occurred: {type(e).__name__}"
+        if hasattr(e, 'message'):
+            error_message = e.message
+        elif hasattr(e, 'detail'):
+            error_message = e.detail
+        elif str(e):
+            error_message = str(e)
+        
+        print(f"Error retrieving meal plan from Supabase: {error_message}")
+        raise SupabaseDatabaseError(detail=f"Unexpected error during meal plan retrieval: {error_message}")
+

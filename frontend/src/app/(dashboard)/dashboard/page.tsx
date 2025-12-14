@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import MealLoggingCard from '../meals/MealLoggingCard'; // Import MealLoggingCard
 import { createClient } from '@/lib/supabase/client';
+import API_BASE_URL from '@/lib/api'; // Import the API base URL
 
 // Helper to get today's day name (e.g., "Monday") - Moved outside the component
 const getTodayDayName = () => {
@@ -75,7 +76,7 @@ export default function DashboardPage() {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch('/api/v1/plans/generate-initial', {
+        const response = await fetch(`${API_BASE_URL}/api/v1/plans/generate`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -194,7 +195,7 @@ export default function DashboardPage() {
     console.log('Authorization header present:', !!accessToken);
 
     try {
-      const response = await fetch('/api/v1/plans/log/workout', {
+      const response = await fetch(`${API_BASE_URL}/api/v1/plans/log/workout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -265,7 +266,7 @@ export default function DashboardPage() {
     console.log('Authorization header present:', !!accessToken);
 
     try {
-      const response = await fetch('/api/v1/plans/log/workout', {
+      const response = await fetch(`${API_BASE_URL}/api/v1/plans/log/workout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
