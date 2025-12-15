@@ -1,0 +1,252 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>5</storyId>
+    <title>New Plan Notification</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-5-new-plan-notification.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>As an active user,</asA>
+    <iWant>I want to be notified when my new weekly plans are ready,</iWant>
+    <soThat>So I know when to check for updates.</soThat>
+    <tasks>
+**Backend (Story 2.5):**
+*   [ ] Modify AI plan generation logic to create a notification record upon successful plan generation. (AC: #1)
+    *   [ ] Identify the appropriate service/function in `backend/app/services/ai_plan_generator.py` or similar that finalizes plan generation.
+    *   [ ] Implement logic to insert a new row into the `notifications` table (Supabase/PostgreSQL).
+    *   [ ] Ensure the notification record is linked to the authenticated user (`user_id`).
+    *   [ ] Verify RLS is correctly applied to the `notifications` table to restrict access.
+*   [ ] Create API endpoint(s) for retrieving and marking notifications. (AC: #2, #3)
+    *   [ ] Create `backend/app/api/v1/endpoints/notifications.py` (or extend `users.py` if notifications are tightly coupled to users).
+    *   [ ] Implement `GET /api/v1/notifications` to fetch all unread notifications for the authenticated user.
+    *   [ ] Implement `PUT /api/v1/notifications/{id}/read` to mark a specific notification as read.
+
+**Frontend (Story 2.5):**
+*   [ ] Implement in-app notification display and navigation. (AC: #2, #3)
+    *   [ ] Develop a component (e.g., `NotificationList.tsx`) to display individual notifications.
+    *   [ ] When a new plan is generated and the app is opened, display a toast/banner notification based on `feedback_patterns_dark.html`.
+    *   [ ] Ensure clicking the notification navigates the user to the latest plan (e.g., `/dashboard/plans/latest`).
+    *   [ ] Implement logic to mark notification as read upon interaction or viewing.
+
+**Testing (Story 2.5):**
+*   **Backend Integration Tests:**
+    *   [ ] Add integration tests for `GET /api/v1/notifications` and `PUT /api/v1/notifications/{id}/read` endpoints using Pytest, verifying request/response contracts, authentication/authorization, and database interactions. (AC: #1, #2, #3)
+    *   [ ] Test that a notification record is correctly created in the database upon new plan generation. (AC: #1)
+*   **Frontend Unit/Integration Tests:**
+    *   [ ] Add unit tests for `NotificationList.tsx` using Jest/React Testing Library with mock data. (AC: #2)
+    *   [ ] Test navigation functionality when interacting with a notification. (AC: #3)
+    *   [ ] Add integration test to verify that clicking a notification navigates the user to the correct weekly plan. (AC: #3)
+*   **End-to-End Test (Optional/Future):**
+    *   [ ] Simulate new plan generation, verify notification appears, and navigation works.
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+1.  **Given** a new weekly plan has been successfully generated for me, **then** a notification record is created in the database. (Source: docs/sprint-artifacts/tech-spec-epic-2.md — Acceptance Criteria)
+2.  **Given** I have an unread notification, **when** I open the application, **then** an in-app notification is displayed (as per `feedback_patterns_dark.html`). (Source: docs/sprint-artifacts/tech-spec-epic-2.md — Acceptance Criteria)
+3.  **Given** I click on the notification, **then** I am navigated directly to my new weekly plan. (Source: docs/sprint-artifacts/tech-spec-epic-2.md — Acceptance Criteria)
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-007: Notifications</section>
+        <snippet>The system shall notify users when their new weekly plans are ready. Users receive an in-app notification when new weekly plans are generated. This keeps users engaged and informed, ensuring they always have an up-to-date plan.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>ADR-001: Background Job/Async Processing Strategy</section>
+        <snippet>The AI-driven weekly plan generation and adaptation process needs to run efficiently without blocking the user interface. Vercel Cron Jobs will be used to trigger the backend for these tasks. This directly supports Epic 2: Adaptive Planning & Progress Logging, specifically Story 2.4.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Structure</section>
+        <snippet>New API endpoints will reside in `backend/app/api/v1/endpoints/` for notification management.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>Flow 3 &amp; 4: Log Workouts, Meals &amp; Provide Feedback</section>
+        <snippet>The `feedback_patterns_dark.html` defines the visual patterns (toasts) for success, error, and warning feedback after a user action, which is relevant for in-app notifications.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 2.5: New Plan Notification</section>
+        <snippet>As an active user, I want to be notified when my new weekly plans are ready, so I know when to check for updates. Acceptance Criteria: Given a new plan has been generated by the AI, when I open the app, then I receive an in-app notification confirming the new plan, and I can easily navigate to the new plan from the notification.</snippet>
+      </doc>
+      <doc>
+        <path>docs/test-design-epic-2.md</path>
+        <title>Test Design: Epic 2 - Adaptive Planning &amp; Progress Logging</title>
+        <section>Story 2.5: New Plan Notification</section>
+        <snippet>Test Scenarios for Story 2.5 include verifying that a user receives an in-app notification immediately after a new weekly plan is generated, that clicking the notification navigates the user directly to their new plan, and that notifications are not shown if no new plan has been generated.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <code-ref>
+        <path>backend/app/services/ai_plan_generator.py</path>
+        <kind>service</kind>
+        <symbol>generate_new_plan</symbol>
+        <lines></lines>
+        <reason>This service will need modification to include notification record creation upon successful plan generation.</reason>
+      </code-ref>
+      <code-ref>
+        <path>backend/app/api/v1/endpoints/notifications.py</path>
+        <kind>endpoint</kind>
+        <symbol>GET /api/v1/notifications</symbol>
+        <lines>New file/endpoint</lines>
+        <reason>New API endpoint for fetching unread notifications.</reason>
+      </code-ref>
+      <code-ref>
+        <path>backend/app/api/v1/endpoints/notifications.py</path>
+        <kind>endpoint</kind>
+        <symbol>PUT /api/v1/notifications/{id}/read</symbol>
+        <lines>New file/endpoint</lines>
+        <reason>New API endpoint for marking a specific notification as read.</reason>
+      </code-ref>
+      <code-ref>
+        <path>frontend/src/components/NotificationIndicator.tsx</path>
+        <kind>component</kind>
+        <symbol>NotificationIndicator</symbol>
+        <lines>New file/component</lines>
+        <reason>New React component for displaying in-app notification indicator.</reason>
+      </code-ref>
+    </code>
+    <dependencies>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>@hookform/resolvers</package>
+        <version>^5.2.2</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>@supabase/ssr</package>
+        <version>^0.8.0</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>@supabase/supabase-js</package>
+        <version>^2.87.1</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>next</package>
+        <version>16.0.8</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>react</package>
+        <version>19.2.1</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>react-dom</package>
+        <version>19.2.1</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>react-hook-form</package>
+        <version>^7.68.0</version>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>zod</package>
+        <version>^4.1.13</version>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>fastapi</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>uvicorn</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>supabase</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>pydantic-settings</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>pydantic-ai</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>python-json-logger</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>pytest</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>pytest-asyncio</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>google-generativeai</package>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>pytest-dotenv</package>
+      </dependency>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Backend must create notification records in the 'notifications' table with Row Level Security (RLS) enabled.</constraint>
+    <constraint>Notifications must be linked to the authenticated user.</constraint>
+    <constraint>Frontend in-app notifications only (no email/SMS/push).</constraint>
+    <constraint>All data in transit (HTTPS) and at rest shall be encrypted.</constraint>
+    <constraint>Supabase Auth (JWT tokens) for user authentication.</constraint>
+    <constraint>API requests and responses will be validated using Pydantic schemas.</constraint>
+    <constraint>Structured logging in JSON format (stdout/stderr).</constraint>
+    <constraint>All dates/times in API and database must be ISO 8601 UTC.</constraint>
+    <constraint>Backend tests: Pytest (Unit/Integration).</constraint>
+    <constraint>Frontend tests: React Testing Library with Jest (Component/Integration).</constraint>
+    <constraint>API endpoints: Plural nouns and kebab-case (e.g., /api/v1/notifications).</constraint>
+    <constraint>Database tables: Plural nouns and snake_case (e.g., notifications).</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Get User Notifications</name>
+      <kind>REST endpoint</kind>
+      <signature>GET /api/v1/notifications</signature>
+      <path>backend/app/api/v1/endpoints/notifications.py</path>
+    </interface>
+    <interface>
+      <name>Mark Notification as Read</name>
+      <kind>REST endpoint</kind>
+      <signature>PUT /api/v1/notifications/{id}/read</signature>
+      <path>backend/app/api/v1/endpoints/notifications.py</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      Testing follows a pyramid model: 60% Unit, 30% Integration, 10% E2E. Backend tests use Pytest for unit and integration. Frontend tests use Jest and React Testing Library for component and integration. Playwright is planned for E2E. API contract testing with Pact. Performance testing with Locust. CI/CD via GitHub Actions.
+    </standards>
+    <locations>
+      <location>backend/tests/</location>
+      <location>frontend/src/**/__tests__/</location>
+    </locations>
+    <ideas>
+      <idea>Backend Integration Test: Verify `GET /api/v1/notifications` returns correct unread notifications for a user.</idea>
+      <idea>Backend Integration Test: Verify `PUT /api/v1/notifications/{id}/read` marks a notification as read.</idea>
+      <idea>Backend Integration Test: Verify a notification record is created in the database upon successful plan generation.</idea>
+      <idea>Frontend Unit Test: `NotificationList.tsx` renders correctly with mock data.</idea>
+      <idea>Frontend Integration Test: Clicking a notification in `NotificationList.tsx` navigates to the correct weekly plan.</idea>
+      <idea>E2E Test: Simulate new plan generation, verify in-app notification appears, and navigation works.</idea>
+    </ideas>
+  </tests>
+</story-context>

@@ -1,6 +1,6 @@
 # Story 2.5: New Plan Notification
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -18,18 +18,18 @@ So I know when to check for updates.
 ## Tasks / Subtasks
 
 **Backend (Story 2.5):**
-*   [ ] Modify AI plan generation logic to create a notification record upon successful plan generation. (AC: #3)
+*   [ ] Modify AI plan generation logic to create a notification record upon successful plan generation. (AC: #1)
     *   [ ] Identify the appropriate service/function in `backend/app/services/ai_plan_generator.py` or similar that finalizes plan generation.
     *   [ ] Implement logic to insert a new row into the `notifications` table (Supabase/PostgreSQL).
     *   [ ] Ensure the notification record is linked to the authenticated user (`user_id`).
     *   [ ] Verify RLS is correctly applied to the `notifications` table to restrict access.
-*   [ ] Create API endpoint(s) for retrieving and marking notifications. (AC: #1, #2)
+*   [ ] Create API endpoint(s) for retrieving and marking notifications. (AC: #2, #3)
     *   [ ] Create `backend/app/api/v1/endpoints/notifications.py` (or extend `users.py` if notifications are tightly coupled to users).
     *   [ ] Implement `GET /api/v1/notifications` to fetch all unread notifications for the authenticated user.
     *   [ ] Implement `PUT /api/v1/notifications/{id}/read` to mark a specific notification as read.
 
 **Frontend (Story 2.5):**
-*   [ ] Implement in-app notification display and navigation. (AC: #1, #2)
+*   [ ] Implement in-app notification display and navigation. (AC: #2, #3)
     *   [ ] Develop a component (e.g., `NotificationList.tsx`) to display individual notifications.
     *   [ ] When a new plan is generated and the app is opened, display a toast/banner notification based on `feedback_patterns_dark.html`.
     *   [ ] Ensure clicking the notification navigates the user to the latest plan (e.g., `/dashboard/plans/latest`).
@@ -38,10 +38,10 @@ So I know when to check for updates.
 **Testing (Story 2.5):**
 *   **Backend Integration Tests:**
     *   [ ] Add integration tests for `GET /api/v1/notifications` and `PUT /api/v1/notifications/{id}/read` endpoints using Pytest, verifying request/response contracts, authentication/authorization, and database interactions. (AC: #1, #2, #3)
-    *   [ ] Test that a notification record is correctly created in the database upon new plan generation. (AC: #3)
+    *   [ ] Test that a notification record is correctly created in the database upon new plan generation. (AC: #1)
 *   **Frontend Unit/Integration Tests:**
-    *   [ ] Add unit tests for `NotificationList.tsx` using Jest/React Testing Library with mock data. (AC: #1)
-    *   [ ] Test navigation functionality when interacting with a notification. (AC: #2)
+    *   [ ] Add unit tests for `NotificationList.tsx` using Jest/React Testing Library with mock data. (AC: #2)
+    *   [ ] Test navigation functionality when interacting with a notification. (AC: #3)
     *   [ ] Add integration test to verify that clicking a notification navigates the user to the correct weekly plan. (AC: #3)
 *   **End-to-End Test (Optional/Future):**
     *   [ ] Simulate new plan generation, verify notification appears, and navigation works.
@@ -99,7 +99,7 @@ For the purposes of this project, `docs/architecture-2025-11-30.md` serves as th
 
 ### Context Reference
 
-<!-- Path(s) to story context XML will be added here by context workflow -->
+- docs/sprint-artifacts/2-5-new-plan-notification.context.xml
 
 ### Agent Model Used
 
