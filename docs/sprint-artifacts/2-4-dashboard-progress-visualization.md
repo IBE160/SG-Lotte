@@ -1,6 +1,6 @@
 # Story 2.4: Dashboard Progress Visualization
 
-Status: drafted
+Status: ready-for-dev
 
 ## Story
 
@@ -90,7 +90,7 @@ The progress visualization should show a summary of the workout streak and a wei
 
 ### Context Reference
 
-<!-- Path(s) to story context XML will be added here by context workflow -->
+- [docs/sprint-artifacts/2-4-dashboard-progress-visualization.context.xml](docs/sprint-artifacts/2-4-dashboard-progress-visualization.context.xml)
 
 ### Agent Model Used
 

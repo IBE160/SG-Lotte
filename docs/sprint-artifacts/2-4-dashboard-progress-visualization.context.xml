@@ -1,0 +1,317 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>4</storyId>
+    <title>Dashboard Progress Visualization</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs\sprint-artifacts\2-4-dashboard-progress-visualization.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>an active user,</asA>
+    <iWant>to see a clear visualization of my progress (e.g., workout streak, weight trend) on my dashboard,</iWant>
+    <soThat>I can stay motivated and informed.</soThat>
+    <tasks>
+**Frontend (Story 2.4):**
+*   [ ] Implement `ProgressChart.tsx` component in `frontend/src/app/(dashboard)/dashboard/components/` to display workout streak and weight trend (AC: #2, #3).
+*   [ ] Integrate `ProgressChart.tsx` into `frontend/src/app/(dashboard)/dashboard/page.tsx` (AC: #1).
+*   [ ] Fetch data for `ProgressChart` from `GET /api/v1/progress` endpoint (AC: #1).
+*   [ ] Use `Recharts` library for rendering graphs (Technical Note).
+
+**Backend (Story 2.4):**
+*   [ ] Create `ProgressDataService` module in `backend/app/services/` to aggregate and calculate progress metrics (AC: #2, #3).
+*   [ ] Implement logic within `ProgressDataService` to calculate workout streak from `workout_logs` table (AC: #2).
+*   [ ] Implement logic within `ProgressDataService` to retrieve weight trend data from `users` or a dedicated `weight_log` table (AC: #3).
+*   [ ] Create `GET /api/v1/progress` endpoint in `backend/app/api/v1/endpoints/plans.py` (or new `progress.py`) to expose aggregated progress data (AC: #1).
+
+**Testing (Story 2.4):**
+*   **Frontend Unit Tests:**
+    *   [ ] Add unit tests for `ProgressChart.tsx` using Jest and React Testing Library to verify rendering and state changes with mock data (AC: #2, #3).
+*   **Backend Integration Tests:**
+    *   [ ] Add integration tests for `GET /api/v1/progress` endpoint using Pytest to validate request/response contracts, authentication/authorization, and database interactions (AC: #1).
+*   **Data Consistency Tests:**
+    *   [ ] Verify that the `ProgressDataService` correctly aggregates data from `workout_logs` and `meal_logs` for accurate streak and trend calculations (AC: #2, #3).
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1.  **Given** I am on the dashboard, **when** my data loads, **then** the `GET /api/v1/progress` endpoint is called. (Source: `tech-spec-epic-2.md`)
+2.  **Given** I have logged workouts for consecutive days, **then** the dashboard correctly displays my current workout streak. (Source: `tech-spec-epic-2.md`)
+3.  **Given** I have logged my weight multiple times, **then** a trend chart is rendered on the dashboard showing my weight changes over time. (Source: `tech-spec-epic-2.md`)
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-006: Dashboard Overview</section>
+        <snippet>The system shall provide a clear, minimalist dashboard displaying the user's current weekly workout and meal plans. It displays the current week's workout and meal plan and visually indicates completed/skipped workouts and meals.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning & Progress Logging</title>
+        <section>Story 2.4: Dashboard Progress Visualization</section>
+        <snippet>Create dashboard components to visualize user progress, such as streaks and trends.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning & Progress Logging</title>
+        <section>Services and Modules</section>
+        <snippet>ProgressDataService: Aggregates and calculates progress metrics for the dashboard. ProgressChart: (Frontend Component) Renders progress visualization using Recharts.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning & Progress Logging</title>
+        <section>Data Models and Contracts</section>
+        <snippet>SQL schemas for workout_logs and meal_logs tables used for progress calculation.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning & Progress Logging</title>
+        <section>APIs and Interfaces</section>
+        <snippet>Description and response body for GET /api/v1/progress endpoint for aggregated progress data.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-2.md</path>
+        <title>Epic Technical Specification: Adaptive Planning & Progress Logging</title>
+        <section>Acceptance Criteria (Story 2.4)</section>
+        <snippet>ACs related to calling /api/v1/progress, displaying workout streak, and weight trend.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Frontend</section>
+        <snippet>The progress visualization will be a new component on the main dashboard page (src/app/(dashboard)/dashboard/page.tsx), leveraging the Recharts library.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Technology Stack Details</section>
+        <snippet>Frontend will use Recharts for rendering graphs.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>ADR-002: Caching Strategy</section>
+        <snippet>Multi-layered caching strategy using both Backend Caching and Frontend Caching to ensure performance for GET /api/v1/progress.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness & Meal Planner - UX Design Specification</title>
+        <section>Flow 6, 7, & 8: Profile, Account, and History</section>
+        <snippet>Mentions Progress_history_dark.html as a supporting wireframe for history review.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Epic 2: Adaptive Planning & Progress Logging</section>
+        <snippet>As an active user, I can log my progress with simple clicks, and the app will automatically adapt my next week's plan to my performance, so my plan evolves with me.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Story 2.4: Dashboard Progress Visualization</section>
+        <snippet>As an active user, I want to see a clear visualization of my progress (e.g., workout streak, weight trend) on my dashboard, So I can stay motivated and informed.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>frontend/src/app/(dashboard)/dashboard/page.tsx</path>
+        <kind>component</kind>
+        <symbol>DashboardPage</symbol>
+        <reason>Existing dashboard page where ProgressChart will be integrated.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/app/(dashboard)/dashboard/components/ProgressChart.tsx</path>
+        <kind>component</kind>
+        <reason>New component to be created for displaying progress visualizations.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/services/ProgressDataService.py</path>
+        <kind>service</kind>
+        <reason>New service to be created for aggregating and calculating progress metrics.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/progress.py</path>
+        <kind>endpoint</kind>
+        <reason>New endpoint to be created for exposing aggregated progress data via GET /api/v1/progress.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/models/workout_log.py</path>
+        <kind>model</kind>
+        <reason>New ORM model for the workout_logs table.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/models/meal_log.py</path>
+        <kind>model</kind>
+        <reason>New ORM model for the meal_logs table.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>next</package>
+        <version>16.0.8</version>
+        <reason>Frontend framework</reason>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>react</package>
+        <version>19.2.1</version>
+        <reason>Frontend library</reason>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>react-dom</package>
+        <version>19.2.1</version>
+        <reason>Frontend library</reason>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>tailwindcss</package>
+        <version>^4</version>
+        <reason>CSS framework</reason>
+      </dependency>
+      <dependency>
+        <ecosystem>npm</ecosystem>
+        <package>recharts</package>
+        <version>~2.x</version>
+        <reason>Charting library for progress visualization (new)</reason>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>fastapi</package>
+        <version>0.122.0</version>
+        <reason>Backend framework</reason>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>uvicorn</package>
+        <version>0.29.0</version>
+        <reason>ASGI server</reason>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>sqlalchemy</package>
+        <version>2.0.29</version>
+        <reason>SQL toolkit and ORM</reason>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>pydantic</package>
+        <version>2.6.4</version>
+        <reason>Data validation and settings management</reason>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>psycopg2-binary</package>
+        <version>2.9.9</version>
+        <reason>PostgreSQL adapter</reason>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>supabase-py</package>
+        <version>2.4.6</version>
+        <reason>Supabase client library</reason>
+      </dependency>
+      <dependency>
+        <ecosystem>pip</ecosystem>
+        <package>Pydantic-AI</package>
+        <version>0.0.8</version>
+        <reason>AI framework</reason>
+      </dependency>
+    </dependencies>
+  </artifacts>
+
+      <constraints>
+        <constraint>
+          <type>Technical</type>
+          <description>Use Recharts library for rendering graphs in the frontend.</description>
+        </constraint>
+        <constraint>
+          <type>Performance</type>
+          <description>Response time for GET /api/v1/progress must be &lt; 500ms.</description>
+        </constraint>
+        <constraint>
+          <type>Performance</type>
+          <description>Implement multi-layered caching (backend and frontend) for performance.</description>
+        </constraint>
+        <constraint>
+          <type>Security</type>
+          <description>Implement RLS policies for workout_logs and meal_logs tables.</description>
+        </constraint>
+        <constraint>
+          <type>Security</type>
+          <description>All new API endpoints must be protected with a valid JWT.</description>
+        </constraint>
+        <constraint>
+          <type>Coding Standard</type>
+          <description>Adhere to Naming Patterns: API Endpoints (plural nouns, kebab-case), Database Tables (plural nouns, snake_case), Database Columns (snake_case), Frontend Components (PascalCase), Frontend Component Files (Kebab-case), Frontend Hooks/Utilities (CamelCase).</description>
+        </constraint>
+        <constraint>
+          <type>Coding Standard</type>
+          <description>Adhere to Structure Patterns: Testing (__tests__ subdirectory for frontend, root tests/ for backend), Component Organization (by feature or route), Shared Utilities (frontend/src/lib/), Shared Logic (backend/app/core/, backend/app/services/).</description>
+        </constraint>
+        <constraint>
+          <type>Coding Standard</type>
+          <description>Adhere to Format Patterns: API Responses (JSON for success, standard FastAPI error format), Dates in JSON (ISO 8601, UTC).</description>
+        </constraint>
+        <constraint>
+          <type>Coding Standard</type>
+          <description>Adhere to Communication Patterns: Client-Side State (Zustand), Server-Side State (SWR or React Query).</description>
+        </constraint>
+        <constraint>
+          <type>Coding Standard</type>
+          <description>Adhere to Consistency Rules: API Response and Error Handling (standardized), Logging (structured JSON), Date and Time Handling (ISO 8601, UTC).</description>
+        </constraint>
+      </constraints>      <interfaces>
+        <interface>
+          <name>Get User Progress</name>
+          <kind>REST endpoint</kind>
+          <signature>GET /api/v1/progress</signature>
+          <path>backend/app/api/v1/endpoints/progress.py</path>
+        </interface>
+    <tests>
+      <standards>
+        <standard>
+          <type>Backend Unit Testing</type>
+          <framework>Pytest</framework>
+          <description>Core business logic in `ProgressDataService` will be unit-tested. AI and database interactions will be mocked.</description>
+        </standard>
+        <standard>
+          <type>Backend Integration Testing</type>
+          <framework>Pytest</framework>
+          <description>Integration tests for `GET /api/v1/progress` endpoint to validate request/response contracts, authentication/authorization, and database interactions.</description>
+        </standard>
+        <standard>
+          <type>Frontend Unit Testing</type>
+          <framework>Jest, React Testing Library</framework>
+          <description>Unit tests for `ProgressChart.tsx` to verify rendering and state changes with mock data.</description>
+        </standard>
+      </standards>
+      <locations>
+        <location>
+          <path>backend/tests/</path>
+          <description>Backend integration and unit tests.</description>
+        </location>
+        <location>
+          <path>frontend/src/app/(dashboard)/dashboard/components/__tests__/</path>
+          <description>Frontend unit tests for ProgressChart.tsx (planned location).</description>
+        </location>
+      </locations>
+      <ideas>
+        <idea>
+          <description>Verify that the `ProgressDataService` correctly aggregates data from `workout_logs` and `meal_logs` for accurate streak and trend calculations (AC: #2, #3).</description>
+        </idea>
+        <idea>
+          <description>Add integration tests for `GET /api/v1/progress` endpoint to validate request/response contracts, authentication/authorization, and database interactions (AC: #1).</description>
+        </idea>
+        <idea>
+          <description>Add unit tests for `ProgressChart.tsx` using Jest and React Testing Library to verify rendering and state changes with mock data (AC: #2, #3).</description>
+        </idea>
+      </ideas>
+    </tests>
+</story-context>
