@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import MealLoggingCard from '../meals/MealLoggingCard'; // Import MealLoggingCard
 import { createClient } from '@/lib/supabase/client';
 import API_BASE_URL from '@/lib/api'; // Import the API base URL
+import ProgressChart from './components/ProgressChart'; // Import ProgressChart
 
 // Helper to get today's day name (e.g., "Monday") - Moved outside the component
 const getTodayDayName = () => {
@@ -81,6 +82,10 @@ interface FullPlan {
   meal_plan: MealPlan;
 }
 
+interface ProgressData {
+  workout_streak: number;
+  weight_trend: Array<[string, number]>;
+}
 
 export default function DashboardPage() {
   const [plan, setPlan] = useState<FullPlan | null>(null);
@@ -90,10 +95,15 @@ export default function DashboardPage() {
   const [workoutStatus, setWorkoutStatus] = useState<'pending' | 'completed' | 'skipped'>('pending');
   const [difficulty, setDifficulty] = useState<number>(0);
   const [workoutLoading, setWorkoutLoading] = useState(false);
+
+  const [progressData, setProgressData] = useState<ProgressData | null>(null);
+  const [progressLoading, setProgressLoading] = useState<boolean>(true);
+  const [progressError, setProgressError] = useState<string | null>(null);
+
   const supabase = createClient();
 
   useEffect(() => {
-    const fetchOrCreatePlan = async (accessToken: string) => {
+    const fetchOrCreatePlan = async (token: string) => {
       setLoading(true);
       setError(null);
       try {
@@ -101,7 +111,7 @@ export default function DashboardPage() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
+            'Authorization': `Bearer ${token}`,
           },
         });
 
@@ -112,26 +122,6 @@ export default function DashboardPage() {
 
         const data: FullPlan = await response.json();
         setPlan(data);
-
-        // Log debugging information after plan is successfully fetched and set
-        const todayRawDayName = getTodayDayName();
-        const canonicalTodayDayName = canonicalizeDay(todayRawDayName);
-
-        const todayWorkout = data.workout_plan.plan.find(
-          (dw) => canonicalizeDay(dw.day) === canonicalTodayDayName
-        );
-        const todayMeals = data.meal_plan.plan.filter(
-          (dm) => canonicalizeDay(dm.day) === canonicalTodayDayName
-        );
-        console.log("Dashboard Debug Info:");
-        console.log("  Today's actual date:", new Date().toString());
-        console.log("  Computed raw day key:", todayRawDayName);
-        console.log("  Computed canonical day key:", canonicalTodayDayName);
-        console.log("  Available workout plan days:", data.workout_plan.plan.map(p => p.day));
-        console.log("  Available meal plan days:", data.meal_plan.plan.map(p => p.day));
-        console.log("  Filtered workout for today:", todayWorkout);
-        console.log("  Filtered meals for today:", todayMeals);
-
       } catch (e: any) {
         setError(e.message);
         console.error('Error fetching or creating plan:', e);
@@ -140,18 +130,45 @@ export default function DashboardPage() {
       }
     };
 
+    const fetchProgressData = async (token: string) => {
+      setProgressLoading(true);
+      setProgressError(null);
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/v1/progress`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || 'Failed to fetch progress data.');
+        }
+
+        const data: ProgressData = await response.json();
+        setProgressData(data);
+      } catch (e: any) {
+        setProgressError(e.message);
+        console.error('Error fetching progress data:', e);
+      } finally {
+        setProgressLoading(false);
+      }
+    };
+
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        if (event === 'SIGNED_IN' && session) {
-          setAccessToken(session.access_token); // Store accessToken
-          fetchOrCreatePlan(session.access_token);
-        } else if (event === 'INITIAL_SESSION' && session) {
-          // Handle case where session is already available on mount
-          setAccessToken(session.access_token); // Store accessToken
-          fetchOrCreatePlan(session.access_token);
-        } else if (!session) {
+        if (session) {
+          const token = session.access_token;
+          setAccessToken(token);
+          fetchOrCreatePlan(token);
+          fetchProgressData(token);
+        } else {
           setError('User not authenticated.');
           setLoading(false);
+          setProgressError('User not authenticated.');
+          setProgressLoading(false);
         }
       }
     );
@@ -160,21 +177,21 @@ export default function DashboardPage() {
     return () => {
       authListener?.subscription.unsubscribe();
     };
-  }, [supabase.auth, setAccessToken]); // Add setAccessToken to dependencies
+  }, [supabase.auth]); 
 
-  if (loading) {
+  if (loading || progressLoading) {
     return (
       <div className="flex justify-center items-center h-full">
-        <p className="text-xl">Generating your personalized plan...</p>
+        <p className="text-xl">Loading dashboard data...</p>
       </div>
     );
   }
 
-  if (error) {
+  if (error || progressError) {
     return (
       <div className="text-red-500 text-center p-4">
         <p className="text-xl font-bold">Error:</p>
-        <p>{error}</p>
+        <p>{error || progressError}</p>
         <p>Please try again later or contact support.</p>
       </div>
     );
@@ -367,6 +384,16 @@ export default function DashboardPage() {
       <div className="container mx-auto p-4">
         <h2 className="text-3xl font-bold mb-6 text-center">Your Daily Plan - {displayedDayName}</h2>
   
+        {/* Progress Chart */}
+        {progressData && (
+          <div className="mb-8">
+            <ProgressChart
+              workoutStreak={progressData.workout_streak}
+              weightTrend={progressData.weight_trend}
+            />
+          </div>
+        )}
+
         {/* Workout Plan for Today */}
         <section className="mb-8 p-6 bg-gray-800 rounded-lg shadow-lg">
           <h3 className="text-2xl font-semibold mb-4 border-b border-gray-700 pb-2">Workout</h3>
