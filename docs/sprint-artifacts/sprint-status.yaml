@@ -26,7 +26,7 @@
 # ===============
 # - Epics should be 'contexted' before stories can be 'drafted'
 # - Stories can be worked in parallel if team capacity allows
-# - SM typically drafts next story after previous one is 'done' to incorporate learnings
+# - SM typically drbug fixingafts next story after previous one is 'done' to incorporate learnings
 # - Dev moves story to 'review', SM reviews, then Dev moves to 'done'
 generated: 2025-12-12
 project: ibe160

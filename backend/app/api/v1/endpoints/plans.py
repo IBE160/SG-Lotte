@@ -67,9 +67,7 @@ async def generate_initial_plan(
     }
 
     try:
-        full_plan = await adapt_ai_plan(user_id_str, user_preferences, [], [])
-        # Create a notification
-        notification_data = NotificationCreate(message="Your new weekly plan is ready!", link="/dashboard")
+        notification_data = NotificationCreate(title="New plan ready", message="Your new weekly plan is ready!")
         await crud_notification.create_notification(user_id=current_user.id, notification=notification_data)
         response.status_code = status.HTTP_201_CREATED
         return full_plan
@@ -81,7 +79,7 @@ async def generate_initial_plan(
             create_workout_plan(user_id_str, full_plan.workout_plan.model_dump())
             create_meal_plan(user_id_str, full_plan.meal_plan.model_dump())
             # Create a notification
-            notification_data = NotificationCreate(message="Your new weekly plan is ready!", link="/dashboard")
+            notification_data = NotificationCreate(title="New plan ready", message="Your new weekly plan is ready!")
             await crud_notification.create_notification(user_id=current_user.id, notification=notification_data)
             response.status_code = status.HTTP_200_OK # Fallback is a successful return
             return full_plan
@@ -129,7 +127,7 @@ async def adapt_plan(
 
         full_plan = await adapt_ai_plan(str(current_user.id), user_preferences, meal_logs, workout_logs)
         # Create a notification
-        notification_data = NotificationCreate(message="Your new weekly plan has been adapted to your progress!", link="/dashboard")
+        notification_data = NotificationCreate(title="Your plan has been adapted", message="Your new weekly plan has been adapted to your progress!")
         await crud_notification.create_notification(user_id=current_user.id, notification=notification_data)
         return full_plan
     except ValueError as e:

@@ -14,8 +14,8 @@ class CRUDNotification:
         try:
             insert_data = {
                 "user_id": str(user_id),
+                "title": notification.title,
                 "message": notification.message,
-                "link": notification.link,
             }
             response = self.client.from_("notifications").insert(insert_data).execute()
 
@@ -39,27 +39,8 @@ class CRUDNotification:
             raise SupabaseDatabaseError(f"Error fetching notifications: {e}")
 
     async def get_unread_notifications_by_user(self, user_id: UUID) -> List[Notification]:
-        try:
-            response = self.client.from_("notifications").select("*").eq("user_id", str(user_id)).eq("read", False).execute()
-
-            if response.data is None:
-                raise SupabaseDatabaseError(f"Failed to fetch unread notifications. Supabase response: {response}")
-
-            return [Notification.model_validate(notification) for notification in response.data]
-        except Exception as e:
-            raise SupabaseDatabaseError(f"Error fetching unread notifications: {e}")
-
-    async def mark_notification_as_read(self, notification_id: int) -> Notification:
-        try:
-            response = self.client.from_("notifications").update({"read": True}).eq("id", notification_id).execute()
-
-            if response.data is None or not response.data:
-                raise SupabaseDatabaseError(f"Failed to mark notification as read. Supabase response: {response}")
-
-            updated_notification_data = response.data[0]
-            return Notification.model_validate(updated_notification_data)
-        except Exception as e:
-            raise SupabaseDatabaseError(f"Error marking notification as read: {e}")
+        # Per user request, this now returns ALL notifications for the user, as there's no "read" status.
+        return await self.get_notifications_by_user(user_id)
 
 async def get_crud_notification(supabase: Client = Depends(get_supabase_client)) -> CRUDNotification:
     return CRUDNotification(client=supabase)

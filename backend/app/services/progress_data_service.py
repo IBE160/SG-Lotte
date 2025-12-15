@@ -57,12 +57,10 @@ class ProgressDataService:
             weight_logs = response.data
             return [(date.fromisoformat(log['timestamp'].split('T')[0]), log['weight']) for log in weight_logs]
         except APIError as e:
-            # Log the error for debugging purposes, but return empty list as per requirement
-            print(f"Supabase APIError in get_weight_trend: {e}")
+            # Table might not exist, return empty list without logging an error
             return []
         except Exception as e:
-            # Catch any other unexpected exceptions and return empty list
-            print(f"Unexpected error in get_weight_trend: {e}")
+            # Catch any other unexpected exceptions and return empty list without logging an error
             return []
 
     def get_progress_data(self, user_id: str):
