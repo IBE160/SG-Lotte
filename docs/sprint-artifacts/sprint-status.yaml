@@ -45,7 +45,7 @@ development_status:
   epic-2: contexted
   2-1-workout-logging-ui: done
   2-2-meal-logging-ui: done
-  2-3-ai-driven-weekly-plan-adaptation-logic: ready-for-dev
+  2-3-ai-driven-weekly-plan-adaptation-logic: done
   2-4-dashboard-progress-visualization: backlog
   2-5-new-plan-notification: backlog
   epic-2-retrospective: optional
