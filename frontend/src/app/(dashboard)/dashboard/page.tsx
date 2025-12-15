@@ -9,7 +9,28 @@ import API_BASE_URL from '@/lib/api'; // Import the API base URL
 const getTodayDayName = () => {
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const date = new Date();
-  return days[date.getDay()].toLowerCase(); // Return in lowercase for consistent comparison
+  return days[date.getDay()];
+};
+
+// Helper to canonicalize day names, including Norwegian to English mapping
+const canonicalizeDay = (dayString: string) => {
+  const dayMap: { [key: string]: string } = {
+    mandag: "monday",
+    tirsdag: "tuesday",
+    onsdag: "wednesday",
+    torsdag: "thursday",
+    fredag: "friday",
+    lørdag: "saturday",
+    søndag: "sunday",
+    monday: "monday",
+    tuesday: "tuesday",
+    wednesday: "wednesday",
+    thursday: "thursday",
+    friday: "friday",
+    saturday: "saturday",
+    sunday: "sunday",
+  };
+  return dayMap[dayString.toLowerCase().trim()] || dayString.toLowerCase().trim();
 };
 
 // Define the FullPlan structure (should match backend Pydantic model)
@@ -93,12 +114,19 @@ export default function DashboardPage() {
         setPlan(data);
 
         // Log debugging information after plan is successfully fetched and set
-        const todayDayName = getTodayDayName(); // Helper is now global (returns lowercase)
-        const todayWorkout = data.workout_plan.plan.find(dw => dw.day.toLowerCase() === todayDayName); // Normalize plan day
-        const todayMeals = data.meal_plan.plan.filter(dm => dm.day.toLowerCase() === todayDayName);
+        const todayRawDayName = getTodayDayName();
+        const canonicalTodayDayName = canonicalizeDay(todayRawDayName);
+
+        const todayWorkout = data.workout_plan.plan.find(
+          (dw) => canonicalizeDay(dw.day) === canonicalTodayDayName
+        );
+        const todayMeals = data.meal_plan.plan.filter(
+          (dm) => canonicalizeDay(dm.day) === canonicalTodayDayName
+        );
         console.log("Dashboard Debug Info:");
         console.log("  Today's actual date:", new Date().toString());
-        console.log("  Computed day key:", todayDayName);
+        console.log("  Computed raw day key:", todayRawDayName);
+        console.log("  Computed canonical day key:", canonicalTodayDayName);
         console.log("  Available workout plan days:", data.workout_plan.plan.map(p => p.day));
         console.log("  Available meal plan days:", data.meal_plan.plan.map(p => p.day));
         console.log("  Filtered workout for today:", todayWorkout);
@@ -158,166 +186,195 @@ export default function DashboardPage() {
         <p className="text-xl">No plan available.</p>
       </div>
     );
-  }
-
-  const todayDayName = getTodayDayName(); // Now calls the global helper
-  const todayWorkout = plan.workout_plan.plan.find(dw => dw.day.toLowerCase() === todayDayName);
-  const todayMeals = plan.meal_plan.plan.filter(dm => dm.day.toLowerCase() === todayDayName);
-
-  const handleCompleteWorkout = async () => {
-    if (!plan || !accessToken) return;
-    setWorkoutLoading(true);
-
-    const todayDayName = getTodayDayName();
-    const todayWorkout = plan.workout_plan.plan.find(dw => dw.day.toLowerCase() === todayDayName);
-    if (!todayWorkout || todayWorkout.exercises.length === 0) {
-      console.error("No workout or exercises found for today to log.");
-      setWorkoutLoading(false);
-      return;
     }
-    // TODO: Future enhancement: Log all exercises in the workout, not just the first.
-    const exercise = todayWorkout.exercises[0];
-
-    const workoutLogData: any = {
-      workout_plan_id: 1, // Placeholder
-      exercise_name: exercise.name,
-      sets_completed: exercise.sets || null,
-      reps_completed: exercise.reps || null,
-      weight_lifted: null, // Assuming not tracked yet
-      status: 'Completed',
-    };
-    
-    // Only include difficulty_rating if it has been set by the user
-    if (difficulty > 0) {
-      workoutLogData.difficulty_rating = difficulty;
-    }
-
-    console.log('Authorization header present:', !!accessToken);
-
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/plans/log/workout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(workoutLogData),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        try {
-          const errorJson = JSON.parse(errorText);
-          const detail = errorJson.detail;
-          if (typeof detail === 'object' && detail !== null) {
-            throw new Error(JSON.stringify(detail));
-          }
-          throw new Error(detail || `Error logging workout: ${response.statusText}`);
-        } catch (e) {
-          throw new Error(errorText || `Error logging workout: ${response.statusText}`);
+  
+    const todayRawDayName = getTodayDayName();
+    const canonicalTodayDayName = canonicalizeDay(todayRawDayName);
+  
+    let displayWorkout = plan.workout_plan.plan.find(
+      (dw) => canonicalizeDay(dw.day) === canonicalTodayDayName
+    );
+    let displayMeals = plan.meal_plan.plan.filter(
+      (dm) => canonicalizeDay(dm.day) === canonicalTodayDayName
+    );
+  
+    let displayedDayName = todayRawDayName; // Default to today's raw day name
+  
+    // Fallback logic: if today has no workout AND no meals, find the first day with content
+    if ((!displayWorkout || displayWorkout.exercises.length === 0) && displayMeals.length === 0) {
+      for (const dayPlan of plan.workout_plan.plan) {
+        const correspondingMeals = plan.meal_plan.plan.filter(
+          (dm) => canonicalizeDay(dm.day) === canonicalizeDay(dayPlan.day)
+        );
+        if (dayPlan.exercises.length > 0 || correspondingMeals.length > 0) {
+          displayWorkout = dayPlan;
+          displayMeals = correspondingMeals;
+          displayedDayName = dayPlan.day;
+          break;
         }
       }
-
-      setWorkoutStatus('completed');
-      console.log('Workout logged as completed:', workoutLogData);
-    } catch (e: any) {
-      console.error('Error logging workout:', e);
-      setError(e.message);
-    } finally {
-      setWorkoutLoading(false);
     }
-  };
-
-  const handleSkipWorkout = async () => {
-    if (!plan || !accessToken) return;
-    setWorkoutLoading(true);
-
-    const todayDayName = getTodayDayName();
-    const todayWorkout = plan.workout_plan.plan.find(dw => dw.day.toLowerCase() === todayDayName);
-
-    let workoutLogData;
-
-    if (!todayWorkout || todayWorkout.exercises.length === 0) {
-      // This is a rest day, log it as a skipped workout with a specific name
-      workoutLogData = {
-        workout_plan_id: 1, // Placeholder
-        exercise_name: "Rest day",
-        sets_completed: null,
-        reps_completed: null,
-        weight_lifted: null,
-        difficulty_rating: null,
-        status: 'Skipped',
-      };
-    } else {
-      // This is a regular workout day
+  
+    // If after fallback, still no content, then the entire plan is genuinely empty.
+    if (plan.workout_plan.plan.length === 0 && plan.meal_plan.plan.length === 0) {
+      return (
+        <div className="flex justify-center items-center h-full">
+          <p className="text-xl">No plan available for any day. Please generate a full plan.</p>
+        </div>
+      );
+    }
+  
+    const handleCompleteWorkout = async () => {
+      if (!plan || !accessToken || !displayWorkout) return; // Use displayWorkout
+      setWorkoutLoading(true);
+  
+      const workoutToLog = displayWorkout; // Use the currently displayed workout
+      if (!workoutToLog || workoutToLog.exercises.length === 0) {
+        console.error("No workout or exercises found for today to log.");
+        setWorkoutLoading(false);
+        return;
+      }
       // TODO: Future enhancement: Log all exercises in the workout, not just the first.
-      const exercise = todayWorkout.exercises[0];
-      workoutLogData = {
+      const exercise = workoutToLog.exercises[0];
+  
+      const workoutLogData: any = {
         workout_plan_id: 1, // Placeholder
         exercise_name: exercise.name,
-        sets_completed: null,
-        reps_completed: null,
-        weight_lifted: null,
-        difficulty_rating: null,
-        status: 'Skipped',
+        sets_completed: exercise.sets || null,
+        reps_completed: exercise.reps || null,
+        weight_lifted: null, // Assuming not tracked yet
+        status: 'Completed',
       };
-    }
-
-    console.log('Authorization header present:', !!accessToken);
-
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/v1/plans/log/workout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(workoutLogData),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        try {
-          const errorJson = JSON.parse(errorText);
-          const detail = errorJson.detail;
-          if (typeof detail === 'object' && detail !== null) {
-            throw new Error(JSON.stringify(detail));
-          }
-          throw new Error(detail || `Error logging workout: ${response.statusText}`);
-        } catch (e) {
-          throw new Error(errorText || `Error logging workout: ${response.statusText}`);
-        }
+      
+      // Only include difficulty_rating if it has been set by the user
+      if (difficulty > 0) {
+        workoutLogData.difficulty_rating = difficulty;
       }
-
-      setWorkoutStatus('skipped');
-      console.log('Workout logged as skipped:', workoutLogData);
-    } catch (e: any) {
-      console.error('Error logging workout:', e);
-      setError(e.message);
-    } finally {
-      setWorkoutLoading(false);
-    }
-  };
-
-  const handleSetDifficulty = (rating: number) => {
-    setDifficulty(rating);
-    // Here you would typically save the rating to the backend
-    console.log(`Workout completed with difficulty: ${rating}`);
-  };
-
-  return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-3xl font-bold mb-6 text-center">Your Daily Plan - {todayDayName}</h2>
-
-      {/* Workout Plan for Today */}
-      <section className="mb-8 p-6 bg-gray-800 rounded-lg shadow-lg">
-        <h3 className="text-2xl font-semibold mb-4 border-b border-gray-700 pb-2">Workout</h3>
-        {todayWorkout ? (
-          <div>
-            <p className="text-lg font-medium mb-2">Focus: {todayWorkout.focus}</p>
-            {todayWorkout.exercises.length > 0 ? (
+  
+      console.log('Authorization header present:', !!accessToken);
+  
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/v1/plans/log/workout`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(workoutLogData),
+        });
+  
+        if (!response.ok) {
+          const errorText = await response.text();
+          try {
+            const errorJson = JSON.parse(errorText);
+            const detail = errorJson.detail;
+            if (typeof detail === 'object' && detail !== null) {
+              throw new Error(JSON.stringify(detail));
+            }
+            throw new Error(detail || `Error logging workout: ${response.statusText}`);
+          } catch (e) {
+            throw new Error(errorText || `Error logging workout: ${response.statusText}`);
+          }
+        }
+  
+        setWorkoutStatus('completed');
+        console.log('Workout logged as completed:', workoutLogData);
+      } catch (e: any) {
+        console.error('Error logging workout:', e);
+        setError(e.message);
+      } finally {
+        setWorkoutLoading(false);
+      }
+    };
+  
+    const handleSkipWorkout = async () => {
+      if (!plan || !accessToken || !displayWorkout) return; // Use displayWorkout
+      setWorkoutLoading(true);
+  
+      const workoutToLog = displayWorkout; // Use the currently displayed workout
+  
+      let workoutLogData;
+  
+      if (!workoutToLog || workoutToLog.exercises.length === 0) {
+        // This is a rest day, log it as a skipped workout with a specific name
+        workoutLogData = {
+          workout_plan_id: 1, // Placeholder
+          exercise_name: `Rest day - ${displayedDayName}`, // Indicate which day was skipped
+          sets_completed: null,
+          reps_completed: null,
+          weight_lifted: null,
+          difficulty_rating: null,
+          status: 'Skipped',
+        };
+      } else {
+        // This is a regular workout day
+        // TODO: Future enhancement: Log all exercises in the workout, not just the first.
+        const exercise = workoutToLog.exercises[0];
+        workoutLogData = {
+          workout_plan_id: 1, // Placeholder
+          exercise_name: exercise.name,
+          sets_completed: null,
+          reps_completed: null,
+          weight_lifted: null,
+          difficulty_rating: null,
+          status: 'Skipped',
+        };
+      }
+  
+      console.log('Authorization header present:', !!accessToken);
+  
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/v1/plans/log/workout`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(workoutLogData),
+        });
+  
+        if (!response.ok) {
+          const errorText = await response.text();
+          try {
+            const errorJson = JSON.parse(errorText);
+            const detail = errorJson.detail;
+            if (typeof detail === 'object' && detail !== null) {
+              throw new Error(JSON.stringify(detail));
+            }
+            throw new Error(detail || `Error logging workout: ${response.statusText}`);
+          } catch (e) {
+            throw new Error(errorText || `Error logging workout: ${response.statusText}`);
+          }
+        }
+  
+        setWorkoutStatus('skipped');
+        console.log('Workout logged as skipped:', workoutLogData);
+      } catch (e: any) {
+        console.error('Error logging workout:', e);
+        setError(e.message);
+      } finally {
+        setWorkoutLoading(false);
+      }
+    };
+  
+    const handleSetDifficulty = (rating: number) => {
+      setDifficulty(rating);
+      // Here you would typically save the rating to the backend
+      console.log(`Workout completed with difficulty: ${rating}`);
+    };
+  
+    return (
+      <div className="container mx-auto p-4">
+        <h2 className="text-3xl font-bold mb-6 text-center">Your Daily Plan - {displayedDayName}</h2>
+  
+        {/* Workout Plan for Today */}
+        <section className="mb-8 p-6 bg-gray-800 rounded-lg shadow-lg">
+          <h3 className="text-2xl font-semibold mb-4 border-b border-gray-700 pb-2">Workout</h3>
+          {displayWorkout && displayWorkout.exercises.length > 0 ? (
+            <div>
+              <p className="text-lg font-medium mb-2">Focus: {displayWorkout.focus}</p>
               <ul className="list-disc list-inside space-y-2 mb-6">
-                {todayWorkout.exercises.map((exercise, index) => (
+                {displayWorkout.exercises.map((exercise, index) => (
                   <li key={index}>
                     <span className="font-semibold">{exercise.name}</span>
                     {exercise.description && <span className="text-gray-400"> ({exercise.description})</span>}
@@ -327,99 +384,99 @@ export default function DashboardPage() {
                   </li>
                 ))}
               </ul>
-            ) : (
-              <p className="text-gray-400">{todayWorkout.notes || "No specific workout planned for today."}</p>
-            )}
-
-            {/* --- WORKOUT COMPLETION UI --- */}
-            <div className="mt-6 pt-6 border-t border-gray-700">
-              {workoutStatus === 'pending' && (!todayWorkout || todayWorkout.exercises.length === 0) && (
-                <div className="text-center">
-                  <p className="text-lg font-semibold text-gray-400 mb-4">Rest day — nothing to complete.</p>
-                  <button
-                    onClick={handleSkipWorkout}
-                    disabled={workoutLoading}
-                    className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors w-full"
-                  >
-                    Skip Workout (Rest Day)
-                  </button>
-                </div>
-              )}
-              {workoutStatus === 'pending' && (todayWorkout && todayWorkout.exercises.length > 0) && (
-                <div className="flex items-center justify-center gap-4">
-                  <button
-                    onClick={handleCompleteWorkout}
-                    disabled={workoutLoading}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Mark as Completed
-                  </button>
-                  <button
-                    onClick={handleSkipWorkout}
-                    disabled={workoutLoading}
-                    className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
-                  >
-                    Skip Workout
-                  </button>
-                </div>
-              )}
-
-              {workoutStatus === 'completed' && (
-                <div className="text-center">
-                  <p className="text-lg font-semibold text-green-400 mb-4">Workout Completed!</p>
-                  <p className="text-md mb-3">Rate the difficulty:</p>
-                  <div className="flex justify-center items-center gap-2">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        key={star}
-                        onClick={() => handleSetDifficulty(star)}
-                        className={`text-4xl transition-colors ${
-                          star <= difficulty ? 'text-yellow-400' : 'text-gray-500 hover:text-yellow-300'
-                        }`}
-                      >
-                        &#9733;
-                      </button>
-                    ))}
+  
+              {/* --- WORKOUT COMPLETION UI --- */}
+              <div className="mt-6 pt-6 border-t border-gray-700">
+                {workoutStatus === 'pending' && (
+                  <div className="flex items-center justify-center gap-4">
+                    <button
+                      onClick={handleCompleteWorkout}
+                      disabled={workoutLoading}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Mark as Completed
+                    </button>
+                    <button
+                      onClick={handleSkipWorkout}
+                      disabled={workoutLoading}
+                      className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+                    >
+                      Skip Workout
+                    </button>
                   </div>
-                  {difficulty > 0 && (
-                    <p className="mt-4 text-sm text-gray-400">Thanks for your feedback!</p>
-                  )}
-                </div>
+                )}
+  
+                {workoutStatus === 'completed' && (
+                  <div className="text-center">
+                    <p className="text-lg font-semibold text-green-400 mb-4">Workout Completed!</p>
+                    <p className="text-md mb-3">Rate the difficulty:</p>
+                    <div className="flex justify-center items-center gap-2">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          onClick={() => handleSetDifficulty(star)}
+                          className={`text-4xl transition-colors ${
+                            star <= difficulty ? 'text-yellow-400' : 'text-gray-500 hover:text-yellow-300'
+                          }`}
+                        >
+                          &#9733;
+                        </button>
+                      ))}
+                    </div>
+                    {difficulty > 0 && (
+                      <p className="mt-4 text-sm text-gray-400">Thanks for your feedback!</p>
+                    )}
+                  </div>
+                )}
+  
+                {workoutStatus === 'skipped' && (
+                  <div className="text-center">
+                    <p className="text-lg font-semibold text-gray-400">Workout Skipped</p>
+                    <p className="text-sm text-gray-500">Remember, consistency is key. Try to catch the next one!</p>
+                  </div>
+                )}
+              </div>
+               {/* --- END WORKOUT COMPLETION UI --- */}
+  
+            </div>
+          ) : (
+            <div className="text-center">
+              <p className="text-gray-400 text-lg mb-4">No workout planned for {displayedDayName}. Enjoy your rest!</p>
+              {workoutStatus === 'pending' && (
+                  <button
+                      onClick={handleSkipWorkout}
+                      disabled={workoutLoading}
+                      className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors w-full"
+                    >
+                      Mark Rest Day as Skipped
+                    </button>
               )}
-
               {workoutStatus === 'skipped' && (
-                <div className="text-center">
-                  <p className="text-lg font-semibold text-gray-400">Workout Skipped</p>
-                  <p className="text-sm text-gray-500">Remember, consistency is key. Try to catch the next one!</p>
-                </div>
+                  <p className="text-lg font-semibold text-gray-400 mt-4">Rest day marked as skipped.</p>
               )}
             </div>
-             {/* --- END WORKOUT COMPLETION UI --- */}
-
-          </div>
-        ) : (
-          <p className="text-gray-400">Rest day — nothing to complete.</p>
-        )}
-      </section>
-
-      {/* Meal Plan for Today */}
-      <section className="p-6 bg-gray-800 rounded-lg shadow-lg">
-        <h3 className="text-2xl font-semibold mb-4 border-b border-gray-700 pb-2">Meals</h3>
-                                {todayMeals.length > 0 ? (
-                                  <div className="space-y-6">
-                                    {accessToken &&
-                                      todayMeals.map((meal, mealIndex) => (
-                                        <MealLoggingCard
-                                          key={mealIndex}
-                                          meal_plan_id={1} // Using a placeholder ID. This should ideally come from the backend.
-                                          meal_name={meal.meal_type} // Using meal_type as the meal_name for the card
-                                          accessToken={accessToken} // Pass accessToken as prop
-                                        />
-                                      ))}
-                                  </div>
-                                ) : (
-                                  <p className="text-gray-400">No meal plan found for today.</p>
-                                )}      </section>
+          )}
+        </section>
+  
+        {/* Meal Plan for Today */}
+        <section className="p-6 bg-gray-800 rounded-lg shadow-lg">
+          <h3 className="text-2xl font-semibold mb-4 border-b border-gray-700 pb-2">Meals</h3>
+                                  {displayMeals.length > 0 ? (
+                                    <div className="space-y-6">
+                                      {accessToken &&
+                                        displayMeals.map((meal, mealIndex) => (
+                                          <MealLoggingCard
+                                            key={mealIndex}
+                                            meal_plan_id={1} // Using a placeholder ID. This should ideally come from the backend.
+                                            meal_name={meal.meal_type} // Using meal_type as the meal_name for the card
+                                            accessToken={accessToken} // Pass accessToken as prop
+                                          />
+                                        ))}
+                                    </div>
+                                  ) : (
+                                    <p className="text-gray-400">No meal plan found for {displayedDayName}.</p>
+                                  )}
+        </section>
     </div>
   );
 }

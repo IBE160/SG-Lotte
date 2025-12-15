@@ -4,7 +4,7 @@ from typing import Dict, Any, Optional
 from uuid import UUID
 from datetime import datetime, timedelta, timezone
 
-from app.services.ai_plan_generator import FullPlan, adapt_ai_plan, WorkoutPlan, MealPlan
+from app.services.ai_plan_generator import FullPlan, adapt_ai_plan, WorkoutPlan, MealPlan, FALLBACK_FULL_PLAN
 from app.schemas.user import User
 from app.api.v1.deps import get_current_user
 from app.core.exceptions import SupabaseDatabaseError
@@ -13,7 +13,7 @@ from app.schemas.meal import MealLogRequest, MealLogResponse
 from app.schemas.workout import WorkoutLogRequest, WorkoutLogResponse
 from app.crud.meal import CRUDMealLog, get_crud_meal_log
 from app.crud.workout import CRUDWorkoutLog, get_crud_workout_log
-from app.crud.plan import get_latest_workout_plan, get_latest_meal_plan
+from app.crud.plan import get_latest_workout_plan, get_latest_meal_plan, create_workout_plan, create_meal_plan
 
 
 router = APIRouter()
@@ -68,12 +68,19 @@ async def generate_initial_plan(
         response.status_code = status.HTTP_201_CREATED
         return full_plan
     except ValueError as e:
-        print(f"Plan generation failed (likely missing API key): {e}")
-        response.status_code = status.HTTP_200_OK
-        return FullPlan(
-            workout_plan=WorkoutPlan(plan=[]),
-            meal_plan=MealPlan(plan=[])
-        )
+        print(f"Plan generation failed (likely missing API key): {e}. Using fallback plan.")
+        # Use fallback plan and persist it
+        full_plan = FALLBACK_FULL_PLAN
+        try:
+            create_workout_plan(user_id_str, full_plan.workout_plan.model_dump())
+            create_meal_plan(user_id_str, full_plan.meal_plan.model_dump())
+            response.status_code = status.HTTP_200_OK # Fallback is a successful return
+            return full_plan
+        except (SupabaseDatabaseError, APIError) as db_e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Failed to save fallback plan to database: {getattr(db_e, 'message', str(db_e))}"
+            )
     except (SupabaseDatabaseError, APIError) as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
