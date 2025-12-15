@@ -11,8 +11,10 @@ from app.core.exceptions import SupabaseDatabaseError
 from postgrest.exceptions import APIError
 from app.schemas.meal import MealLogRequest, MealLogResponse
 from app.schemas.workout import WorkoutLogRequest, WorkoutLogResponse
+from app.schemas.notification import NotificationCreate
 from app.crud.meal import CRUDMealLog, get_crud_meal_log
 from app.crud.workout import CRUDWorkoutLog, get_crud_workout_log
+from app.crud.notification import CRUDNotification, get_crud_notification
 from app.crud.plan import get_latest_workout_plan, get_latest_meal_plan, create_workout_plan, create_meal_plan
 
 
@@ -21,7 +23,8 @@ router = APIRouter()
 @router.post("/generate", response_model=FullPlan)
 async def generate_initial_plan(
     response: Response,
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
+    crud_notification: CRUDNotification = Depends(get_crud_notification)
 ) -> FullPlan:
     """
     Fetches the user's most recent plan. If no plan from the last 7 days is found,
@@ -65,6 +68,9 @@ async def generate_initial_plan(
 
     try:
         full_plan = await adapt_ai_plan(user_id_str, user_preferences, [], [])
+        # Create a notification
+        notification_data = NotificationCreate(message="Your new weekly plan is ready!", link="/dashboard")
+        await crud_notification.create_notification(user_id=current_user.id, notification=notification_data)
         response.status_code = status.HTTP_201_CREATED
         return full_plan
     except ValueError as e:
@@ -74,6 +80,9 @@ async def generate_initial_plan(
         try:
             create_workout_plan(user_id_str, full_plan.workout_plan.model_dump())
             create_meal_plan(user_id_str, full_plan.meal_plan.model_dump())
+            # Create a notification
+            notification_data = NotificationCreate(message="Your new weekly plan is ready!", link="/dashboard")
+            await crud_notification.create_notification(user_id=current_user.id, notification=notification_data)
             response.status_code = status.HTTP_200_OK # Fallback is a successful return
             return full_plan
         except (SupabaseDatabaseError, APIError) as db_e:
@@ -96,7 +105,8 @@ async def generate_initial_plan(
 async def adapt_plan(
     current_user: User = Depends(get_current_user),
     crud_meal_log: CRUDMealLog = Depends(get_crud_meal_log),
-    crud_workout_log: CRUDWorkoutLog = Depends(get_crud_workout_log)
+    crud_workout_log: CRUDWorkoutLog = Depends(get_crud_workout_log),
+    crud_notification: CRUDNotification = Depends(get_crud_notification)
 ) -> FullPlan:
     """
     Adapts the user's plan based on the last 7 days of activity.
@@ -118,6 +128,9 @@ async def adapt_plan(
         workout_logs = await crud_workout_log.get_workout_logs_last_7_days(user_id=UUID(current_user.id))
 
         full_plan = await adapt_ai_plan(str(current_user.id), user_preferences, meal_logs, workout_logs)
+        # Create a notification
+        notification_data = NotificationCreate(message="Your new weekly plan has been adapted to your progress!", link="/dashboard")
+        await crud_notification.create_notification(user_id=current_user.id, notification=notification_data)
         return full_plan
     except ValueError as e:
         raise HTTPException(

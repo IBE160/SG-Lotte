@@ -1,5 +1,6 @@
 // frontend/src/app/(dashboard)/layout.tsx
 import React from 'react';
+import NotificationBanner from '@/components/NotificationBanner';
 
 export default function DashboardLayout({
   children,
@@ -8,6 +9,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
+      <NotificationBanner />
       <header className="bg-gray-800 p-4 shadow-md">
         <h1 className="text-2xl font-bold">AI Fitness Dashboard</h1>
       </header>

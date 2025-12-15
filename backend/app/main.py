@@ -4,7 +4,7 @@ import logging
 from pythonjsonlogger import jsonlogger
 
 # Import routers
-from app.api.v1.endpoints import users, plans, progress
+from app.api.v1.endpoints import users, plans, progress, notifications
 
 # Configure logging
 log_handler = logging.StreamHandler()
@@ -28,6 +28,7 @@ app.add_middleware(
 app.include_router(users.router, prefix="/api/v1/users", tags=["users"])
 app.include_router(plans.router, prefix="/api/v1/plans", tags=["plans"])
 app.include_router(progress.router, prefix="/api/v1", tags=["progress"])
+app.include_router(notifications.router, prefix="/api/v1/notifications", tags=["notifications"])
 
 
 @app.get("/")
