@@ -36,7 +36,6 @@ async def generate_initial_plan(
             detail="Could not validate user ID.",
         )
 
-    # 1. Fetch first
     user_id_str = str(current_user.id)
     seven_days_ago = datetime.now(timezone.utc) - timedelta(days=7)
     
@@ -47,7 +46,6 @@ async def generate_initial_plan(
         if workout_plan_data and meal_plan_data:
             plan_created_at = datetime.fromisoformat(workout_plan_data['created_at'].replace('Z', '+00:00'))
             if plan_created_at > seven_days_ago:
-                # If a recent plan exists, return it with 200 OK.
                 validated_workout_plan = WorkoutPlan.model_validate(workout_plan_data['plan'])
                 validated_meal_plan = MealPlan.model_validate(meal_plan_data['plan'])
                 
@@ -59,29 +57,32 @@ async def generate_initial_plan(
     except (SupabaseDatabaseError, APIError) as e:
         print(f"Error fetching existing plan, proceeding to generation: {e}")
 
-    # 2. If no recent plan, generate second
     user_preferences: Dict[str, Any] = {
         "fitness_goal": "lose weight",
         "dietary_preferences": "vegetarian, high protein",
         "fitness_persona": "beginner, prefers home workouts"
     }
 
+    full_plan: FullPlan
     try:
-        notification_data = NotificationCreate(title="New plan ready", message="Your new weekly plan is ready!")
-        await crud_notification.create_notification(user_id=current_user.id, notification=notification_data)
+        # The adapt_ai_plan now returns a tuple (FullPlan, dict, dict)
+        full_plan, _, _ = await adapt_ai_plan(user_id_str, user_preferences, [], [])
+        notification_data = NotificationCreate(title="New plan ready", message="Your new weekly plan is ready!", link="/dashboard")
+        # crud_notification.create_notification is synchronous
+        crud_notification.create_notification(user_id=current_user.id, notification=notification_data)
         response.status_code = status.HTTP_201_CREATED
         return full_plan
     except ValueError as e:
         print(f"Plan generation failed (likely missing API key): {e}. Using fallback plan.")
-        # Use fallback plan and persist it
         full_plan = FALLBACK_FULL_PLAN
         try:
+            # These create plan functions are now assumed to be synchronous based on recent changes
             create_workout_plan(user_id_str, full_plan.workout_plan.model_dump())
             create_meal_plan(user_id_str, full_plan.meal_plan.model_dump())
-            # Create a notification
-            notification_data = NotificationCreate(title="New plan ready", message="Your new weekly plan is ready!")
-            await crud_notification.create_notification(user_id=current_user.id, notification=notification_data)
-            response.status_code = status.HTTP_200_OK # Fallback is a successful return
+            notification_data = NotificationCreate(title="New plan ready", message="A fallback plan has been generated for you.", link="/dashboard")
+            # crud_notification.create_notification is synchronous
+            crud_notification.create_notification(user_id=current_user.id, notification=notification_data)
+            response.status_code = status.HTTP_200_OK
             return full_plan
         except (SupabaseDatabaseError, APIError) as db_e:
             raise HTTPException(
@@ -125,10 +126,11 @@ async def adapt_plan(
         meal_logs = await crud_meal_log.get_meal_logs_last_7_days(user_id=UUID(current_user.id))
         workout_logs = await crud_workout_log.get_workout_logs_last_7_days(user_id=UUID(current_user.id))
 
-        full_plan = await adapt_ai_plan(str(current_user.id), user_preferences, meal_logs, workout_logs)
-        # Create a notification
-        notification_data = NotificationCreate(title="Your plan has been adapted", message="Your new weekly plan has been adapted to your progress!")
-        await crud_notification.create_notification(user_id=current_user.id, notification=notification_data)
+        # The adapt_ai_plan now returns a tuple (FullPlan, dict, dict)
+        full_plan, _, _ = await adapt_ai_plan(str(current_user.id), user_preferences, meal_logs, workout_logs)
+        notification_data = NotificationCreate(title="Your plan has been adapted", message="Your new weekly plan has been adapted to your progress!", link="/dashboard")
+        # crud_notification.create_notification is synchronous
+        crud_notification.create_notification(user_id=current_user.id, notification=notification_data)
         return full_plan
     except ValueError as e:
         raise HTTPException(
