@@ -5,6 +5,7 @@ import MealLoggingCard from '../meals/MealLoggingCard'; // Import MealLoggingCar
 import { createClient } from '@/lib/supabase/client';
 import API_BASE_URL from '@/lib/api'; // Import the API base URL
 import ProgressChart from './components/ProgressChart'; // Import ProgressChart
+import DayNavigator from '@/components/dashboard/DayNavigator'; // Import DayNavigator
 
 // Helper to get today's day name (e.g., "Monday") - Moved outside the component
 const getTodayDayName = () => {
@@ -99,6 +100,8 @@ export default function DashboardPage() {
   const [progressData, setProgressData] = useState<ProgressData | null>(null);
   const [progressLoading, setProgressLoading] = useState<boolean>(true);
   const [progressError, setProgressError] = useState<string | null>(null);
+  const [selectedDay, setSelectedDay] = useState<string>(getTodayDayName()); // New state for day selection
+
 
   const supabase = createClient();
 
@@ -177,7 +180,12 @@ export default function DashboardPage() {
     return () => {
       authListener?.subscription.unsubscribe();
     };
-  }, [supabase.auth]); 
+  }, [supabase.auth]);
+
+  // Handle day selection change
+  const handleDayChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedDay(event.target.value);
+  };
 
   if (loading || progressLoading) {
     return (
@@ -205,29 +213,43 @@ export default function DashboardPage() {
     );
     }
   
-    const todayRawDayName = getTodayDayName();
-    const canonicalTodayDayName = canonicalizeDay(todayRawDayName);
+    const canonicalSelectedDayName = canonicalizeDay(selectedDay);
   
     let displayWorkout = plan.workout_plan.plan.find(
-      (dw) => canonicalizeDay(dw.day) === canonicalTodayDayName
+      (dw) => canonicalizeDay(dw.day) === canonicalSelectedDayName
     );
     let displayMeals = plan.meal_plan.plan.filter(
-      (dm) => canonicalizeDay(dm.day) === canonicalTodayDayName
+      (dm) => canonicalizeDay(dm.day) === canonicalSelectedDayName
     );
   
-    let displayedDayName = todayRawDayName; // Default to today's raw day name
+    let displayedDayName = selectedDay; // Use selected day
   
-    // Fallback logic: if today has no workout AND no meals, find the first day with content
+    // Fallback logic: if selected day has no content, find the first day with content
     if ((!displayWorkout || displayWorkout.exercises.length === 0) && displayMeals.length === 0) {
-      for (const dayPlan of plan.workout_plan.plan) {
-        const correspondingMeals = plan.meal_plan.plan.filter(
-          (dm) => canonicalizeDay(dm.day) === canonicalizeDay(dayPlan.day)
-        );
-        if (dayPlan.exercises.length > 0 || correspondingMeals.length > 0) {
-          displayWorkout = dayPlan;
-          displayMeals = correspondingMeals;
-          displayedDayName = dayPlan.day;
-          break;
+      // First, check if there's any content for the original today's date, if different from selected
+      const canonicalTodayDayName = canonicalizeDay(getTodayDayName());
+      if (canonicalSelectedDayName !== canonicalTodayDayName) {
+        const todayWorkout = plan.workout_plan.plan.find((dw) => canonicalizeDay(dw.day) === canonicalTodayDayName);
+        const todayMeals = plan.meal_plan.plan.filter((dm) => canonicalizeDay(dm.day) === canonicalTodayDayName);
+        if (todayWorkout || todayMeals.length > 0) {
+          displayWorkout = todayWorkout;
+          displayMeals = todayMeals;
+          displayedDayName = getTodayDayName();
+        }
+      }
+
+      // If still no content, iterate through the whole plan to find the first available day
+      if ((!displayWorkout || displayWorkout.exercises.length === 0) && displayMeals.length === 0) {
+        for (const dayPlan of plan.workout_plan.plan) {
+          const correspondingMeals = plan.meal_plan.plan.filter(
+            (dm) => canonicalizeDay(dm.day) === canonicalizeDay(dayPlan.day)
+          );
+          if (dayPlan.exercises.length > 0 || correspondingMeals.length > 0) {
+            displayWorkout = dayPlan;
+            displayMeals = correspondingMeals;
+            displayedDayName = dayPlan.day;
+            break;
+          }
         }
       }
     }
@@ -382,8 +404,11 @@ export default function DashboardPage() {
   
     return (
       <div className="container mx-auto p-4">
-        <h2 className="text-3xl font-bold mb-6 text-center">Your Daily Plan - {displayedDayName}</h2>
+        <h2 className="text-3xl font-bold mb-2 text-center">Your Daily Plan - {displayedDayName}</h2>
   
+        {/* Day Selector */}
+        <DayNavigator selectedDay={selectedDay} onDayChange={handleDayChange} />
+
         {/* Progress Chart */}
         {progressData && (
           <div className="mb-8">
@@ -468,14 +493,14 @@ export default function DashboardPage() {
             </div>
           ) : (
             <div className="text-center">
-              <p className="text-gray-400 text-lg mb-4">No workout planned for {displayedDayName}. Enjoy your rest!</p>
+              Rest day (planned). Light recovery or a walk is recommended.
               {workoutStatus === 'pending' && (
                   <button
                       onClick={handleSkipWorkout}
                       disabled={workoutLoading}
                       className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors w-full"
                     >
-                      Mark Rest Day as Skipped
+                      Log rest day
                     </button>
               )}
               {workoutStatus === 'skipped' && (
@@ -489,7 +514,29 @@ export default function DashboardPage() {
         <section className="p-6 bg-gray-800 rounded-lg shadow-lg">
           <h3 className="text-2xl font-semibold mb-4 border-b border-gray-700 pb-2">Meals</h3>
                                   {displayMeals.length > 0 ? (
-                                    <div className="space-y-6">
+                                    <div className="space-y-6 mb-6"> {/* Added margin-bottom here */}
+                                      {['Breakfast', 'Lunch', 'Dinner'].map((mealType) => {
+                                        const mealsForType = displayMeals.filter(
+                                          (meal) => meal.meal_type === mealType
+                                        );
+                                        if (mealsForType.length === 0) return null;
+
+                                        return (
+                                          <div key={mealType} className="mb-4">
+                                            <h4 className="text-xl font-semibold mb-2 text-blue-300">{mealType}</h4>
+                                            <ul className="list-disc list-inside ml-4 space-y-1">
+                                              {mealsForType.map((meal) =>
+                                                meal.items.map((item, itemIndex) => (
+                                                  <li key={itemIndex} className="text-gray-300">
+                                                    {item.name} {item.calories && `(${item.calories} kcal)`}
+                                                  </li>
+                                                ))
+                                              )}
+                                            </ul>
+                                          </div>
+                                        );
+                                      })}
+
                                       {accessToken &&
                                         displayMeals.map((meal, mealIndex) => (
                                           <MealLoggingCard
