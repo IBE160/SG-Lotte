@@ -54,32 +54,27 @@ def update_profile(
             detail="Could not validate credentials",
         )
     
-    # --- TEMPORARY DIAGNOSTIC ---
-    # Bypass database call to isolate the issue.
-    # If this works, the problem is 100% in the update_user_profile function.
-    print(f"DIAGNOSTIC: Bypassing database call. Returning received data for user {current_user.id}")
-    return profile_data
-    # --- END TEMPORARY DIAGNOSTIC ---
+    user_id = str(current_user.id) # Define user_id here
 
-    # try:
-    #     updated_profile = update_user_profile(user_id, profile_data)
+    try:
+        updated_profile = update_user_profile(user_id, profile_data)
         
-    #     if updated_profile is None:
-    #         raise HTTPException(
-    #             status_code=status.HTTP_404_NOT_FOUND, 
-    #             detail="User profile not found or could not be updated."
-    #         )
+        if updated_profile is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, 
+                detail="User profile not found or could not be updated."
+            )
         
-    #     return updated_profile
+        return updated_profile
 
-    # except SupabaseDatabaseError as e:
-    #     raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database Error: {e.detail}")
-    # except APIError as e:
-    #     raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Supabase API Error: {e.message}")
-    # except Exception as e:
-    #     # This is a catch-all for any other unexpected errors.
-    #     print(f"UNEXPECTED ERROR in update_profile: {type(e).__name__} - {e}")
-    #     raise HTTPException(
-    #         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-    #         detail=f"An unexpected server error occurred: {str(e)}"
-    #     )
+    except SupabaseDatabaseError as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database Error: {e.detail}")
+    except APIError as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Supabase API Error: {e.message}")
+    except Exception as e:
+        # This is a catch-all for any other unexpected errors.
+        print(f"UNEXPECTED ERROR in update_profile: {type(e).__name__} - {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"An unexpected server error occurred: {str(e)}"
+        )
