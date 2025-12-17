@@ -1,0 +1,61 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>3</storyId>
+    <title>Account Management</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-17</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>c:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\3-3-account-management.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>an engaged user</asA>
+    <iWant>options to change my password or delete my account from the settings page</iWant>
+    <soThat>I have full control over my account</soThat>
+    <tasks>
+      - Task 1 (AC: #1): Implement UI on the settings page for "Change Password".
+      - Task 2 (AC: #1): Create form with fields for old password, new password, and confirm new password.
+      - Task 3 (AC: #1): Add client-side validation for password fields.
+      - Task 4 (AC: #1): Call the backend API to securely change the password.
+      - Task 5 (AC: #2): Implement UI on the settings page for "Delete Account".
+      - Task 6 (AC: #2): Create a confirmation modal to prevent accidental deletion.
+      - Task 7 (AC: #2): Call the backend API to delete the user account upon confirmation.
+      - Task 15 (AC: #3): Implement UI on the settings page for "Change Email Address".
+      - Task 16 (AC: #3): Create form with fields for new email and confirmation.
+      - Task 17 (AC: #3): Add client-side validation for email fields.
+      - Task 18 (AC: #3): Call the backend API to initiate email change and handle verification flow.
+      - Task 8 (AC: #1): Create an API endpoint (e.g., `POST /api/v1/users/me/change-password`) to handle password changes.
+      - Task 9 (AC: #1): Integrate with Supabase Auth to securely update the user's password.
+      - Task 10 (AC: #2): Create an API endpoint (e.g., `DELETE /api/v1/users/me`) to handle account deletion.
+      - Task 11 (AC: #2): Implement logic to delete the user from Supabase Auth and cascade delete all associated user data from the database.
+      - Task 19 (AC: #3): Create an API endpoint (e.g., `POST /api/v1/users/me/change-email`) to handle email change requests.
+      - Task 20 (AC: #3): Integrate with Supabase Auth to securely update the user's email and manage the verification process (e.g., sending confirmation links).
+      - Task 12 (AC: #1): Write tests for the change password functionality (frontend and backend).
+      - Task 13 (AC: #2): Write tests for the account deletion functionality (frontend and backend).
+      - Task 14 (AC: #1, #2): Perform manual E2E testing of both features.
+      - Task 21 (AC: #3): Write tests for the change email functionality (frontend and backend).
+      - Task 22 (AC: #3): Perform manual E2E testing of the email change and verification flow.
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    1.  **Given** I am on the settings page, **When** I select "Change Password", **Then** I am prompted to enter my old and new passwords and my password is updated securely via Supabase Auth.
+    2.  **Given** I am on the settings page, **When** I select "Delete Account", **Then** I am prompted for confirmation and my account and associated data are securely deleted from the system.
+    3.  **Given** I am on the settings page, **When** I change my email address, **Then** the new email is updated after successful verification (e.g., via a confirmation link sent to the new email).
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>{{docs_artifacts}}</docs>
+    <code>{{code_artifacts}}</code>
+    <dependencies>{{dependencies_artifacts}}</dependencies>
+  </artifacts>
+
+  <constraints>{{constraints}}</constraints>
+  <interfaces>{{interfaces}}</interfaces>
+  <tests>
+    <standards>{{test_standards}}</standards>
+    <locations>{{test_locations}}</locations>
+    <ideas>{{test_ideas}}</ideas>
+  </tests>
+</story-context>

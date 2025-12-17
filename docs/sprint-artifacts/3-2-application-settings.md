@@ -121,8 +121,16 @@ Gemini CLI
 ### Debug Log References
 
 ### Completion Notes
+- Implemented the settings page UI, allowing users to manage dark mode and notification preferences.
+- Extended the backend user profile endpoint to handle the storage and retrieval of these settings.
+- The `app_settings` JSONB field in the `user_profiles` table is now used to store these preferences.
 
 ### File List
+- **NEW**: `frontend/src/app/(dashboard)/settings/page.tsx`
+- **MODIFIED**: `backend/app/api/v1/endpoints/users.py`
+- **MODIFIED**: `backend/app/schemas/user.py`
+- **MODIFIED**: `backend/app/crud/user.py`
+
 
 ## Change Log
 
