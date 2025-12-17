@@ -1,12 +1,44 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.schemas.user import UserProfileUpdate
-from app.crud.user import update_user_profile
+from app.crud.user import update_user_profile, get_user_profile_by_id
 from app.api.v1.deps import get_current_user
 from app.schemas.user import User
 from app.core.exceptions import SupabaseDatabaseError
 from postgrest.exceptions import APIError # Import APIError
 
 router = APIRouter()
+
+@router.get("/profile/", response_model=UserProfileUpdate)
+def read_profile(
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Retrieve the authenticated user's profile.
+    """
+    if not current_user or not current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+        )
+    
+    try:
+        user_profile = get_user_profile_by_id(str(current_user.id))
+        
+        if user_profile is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User profile not found."
+            )
+        
+        return user_profile
+    except SupabaseDatabaseError as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database Error: {e.detail}")
+    except Exception as e:
+        print(f"UNEXPECTED ERROR in read_profile: {type(e).__name__} - {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"An unexpected server error occurred: {str(e)}"
+        )
 
 @router.put("/profile/", response_model=UserProfileUpdate)
 def update_profile(

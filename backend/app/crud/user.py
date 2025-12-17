@@ -26,3 +26,24 @@ def update_user_profile(user_id: str, profile_data: UserProfileUpdate):
         raise SupabaseDatabaseError(detail=e.message)
     except Exception as e:
         raise SupabaseDatabaseError(detail=str(e))
+
+def get_user_profile_by_id(user_id: str):
+    """
+    Fetches the user profile from Supabase by user ID.
+    """
+    try:
+        response = supabase.table("user_profiles").select("*").eq("id", user_id).single().execute()
+        
+        if not response.data:
+            return None # Profile not found
+        
+        # Supabase returns data as a dict, we can validate it against the Pydantic model
+        return UserProfileUpdate(**response.data)
+            
+    except APIError as e:
+        if "PGRSTCTL_NOT_FOUND" in e.message: # Supabase specific "not found" error
+            return None
+        raise SupabaseDatabaseError(detail=e.message)
+    except Exception as e:
+        raise SupabaseDatabaseError(detail=str(e))
+
