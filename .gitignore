@@ -1,5 +1,4 @@
 # Logs
-.logging/requests/
 backend/.env
 
 # Python cache
