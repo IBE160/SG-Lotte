@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from app.schemas.user import UserProfileUpdate
+from app.schemas.user import UserProfileUpdate, UserProfileGetResponse
 from app.crud.user import update_user_profile, get_user_profile_by_id
 from app.api.v1.deps import get_current_user
 from app.schemas.user import User
@@ -8,7 +8,7 @@ from postgrest.exceptions import APIError # Import APIError
 
 router = APIRouter()
 
-@router.get("/profile/", response_model=UserProfileUpdate)
+@router.get("/profile/", response_model=UserProfileGetResponse)
 def read_profile(
     current_user: User = Depends(get_current_user)
 ):
@@ -26,9 +26,11 @@ def read_profile(
         
         if user_profile is None:
             # Return an empty UserProfileUpdate object if no profile is found
-            return UserProfileUpdate() 
+            # and add the user's ID
+            return UserProfileGetResponse(id=current_user.id) 
         
-        return user_profile
+        # If profile exists, create UserProfileGetResponse from it
+        return UserProfileGetResponse(**user_profile.model_dump(), id=current_user.id)
     except SupabaseDatabaseError as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database Error: {e.detail}")
     except Exception as e:
