@@ -11,6 +11,20 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null); // State to hold the user object
 
+  // Helper function to get authorization headers
+  const getAuthHeaders = async () => {
+    const supabase = createClient();
+    const session = await supabase.auth.getSession();
+    const token = session.data.session?.access_token;
+
+    if (!token) {
+      throw new Error("Authentication token missing. Please log in.");
+    }
+    return {
+      'Authorization': `Bearer ${token}`
+    };
+  };
+
   useEffect(() => {
     async function getUserAndProfile() {
       const supabase = createClient();
@@ -27,11 +41,9 @@ export default function ProfilePage() {
 
       if (user) {
         try {
-          // Adjust this fetch to use the user's ID if necessary, or ensure the backend handles 'me' correctly with auth.
-          const response = await fetch("/api/v1/users/profile", {
-            headers: {
-              'Authorization': `Bearer ${await supabase.auth.getSession().then(res => res.data.session?.access_token)}`
-            }
+          const headers = await getAuthHeaders(); // Get auth headers
+          const response = await fetch("/api/v1/users/profile/", { // Added trailing slash
+            headers: headers
           });
           if (!response.ok) {
             throw new Error("Failed to fetch profile");
@@ -60,13 +72,14 @@ export default function ProfilePage() {
       setError("No user logged in to save profile.");
       return;
     }
-    const supabase = createClient();
+    
     try {
-      const response = await fetch("/api/v1/users/profile", {
+      const authHeaders = await getAuthHeaders(); // Get auth headers
+      const response = await fetch("/api/v1/users/profile/", { // Added trailing slash
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': `Bearer ${await supabase.auth.getSession().then(res => res.data.session?.access_token)}`
+          ...authHeaders, // Merge auth headers
         },
         body: JSON.stringify({
           fitness_goal: fitnessGoal,
