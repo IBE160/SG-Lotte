@@ -46,7 +46,8 @@ so that I can customize my experience.
 * **Value Statement:** As an engaged user, I can manage my account, view my achievements, and handle interruptions to my plan, so the application feels tailored to my life.
 * **High-level scope:** A comprehensive user profile page, a detailed settings page for app and notification preferences, account management functionalities (change password, delete account), and UI for pausing or adjusting plans due to life events.
 
-**Acceptance Criteria (from Epics.md):**
+**Acceptance Criteria (from Tech Spec Epic 3):**
+* [Source: docs/sprint-artifacts/tech-spec-epic-3.md#Acceptance-Criteria]
 
 * **Given** I navigate to the settings page
 * **When** the page loads
@@ -90,13 +91,21 @@ so that I can customize my experience.
 * **Data Handling:** Ensure defensive handling of optional or missing user preferences on the UI. Validate changes against backend state as the source of truth.
 * **Scope:** Keep changes minimal and focused on application settings to avoid regressions.
 
+### Standards & Quality Notes
+
+- Frontend implementation follows project React + Tailwind conventions.
+- Backend changes follow FastAPI and Pydantic validation patterns.
+- Testing aligns with project test strategy (unit + integration where applicable).
+[Source: docs/architecture-2025-11-30.md#Testing-Strategy]
+
 ### References
 
-* [Source: docs/PRD.md] - For functional requirements and overall product vision.
-* [Source: docs/epics.md] - For Epic 3 details and story breakdown.
-* [Source: docs/architecture-2025-11-30.md] - For architectural constraints, patterns, and testing strategy.
-* [Source: docs/ux-design-specification.md] - For UX design guidelines.
-* [Source: docs/sprint-artifacts/3-1-user-profile-page.md] - For learnings from the previous story.
+* [Source: docs/PRD.md#Functional-Requirements] - For functional requirements and overall product vision.
+* [Source: docs/epics.md#Epic-3:-User-Control-&-Personalization] - For Epic 3 details and story breakdown.
+* [Source: docs/architecture-2025-11-30.md#Implementation-Patterns] - For architectural constraints, patterns, and testing strategy.
+* [Source: docs/sprint-artifacts/tech-spec-epic-3.md#Acceptance-Criteria] - For Epic 3 technical specifications and authoritative acceptance criteria.
+* [Source: docs/ux-design-specification.md#4.-Design-System-and-Implementation-Guidelines] - For UX design guidelines.
+* [Source: docs/sprint-artifacts/3-1-user-profile-page.md#Dev-Notes] - For learnings from the previous story.
 
 ## Dev Agent Record
 
