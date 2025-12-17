@@ -25,10 +25,8 @@ def read_profile(
         user_profile = get_user_profile_by_id(str(current_user.id))
         
         if user_profile is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="User profile not found."
-            )
+            # Return an empty UserProfileUpdate object if no profile is found
+            return UserProfileUpdate() 
         
         return user_profile
     except SupabaseDatabaseError as e:
