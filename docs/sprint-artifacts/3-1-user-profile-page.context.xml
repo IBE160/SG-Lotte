@@ -1,0 +1,205 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>1</storyId>
+    <title>User Profile Page</title>
+    <status>drafted</status>
+    <generatedAt>onsdag 17. desember 2025</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>C:\IT_studier\IBE160_Programmering_med_KI\Prosjektmappe\Prosjekt\SG-Lotte\docs\sprint-artifacts\3-1-user-profile-page.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>an engaged user,</asA>
+    <iWant>a dedicated profile page to view and update my personal fitness information,</iWant>
+    <soThat>I have a central place to manage my identity and goals.</soThat>
+    <tasks>
+      <task-group name="Development">
+        <task id="Task 1" ac-ref="1">Create profile page route under `frontend/src/app/(dashboard)/profile/page.tsx`</task>
+        <task id="Task 2" ac-ref="1">Fetch current user profile data from backend API</task>
+        <task id="Task 3" ac-ref="2, 3">Render editable form for fitness goal and dietary preferences</task>
+        <task id="Task 4" ac-ref="2, 3">Implement save functionality with success/error feedback</task>
+      </task-group>
+      <task-group name="Backend">
+        <task id="Task 5" ac-ref="2, 3">Verify existing endpoint `PUT /api/v1/users/me/profile`</task>
+        <task id="Task 6" ac-ref="2, 3">Ensure updates persist to `public.user_profiles`</task>
+        <task id="Task 7" ac-ref="2, 3">Validate incoming payload</task>
+      </task-group>
+      <task-group name="Testing">
+        <task id="Task 8" ac-ref="1">Verify profile page renders with existing data</task>
+        <task id="Task 9" ac-ref="2, 3">Verify updates persist after page reload</task>
+        <task id="Task 10" ac-ref="2, 3">Verify invalid input is rejected gracefully</task>
+      </task-group>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="1">
+      <given>I navigate to the profile page</given>
+      <when>the page loads</when>
+      <then>I can view my primary fitness goal and dietary preferences.</then>
+      <source>docs/sprint-artifacts/tech-spec-epic-3.md#Acceptance-Criteria</source>
+    </criterion>
+    <criterion id="2">
+      <given>I update my primary fitness goal</given>
+      <when>I save the changes</when>
+      <then>the updated goal is persisted to my user profile and visible after reload.</then>
+      <source>docs/sprint-artifacts/tech-spec-epic-3.md#Acceptance-Criteria</source>
+    </criterion>
+    <criterion id="3">
+      <given>I update my dietary preferences</given>
+      <when>I save the changes</when>
+      <then>the updated preferences are persisted to my user profile and visible after reload.</then>
+      <source>docs/sprint-artifacts/tech-spec-epic-3.md#Acceptance-Criteria</source>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+<docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-001: User Authentication &amp; Profile Management</section>
+        <snippet>The system shall allow users to securely register, log in, and manage their core profile information. Users can edit their primary fitness goal and core dietary preference.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Overview</section>
+        <snippet>Epic 3, "User Control &amp; Personalization," focuses on enhancing the user's ability to manage their account, view personal achievements, and handle plan interruptions. This includes features like a dedicated profile page, comprehensive settings, and account management functionalities.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Detailed Design - Frontend Components</section>
+        <snippet>Frontend Components (`src/app/(dashboard)/profile/`, `src/app/(dashboard)/settings/`): Responsibilities: Display user profile, allow updates to personal info, manage application settings, handle account management, UI for plan interruption.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>Detailed Design - Backend API Endpoints</section>
+        <snippet>Backend API Endpoints (`app/api/v1/endpoints/users.py`, new endpoints for settings and plan interruption): Responsibilities: Handle user profile updates, manage application settings, process password changes and account deletions, record plan interruptions.</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: User Control &amp; Personalization</title>
+        <section>APIs and Interfaces</section>
+        <snippet>All API endpoints will be versioned under `/api/v1/` and will handle authentication via JWTs issued by Supabase Auth. Includes `PUT /api/v1/users/me/profile` for profile updates.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Structure</section>
+        <snippet>Outlines the project directory structure, including `backend/app/api/v1/endpoints/users.py` and `frontend/src/app/(dashboard)/profile/`.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Epic to Architecture Mapping</section>
+        <snippet>Maps Epic 3: User Control &amp; Personalization to architectural boundaries: Backend `app/api/v1/endpoints/users.py` (Profile Management) and Frontend `src/app/(dashboard)/profile/`, `src/app/(dashboard)/settings/` (Profile &amp; Settings UI).</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification</title>
+        <section>Flow 6, 7, &amp; 8: Profile, Account, and History</section>
+        <snippet>Standard user account management and history review is well-supported and aligns with best practices. References `profilepage_dark.html`.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>backend/app/schemas/user.py</path>
+        <kind>Pydantic Schema</kind>
+        <symbol>UserProfileUpdate</symbol>
+        <reason>Defines the data structure for updating user profiles.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/crud/user.py</path>
+        <kind>CRUD Function</kind>
+        <symbol>update_user_profile</symbol>
+        <reason>Handles the logic for creating/updating user profile data in Supabase.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+        <kind>FastAPI Endpoint</kind>
+        <symbol>update_profile</symbol>
+        <reason>Exposes the API endpoint for updating user profiles.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/app/(auth)/onboarding/page.tsx</path>
+        <kind>Next.js Page</kind>
+        <reason>Sends user profile data to the backend during onboarding.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/lib/supabase/client.ts</path>
+        <kind>Supabase Client Utility</kind>
+        <reason>Initializes the Supabase client for frontend authentication.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/app/(dashboard)/profile/page.tsx</path>
+        <kind>Next.js Page</kind>
+        <reason>Expected location for the user profile page UI.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package name="next" version="16.0.8" />
+        <package name="react" version="19.2.1" />
+        <package name="react-dom" version="19.2.1" />
+        <package name="@supabase/ssr" version="0.8.0" />
+        <package name="@supabase/supabase-js" version="2.87.1" />
+        <package name="tailwindcss" version="^4" />
+        <package name="typescript" version="^5" />
+        <package name="jest" version="^30.2.0" />
+      </ecosystem>
+      <ecosystem name="Python">
+        <package name="fastapi" />
+        <package name="uvicorn" />
+        <package name="supabase" />
+        <package name="pydantic-settings" />
+        <package name="pydantic-ai" />
+        <package name="google-generativeai" />
+        <package name="pytest" />
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Authentication: All profile update operations require an authenticated user with a valid JWT from Supabase Auth.</constraint>
+    <constraint>Data Validation: Frontend payload for profile updates must conform to the `UserProfileUpdate` Pydantic schema defined in `backend/app/schemas/user.py`.</constraint>
+    <constraint>Database Interaction: User profile data is persisted in Supabase. The `update_user_profile` function in `backend/app/crud/user.py` is responsible for these operations, targeting the `user_profiles` table (as per `tech-spec-epic-3.md`) or `users` table (as per `crud/user.py` implementation).</constraint>
+    <constraint>Frontend Routing: The user profile page is located at `frontend/src/app/(dashboard)/profile/`.</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Update User Profile API</name>
+      <kind>REST Endpoint</kind>
+      <signature>PUT /api/v1/users/profile/</signature>
+      <path>backend/app/api/v1/endpoints/users.py</path>
+      <details>
+        <request_body>UserProfileUpdate (JSON)</request_body>
+        <response>200 OK, UserProfileUpdate (JSON)</response>
+        <authentication>Bearer Token (Supabase JWT)</authentication>
+      </details>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>
+      <standard>Backend tests use Pytest for unit and integration testing of API endpoints, mocking Supabase interactions where appropriate.</standard>
+      <standard>Frontend tests use React Testing Library with Jest for UI components and integration tests.</standard>
+      <standard>All acceptance criteria will be covered by at least one test case.</standard>
+      <standard>E2E tests (Playwright/Cypress) are a future consideration for post-MVP.</standard>
+    </standards>
+    <locations>
+      <location>Backend Unit/Integration Tests: `backend/tests/`</location>
+      <location>Frontend Component/Integration Tests: Co-located with components in `__tests__` subdirectories (e.g., `frontend/src/app/(auth)/onboarding/__tests__/page.test.tsx`)</location>
+      <location>E2E Tests: `frontend/e2e/__tests__/` (future)</location>
+    </locations>
+    <ideas>
+      <idea ac-id="1">Verify profile page renders with existing data.</idea>
+      <idea ac-id="2, 3">Verify updates to fitness goal and dietary preferences persist after page reload.</idea>
+      <idea ac-id="2, 3">Verify invalid input for profile updates is rejected gracefully by the API.</idea>
+      <idea ac-id="1">Verify UI allows updates to fitness goal/dietary preferences, API call succeeds, and database reflects changes.</idea>
+      <idea ac-id="4">Verify navigation to the dedicated profile page and display of current user data.</idea>
+    </ideas>
+  </tests>
+</story-context>

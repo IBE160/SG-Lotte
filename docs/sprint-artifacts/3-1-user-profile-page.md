@@ -3,7 +3,9 @@
 
 ## Status
 
-drafted
+ready-for-dev
+
+---
 
 ## Story
 
@@ -94,7 +96,7 @@ So I have a central place to manage my identity and goals.
 
 ### Context Reference
 
-(To be populated by context workflow)
+- docs/sprint-artifacts/3-1-user-profile-page.context.xml
 
 ### Agent Model Used
 
