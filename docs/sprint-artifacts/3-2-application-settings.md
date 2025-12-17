@@ -95,7 +95,8 @@ so that I can customize my experience.
 
 - Frontend implementation follows project React + Tailwind conventions.
 - Backend changes follow FastAPI and Pydantic validation patterns.
-- Testing aligns with project test strategy (unit + integration where applicable).
+- The overall implementation will adhere to the architectural guidelines and testing strategy.
+[Source: docs/architecture-2025-11-30.md#Implementation-Patterns]
 [Source: docs/architecture-2025-11-30.md#Testing-Strategy]
 
 ### References
