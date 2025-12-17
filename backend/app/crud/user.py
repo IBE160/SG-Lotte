@@ -32,7 +32,7 @@ def get_user_profile_by_id(user_id: str):
     Fetches the user profile from Supabase by user ID.
     """
     try:
-        response = supabase.table("user_profiles").select("*").eq("id", user_id).single().execute()
+        response = supabase.table("user_profiles").select("*").eq("id", user_id).maybe_single().execute()
         
         if not response.data:
             return None # Profile not found

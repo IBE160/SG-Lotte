@@ -27,7 +27,7 @@ def read_profile(
         if user_profile is None:
             # Return an empty UserProfileUpdate object if no profile is found
             # and add the user's ID
-            return UserProfileGetResponse(id=current_user.id) 
+            return UserProfileGetResponse(id=current_user.id, fitness_goal="", dietary_preference="") 
         
         # If profile exists, create UserProfileGetResponse from it
         return UserProfileGetResponse(**user_profile.model_dump(), id=current_user.id)
