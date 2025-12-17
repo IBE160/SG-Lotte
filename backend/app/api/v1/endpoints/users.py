@@ -22,15 +22,30 @@ def read_profile(
         )
     
     try:
-        user_profile = get_user_profile_by_id(str(current_user.id))
+        user_profile_data = get_user_profile_by_id(str(current_user.id))
         
-        if user_profile is None:
-            # Return an empty UserProfileUpdate object if no profile is found
-            # and add the user's ID
-            return UserProfileGetResponse(id=current_user.id, fitness_goal="", dietary_preference="") 
+        # Default settings
+        default_settings = {"dark_mode": False, "notifications_enabled": True}
+
+        if user_profile_data is None:
+            # Profile doesn't exist, return a default response
+            return UserProfileGetResponse(
+                id=current_user.id,
+                fitness_goal="",
+                dietary_preference="",
+                fitness_persona="",
+                app_settings=default_settings
+            )
         
-        # If profile exists, create UserProfileGetResponse from it
-        return UserProfileGetResponse(**user_profile.model_dump(), id=current_user.id)
+        # Profile exists, ensure app_settings are present
+        # If app_settings is None or missing from the db record, merge with defaults
+        if 'app_settings' not in user_profile_data or user_profile_data['app_settings'] is None:
+            user_profile_data['app_settings'] = default_settings
+        else:
+            # If app_settings exists, merge it with defaults to add any missing keys
+            user_profile_data['app_settings'] = {**default_settings, **user_profile_data['app_settings']}
+
+        return UserProfileGetResponse(**user_profile_data)
     except SupabaseDatabaseError as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Database Error: {e.detail}")
     except Exception as e:
