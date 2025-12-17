@@ -1,0 +1,239 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>3.2</storyId>
+    <title>Application Settings</title>
+    <status>drafted</status>
+    <generatedAt>onsdag 17. desember 2025</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-2-application-settings.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>an engaged user,</asA>
+    <iWant>a settings page to manage application preferences,</iWant>
+    <soThat>I can customize my experience.</soThat>
+    <tasks>
+      **Frontend Development:**
+
+      *   [ ] **Task 1 (AC: #1):** Create settings page route and component (`frontend/src/app/(dashboard)/settings/page.tsx`).
+      *   [ ] **Task 2 (AC: #1):** Implement UI for dark mode toggle and notification preferences, utilizing existing component library (if available) and Tailwind CSS.
+      *   [ ] **Task 3 (AC: #1, #2):** Fetch current user settings from the backend API upon page load.
+      *   [ ] **Task 4 (AC: #2):** Implement client-side logic to update settings and send changes to the backend API.
+      *   [ ] **Task 5 (AC: #2):** Provide immediate visual feedback for successful setting changes (e.g., toast notification, theme update).
+
+      **Backend Development:**
+
+      *   [ ] **Task 6 (AC: #1, #2):** Create/Extend API endpoint (`PUT /api/v1/users/me/settings`) to retrieve and update user application settings (dark mode, notification preferences).
+      *   [ ] **Task 7 (AC: #2):** Implement logic to persist updated settings to the database (e.g., `public.user_profiles` or a new `public.user_settings` table).
+      *   [ ] **Task 8 (AC: #2):** Implement server-side validation for incoming settings data.
+
+      **Testing:**
+
+      *   [ ] **Task 9 (AC: #1):** Write unit/integration tests for frontend settings component using `React Testing Library` and `Jest` to verify rendering of options.
+      *   [ ] **Task 10 (AC: #1, #2):** Write unit/integration tests for backend API endpoint using `Pytest` to verify setting retrieval and updates, including validation.
+      *   [ ] **Task 11 (AC: #2):** Perform manual end-to-end testing to confirm settings changes are applied correctly in the UI and persisted in the database.
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    1. **Given** I navigate to the settings page, **When** the page loads, **Then** I see options to manage dark mode and notification preferences.
+    2. **Given** I change a setting (e.g., dark mode toggle, notification preference), **When** I save the changes, **Then** the updated setting is persisted to my user profile/settings and applied immediately (e.g., UI theme changes, notification behavior is updated).
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>Functional Requirements</section>
+        <snippet>FR-001: User Authentication &amp; Profile Management. The system shall allow users to securely register, log in, and manage their core profile information.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>ibe160 - Product Requirements Document</title>
+        <section>Functional Requirements</section>
+        <snippet>FR-007: Notifications. The system shall notify users when their new weekly plans are ready.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Executive Summary</section>
+        <snippet>This document outlines the architecture for the AI Fitness &amp; Meal Planner, a web application designed for AI-driven personalization.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Project Structure</section>
+        <snippet>Frontend: frontend/src/app/(dashboard)/settings/, Backend: backend/app/api/v1/endpoints/users.py</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Implementation Patterns</section>
+        <snippet>API Endpoints: Plural nouns and kebab-case; Frontend Components: PascalCase; Testing: Pytest, React Testing Library with Jest.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Epic to Architecture Mapping</section>
+        <snippet>Epic 3: User Control &amp; Personalization maps to backend/app/api/v1/endpoints/users.py, frontend/src/app/(dashboard)/profile/, frontend/src/app/(dashboard)/settings/.</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>User Flow and Wireframe Specification</section>
+        <snippet>Flow 6, 7, &amp; 8: Profile, Account, and History. Supporting Wireframes: settings_dark.html</snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>AI Fitness &amp; Meal Planner - UX Design Specification (Rev. 2)</title>
+        <section>Design System and Implementation Guidelines</section>
+        <snippet>All visual and interactive aspects of the application MUST adhere to the detailed specifications outlined in the official Design System Specification.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Epic 3: User Control &amp; Personalization</section>
+        <snippet>Value Statement: As an engaged user, I can manage my account, view my achievements, and handle interruptions to my plan, so the application feels tailored to my life. High-level scope: A comprehensive user profile page, a detailed settings page for app and notification preferences, account management functionalities, and UI for pausing or adjusting plans due to life events.</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Story 3.2: Application Settings</section>
+        <snippet>As an engaged user, I want a settings page to manage application preferences, So I can customize my experience.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+        <kind>endpoint</kind>
+        <symbol>read_profile</symbol>
+        <reason>Existing endpoint for retrieving user profile, potentially adaptable for reading settings.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+        <kind>endpoint</kind>
+        <symbol>update_profile</symbol>
+        <reason>Existing endpoint for updating user profile, likely needs extension to include application settings.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/crud/user.py</path>
+        <kind>crud</kind>
+        <symbol>update_user_profile</symbol>
+        <reason>Handles persistence of user profile data, which will include application settings.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/crud/user.py</path>
+        <kind>crud</kind>
+        <symbol>get_user_profile_by_id</symbol>
+        <reason>Retrieves user profile data from Supabase, relevant for getting initial settings.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/schemas/user.py</path>
+        <kind>schema</kind>
+        <symbol>UserProfileUpdate</symbol>
+        <reason>Pydantic schema defining user profile update structure; will need to be extended for application settings.</reason>
+      </artifact>
+      <artifact>
+        <path>frontend/src/components/NotificationBanner.tsx</path>
+        <kind>component</kind>
+        <symbol>NotificationBanner</symbol>
+        <reason>Demonstrates existing notification handling and related API interactions, relevant for notification preferences.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js/npm">
+        <package name="@hookform/resolvers" version="^5.2.2" />
+        <package name="@supabase/ssr" version="^0.8.0" />
+        <package name="@supabase/supabase-js" version="^2.87.1" />
+        <package name="next" version="16.0.8" />
+        <package name="react" version="19.2.1" />
+        <package name="react-dom" version="19.2.1" />
+        <package name="react-hook-form" version="^7.68.0" />
+        <package name="zod" version="^4.1.13" />
+        <package name="@tailwindcss/postcss" version="^4" type="dev" />
+        <package name="@testing-library/jest-dom" version="^6.9.1" type="dev" />
+        <package name="@testing-library/react" version="^16.3.0" type="dev" />
+        <package name="@testing-library/user-event" version="^14.6.1" type="dev" />
+        <package name="@types/jest" version="^30.0.0" type="dev" />
+        <package name="@types/node" version="^20" type="dev" />
+        <package name="@types/react" version="^19" type="dev" />
+        <package name="@types/react-dom" version="^19" type="dev" />
+        <package name="eslint" version="^9" type="dev" />
+        <package name="eslint-config-next" version="16.0.8" type="dev" />
+        <package name="jest" version="^30.2.0" type="dev" />
+        <package name="jest-environment-jsdom" version="^30.2.0" type="dev" />
+        <package name="tailwindcss" version="^4" type="dev" />
+        <package name="ts-jest" version="^29.4.6" type="dev" />
+        <package name="typescript" version="^5" type="dev" />
+      </ecosystem>
+      <ecosystem name="Python/pip">
+        <package name="fastapi" />
+        <package name="uvicorn" />
+        <package name="supabase" />
+        <package name="pydantic-settings" />
+        <package name="pydantic-ai" />
+        <package name="python-json-logger" />
+        <package name="pytest" />
+        <package name="pytest-asyncio" />
+        <package name="google-generativeai" />
+        <package name="pytest-dotenv" />
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+      <constraint>Data Handling: Backend state must be treated as the source of truth; handle optional/missing data defensively in UI. Validate changes against backend state.</constraint>
+      <constraint>API Naming: API endpoints should use plural nouns and kebab-case (e.g., /api/v1/users/me/settings).</constraint>
+      <constraint>Frontend Structure: The settings UI should be placed under frontend/src/app/(dashboard)/settings/ following established route-based component organization.</constraint>
+      <constraint>Styling: Frontend will use Tailwind CSS.</constraint>
+      <constraint>Testing: Frontend component/integration tests using React Testing Library with Jest; Backend unit/integration tests using Pytest.</constraint>
+      <constraint>Scope: Keep changes minimal and focused on application settings to avoid regressions.</constraint>
+      <constraint>Backend Patterns: Backend changes should follow FastAPI and Pydantic validation patterns.</constraint>
+    </constraints>
+  <interfaces>
+      <interface>
+        <name>Update User Profile API</name>
+        <kind>REST endpoint</kind>
+        <signature>PUT /api/v1/users/me/profile (expects UserProfileUpdate body)</signature>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+      </interface>
+      <interface>
+        <name>Get User Profile API</name>
+        <kind>REST endpoint</kind>
+        <signature>GET /api/v1/users/me/profile (returns UserProfileGetResponse)</signature>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+      </interface>
+      <interface>
+        <name>Get Unread Notifications API</name>
+        <kind>REST endpoint</kind>
+        <signature>GET /api/v1/notifications/unread</signature>
+        <path>frontend/src/components/NotificationBanner.tsx</path>
+      </interface>
+      <interface>
+        <name>Mark Notification as Read API</name>
+        <kind>REST endpoint</kind>
+        <signature>PUT /api/v1/notifications/{notification_id}/read</signature>
+        <path>frontend/src/components/NotificationBanner.tsx</path>
+      </interface>
+      <interface>
+        <name>Supabase getSession</name>
+        <kind>function signature</kind>
+        <signature>supabase.auth.getSession(): Promise&lt;{ data: { session: Session | null } }&gt;</signature>
+        <path>frontend/src/lib/supabase/client.ts (implied by usage)</path>
+      </interface>
+    </interfaces>
+  <tests>
+    <standards>Frontend tests will use React Testing Library with Jest. Backend tests will use Pytest. All testing will adhere to the project's architectural guidelines and testing strategy.</standards>
+    <locations>
+      <location>frontend/src/app/(dashboard)/settings/__tests__/</location>
+      <location>backend/tests/</location>
+    </locations>
+    <ideas>
+      <idea ac_id="1">Verify rendering of dark mode and notification preference options on the settings page (frontend).</idea>
+      <idea ac_id="1,2">Verify that backend API endpoints correctly retrieve and update user settings, including validation (backend).</idea>
+      <idea ac_id="2">Perform manual end-to-end testing to confirm settings changes are applied correctly in the UI and persisted in the database.</idea>
+    </ideas>
+  </tests>
+</story-context>
