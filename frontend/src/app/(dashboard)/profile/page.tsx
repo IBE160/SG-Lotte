@@ -11,6 +11,20 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null); // State to hold the user object
 
+  // Helper function to get authorization headers
+  const getAuthHeaders = async () => {
+    const supabase = createClient();
+    const session = await supabase.auth.getSession();
+    const token = session.data.session?.access_token;
+
+    if (!token) {
+      throw new Error("Authentication token missing. Please log in.");
+    }
+    return {
+      'Authorization': `Bearer ${token}`
+    };
+  };
+
   useEffect(() => {
     async function getUserAndProfile() {
       const supabase = createClient();
@@ -27,8 +41,9 @@ export default function ProfilePage() {
 
       if (user) {
         try {
-          const response = await fetch("/api/v1/users/profile/", { // Added trailing slash
-            credentials: "include" // Use credentials: "include"
+          const headers = await getAuthHeaders(); // Get auth headers
+          const response = await fetch("http://localhost:8000/api/v1/users/profile/", { // Use absolute URL
+            headers: headers
           });
           if (!response.ok) {
             throw new Error("Failed to fetch profile");
@@ -59,12 +74,13 @@ export default function ProfilePage() {
     }
     
     try {
-      const response = await fetch("/api/v1/users/profile/", { // Added trailing slash
+      const authHeaders = await getAuthHeaders(); // Get auth headers
+      const response = await fetch("http://localhost:8000/api/v1/users/profile/", { // Use absolute URL
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          ...authHeaders, // Merge auth headers
         },
-        credentials: "include", // Use credentials: "include"
         body: JSON.stringify({
           fitness_goal: fitnessGoal,
           dietary_preferences: dietaryPreferences,
