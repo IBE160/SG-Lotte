@@ -93,11 +93,15 @@ So I have full control over my account.
 *   [Source: docs/sprint-artifacts/3-2-application-settings.md#Dev-Agent-Record]
 
 
+Status: ready-for-dev
+
 ## Dev Agent Record
 
 ### Context Reference
 
-<!-- Path(s) to story context XML will be added here by context workflow -->
+- docs/sprint-artifacts/3-3-account-management.context.xml
+
+
 
 ### Agent Model Used
 

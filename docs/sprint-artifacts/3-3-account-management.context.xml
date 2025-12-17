@@ -46,16 +46,148 @@
   </acceptanceCriteria>
 
   <artifacts>
-    <docs>{{docs_artifacts}}</docs>
-    <code>{{code_artifacts}}</code>
-    <dependencies>{{dependencies_artifacts}}</dependencies>
+    <docs>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epics</title>
+        <section>Story 3.3: Account Management</section>
+        <snippet>
+          As an engaged user, I want options to change my password or delete my account from the settings page, so I have full control over my account.
+          Acceptance Criteria:
+          - Given I am on the settings page, When I select "Change Password", Then I am prompted to enter my old and new passwords, And my password is updated securely via Supabase Auth
+          - When I select "Delete Account", Then I am prompted for confirmation, And my account and associated data are securely deleted from the system
+          Technical Notes: Frontend UI, API endpoints integrating with Supabase Auth for password change and account deletion.
+        </snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-001: User Authentication &amp; Profile Management</section>
+        <snippet>
+          - Users can change their email address (with verification).
+          - Users can delete their account (with confirmation).
+        </snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Epic to Architecture Mapping</section>
+        <snippet>
+          Epic 3: User Control &amp; Personalization
+          - Backend: app/api/v1/endpoints/users.py (Profile Management)
+          - Frontend: src/app/(dashboard)/profile/, src/app/(dashboard)/settings/ (Profile &amp; Settings UI)
+        </snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture-2025-11-30.md</path>
+        <title>Architecture</title>
+        <section>Security Architecture</section>
+        <snippet>
+          - Authentication: Handled by Supabase Auth, a remote managed service, using JWTs for secure sessions.
+          - Authorization: Supabase's Row Level Security (RLS) will be enabled to ensure users can only access their own data.
+        </snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>Flow 6, 7, &amp; 8: Profile, Account, and History</section>
+        <snippet>
+          - Supporting Wireframes: settings_dark.html
+        </snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>frontend/src/app/(dashboard)/settings/page.tsx</path>
+        <kind>component</kind>
+        <symbol>SettingsPage</symbol>
+        <reason>Main UI file for settings, to be extended for account management.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+        <kind>controller</kind>
+        <symbol>router</symbol>
+        <reason>API router where new endpoints for password change and account deletion will be added.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/crud/user.py</path>
+        <kind>service</kind>
+        <symbol>update_user_profile, get_user_profile_by_id</symbol>
+        <reason>Contains functions for interacting with the user_profiles table; will need extension for account deletion.</reason>
+      </artifact>
+      <artifact>
+        <path>backend/app/schemas/user.py</path>
+        <kind>schema</kind>
+        <symbol>UserProfileUpdate, UserProfileGetResponse</symbol>
+        <reason>Contains Pydantic schemas for user data; may need extension for password change schemas.</reason>
+      </artifact>
+      <artifact>
+        <path>docs/ux-design/wireframes/settings_dark.html</path>
+        <kind>wireframe</kind>
+        <symbol>N/A</symbol>
+        <reason>The reference wireframe for the UI.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js">
+        <package name="next" version="16.0.8"/>
+        <package name="react" version="19.2.1"/>
+        <package name="react-dom" version="19.2.1"/>
+        <package name="@supabase/supabase-js" version="^2.87.1"/>
+        <package name="tailwindcss" version="^4"/>
+      </ecosystem>
+      <ecosystem name="Python">
+        <package name="fastapi"/>
+        <package name="uvicorn"/>
+        <package name="supabase"/>
+        <package name="pydantic-ai"/>
+        <package name="google-generativeai"/>
+        <package name="pytest"/>
+      </ecosystem>
+    </dependencies>
   </artifacts>
 
-  <constraints>{{constraints}}</constraints>
-  <interfaces>{{interfaces}}</interfaces>
+  <constraints>
+    - All endpoints are JWT-protected.
+    - Destructive actions require explicit user confirmation.
+    - Supabase Auth is the source of truth for identity.
+    - Backend testing uses Pytest.
+    - Frontend testing uses React Testing Library + Jest.
+  </constraints>
+  <interfaces>
+    <interface>
+        <name>Change Password</name>
+        <kind>REST endpoint</kind>
+        <signature>POST /api/v1/users/me/change-password</signature>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+    </interface>
+    <interface>
+        <name>Delete Account</name>
+        <kind>REST endpoint</kind>
+        <signature>DELETE /api/v1/users/me</signature>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+    </interface>
+    <interface>
+        <name>Change Email</name>
+        <kind>REST endpoint</kind>
+        <signature>POST /api/v1/users/me/change-email</signature>
+        <path>backend/app/api/v1/endpoints/users.py</path>
+    </interface>
+  </interfaces>
   <tests>
-    <standards>{{test_standards}}</standards>
-    <locations>{{test_locations}}</locations>
-    <ideas>{{test_ideas}}</ideas>
+    <standards>
+      Backend testing uses Pytest. Frontend testing uses React Testing Library + Jest. Manual testing is acceptable for account deletion in this iteration.
+    </standards>
+    <locations>
+      - Frontend: Co-located with components in a `__tests__` subdirectory.
+      - Backend: Root `tests/` directory.
+    </locations>
+    <ideas>
+      - (AC #1) Write tests for the change password functionality (frontend and backend).
+      - (AC #2) Write tests for the account deletion functionality (frontend and backend).
+      - (AC #1, #2) Perform manual E2E testing of both features.
+      - (AC #3) Write tests for the change email functionality (frontend and backend).
+      - (AC #3) Perform manual E2E testing of the email change and verification flow.
+    </ideas>
   </tests>
 </story-context>
